@@ -1,0 +1,2 @@
+﻿Actor -> Use case
+VD: Customer -> Find rival (Tìm đối thủ).
