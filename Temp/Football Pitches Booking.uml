@@ -484,7 +484,7 @@
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="RKxNzN6fRkWXgHQrH26WegAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="ajv5zb1FIkS8lnatMwhUOQAA">
 <XPD:ATTR name="FontStyle" type="integer">1</XPD:ATTR>
-<XPD:ATTR name="Text" type="string">Update Stadium Profiles</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">Edit Stadium Profiles</XPD:ATTR>
 </XPD:OBJ>
 <XPD:OBJ name="StereotypeLabel" type="LabelView" guid="FdiWPO2BGEeWMoStFVW6TAAA">
 <XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
@@ -1318,7 +1318,7 @@
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="fQ1blxxi+k6YNjKvf0Uj2gAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="vnWrtp4r4USQFnKTTReooQAA">
 <XPD:ATTR name="FontStyle" type="integer">1</XPD:ATTR>
-<XPD:ATTR name="Text" type="string">Update Account Profiles</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">Edit Account Profiles</XPD:ATTR>
 </XPD:OBJ>
 <XPD:OBJ name="StereotypeLabel" type="LabelView" guid="XYLaeY00MUGL3HMOcywMZwAA">
 <XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
@@ -3501,7 +3501,7 @@
 <XPD:REF name="Associations[0]">JJlmztRdykW976r5nj2QGQAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[12]" type="UMLUseCase" guid="4G6b2h/Lcku/cqX7mNurvgAA">
-<XPD:ATTR name="Name" type="string">Update Stadium Profiles</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">Edit Stadium Profiles</XPD:ATTR>
 <XPD:REF name="Namespace">ho2gTX9RmUqGJEEAVS5F5gAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
 <XPD:REF name="Views[0]">Zceszd2O5kCQaEsZZf+L3gAA</XPD:REF>
@@ -3876,7 +3876,7 @@
 </XPD:OBJ>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[34]" type="UMLUseCase" guid="LeMlVL2xf0qIFvIB6yi80QAA">
-<XPD:ATTR name="Name" type="string">Update Account Profiles</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">Edit Account Profiles</XPD:ATTR>
 <XPD:REF name="Namespace">ho2gTX9RmUqGJEEAVS5F5gAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
 <XPD:REF name="Views[0]">fxHqdSY0YUGklyjDQXlZiwAA</XPD:REF>
