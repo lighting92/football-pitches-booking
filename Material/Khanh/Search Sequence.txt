@@ -1,0 +1,8 @@
+1. nguoi dung nhap thong tin can tim vao
+2. controller nhan noi dung thong tin dau vao tu nguoi dung
+3. controller goi. ham to List de thuc hien hanh vi search cho nguoi dung
+4. de xu ly du~ lieu, BLO se goi 1 ham select tu DAO nham muc dich lay het " all stadium " trong database
+5. bat dau loc danh sach dua theo nhung thong tin dau vao ma controller cung cap sau do tra ket qua ve cho controller
+6. Controller dua ket qua cho trang view, tu do hien thi ra ben ngoai.
+
+neu tra ve thong qua controller roi ve Page se dai dong, deu la tra ve html. Nen bay h cho phep viet tat tu view chuyen thang qua page luon
