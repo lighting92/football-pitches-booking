@@ -43,7 +43,7 @@
 </XPD:OBJ>
 <XPD:ATTR name="#OwnedElements" type="integer">1</XPD:ATTR>
 <XPD:OBJ name="OwnedElements[0]" type="UMLActor" guid="Z5MrXkgUVk6ZBBwHYZMqhgAA">
-<XPD:ATTR name="Name" type="string">User</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">Guest</XPD:ATTR>
 <XPD:REF name="Namespace">09/MK+49v0+462xj1a/LqQAA</XPD:REF>
 <XPD:ATTR name="#Instances" type="integer">1</XPD:ATTR>
 <XPD:REF name="Instances[0]">HUl3vemvSUSOr4Jf7S8FMwAA</XPD:REF>
@@ -119,7 +119,7 @@
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="nNxbisHbfEWYiEpydc+LjgAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="7Wq6xbX9BEayw3uppIUDtgAA">
 <XPD:ATTR name="FontStyle" type="integer">4</XPD:ATTR>
-<XPD:ATTR name="Text" type="string"> : User</XPD:ATTR>
+<XPD:ATTR name="Text" type="string"> : Guest</XPD:ATTR>
 </XPD:OBJ>
 <XPD:OBJ name="StereotypeLabel" type="LabelView" guid="mBnUskLuoUOnN3UbZCbJcAAA">
 <XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
@@ -540,8 +540,8 @@
 <XPD:REF name="Tail">FI9rprqHFEeKW8MjHJ0rvAAA</XPD:REF>
 <XPD:OBJ name="NameLabel" type="EdgeLabelView" guid="eMtHWEk/IUif28PPmlOgugAA">
 <XPD:ATTR name="Alpha" type="real">1.5707953267949</XPD:ATTR>
-<XPD:ATTR name="Distance" type="real">54</XPD:ATTR>
-<XPD:ATTR name="Text" type="string">6 : Ma hoa Password</XPD:ATTR>
+<XPD:ATTR name="Distance" type="real">62</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">6 : EncryptPassword</XPD:ATTR>
 <XPD:REF name="Model">c2nqBkAm5ky/cjn3XQ0iDgAA</XPD:REF>
 <XPD:REF name="HostEdge">eOEOdBH6l0uc1u3u0po4QAAA</XPD:REF>
 </XPD:OBJ>
@@ -1043,7 +1043,7 @@
 <XPD:REF name="Views[3]">MRmoUxKwnkK0NVSGn27vaAAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="ParticipatingStimuli[5]" type="UMLStimulus" guid="c2nqBkAm5ky/cjn3XQ0iDgAA">
-<XPD:ATTR name="Name" type="string">Ma hoa Password</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">EncryptPassword</XPD:ATTR>
 <XPD:REF name="Sender">kqMFScrjeEmw1eIJTNsZmQAA</XPD:REF>
 <XPD:REF name="Receiver">kqMFScrjeEmw1eIJTNsZmQAA</XPD:REF>
 <XPD:OBJ name="Action" type="UMLReturnAction" guid="xX/y90fbTEqxkMGiFh0dlwAA">
