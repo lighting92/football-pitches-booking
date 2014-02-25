@@ -99,7 +99,7 @@
 <XPD:ATTR name="Left" type="integer">984</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">44</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">212</XPD:ATTR>
-<XPD:ATTR name="Height" type="integer">124</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">117</XPD:ATTR>
 <XPD:REF name="Model">2jbDUISl4USXaOHUcwtULwAA</XPD:REF>
 <XPD:OBJ name="NameLabel" type="LabelView" guid="4xw/T5nIFU2pcNdZ6CvLNQAA">
 <XPD:ATTR name="Text" type="string">View</XPD:ATTR>
@@ -162,7 +162,7 @@
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="WiUHmdn5yU6gz4v5Fze9LQAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="o4TxUwDX/0CD5IW8fdH0MgAA">
 <XPD:ATTR name="FontStyle" type="integer">4</XPD:ATTR>
-<XPD:ATTR name="Text" type="string">:UserController</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">:AccountController</XPD:ATTR>
 </XPD:OBJ>
 <XPD:OBJ name="StereotypeLabel" type="LabelView" guid="9PbGT9Z0CEGdmMcVjK+x+QAA">
 <XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
@@ -683,7 +683,7 @@
 <XPD:REF name="CollaborationInstanceSet">giHMnnkQyUe7tPqwPb9arwAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="ParticipatingInstances[3]" type="UMLObject" guid="+b12QS8H4EyGOoR3JqEvkQAA">
-<XPD:ATTR name="Name" type="string">:UserController</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">:AccountController</XPD:ATTR>
 <XPD:REF name="CollaborationInstanceSet">giHMnnkQyUe7tPqwPb9arwAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">2</XPD:ATTR>
 <XPD:REF name="Views[0]">qMDsqTYA+0OQECYZRfKZ2wAA</XPD:REF>
