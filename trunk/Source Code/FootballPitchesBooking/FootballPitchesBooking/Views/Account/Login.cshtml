@@ -1,0 +1,40 @@
+﻿@model FootballPitchesBooking.Models.AccountModels.LoginModel
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+
+@{
+string userName = "";
+string passWord = "";
+string remember = "";
+if (Model != null)
+{
+    userName = Model.UserName;
+    passWord = Model.Password;
+    remember = Model.Remember?"checked":"";
+    if (!string.IsNullOrEmpty(Model.ErrorString))
+    {
+        <p style="color:red">@Model.ErrorString</p>
+    }
+}
+}
+
+<div style="text-align:right; width: 300px;">
+    <form action="Login" method="post">
+        <p>
+            <label for="UserName">Tên tài khoản:</label>
+            <input type="text" name="UserName" value="@userName" />
+        </p>
+        <p>
+            <label for="UserName">Mật khẩu:</label>
+            <input type="password" name="Password" value="@passWord" />
+        </p>
+        <p> 
+            <input type="checkbox" name="Remember" checked="@remember" /> Lưu đăng nhập
+        </p>
+        <button type="submit">Đăng nhập</button>
+        <button type="button" onclick="window.location = '/Home'">Hủy bỏ</button>
+    </form>
+</div>
