@@ -1,0 +1,69 @@
+﻿@model FootballPitchesBooking.Models.AccountModels.RegisterModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>Register</h2>
+
+@{
+    string userName = "";
+    string email = "";
+    string fullName = "";
+    string address = "";
+    string phoneNumber = "";
+    
+    if (Model != null)
+    {
+        userName = Model.UserName;
+        email = Model.Email;
+        fullName = Model.FullName;
+        address = Model.Address;
+        phoneNumber = Model.PhoneNumber;
+    }
+}
+
+
+@if (Model != null && Model.ErrorMessages.Count() > 0)
+{
+    <div style="color:red">
+        @foreach (var error in Model.ErrorMessages)
+        {
+            <p>- @error</p>
+        }
+    </div>
+}
+
+<div style="text-align:right; width: 300px;">
+    <form action="Register" method="post">
+        <p>
+            <label for="UserName">Tên tài khoản:</label>
+            <input type="text" name="UserName" value="@userName" />
+        </p>
+        <p>
+            <label for="UserName">Mật khẩu:</label>
+            <input type="password" name="Password" />
+        </p>
+        <p>
+            <label for="UserName">Xác nhận mật khẩu:</label>
+            <input type="password" name="ConfirmPassword" />
+        </p>
+        <p>
+            <label for="Email">Email:</label>
+            <input type="text" name="Email" value="@email" />
+        </p>
+        <p>
+            <label for="FullName">Họ và tên:</label>
+            <input type="text" name="FullName" value="@fullName" />
+        </p>
+        <p>
+            <label for="Address">Địa chỉ:</label>
+            <input type="text" name="Address" value="@address" />
+        </p>
+        <p>
+            <label for="PhoneNumber">Số điện thoại:</label>
+            <input type="text" name="PhoneNumber" value="@phoneNumber" />
+        </p>
+        <button type="submit">Đăng ký</button>
+        <button type="button" onclick="window.location = '/Home'">Hủy bỏ</button>
+    </form>
+</div>
