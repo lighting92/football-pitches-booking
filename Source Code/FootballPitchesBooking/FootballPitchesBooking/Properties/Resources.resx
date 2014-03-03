@@ -138,4 +138,7 @@
   <data name="Reg_UserNameNotAvailable" xml:space="preserve">
     <value>Tên tài khoản đã được sử dụng. Xin vui lòng chọn tên khác.</value>
   </data>
+  <data name="User_UserNotMatched" xml:space="preserve">
+    <value>Tài khoản không tìm thấy</value>
+  </data>
 </root>

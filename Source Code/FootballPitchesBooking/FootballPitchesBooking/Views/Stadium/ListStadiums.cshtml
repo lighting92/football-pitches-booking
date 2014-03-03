@@ -1,0 +1,24 @@
+﻿@using FootballPitchesBooking.Models;
+@model List<Stadium>
+@{
+    ViewBag.Title = "ListStadiums";
+}
+
+<h2>ListStadiums</h2>
+
+<a href="@Url.Action("AddStadium", "Stadium")">Add Stadium</a>
+<table>
+    <tr>
+        <th>Tên sân</th>
+        <th>Địa chỉ</th>
+        <th>Hoạt động</th>
+    </tr>
+    @foreach (var stadium in Model)
+    {
+        <tr>
+            <td><a href="@Url.Action("Edit", "Stadium", new { s = stadium.Id }, null)">@stadium.Name</a></td>
+            <td>@String.Concat(stadium.Street, " - ", stadium.Ward, " - ", stadium.District, " - ", stadium.City)</td>
+            <td><input type="checkbox" name="IsActive" checked="@((bool)stadium.IsActive?"checked":"")" /></td>
+        </tr> 
+    }
+</table>
