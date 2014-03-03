@@ -26,7 +26,7 @@ namespace FootballPitchesBooking.BusinessObjects
             User duplicatedNameUser = userDAO.GetUserByUserName(newUser.UserName);
             User duplicatedEmailUser = userDAO.GetUserByEmail(newUser.Email);
 
-            if (duplicatedEmailUser != null)
+            if (duplicatedNameUser != null)
             {
                 results.Add(-1);
             }
