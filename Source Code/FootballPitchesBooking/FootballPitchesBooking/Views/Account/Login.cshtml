@@ -22,7 +22,7 @@ if (Model != null)
 }
 
 <div style="text-align:right; width: 300px;">
-    <form action="Login" method="post">
+    <form action="Login?ReturnUrl=@Request.QueryString["ReturnUrl"]" method="post">
         <p>
             <label for="UserName">Tên tài khoản:</label>
             <input type="text" name="UserName" value="@userName" />

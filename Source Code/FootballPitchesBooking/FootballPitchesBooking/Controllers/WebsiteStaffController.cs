@@ -1,4 +1,7 @@
-﻿using System;
+﻿using FootballPitchesBooking.BusinessObjects;
+using FootballPitchesBooking.Models;
+using FootballPitchesBooking.Properties;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,7 +12,7 @@ using PagedList;
 
 namespace FootballPitchesBooking.Controllers
 {
-    //[Authorize(Roles="WebsiteStaff, WebsiteMaster")]
+    [Authorize(Roles = "WebsiteStaff, WebsiteMaster")]
     public class WebsiteStaffController : Controller
     {
         UserBO userBO = new UserBO();
@@ -17,7 +20,17 @@ namespace FootballPitchesBooking.Controllers
         //
         // GET: /WebsiteStaff/
 
-        public ActionResult Index(int? page, string keyWord = "", string column = "", string sort = "")
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+
+
+        //
+        // GET: /WebsiteStaff/Users
+
+        public ActionResult Users(int? page, string keyWord = "", string column = "", string sort = "")
         {
             try
             {
@@ -45,9 +58,31 @@ namespace FootballPitchesBooking.Controllers
             catch (Exception)
             {
                 // Wrtite to log file.
-                return RedirectToAction("Index", "Error", new { Area = "" });
+                return RedirectToAction("Users", "Error", new { Area = "" });
             }
         }
 
+        //
+        // GET: /WebsiteStaff/JoinRequests
+        [Authorize(Roles = "WebsiteMaster")]
+        public ActionResult JoinRequests()
+        {
+            StadiumBO stadiumBO = new StadiumBO();
+            return View(stadiumBO.GetAllJoinSystemRequest());
+        }
+
+        //
+        // GET: /WebsiteStaff/DeleteJSR
+        [Authorize(Roles = "WebsiteMaster")]
+        public ActionResult DeleteJSR(int id)
+        {
+            StadiumBO stadiumBO = new StadiumBO();
+            int result = stadiumBO.DeleteJoinSystemRequest(id);
+            if (result == 0)
+            {
+                TempData["DeleteError"] = Resources.DB_Exception;
+            }
+            return RedirectToAction("JoinRequests");
+        }
     }
 }

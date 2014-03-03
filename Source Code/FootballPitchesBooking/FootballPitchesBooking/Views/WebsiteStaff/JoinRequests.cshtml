@@ -1,0 +1,50 @@
+﻿@model List<FootballPitchesBooking.Models.JoinSystemRequest>
+@{
+    ViewBag.Title = "JoinRequests";
+}
+
+<h2>Yêu Cầu Tham Gia Hệ Thống</h2>
+
+@if (TempData["DeleteError"] != null)
+{
+    <p style="color:red">@TempData["DeleteError"]</p>
+}
+
+@if (Model != null && Model.Count != 0)
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Tên Tài Khoản</th>
+                <th>Họ Và Tên</th>
+                <th>Địa Chỉ</th>
+                <th>Số Điện Thoại</th>
+                <th>Tên Sân Bóng</th>
+                <th>Địa Chỉ Sân</th>
+                <th>Ghi Chú</th>
+                <th>Trạng Thái</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.User.UserName</td>
+                    <td>@item.FullName</td>                    
+                    <td>@item.Address</td>
+                    <td>@item.Phone</td>
+                    <td>@item.StadiumName</td>
+                    <td>@item.StadiumAddress</td>
+                    <td>@item.Note</td>
+                    <td>@item.Status</td>
+                    <td><a href="/WebsiteStaff/EditJSR?Id=@item.Id">Edit</a></td>
+                    <td><a href="/WebsiteStaff/DeleteJSR?Id=@item.Id">Delete</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Hiện tại không có yêu cầu nào.</p>
+}
