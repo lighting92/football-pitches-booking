@@ -1,25 +1,97 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
+    <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
+    <link href="~/Content/css/bootstrap.css" rel="stylesheet" />
+    <script src="~/Content/js/bootstrap.js"></script>
+    <script src="~/Content/js/bootstrap.min.js"></script>
+    <script src="~/Content/js/carousel.js"></script>
+    <link href="~/Content/Custom.css" rel="stylesheet" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div>
-        @if(User.Identity.IsAuthenticated)
-        {
-            <a href="/Account/Logout">Logout</a>
-        }
-        else
-        {
-            <a href="/Account/Register">Register</a>
-            <a href="/Account/Login">Login</a>
-        }
+    <header>
+        <div class="content-wrapper" style="margin-top: 50px; padding-top: 0px">
+            <div class="float-left">
+                <p class="site-title"><a href="" style="font-family:Arial; font-size:45px" >Đặt Sân Bóng Online</a></p>
+                <nav style="margin-left: 750px">
+                    <div style="width: 260px; width: 260px; margin-bottom: 0px; margin-top: -40px;">
+                        <a href="" style="width: 400px">Đăng ký |</a><a href="">Quên mật khẩu?</a>
+                        <input type="text" style="height: 18px; width: 100px" />
+                        <input type="text" style="height: 18px; width: 100px" />
+                    </div>
+
+                </nav>
+            </div>
+
+        </div>
+    </header>
+    <div id="body" style="margin-top: 20px; padding-bottom: 60px; height: 1150px;">
+        @RenderSection("featured", required: false)
+        <section class="content-wrapper main-content clear-fix">
+            <!--Start Slide -->
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                </ol>
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="~/Content/Images/slide3.jpg" alt="...">
+                        <div class="carousel-caption">
+                        </div>
+                    </div>
+                    <div class="item ">
+                        <img src="~/Images/baner.jpg" alt="...">
+                        <div class="carousel-caption">
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="~/Images/baner.jpg" alt="...">
+                        <div class="carousel-caption">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+                <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
+            </div>
+            <!--End Slide -->
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#"><b>TRANG CHỦ</b></a>
+                </li>
+                <li><a href="#"><b>SÂN BÓNG</b></a></li>
+                <li><a href="#"><b>TÌM ĐỐI THỦ</b></a></li>
+                <li><a href="#"><b>GIÀNH CHO CHỦ SÂN</b></a></li>
+                <li><a href="#"><b>LIÊN HỆ</b></a></li>
+                <li><a href="#"><b>GIỚI THIỆU</b></a></li>
+                <li><a href="#"><b>QUẢN LÝ</b></a></li>
+            </ul>
+            @RenderBody()
+
+        </section>
     </div>
-    @RenderBody()
+    <footer>
+        <div class="content-wrapper">
+            <div class="float-left">
+                <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
+            </div>
+        </div>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @RenderSection("scripts", required: false)
