@@ -1,5 +1,128 @@
-﻿@{
-    ViewBag.Title = "Index";
-}
+﻿<link href="~/Content/css/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/Custom.css" rel="stylesheet" />
+<link href="~/Content/Custom.css" rel="stylesheet" />
 
-<h2>Index</h2>
+<div class="cust-contentform">
+    <table float:left">
+        <tr>
+            <td style="width:22em">
+                <div>
+                    <h3><b class="cust-columnHeader">Sân bóng</b></h3>
+                    <span class="cust-columnContent">Đặt sân ngay để nhận giảm giá</span><br />
+                    <span class="cust-columnContent">khuyến mãi từ chủ sân!</span><br />
+                    <span class="cust-columnContent"></span><br />
+                 </div>
+                <div class="cust-stadiumImg">
+                    <img src="../Content/Images/stadium.jpg" height="100px" width="230px"/><br />
+                    
+                    <span class="cust-contentText"><b>Sân F-town</b></span><br />
+                    <span class="cust-contentText">Loại sân: 5-người, 7-người </span><br />
+                    <span class="cust-contentText">Địa Điểm: Quận 9 </span>
+                    <button class="btn btn-warning" style="margin-top: -135px;margin-left: -116px;">Đang giảm giá!</button>
+                </div>
+                <div class="cust-stadiumImg">
+                    <img src="../Content/Images/stadium2.jpg" height="100px" width="230px"/><br />
+                    <span class="cust-contentText"><b>Sân Thủ Đức</b></span><br />
+                    <span class="cust-contentText">Loại sân: 7-người, 11-người </span><br />
+                    <span class="cust-contentText">Địa Điểm: Thủ Đức </span>
+                    <button class="btn btn-warning" style="margin-top: -135px;margin-left: -124px;;">Đang giảm giá!</button>
+                   
+                </div>
+                <div class="cust-stadiumImg">
+                    <img src="../Content/Images/stadium3.jpg" height="100px" width="230px"/><br />
+                    <span class="cust-contentText"><b>C2 Stadium </b></span><br />
+                    <span class="cust-contentText">Loại sân: 7-người, 11-người </span><br />
+                    <span class="cust-contentText">Địa Điểm: Quận 3 </span>
+                    <button class="btn btn-warning" style="margin-top: -135px;margin-left: -116px;">Đang giảm giá!</button>
+                </div>
+            </td>
+            <td style="width:22em" >
+                <div>
+                    <h3><b class="cust-columnHeader">Cáp kèo!</b></h3>
+                    <span class="cust-columnContent">Bạn chưa có đối thủ?</span><br />
+                    <span class="cust-columnContent">Hãy tham gia thách đấu!</span><br />
+                    <span class="cust-columnContent"></span><br />
+                 </div>
+                <div class="cust-challenge">
+                    <span><b style="color:#E82C0C">Đội Quân Khu 7</b></span><br />
+                    <span class="cust-contentText">Thời gian: 8PM-10PM Sat 22th Feb</span><br />
+                    <span class="cust-contentText">Địa điểm: Phu Nhuan, Go Vap, <br />District 3</span><br />
+                    <span class="cust-contentText">Lứa tuổi: 20-35 tuổi</span><br />
+                    <span class="cust-contentText">Loại sân: 5-người</span><br />
+                    <span><a href="" style="color: #f7ef0f;">Tham gia!</a></span><br />
+                    <span><a href="" style="color: #f7ef0f;">Liên hệ!</a></span><br />
+                </div>
+                <div class="cust-challenge">
+                    <span><b style="color:#E82C0C">Đội Quận 9</b></span><br />
+                    <span class="cust-contentText">Thời gian: 8PM-10PM Sun 23th Feb</span><br />
+                    <span class="cust-contentText">Địa điểm: Quận 9, Thủ Đức</span><br />
+                    <span class="cust-contentText">Lứa tuổi: 20-35 ages</span><br />
+                    <span class="cust-contentText">Loại sân: 7-người</span><br />
+                   <span><a href=""style="color: #f7ef0f;">Tham gia!</a></span><br />
+                    <span><a href=""style="color: #f7ef0f;">Liên hệ!</a></span><br />
+                </div>
+                <div class="cust-challenge">
+                    <span><b style="color:#E82C0C">Đội FPT</b></span><br />
+                    <span class="cust-contentText">Thời gian: 8PM-10PM Sat 22th Feb</span><br />
+                    <span class="cust-contentText">Địa điểm: District 12, Go Vap </span><br />
+                    <span class="cust-contentText">Lứa tuổi: 35-50 tuổi</span><br />
+                    <span class="cust-contentText">Loại sân: 5-người</span><br />
+                    <span><a href=""style="color: #f7ef0f;">Tham gia!</a></span><br />
+                    <span><a href=""style="color: #f7ef0f;">Liên hệ!</a></span><br />
+                </div>
+            </td>
+            <td style="width:25em">
+                <div>
+                    <h3><b class="cust-columnHeader">Tìm Sân Nhanh</b></h3>
+                    <div style="width:25em; height:560px">
+                        <div class="cust-searchForm">
+                            <span>Tỉnh thành: <select style="height:18px; color:black; margin-left:10px">
+                                <option>TP.Hồ Chí Minh</option>
+                                <option>Hà Nội</option>
+                                <option>Đà Nẵng</option>
+                                                 </select> 
+
+                            </span><br />
+                            <span>
+                                Quận: <select select style="height:18px;color:black; margin-left:50px">
+                                    <option>Quận 1</option>
+                                <option>Quận 2</option>
+                                <option>Quận 3</option>
+                                          </select>
+                            </span><br />
+                            <span>
+                                Loại sân: <select select style="height:18px;color:black; margin-left:31px">
+                                    <option>5-người</option>
+                                    <option>7-người</option>
+                                    <option>11-người</option>
+                                            </select>
+                            </span><br />
+                            <span>
+                                Thời gian thuê sân:
+                            </span><br />
+                            <span>
+                                <input type="text" style="height:18px; width:90px"/>
+                                <span class="glyphicon glyphicon-calendar"></span>
+                                Lúc: 
+                                <input type="text" style="height:18px; width:40px"/>
+                                Trong: 
+                                <input type="text" style="height:18px; width:40px" /> Phút
+                            </span>
+                            <button class="btn btn-info" style="margin-left: 40px;
+width: 230px;"><b style="font-size:17px">TÌM KIẾM</b></button>
+                            <div class="cust-stadiumImg" style="width=80px">
+                            <img src="../Content/Images/stadium4.jpg" height="100px" width="230px"/><br />
+                            <span class="cust-contentText"><b>Sân Thủ Đức</b></span><br />
+                            <span class="cust-contentText">Loại sân: 5-người, 7-người</span><br />
+                            <span class="cust-contentText">Địa điểm: Thủ Đức </span>
+                                <button class="btn btn-danger" style="margin-top: -137px;margin-left: 21px;">Đặt ngay!</button>
+                            </div>
+
+                        </div>
+                    </div>
+                 </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
