@@ -1,12 +1,13 @@
-﻿using FootballPitchesBooking.BusinessObjects;
-using FootballPitchesBooking.Models;
+﻿﻿using FootballPitchesBooking.BusinessObjects;
 using FootballPitchesBooking.Models.StadiumModels;
-using FootballPitchesBooking.Properties;
+using FootballPitchesBooking.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
+using FootballPitchesBooking.Properties;
 
 namespace FootballPitchesBooking.Controllers
 {
@@ -20,6 +21,80 @@ namespace FootballPitchesBooking.Controllers
             return View();
         }
 
+        public ActionResult ListStadiums()
+        {
+            StadiumBO stadiumBO = new StadiumBO();
+            List<Stadium> listStadiums = new List<Stadium>();
+            listStadiums = stadiumBO.GetAllStadiums();
+            return View(listStadiums);
+        }
+
+        public ActionResult AddStadium()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddStadium(FormCollection form)
+        {
+            AddStadiumModel add = new AddStadiumModel();
+            add.Owner = form["Owner"];
+            add.Name = form["StadiumName"];
+            add.Street = form["Street"];
+            add.Ward = form["Ward"];
+            add.District = form["District"];
+            add.City = form["City"];
+            add.PhoneNumber = form["PhoneNumber"];
+            add.Email = form["Email"];
+            add.Description = form["Description"];
+            add.ErrorMessages = new List<string>();
+
+            if (string.IsNullOrEmpty(add.Owner) || string.IsNullOrEmpty(add.Name) || string.IsNullOrEmpty(add.Street) ||
+                string.IsNullOrEmpty(add.Ward) || string.IsNullOrEmpty(add.District) || string.IsNullOrEmpty(add.City) ||
+                string.IsNullOrEmpty(add.PhoneNumber) || string.IsNullOrEmpty(add.Email) || string.IsNullOrEmpty(add.Description))
+            {
+                add.ErrorMessages.Add(Resources.Form_EmptyFields);
+            }
+
+            if (add.ErrorMessages.Count == 0)
+            {
+                StadiumBO stadiumBO = new StadiumBO();
+
+                Stadium stadium = new Stadium
+                {
+                    Name = add.Name,
+                    Street = add.Street,
+                    Ward = add.Ward,
+                    District = add.District,
+                    City = add.City,
+                    Phone = add.PhoneNumber,
+                    Email = add.Email,
+                    Description = add.Description
+                };
+
+                List<int> results = stadiumBO.CreateStadium(stadium, add.Owner);
+
+                if (results.Count == 2 && results[1] > 0)
+                {
+                    return RedirectToAction("ListStadiums", "Stadium");
+                }
+                else
+                {
+                    foreach (var error in results)
+                    {
+                        if (error == 0) 
+                        {
+                            add.ErrorMessages.Add(Resources.DB_Exception);
+                        }
+                        else if (error == -1)
+                        {
+                            add.ErrorMessages.Add(Resources.User_UserNotMatched);
+                        }
+                    }
+                }
+            }
+            return View(add);
+        }
 
         //
         // GET: /Stadium/JoinUs
