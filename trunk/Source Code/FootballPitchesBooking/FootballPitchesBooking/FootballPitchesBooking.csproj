@@ -167,6 +167,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FPB.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Models\StadiumModels\AddStadiumModel.cs" />
     <Compile Include="Models\StadiumModels\JoinUsModel.cs" />
     <Compile Include="Models\NoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -282,6 +283,8 @@
     <Content Include="Views\WebsiteStaff\Index.cshtml" />
     <Content Include="Views\StadiumStaff\Index.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Stadium\AddStadium.cshtml" />
+    <Content Include="Views\Stadium\ListStadiums.cshtml" />
     <Content Include="Views\Stadium\JoinUs.cshtml" />
     <Content Include="Views\WebsiteStaff\JoinRequests.cshtml" />
     <Content Include="Views\Stadium\JoinUsSuccess.cshtml" />
