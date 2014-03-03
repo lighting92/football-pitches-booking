@@ -81,6 +81,12 @@ namespace FootballPitchesBooking.BusinessObjects
             }
         }
 
+        public User GetUserByUserName(string userName)
+        {
+            UserDAO userDAO = new UserDAO();
+            return userDAO.GetUserByUserName(userName);
+        }
+
         public List<User> ToList(ref List<NoModel> noList, int? page, string keyWord = "", string column = "", string sort = "")
         {
             // User list.

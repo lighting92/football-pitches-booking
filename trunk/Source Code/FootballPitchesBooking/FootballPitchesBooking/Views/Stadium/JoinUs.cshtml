@@ -1,0 +1,46 @@
+﻿@model FootballPitchesBooking.Models.StadiumModels.JoinUsModel
+@{
+    ViewBag.Title = "JoinUs";
+}
+
+<h2>Đăng Ký Sân Bóng Của Bạn Với Chúng Tôi</h2>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+        <p style="color:red">@Model.ErrorMessage</p>
+}
+
+<div style="text-align:right; width: 300px;">
+    <form action="JoinUs" method="post">
+        <p>
+            <label for="FullName">*Họ và tên:</label>
+            <input type="text" name="FullName" value="@Model.FullName" />
+        </p>
+        <p>
+            <label for="Address">*Địa chỉ:</label>
+            <input type="text" name="Address" value="@Model.Address" />
+        </p>
+        <p>
+            <label for="PhoneNumber">*Số điện thoại:</label>
+            <input type="text" name="PhoneNumber" value="@Model.Phone" />
+        </p>
+        <p>
+            <label for="Email">*Email:</label>
+            <input type="text" name="Email" value="@Model.Email" />
+        </p>
+        <p>
+            <label for="StadiumName">*Tên sân bóng:</label>
+            <input type="text" name="StadiumName" value="@Model.StadiumName" />
+        </p>
+        <p>
+            <label for="StadiumAddress">*Địa chỉ sân bóng:</label>
+            <input type="text" name="StadiumAddress" value="@Model.StadiumAddress" />
+        </p>
+        <p>
+            <label for="Note">Yêu cầu:</label>
+            <textarea style="width:142px; resize:none" name="Note">@Model.Note</textarea>
+        </p>
+        <button type="submit">Gửi yêu cầu</button>
+        <button type="button" onclick="window.location = '/Home'">Hủy bỏ</button>
+    </form>
+</div>

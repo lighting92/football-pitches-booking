@@ -2,31 +2,9 @@
     ViewBag.Title = "Index";
 }
 
-<link href="@Url.Content("~/Content/Bootstrap/bootstrap.css")" rel="stylesheet" type="text/css" />
+<h2>Trang Quản Trị</h2>
 
-<br />
-<div class="search_content" style="background-image: none; background-color: white">
-    <div>
-        @using (Ajax.BeginForm("Index", "User", new AjaxOptions
-            {
-                InsertionMode = InsertionMode.Replace,
-                HttpMethod = "GET",
-                UpdateTargetId = "unobtrusive",
-            }, new { @class = "form-inline" }))
-        {
-            @Html.TextBox("keyWord", "", new { placeholder = "Full Name or Username" })
-            <button type="submit" class="btn" value="Search" style="width: 80px;">
-                Search</button>
-            @Html.ActionLink("Reload", "Index", "User", null, new { @class = "btn", style = "width:54px" })
-        }
-    </div>
-</div>
-<br />
-<div>
-    @*<span>@Html.ActionLink("Create User", "Create", null, new { @class = "btn" })</span>
-    <span>@Html.ActionLink("Import Users", "Import", null, new { @class = "btn" })</span>*@
-</div>
-<br />
-<div id="unobtrusive" style="background-image: none; background-color: white">
-    @Html.Partial("_List")
-</div>
+
+
+<a href="/WebsiteStaff/JoinRequests">Quản Lý Yêu Cầu Tham Gia Hệ Thống</a>
+<a href="/WebsiteStaff/Users">Quản Lý Người Sử Dụng</a>
