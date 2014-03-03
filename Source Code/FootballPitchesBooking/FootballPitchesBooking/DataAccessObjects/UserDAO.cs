@@ -8,21 +8,20 @@ namespace FootballPitchesBooking.DataAccessObjects
 {
     public class UserDAO
     {
+        private FPBDataContext db = new FPBDataContext();
+
         public User GetUserByUserId(int userId)
         {
-            FPBDataContext db = new FPBDataContext();
             return db.Users.Where(u => u.Id == userId).FirstOrDefault();
         }
 
         public User GetUserByUserName(string userName)
         {
-            FPBDataContext db = new FPBDataContext();
             return db.Users.Where(u => u.UserName.ToLower().Equals(userName.ToLower())).FirstOrDefault();
         }
 
         public User GetUserByEmail(string email)
         {
-            FPBDataContext db = new FPBDataContext();
             return db.Users.Where(u => u.Email.ToLower().Equals(email.ToLower())).FirstOrDefault();
         }
 
@@ -38,6 +37,24 @@ namespace FootballPitchesBooking.DataAccessObjects
             catch (Exception)
             {
                 return 0;
+            }
+        }
+
+        /// <summary>
+        /// Select all User in db
+        /// </summary>
+        /// <returns>List Users</returns>
+
+        public List<User> Select()
+        {
+            try
+            {
+                var users = db.Users.ToList();
+                return users;
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
     }
