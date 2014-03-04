@@ -14,6 +14,6 @@ namespace FootballPitchesBooking.Models.StadiumModels
         public string StadiumName { get; set; }
         public string StadiumAddress { get; set; }
         public string Note { get; set; }
-        public string ErrorMessage;
+        public string ErrorMessage { get; set; }
     }
 }
