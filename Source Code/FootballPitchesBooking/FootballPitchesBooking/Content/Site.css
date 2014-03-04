@@ -4,7 +4,7 @@
 }
 
 body {
-    background-image:url("../Content/Images/Football-Backgrounds-127.jpg");
+    background-image:url("../Content/Images/Football-Backgrounds-127-2-2.jpg");
     color: #333;
     font-size: .85em;
     font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
@@ -18,11 +18,11 @@ a {
     padding-left: 30px;
     padding-right: 3px;
     text-decoration: underline;
-}
+}i
 
     a:link, a:visited,
     a:active, a:hover {
-        color: #FFF500;
+        color: #050505;
     }
 
     a:hover {
