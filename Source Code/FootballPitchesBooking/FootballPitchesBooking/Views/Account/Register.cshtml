@@ -56,8 +56,20 @@
             <input type="text" name="FullName" value="@fullName" />
         </p>
         <p>
-            <label for="Address">Địa chỉ:</label>
-            <input type="text" name="Address" value="@address" />
+            <label for="Address">Địa chỉ:</label>            
+            Tỉnh Thành:
+            <select name="Province">
+                <option>TP.Hồ Chí Minh</option>
+                <option>Hà Nội</option>
+                <option>Đà Nẵng</option>
+            </select>
+            Quận/Huyện:
+            <select name="District">
+                <option>Quận 1</option>
+                <option>Quận 2</option>
+                <option>Quận 3</option>
+            </select>
+            <input type="text" name="Street" value="@address" />
         </p>
         <p>
             <label for="PhoneNumber">Số điện thoại:</label>
