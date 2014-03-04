@@ -9,7 +9,7 @@ namespace FootballPitchesBooking.BusinessObjects
 {
     public class StadiumBO
     {
-	public List<Stadium> GetAllStadiums()
+	    public List<Stadium> GetAllStadiums()
         {
             StadiumDAO stadiumDAO = new StadiumDAO();
             return stadiumDAO.GetAllStadiums();
@@ -52,6 +52,24 @@ namespace FootballPitchesBooking.BusinessObjects
         {
             StadiumStaffDAO stadiumStaffDAO = new StadiumStaffDAO();
             return stadiumStaffDAO.CreateStadiumStaff(stadiumStaff);
+        }
+
+        public int UpdateStadium(Stadium stadium)
+        {
+            StadiumDAO stadiumDAO = new StadiumDAO();
+            return stadiumDAO.UpdateStadium(stadium);
+        }
+
+        public int ActivateStadium(int stadiumId)
+        {
+            StadiumDAO stadiumDAO = new StadiumDAO();
+            return stadiumDAO.UpdateStadiumStatus(stadiumId, true);
+        }
+
+        public int DeactivateStadium(int stadiumId)
+        {
+            StadiumDAO stadiumDAO = new StadiumDAO();
+            return stadiumDAO.UpdateStadiumStatus(stadiumId, false);
         }
 
 		public int RegisterNewStadium(JoinSystemRequest jsr)
