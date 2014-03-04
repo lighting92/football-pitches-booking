@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Ranks";
+}
+
+<h2>Quản Lý Người Sử Dụng</h2>
+
+<link href="@Url.Content("~/Content/Bootstrap/bootstrap.css")" rel="stylesheet" type="text/css" />
+<br />
+<div class="search_content" style="background-image: none; background-color: white">
+    <div>
+        @using (Ajax.BeginForm("Index", "Rank", new AjaxOptions
+            {
+                InsertionMode = InsertionMode.Replace,
+                HttpMethod = "GET",
+                UpdateTargetId = "unobtrusive",
+            }, new { @class = "form-inline" }))
+        {
+            @Html.TextBox("keyWord", "", new { placeholder = "Name of Rank" })
+            <button type="submit" class="btn" value="Search" style="width: 80px;">
+                Search</button>
+            @Html.ActionLink("Reload", "Index", "Rank", null, new { @class = "btn", style = "width:54px" })
+        }
+    </div>
+</div>
+<br />
+<div>
+    @*<span>@Html.ActionLink("Create Rank", "Create", null, new { @class = "btn" })</span>
+    <span>@Html.ActionLink("Import Rank", "Import", null, new { @class = "btn" })</span>*@
+</div>
+<br />
+<div id="unobtrusive" style="background-image: none; background-color: white">
+    @Html.Partial("_List")
+</div>
