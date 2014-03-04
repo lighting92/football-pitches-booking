@@ -114,8 +114,9 @@ namespace FootballPitchesBooking.Controllers
             reg.ConfirmPassword = form["ConfirmPassword"];
             reg.Email = form["Email"];
             reg.FullName = form["FullName"];
-            reg.Address = form["Address"];
+            reg.Address = form["Province"] + form["District"] + form["Street"] ;
             reg.PhoneNumber = form["PhoneNumber"];
+
             reg.ErrorMessages = new List<string>();
 
             if (string.IsNullOrEmpty(reg.UserName) || string.IsNullOrEmpty(reg.Password) || string.IsNullOrEmpty(reg.ConfirmPassword)
