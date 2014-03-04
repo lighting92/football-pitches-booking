@@ -8,16 +8,33 @@ namespace FootballPitchesBooking.DataAccessObjects
 {
     public class MemberRankDAO
     {
+        FPBDataContext db = new FPBDataContext();
+
         public MemberRank GetMemberRankById(int rankId)
         {
-            FPBDataContext db = new FPBDataContext();
             return db.MemberRanks.Where(r => r.Id == rankId).FirstOrDefault();
         }
 
         public MemberRank GetMemberRankByPoint(int point)
         {
-            FPBDataContext db = new FPBDataContext();
             return db.MemberRanks.Where(m => m.Point <= point).OrderByDescending(m => m.Point).FirstOrDefault();            
+        }
+        /// <summary>
+        /// Select all Rank in db
+        /// </summary>
+        /// <returns>List Ranks</returns>
+
+        public List<MemberRank> Select()
+        {
+            try
+            {
+                var ranks = db.MemberRanks.ToList();
+                return ranks;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 }

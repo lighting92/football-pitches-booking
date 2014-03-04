@@ -140,6 +140,7 @@
     <Compile Include="BusinessObjects\WebsiteBO.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RankController.cs" />
     <Compile Include="Controllers\StadiumController.cs" />
     <Compile Include="Controllers\StadiumStaffController.cs" />
     <Compile Include="Controllers\WebsiteStaffController.cs" />
@@ -290,6 +291,8 @@
     <Content Include="Views\Stadium\JoinUsSuccess.cshtml" />
     <Content Include="Views\WebsiteStaff\_List.cshtml" />
     <Content Include="Views\WebsiteStaff\Users.cshtml" />
+    <Content Include="Views\Rank\Index.cshtml" />
+    <Content Include="Views\Rank\_List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

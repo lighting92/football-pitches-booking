@@ -10,6 +10,8 @@ namespace FootballPitchesBooking.BusinessObjects
     public class UserBO
     {
         UserDAO userDAO = new UserDAO();
+        MemberRankDAO rankDAO = new MemberRankDAO();
+
 
         /// <summary>
         /// Create user. Return a list result for validating.
@@ -21,7 +23,6 @@ namespace FootballPitchesBooking.BusinessObjects
         public List<int> CreateUser(User newUser)
         {
             List<int> results = new List<int>();
-            UserDAO userDAO = new UserDAO();
 
             User duplicatedNameUser = userDAO.GetUserByUserName(newUser.UserName);
             User duplicatedEmailUser = userDAO.GetUserByEmail(newUser.Email);
@@ -162,6 +163,66 @@ namespace FootballPitchesBooking.BusinessObjects
 
             return users;
         }
+
+        public List<MemberRank> ToListMR(ref List<NoModel> noList, int? page, string keyWord = "", string column = "", string sort = "")
+        {
+            // User list.
+            var ranks = rankDAO.Select();
+
+            // Search by key word.
+            if (keyWord.Equals(""))
+            {
+                ranks = ranks.OrderBy(u => u.Id).ToList();
+            }
+            else
+            {
+                ranks = ranks.Where(u => u.RankName.ToLower().Contains(keyWord.ToLower())).OrderBy(u => u.Id).ToList();
+            }
+
+            // Sort by sort type and solumn name.
+            switch (column + sort)
+            {
+                case "NoAsc":
+                    ranks = ranks.OrderBy(u => u.Id).ToList();
+                    break;
+                case "NoDesc":
+                    ranks = ranks.OrderByDescending(u => u.Id).ToList();
+                    break;
+                case "RankNameAsc":
+                    ranks = ranks.OrderBy(u => u.RankName).ToList();
+                    break;
+                case "RankNameDesc":
+                    ranks = ranks.OrderByDescending(u => u.RankName).ToList();
+                    break;
+                case "PointAsc":
+                    ranks = ranks.OrderBy(u => u.Point).ToList();
+                    break;
+                case "PointDesc":
+                    ranks = ranks.OrderByDescending(u => u.Point).ToList();
+                    break;
+                case "PromotionAsc":
+                    ranks = ranks.OrderBy(u => u.Promotion).ToList();
+                    break;
+                case "PromotionDesc":
+                    ranks = ranks.OrderByDescending(u => u.Promotion).ToList();
+                    break;
+            }
+
+            // Generate no. List.
+            foreach (var u in ranks)
+            {
+                noList.Add(new NoModel { Id = u.Id });
+            }
+            noList = noList.OrderBy(n => n.Id).ToList();
+            for (int i = 0; i < noList.Count; i++)
+            {
+                noList[i].No = i + 1;
+            }
+
+            return ranks;
+        }
+
+        
 
     }
 }
