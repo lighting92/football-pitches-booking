@@ -82,5 +82,37 @@ namespace FootballPitchesBooking.Controllers
             }
             return RedirectToAction("JoinRequests");
         }
+
+        public ActionResult Rank(int? page, string keyWord = "", string column = "", string sort = "")
+        {
+            try
+            {
+                // No. list.
+                var noList = new List<NoModel>();
+
+                // User list.
+                List<MemberRank> ranks = userBO.ToListMR(ref noList, page, keyWord, column, sort);
+
+                // Sort states.
+                ViewBag.KeyWord = keyWord;
+                ViewBag.Page = page;
+                ViewBag.Column = column;
+                ViewBag.Sort = sort;
+                ViewBag.NoList = noList;
+
+                // Return.
+                var pageNumber = page ?? 1;
+                var onePageOfUsers = ranks.ToPagedList(pageNumber, 10);
+                ViewBag.onePageOfUsers = onePageOfUsers;
+                return Request.IsAjaxRequest()
+                    ? (ActionResult)PartialView("_List2")
+                    : View();
+            }
+            catch (Exception)
+            {
+                // Wrtite to log file.
+                return RedirectToAction("Users", "Error", new { Area = "" });
+            }
+        }
     }
 }
