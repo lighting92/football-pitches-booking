@@ -250,5 +250,30 @@ namespace FootballPitchesBooking.BusinessObjects
             RoleDAO roleDAO = new RoleDAO();
             return roleDAO.UpdateRole(roleId, roleId);
         }
+
+
+        public List<int> CreateMemberRank(MemberRank memberRank)
+        {
+            List<int> results = new List<int>();
+            MemberRank existedMemberRankName = rankDAO.GetMemberRankByName(memberRank.RankName);
+            MemberRank existedMemberRankPoint = rankDAO.GetMemberRankByPoint((int)memberRank.Point);
+
+            if (existedMemberRankName != null) //check xem co trung ten voi rank nao ko
+            {
+                results.Add(-1);
+            }
+
+            if (existedMemberRankPoint != null) //check xem co cung point voi rank nao ko
+            {
+                results.Add(-2);
+            }
+
+            if (results.Count == 0) //neu ko co loi~
+            {
+                results.Add(rankDAO.CreateMemberRank(memberRank));
+            }
+
+            return results;
+        }
     }
 }

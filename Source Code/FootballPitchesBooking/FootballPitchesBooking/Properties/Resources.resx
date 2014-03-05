@@ -132,6 +132,12 @@
   <data name="Password_NotMatchWithConfirm" xml:space="preserve">
     <value>Mật khẩu không giống với xác nhận. Xin vui lòng nhập lại</value>
   </data>
+  <data name="Rank_RankNameNotAvailable" xml:space="preserve">
+    <value>Tên thứ hạng đã được sử dụng. Xin vui lòng chọn tên khác</value>
+  </data>
+  <data name="Rank_RankPointNotAvailable" xml:space="preserve">
+    <value>Điểm thứ hạng đã được sử dụng. Xin vui lòng chọn điểm khác</value>
+  </data>
   <data name="Reg_EmailNotAvailable" xml:space="preserve">
     <value>Email đã được sử dụng. Xin vui lòng chọn email khác</value>
   </data>

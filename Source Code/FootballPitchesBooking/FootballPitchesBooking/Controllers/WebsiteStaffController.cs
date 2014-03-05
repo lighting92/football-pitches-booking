@@ -215,41 +215,55 @@ namespace FootballPitchesBooking.Controllers
         [HttpPost]
         public ActionResult AddMemberRank(FormCollection form)
         {
-            AddRankModel add = new AddRankModel();
-            add.RankName = form["RankName"];
-            add.Point = Int32.Parse(form["Point"]);
-            add.Promotion = form["Promotion"];
+            RankModel rank = new RankModel();
+            rank.RankName = form["RankName"];
+            rank.Point = Int32.Parse(form["Point"]);
+            rank.Promotion = form["Promotion"];
 
-            if (string.IsNullOrEmpty(add.RankName) || string.IsNullOrEmpty(add.Promotion))
+            if (string.IsNullOrEmpty(rank.RankName) || string.IsNullOrEmpty(rank.Promotion))
             {
-                add.ErrorMessage = Resources.Form_EmptyFields;
+                rank.ErrorMessages.Add(Resources.Form_EmptyFields);
             }
 
-            if (string.IsNullOrEmpty(add.ErrorMessage))
+            if (rank.ErrorMessages.Count == 0)
             {
-                WebsiteBO websiteBO = new WebsiteBO();
+                UserBO userBO = new UserBO();
 
                 MemberRank memberrank = new MemberRank
                 {
-                    RankName = add.RankName,
-                    Point = add.Point,
-                    Promotion = add.Promotion,
+                    RankName = rank.RankName,
+                    Point = rank.Point,
+                    Promotion = rank.Promotion,
                     
                 };
 
-                int result = websiteBO.CreateMemberRank(memberrank);
+                List<int> results = userBO.CreateMemberRank(memberrank);
 
-                if (result > 0)
+                if (results.Count == 1 && results[0] > 0)
                 {
-                    //success
+                    return RedirectToAction("Index", "Home"); //cai nay sau nay sua lai redirect den trang list rank hay gi day, khi nao add success thi no redirect, ko thi bao loi
                 }
                 else
                 {
-                    add.ErrorMessage = Resources.DB_Exception;
+                    foreach (var error in results)
+                    {
+                        if (error == 0)
+                        {
+                            rank.ErrorMessages.Add(Resources.DB_Exception);
+                        }
+                        if (error == -1)
+                        {
+                            rank.ErrorMessages.Add(Resources.Rank_RankNameNotAvailable);
+                        }
+                        if (error == -2)
+                        {
+                            rank.ErrorMessages.Add(Resources.Rank_RankPointNotAvailable);
+                        }
+                    }
                 }
                
             }
-            return View(add);
+            return View(rank); //cai bao' loi~ mang tinh' tuong doi', chua biet requirement chinh xac sao nen chu check trc cho chac
         }
     }
 }

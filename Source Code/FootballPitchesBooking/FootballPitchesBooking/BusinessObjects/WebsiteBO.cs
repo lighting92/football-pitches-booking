@@ -9,12 +9,6 @@ namespace FootballPitchesBooking.BusinessObjects
 {
     public class WebsiteBO
     {
-        public int CreateMemberRank(MemberRank rank)
-        {
-            MemberRankDAO memberrankDAO = new MemberRankDAO();
-
-            return memberrankDAO.CreateMemberRank(rank);
-        }
 
     }
 }
