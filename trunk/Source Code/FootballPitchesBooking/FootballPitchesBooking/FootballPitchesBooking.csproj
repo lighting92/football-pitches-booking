@@ -170,6 +170,7 @@
     <Compile Include="Models\StadiumModels\AddStadiumModel.cs" />
     <Compile Include="Models\StadiumModels\JoinUsModel.cs" />
     <Compile Include="Models\NoModel.cs" />
+    <Compile Include="Models\WebsiteStaffModels\EditJSRModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -308,7 +309,7 @@
     <Content Include="Views\Stadium\JoinUsSuccess.cshtml" />
     <Content Include="Views\WebsiteStaff\_List.cshtml" />
     <Content Include="Views\WebsiteStaff\Users.cshtml" />
-    <Content Include="Views\WebsiteStaff\Rank.cshtml" />
+    <Content Include="Views\WebsiteStaff\MemberRanks.cshtml" />
     <Content Include="Views\WebsiteStaff\_List2.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -324,6 +325,9 @@
     <None Include="Models\FPB.dbml.layout">
       <DependentUpon>FPB.dbml</DependentUpon>
     </None>
+    <Content Include="Views\Shared\_WebsiteStaffLayout.cshtml" />
+    <Content Include="Views\WebsiteStaff\EditJSR.cshtml" />
+    <Content Include="Views\WebsiteStaff\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
