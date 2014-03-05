@@ -9,7 +9,7 @@ namespace FootballPitchesBooking.BusinessObjects
 {
     public class StadiumBO
     {
-	    public List<Stadium> GetAllStadiums()
+        public List<Stadium> GetAllStadiums()
         {
             StadiumDAO stadiumDAO = new StadiumDAO();
             return stadiumDAO.GetAllStadiums();
@@ -35,7 +35,7 @@ namespace FootballPitchesBooking.BusinessObjects
 
                 if (results.Count == 1 && results[0] > 0)
                 {
-                    StadiumStaff stadiumStaff = new StadiumStaff 
+                    StadiumStaff stadiumStaff = new StadiumStaff
                     {
                         UserId = stadiumOwner.Id,
                         StadiumId = results[0],
@@ -72,9 +72,9 @@ namespace FootballPitchesBooking.BusinessObjects
             return stadiumDAO.UpdateStadiumStatus(stadiumId, false);
         }
 
-		public int RegisterNewStadium(JoinSystemRequest jsr)
+        public int RegisterNewStadium(JoinSystemRequest jsr)
         {
-            jsr.Status = "New";
+            jsr.Status = "MỚI";
             jsr.CreateDate = DateTime.Now;
 
             JoinSystemRequestDAO jsrDAO = new JoinSystemRequestDAO();
@@ -92,5 +92,18 @@ namespace FootballPitchesBooking.BusinessObjects
         {
             JoinSystemRequestDAO jsrDAO = new JoinSystemRequestDAO();
             return jsrDAO.DeleteJoinSystemRequest(jsrId);
-        }    }
+        }
+
+        public JoinSystemRequest GetJoinSystemRequestById(int jsrId)
+        {
+            JoinSystemRequestDAO jsrDAO = new JoinSystemRequestDAO();
+            return jsrDAO.GetJoinSystemRequestById(jsrId);
+        }
+
+        public int UpdateJoinSystemRequest(JoinSystemRequest jsr)
+        {
+            JoinSystemRequestDAO jsrDAO = new JoinSystemRequestDAO();
+            return jsrDAO.UpdateJoinSystemRequestStatus(jsr);
+        }
+    }
 }

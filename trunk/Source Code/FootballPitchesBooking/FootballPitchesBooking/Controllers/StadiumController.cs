@@ -150,7 +150,7 @@ namespace FootballPitchesBooking.Controllers
                    Phone = jsm.Phone,
                    Email = jsm.Email,
                    StadiumName = jsm.StadiumName,
-                   StadiumAddress = jsm.StadiumStreet + ", Phường " + jsm.StadiumWard + ", Quận " + jsm.StadiumDistrict,
+                   StadiumAddress = jsm.StadiumStreet + ", " + jsm.StadiumWard + ", " + jsm.StadiumDistrict,
                    Note = jsm.Note,
                    UserId = curUser.Id
                };               

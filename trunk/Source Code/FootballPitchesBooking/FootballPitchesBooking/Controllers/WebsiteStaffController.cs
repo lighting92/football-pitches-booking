@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PagedList;
+using FootballPitchesBooking.Models.WebsiteStaffModels;
 
 namespace FootballPitchesBooking.Controllers
 {
@@ -83,7 +84,97 @@ namespace FootballPitchesBooking.Controllers
             return RedirectToAction("JoinRequests");
         }
 
-        public ActionResult Rank(int? page, string keyWord = "", string column = "", string sort = "")
+        //
+        // GET: /WebsiteStaff/EditJSR
+        [Authorize(Roles = "WebsiteMaster")]
+        public ActionResult EditJSR(int id)
+        {
+            StadiumBO stadiumBO = new StadiumBO();
+            JoinSystemRequest jsr = stadiumBO.GetJoinSystemRequestById(id);
+            string[] stadiumAddress = jsr.StadiumAddress.Split(',');
+            string street = stadiumAddress[0].Trim();
+            string ward = stadiumAddress[1].Trim();
+            string district = stadiumAddress[2].Trim();
+            EditJSRModel ejm = new EditJSRModel
+                {
+                    UserName = jsr.User.UserName,
+                    FullName = jsr.FullName,
+                    Address = jsr.Phone,
+                    Email = jsr.Email,
+                    Phone = jsr.Phone,
+                    StadiumStreet = street,
+                    StadiumWard = ward,
+                    StadiumDistrict = district,
+                    StadiumName = jsr.StadiumName,
+                    Status = jsr.Status,
+                    Note = jsr.Note,
+                    CreateDate = jsr.CreateDate.ToShortDateString()
+                };
+            return View(ejm);
+        }
+
+        //
+        // POST: /WebsiteStaff/EditJSR
+        [Authorize(Roles = "WebsiteMaster")]
+        [HttpPost]
+        public ActionResult EditJSR(FormCollection form, int id)
+        {
+            EditJSRModel ejm = new EditJSRModel
+            {
+                UserName = form["UserName"],
+                FullName = form["FullName"],
+                Address = form["Address"],
+                Phone = form["PhoneNumber"],
+                Email = form["Email"],
+                StadiumName = form["StadiumName"],
+                StadiumStreet = form["StadiumStreet"],
+                StadiumWard = form["StadiumWard"],
+                StadiumDistrict = form["StadiumDistrict"],
+                Status = form["Status"],
+                Note = form["Note"],
+                CreateDate = form["CreateDate"]
+            };
+
+            if (string.IsNullOrEmpty(ejm.FullName) || string.IsNullOrEmpty(ejm.Address) || string.IsNullOrEmpty(ejm.Phone) ||
+                string.IsNullOrEmpty(ejm.Email) || string.IsNullOrEmpty(ejm.StadiumName) || string.IsNullOrEmpty(ejm.StadiumStreet) ||
+                string.IsNullOrEmpty(ejm.StadiumWard) || string.IsNullOrEmpty(ejm.StadiumDistrict) || string.IsNullOrEmpty(ejm.Status))
+            {
+                ejm.ErrorMessage = Resources.Form_EmptyFields;
+                return View(ejm);
+            }
+            else
+            {
+                UserBO userBO = new UserBO();
+                User curUser = userBO.GetUserByUserName(User.Identity.Name);
+                JoinSystemRequest jsr = new JoinSystemRequest
+                {
+                    FullName = ejm.FullName,
+                    Address = ejm.Address,
+                    Phone = ejm.Phone,
+                    Email = ejm.Email,
+                    StadiumName = ejm.StadiumName,
+                    StadiumAddress = ejm.StadiumStreet + ", " + ejm.StadiumWard + ", " + ejm.StadiumDistrict,
+                    Note = ejm.Note,
+                    Id = id,
+                    Status = ejm.Status
+                };
+                StadiumBO stadiumBO = new StadiumBO();
+                int result = stadiumBO.UpdateJoinSystemRequest(jsr);
+
+                if (result > 0)
+                {
+                    ejm.SuccessMessage = Resources.Update_Success;
+                    return View(ejm);
+                }
+                else
+                {
+                    ejm.ErrorMessage = Resources.DB_Exception;
+                    return View(ejm);
+                }
+            }
+        }
+
+        public ActionResult MemberRanks(int? page, string keyWord = "", string column = "", string sort = "")
         {
             try
             {
@@ -111,7 +202,7 @@ namespace FootballPitchesBooking.Controllers
             catch (Exception)
             {
                 // Wrtite to log file.
-                return RedirectToAction("Users", "Error", new { Area = "" });
+                return View("Error");
             }
         }
     }

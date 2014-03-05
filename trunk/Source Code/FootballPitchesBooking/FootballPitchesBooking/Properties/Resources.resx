@@ -118,25 +118,28 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DB_Exception" xml:space="preserve">
-    <value>Máy chủ đang bận. Xin vui lòng thử lại sau.</value>
+    <value>Máy chủ đang bận. Xin vui lòng thử lại sau</value>
   </data>
   <data name="Form_EmptyFields" xml:space="preserve">
-    <value>Xin hãy điền đầy đủ vào những trường thông tin bắt buộc.</value>
+    <value>Xin hãy điền đầy đủ vào những trường thông tin bắt buộc</value>
   </data>
   <data name="Login_IncorrectPassword" xml:space="preserve">
-    <value>Mật khẩu không chính xác.</value>
+    <value>Mật khẩu không chính xác</value>
   </data>
   <data name="Login_IncorrectUserName" xml:space="preserve">
-    <value>Tài khoản không tồn tại.</value>
+    <value>Tài khoản không tồn tại</value>
   </data>
   <data name="Password_NotMatchWithConfirm" xml:space="preserve">
-    <value>Mật khẩu không giống với xác nhận. Xin vui lòng nhập lại.</value>
+    <value>Mật khẩu không giống với xác nhận. Xin vui lòng nhập lại</value>
   </data>
   <data name="Reg_EmailNotAvailable" xml:space="preserve">
-    <value>Email đã được sử dụng. Xin vui lòng chọn email khác.</value>
+    <value>Email đã được sử dụng. Xin vui lòng chọn email khác</value>
   </data>
   <data name="Reg_UserNameNotAvailable" xml:space="preserve">
-    <value>Tên tài khoản đã được sử dụng. Xin vui lòng chọn tên khác.</value>
+    <value>Tên tài khoản đã được sử dụng. Xin vui lòng chọn tên khác</value>
+  </data>
+  <data name="Update_Success" xml:space="preserve">
+    <value>Cập nhật thành công</value>
   </data>
   <data name="User_UserNotMatched" xml:space="preserve">
     <value>Tài khoản không tìm thấy</value>
