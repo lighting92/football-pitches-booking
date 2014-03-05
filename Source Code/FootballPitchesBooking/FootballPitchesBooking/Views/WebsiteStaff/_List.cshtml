@@ -167,7 +167,7 @@
                             }
                         </td>
                         <td>
-                            <span style="word-wrap: break-word">@Html.ActionLink(user.FullName, "Details", "User", new {id = @user.Id}, null)</span>
+                            <span style="word-wrap: break-word">@Html.ActionLink(user.FullName, "ViewAccountProfile", "Account", new {id = @user.Id}, null)</span>
                         </td>
                         <td>
                             <span style="word-wrap: break-word">@Html.DisplayFor(model => user.UserName)</span>
