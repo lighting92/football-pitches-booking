@@ -3,6 +3,11 @@ div.ui-datepicker
     font-size: 11px;
 }
 
+textarea
+{
+    resize: none;
+}
+
 .header-account
 {
     width: 400px;
@@ -34,7 +39,7 @@ div.ui-datepicker
         cursor: pointer;
     }
 
-.select_duration
+.select_duration, .select_city, .select_district
 {
     width: 137px;
 }
