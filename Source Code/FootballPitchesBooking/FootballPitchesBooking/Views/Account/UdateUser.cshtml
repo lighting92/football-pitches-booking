@@ -1,0 +1,22 @@
+﻿@model IEnumerable<FootballPitchesBooking.Models.Role>
+@{
+    ViewBag.Title = "ViewAccountProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+}
+
+<h2>UdateUser</h2>
+Username: @ViewBag.user.UserName
+<br />
+Full name: @ViewBag.user.FullName
+<br />
+<form>
+    Role:
+    <select>
+        @foreach (var item in Model)
+        { 
+            <option>@item.Role1
+            </option>    
+        }
+    </select>
+</form>

@@ -1,0 +1,23 @@
+﻿@model IEnumerable<FootballPitchesBooking.Models.Role>
+@{
+    ViewBag.Title = "ViewAccountProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>UdateUser</h2>
+Username: @ViewBag.user.UserName
+<br />
+Full name: @ViewBag.user.FullName
+<br />
+<form action="/Account/UpdateUser?UserId=@Request.RequestContext.RouteData.Values["id"]" method="post">
+    Role:
+    <select name="Role" >
+        <option selected="selected">@ViewBag.role.Role1</option>
+        @foreach (var item in Model)
+        { 
+            <option value="@item.Id">@item.Role1
+            </option>    
+        }
+    </select>
+    <button type="submit">Save</button>
+</form>
