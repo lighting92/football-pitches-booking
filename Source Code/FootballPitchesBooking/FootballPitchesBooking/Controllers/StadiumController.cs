@@ -126,12 +126,15 @@ namespace FootballPitchesBooking.Controllers
                 Phone = form["PhoneNumber"],
                 Email = form["Email"],
                 StadiumName = form["StadiumName"],
-                StadiumAddress = form["StadiumAddress"],
+                StadiumStreet = form["StadiumStreet"],
+                StadiumWard = form["StadiumWard"],
+                StadiumDistrict = form["StadiumDistrict"],
                 Note = form["Note"]
             };
 
            if (string.IsNullOrEmpty(jsm.FullName) || string.IsNullOrEmpty(jsm.Address) || string.IsNullOrEmpty(jsm.Phone) ||
-               string.IsNullOrEmpty(jsm.Email) || string.IsNullOrEmpty(jsm.StadiumName) || string.IsNullOrEmpty(jsm.StadiumAddress))
+               string.IsNullOrEmpty(jsm.Email) || string.IsNullOrEmpty(jsm.StadiumName) || string.IsNullOrEmpty(jsm.StadiumStreet) ||
+               string.IsNullOrEmpty(jsm.StadiumWard) || string.IsNullOrEmpty(jsm.StadiumDistrict))
            {
                jsm.ErrorMessage = Resources.Form_EmptyFields;
                return View(jsm);
@@ -147,7 +150,7 @@ namespace FootballPitchesBooking.Controllers
                    Phone = jsm.Phone,
                    Email = jsm.Email,
                    StadiumName = jsm.StadiumName,
-                   StadiumAddress = jsm.StadiumAddress,
+                   StadiumAddress = jsm.StadiumStreet + ", Phường " + jsm.StadiumWard + ", Quận " + jsm.StadiumDistrict,
                    Note = jsm.Note,
                    UserId = curUser.Id
                };               
