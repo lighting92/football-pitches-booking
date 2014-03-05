@@ -1,129 +1,257 @@
-﻿<link href="~/Content/css/bootstrap.css" rel="stylesheet" />
-<link href="~/Content/Custom.css" rel="stylesheet" />
-<link href="~/Content/Custom.css" rel="stylesheet" />
+﻿@{
+    ViewBag.Title = "TRANG CHỦ";
+}
 
-<h2>Index</h2>
-<a href="@Url.Action("ListStadiums", "Stadium")">Stadium</a>
-<div class="cust-contentform">
-    <table float:left">
-        <tr>
-            <td style="width:22em">
-                <div>
-                    <h3><b class="cust-columnHeader">Sân bóng</b></h3>
-                    <span class="cust-columnContent">Đặt sân ngay để nhận giảm giá</span><br />
-                    <span class="cust-columnContent">khuyến mãi từ chủ sân!</span><br />
-                    <span class="cust-columnContent"></span><br />
-                 </div>
-                <div class="cust-stadiumImg">
-                    <img src="../Content/Images/stadium.jpg" height="100px" width="230px"/><br />
-                    
-                    <span class="cust-contentText"><b>Sân F-town</b></span><br />
-                    <span class="cust-contentText">Loại sân: 5-người, 7-người </span><br />
-                    <span class="cust-contentText">Địa Điểm: Quận 9 </span>
-                    <button class="btn btn-warning" style="margin-top: -135px;margin-left: -116px;">Đang giảm giá!</button>
-                </div>
-                <div class="cust-stadiumImg">
-                    <img src="../Content/Images/stadium2.jpg" height="100px" width="230px"/><br />
-                    <span class="cust-contentText"><b>Sân Thủ Đức</b></span><br />
-                    <span class="cust-contentText">Loại sân: 7-người, 11-người </span><br />
-                    <span class="cust-contentText">Địa Điểm: Thủ Đức </span>
-                    <button class="btn btn-warning" style="margin-top: -135px;margin-left: -124px;;">Đang giảm giá!</button>
-                   
-                </div>
-                <div class="cust-stadiumImg">
-                    <img src="../Content/Images/stadium3.jpg" height="100px" width="230px"/><br />
-                    <span class="cust-contentText"><b>C2 Stadium </b></span><br />
-                    <span class="cust-contentText">Loại sân: 7-người, 11-người </span><br />
-                    <span class="cust-contentText">Địa Điểm: Quận 3 </span>
-                    <button class="btn btn-warning" style="margin-top: -135px;margin-left: -116px;">Đang giảm giá!</button>
-                </div>
-            </td>
-            <td style="width:22em" >
-                <div>
-                    <h3><b class="cust-columnHeader">Cáp kèo!</b></h3>
-                    <span class="cust-columnContent">Bạn chưa có đối thủ?</span><br />
-                    <span class="cust-columnContent">Hãy tham gia thách đấu!</span><br />
-                    <span class="cust-columnContent"></span><br />
-                 </div>
-                <div class="cust-challenge">
-                    <span><b style="color:#E82C0C">Đội Quân Khu 7</b></span><br />
-                    <span class="cust-contentText">Thời gian: 8PM-10PM Sat 22th Feb</span><br />
-                    <span class="cust-contentText">Địa điểm: Phu Nhuan, Go Vap, <br />District 3</span><br />
-                    <span class="cust-contentText">Lứa tuổi: 20-35 tuổi</span><br />
-                    <span class="cust-contentText">Loại sân: 5-người</span><br />
-                    <span><a href="" style="color: #f7ef0f;">Tham gia!</a></span><br />
-                    <span><a href="" style="color: #f7ef0f;">Liên hệ!</a></span><br />
-                </div>
-                <div class="cust-challenge">
-                    <span><b style="color:#E82C0C">Đội Quận 9</b></span><br />
-                    <span class="cust-contentText">Thời gian: 8PM-10PM Sun 23th Feb</span><br />
-                    <span class="cust-contentText">Địa điểm: Quận 9, Thủ Đức</span><br />
-                    <span class="cust-contentText">Lứa tuổi: 20-35 ages</span><br />
-                    <span class="cust-contentText">Loại sân: 7-người</span><br />
-                   <span><a href=""style="color: #f7ef0f;">Tham gia!</a></span><br />
-                    <span><a href=""style="color: #f7ef0f;">Liên hệ!</a></span><br />
-                </div>
-                <div class="cust-challenge">
-                    <span><b style="color:#E82C0C">Đội FPT</b></span><br />
-                    <span class="cust-contentText">Thời gian: 8PM-10PM Sat 22th Feb</span><br />
-                    <span class="cust-contentText">Địa điểm: District 12, Go Vap </span><br />
-                    <span class="cust-contentText">Lứa tuổi: 35-50 tuổi</span><br />
-                    <span class="cust-contentText">Loại sân: 5-người</span><br />
-                    <span><a href=""style="color: #f7ef0f;">Tham gia!</a></span><br />
-                    <span><a href=""style="color: #f7ef0f;">Liên hệ!</a></span><br />
-                </div>
-            </td>
-            <td style="width:25em">
-                <div>
-                    <h3><b class="cust-columnHeader">Tìm Sân Nhanh</b></h3>
-                    <div style="width:25em; height:560px">
-                        <div class="cust-searchForm">
-                            <span>Tỉnh thành: <select style="height:18px; color:black; margin-left:10px">
-                                <option>TP.Hồ Chí Minh</option>
-                                <option>Hà Nội</option>
-                                <option>Đà Nẵng</option>
-                                                 </select> 
 
-                            </span><br />
-                            <span>
-                                Quận: <select select style="height:18px;color:black; margin-left:50px">
-                                    <option>Quận 1</option>
-                                <option>Quận 2</option>
-                                <option>Quận 3</option>
-                                          </select>
-                            </span><br />
-                            <span>
-                                Loại sân: <select select style="height:18px;color:black; margin-left:31px">
-                                    <option>5-người</option>
-                                    <option>7-người</option>
-                                    <option>11-người</option>
-                                            </select>
-                            </span><br />
-                            <span>
-                                Thời gian thuê sân:
-                            </span><br />
-                            <span>
-                                <input type="text" style="height:18px; width:90px"/>
-                                <span class="glyphicon glyphicon-calendar"></span>
-                                Lúc: 
-                                <input type="text" style="height:18px; width:40px"/>
-                                Trong: 
-                                <input type="text" style="height:18px; width:40px" /> Phút
-                            </span>
-                            <button class="btn btn-info" style="margin-left: 40px;
-width: 230px;"><b style="font-size:17px">TÌM KIẾM</b></button>
-                            <div class="cust-stadiumImg" style="width=80px">
-                            <img src="../Content/Images/stadium4.jpg" height="100px" width="230px"/><br />
-                            <span class="cust-contentText"><b>Sân Thủ Đức</b></span><br />
-                            <span class="cust-contentText">Loại sân: 5-người, 7-người</span><br />
-                            <span class="cust-contentText">Địa điểm: Thủ Đức </span>
-                                <button class="btn btn-danger" style="margin-top: -137px;margin-left: 21px;">Đặt ngay!</button>
-                            </div>
-
+<div class="row-fluid slideshow-row">
+    <div class="span12 slideshow">
+        <div class="slider-wrapper theme-default">
+            <div class="ribbon"></div>
+            <div id="nivoslider-125" class="nivoSlider">
+                <img src="/Content/css/images/homepage/slide1.jpg" alt="" />
+                <img src="/Content/css/images/homepage/slide2.jpg" alt="" />
+                <img src="/Content/css/images/homepage/slide3.jpg" alt="" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row-fluid home" id="findavailablesection">
+    <div class="span12">
+        <h2>tìm sân <span>nhanh</span><br>
+            <span class="special-font">chọn kiểu sân, ngày giờ và địa điểm</span></h2>
+    </div>
+</div>
+<form class="form-inline">
+    <div class="row-fluid home">
+        <div class="span3">
+            <div class="room_selector" data-price="34" data-adults="1" data-kids="1">
+                <h5><a href="#" class="pull-left"><i class="icon-chevron-left"></i></a>sân 5 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
+                <a href="/Content/css/images/stadiums/san5nguoi.jpg">
+                    <img src="/Content/css/images/stadiums/san5nguoi.jpg" alt="" /></a>
+                <p>Sân hình chữ nhật, chiều dài tối đa 42m và tối thiểu 25m, chiều rộng tối đa 25m và tối thiểu 15m.</p>
+            </div>
+            <div class="room_selector" data-price="48" data-adults="2" data-kids="1" style="display: none;">
+                <h5><a href="#" class="pull-left "><i class="icon-chevron-left"></i></a>sân 7 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
+                <a href="/Content/css/images/stadiums/san7nguoi.jpg">
+                    <img src="/Content/css/images/stadiums/san7nguoi.jpg" alt="" /></a>
+                <p>Sân hình chữ nhật, chiều dài tối đa 75m và tối thiểu 50m, chiều rộng tối đa 40m và tối thiểu 55m.</p>
+            </div>
+            <div class="room_selector" data-price="62" data-adults="3" data-kids="2" style="display: none;">
+                <h5><a href="#" class="pull-left "><i class="icon-chevron-left"></i></a>sân 11 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
+                <a href="/Content/css/images/stadiums/san7nguoi.jpg">
+                    <img src="/Content/css/images/stadiums/san11nguoi.png" alt="" /></a>
+                <p>Sân hình chữ nhật, chiều dài tối đa 120m và tối thiểu 90m, chiều rộng tối đa 90m và tối thiểu 45m. </p>
+            </div>
+        </div>
+        <div class="span3 home_calendar">
+            <div class="form-horizontal">
+                <div class="control-group">
+                    <label class="control-label pull-left" for="startdate">NGÀY</label>
+                    <div class="controls">
+                        <input type="text" id="startdate" value="" class="span2 check-in-date" value="" />
+                    </div>
+                </div>
+            </div>
+            <div class="datepicker_from"></div>
+        </div>
+        <div class="span3 home_calendar home_picktime">
+            <div class="form-horizontal">
+                <div class="control-group">
+                    <label class="control-label pull-left" for="starttime">GIỜ</label>
+                    <div class="controls">
+                        <div class="input-append bootstrap-timepicker">
+                            <input id="starttime" type="text" value="" class="span2 home-start-time" value="" />
+                            <script type="text/javascript">
+                                var timepicker = document.getElementById("starttime");
+                                timepicker.onkeydown = function () {
+                                    return false;
+                                }
+                            </script>
+                            <span class="add-on"><i class="icon-time"></i></span>
                         </div>
                     </div>
-                 </div>
-            </td>
-        </tr>
-    </table>
+                </div>
+                <div class="control-group">
+                    <label class="control-label pull-left" for="duration">THỜI LƯỢNG</label>
+                    <div class="controls">
+                        <select class="select_duration" id="duration">
+                            <option value="1" selected="selected">60 phút</option>
+                            <option value="1.5">90 phút</option>
+                            <option value="2">120 phút</option>
+                            <option value="2.5">150 phút</option>
+                            <option value="3">180 phút</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label pull-left" for="city">TỈNH/TP</label>
+                    <div class="controls">
+                        <select class="select_city" id="city">
+                            <option value="Hồ Chí Minh" selected="selected">Hồ Chí Minh</option>
+                            <option value="Đồng Nai">Đồng Nai</option>
+                            <option value="Biên Hòa">Biên Hòa</option>
+                            <option value="Bình Dương">Bình Dương</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label pull-left" for="district">QUẬN / HUYỆN</label>
+                    <div class="controls">
+                        <select class="select_district" id="district">
+                            <option value="Q. 1" selected="selected">Q. 1</option>
+                            <option value="Q. 2">Q. 2</option>
+                            <option value="Q. 3">Q. 3</option>
+                            <option value="Q. 4">Q. 4</option>
+                            <option value="Q. 5">Q. 5</option>
+                            <option value="Q. 6">Q. 6</option>
+                            <option value="Q. 7">Q. 7</option>
+                            <option value="Q. 8">Q. 8</option>
+                            <option value="Q. 9">Q. 9</option>
+                            <option value="Q. 10">Q. 10</option>
+                            <option value="Q. 11">Q. 11</option>
+                            <option value="Q. 12">Q. 12</option>
+                            <option value="Q. Bình Tân">Q. Bình Tân</option>
+                            <option value="Q. Bình Thạnh">Q. Bình Thạnh</option>
+                            <option value="Q. Gò Vấp">Q. Gò Vấp</option>
+                            <option value="Q. Phú Nhuận">Q. Phú Nhuận</option>
+                            <option value="Q. Tân Bình">Q. Tân Bình</option>
+                            <option value="Q. Tân Phú">Q. Tân Phú</option>
+                            <option value="Q. Thủ Đức">Q. Thủ Đức</option>
+                            <option value="H. Bình Chánh">H. Bình Chánh</option>
+                            <option value="H. Củ Chi">H. Củ Chi</option>
+                            <option value="H. Hóc Môn">H. Hóc Môn</option>
+                            <option value="H. Nhà Bè">H. Nhà Bè</option>
+                            <option value="H. Cần Giờ">H. Cần Giờ</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-large home-btn-find pull-right">Tìm Kiếm</button>
+            </div>
+        </div>
+
+        <div class="span3">
+            <p>
+                BẠN LÀ CHỦ CỦA 1 SÂN BÓNG?
+            </p>
+            <p>
+                BẠN MUỐN SÂN BÓNG CỦA BẠN ĐƯỢC HỖ TRỢ TRỰC TUYẾN?
+            </p>
+            <p>
+                HÃY ĐẾN VỚI HỆ THỐNG SÂN BÓNG TRỰC TUYẾN CỦA CHÚNG TÔI.
+            </p>
+            <p>
+                <a class="pull-right" href="#">YÊU CẦU HỖ TRỢ >>></a>
+            </p>
+            <div class="span12 logo">
+                <div class="row">
+                    <div class="span12 logo">
+                        <h1>ĐẶT SÂN BÓNG ĐÁ<span> ONLINE</span></h1>
+                        <p>&#9917;&#9917;&#9917;&#9917;&#9917;</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<hr />
+<div class="row-fluid">
+    <div class="span4">
+        <h3><span>S</span>ân Bóng</h3>
+        <div class="stadium-item">
+            <div class="stadium-image">
+                <img src="images/stadium.jpg" />
+                <span class="promotion">Đang Giảm Giá</span>
+            </div>
+            <div class="stadium-detail">
+                <p class="stadium-name">Sân FTOWN</p>
+                <p class="stadium-address">Quận 12, HCM</p>
+                <p class="field-type">Kiểu Sân: 5, 7, 11</p>
+            </div>
+        </div>
+        <hr />
+        <div class="stadium-item">
+            <div class="stadium-image">
+                <img src="images/stadium.jpg" />
+                <span class="promotion">Đang Giảm Giá</span>
+            </div>
+            <div class="stadium-detail">
+                <p class="stadium-name">Sân FTOWN</p>
+                <p class="stadium-address">Quận 12, HCM</p>
+                <p class="field-type">Kiểu Sân: 5, 7, 11</p>
+            </div>
+        </div>
+    </div>
+    <div class="span4">
+        <h3><span>C</span>áp Kèo</h3>
+        <div class="rival-item">
+            <p class="r-name">Đội Friend</p>
+            <p class="r-date">Thời gian: 20h-21h30, 22/02</p>
+            <p class="r-sname">Sân FTOWN</p>
+            <p class="r-saddr">1 Tô Ký, Phường 1, Quận 9, HCM</p>
+            <p class="r-stype">Đá 5 người</p>
+            <p class="r-contact">
+                Liên hệ: Nguyễn Duy Phương | 01662194419 | phuongnd6592@live.com
+            </p>
+        </div>
+        <hr />
+        <div class="rival-item">
+            <p class="r-name">Đội Friend</p>
+            <p class="r-date">Thời gian: 20h-21h30, 22/02</p>
+            <p class="r-sname">Sân FTOWN</p>
+            <p class="r-saddr">1 Tô Ký, Phường 1, Quận 9, HCM</p>
+            <p class="r-stype">Đá 5 người</p>
+            <p class="r-contact">
+                Liên hệ: Nguyễn Duy Phương | 01662194419 | phuongnd6592@live.com
+            </p>
+        </div>
+    </div>
+    <div class="span4">
+        <h3><span>S</span>ân Khuyến Mãi</h3>
+        <div class="stadium-item">
+            <div class="stadium-image">
+                <img src="images/stadium.jpg" />
+                <span class="promotion-date"><b class="pull-left">-50%</b> 10h - 16h Từ 1/1 đến 2/1/2014</span>
+            </div>
+            <div class="stadium-detail">
+                <p class="stadium-name">Sân FTOWN</p>
+                <p class="stadium-address">Quận 12, HCM</p>
+                <p class="field-type">Kiểu Sân Khuyến Mãi: 5, 7, 11</p>
+            </div>
+        </div>
+        <hr />
+        <div class="stadium-item">
+            <div class="stadium-image">
+                <img src="images/stadium.jpg" />
+                <span class="promotion-date"><b class="pull-left">-50%</b> 10h - 16h Từ 1/1 đến 2/1/2014</span>
+            </div>
+            <div class="stadium-detail">
+                <p class="stadium-name">Sân FTOWN</p>
+                <p class="stadium-address">Quận 12, HCM</p>
+                <p class="field-type">Kiểu Sân Khuyến Mãi: 5, 7, 11</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="span12 what_people_say">
+        <div id="quotes">
+            <blockquote class="textItem" style="display: none;">
+                <p>HỆ THỐNG TRỰC TUYẾN 24/7</p>
+            </blockquote>
+
+            <blockquote class="textItem" style="display: none;">
+                <p>TÌM SÂN CỰC NHANH, ĐẶT SÂN CỰC DỄ</p>
+            </blockquote>
+
+            <blockquote class="textItem" style="display: none;">
+                <p>HỖ TRỢ CÁP KÈO, GỢI Ý SÂN THÍCH HỢP</p>
+            </blockquote>
+
+            <blockquote class="textItem" style="display: none;">
+                <p>HỆ THỐNG THÀNH VIÊN HẤP DẪN</p>
+            </blockquote>
+        </div>
+    </div>
 </div>

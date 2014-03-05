@@ -1,46 +1,160 @@
 ﻿@model FootballPitchesBooking.Models.StadiumModels.JoinUsModel
 @{
-    ViewBag.Title = "JoinUs";
+    ViewBag.Title = "GIA NHẬP";
 }
 
-<h2>Đăng Ký Sân Bóng Của Bạn Với Chúng Tôi</h2>
+<div class="row join-us">
+    <div class="span12">
+        <div class="row">
+            <div class="span9">
+                <form action="JoinUs" method="post" class="form-horizontal">
+                    <fieldset>
+                        <br />
+                        <br />
+                        <h1>Đăng Ký Sân Bóng Của Bạn
+                            <br />
+                            <small>ĐIỀN ĐẦY ĐỦ VÀO MẪU BÊN DƯỚI ĐỂ GỬI YÊU CẦU.</small>
+                        </h1>
+                        <br />
+                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                        {
+                            <div class="alert alert-danger">@Model.ErrorMessage</div>
+                        }
+                        <div class="row">
+                            <div class="span8">
+                                <legend><span>TÊN</span> CỦA BẠN</legend>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    <input name="FullName" type="text" placeholder="HỌ VÀ TÊN" value="@Model.FullName">
+                                </label>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="span8">
+                                <legend><span>THÔNG TIN</span> LIÊN LẠC</legend>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    Địa Chỉ E-Mail
+									<input name="Email" type="text" value="@Model.Email">
+                                </label>
+                            </div>
 
-@if (!string.IsNullOrEmpty(Model.ErrorMessage))
-{
-        <p style="color:red">@Model.ErrorMessage</p>
-}
+                            <div class="span3">
+                                <label>
+                                    SỐ ĐIỆN THOẠI
+									<input name="PhoneNumber" type="text" value="@Model.Phone">
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    ĐỊA CHỈ NHÀ
+									<input name="Address" type="text" value="@Model.Address">
+                                </label>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="span8">
+                                <legend><span>SÂN BÓNG</span> CỦA BẠN</legend>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    TÊN SÂN
+									<input name="StadiumName" type="text" value="@Model.StadiumName">
+                                </label>
+                            </div>
+                            <div class="span5" style="visibility: hidden;">
+                                <label>&nbsp</label>
+                                <input type="text">
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    ĐƯỜNG
+									<input name="StadiumStreet" type="text" value="@Model.StadiumStreet">
+                                </label>
+                            </div>
 
-<div style="text-align:right; width: 300px;">
-    <form action="JoinUs" method="post">
-        <p>
-            <label for="FullName">*Họ và tên:</label>
-            <input type="text" name="FullName" value="@Model.FullName" />
-        </p>
-        <p>
-            <label for="Address">*Địa chỉ:</label>
-            <input type="text" name="Address" value="@Model.Address" />
-        </p>
-        <p>
-            <label for="PhoneNumber">*Số điện thoại:</label>
-            <input type="text" name="PhoneNumber" value="@Model.Phone" />
-        </p>
-        <p>
-            <label for="Email">*Email:</label>
-            <input type="text" name="Email" value="@Model.Email" />
-        </p>
-        <p>
-            <label for="StadiumName">*Tên sân bóng:</label>
-            <input type="text" name="StadiumName" value="@Model.StadiumName" />
-        </p>
-        <p>
-            <label for="StadiumAddress">*Địa chỉ sân bóng:</label>
-            <input type="text" name="StadiumAddress" value="@Model.StadiumAddress" />
-        </p>
-        <p>
-            <label for="Note">Yêu cầu:</label>
-            <textarea style="width:142px; resize:none" name="Note">@Model.Note</textarea>
-        </p>
-        <button type="submit">Gửi yêu cầu</button>
-        <button type="button" onclick="window.location = '/Home'">Hủy bỏ</button>
-    </form>
+                            <div class="span3">
+                                <label>
+                                    PHƯỜNG
+									<input name="StadiumWard" type="text" value="@Model.StadiumWard">
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    QUẬN
+                                    <select name="StadiumDistrict" id="district" data-cur="@Model.StadiumDistrict">
+                                        <option id="first_district" value="Q. 1" selected="selected">Q. 1</option>
+                                        <option value="Q. 2">Q. 2</option>
+                                        <option value="Q. 3">Q. 3</option>
+                                        <option value="Q. 4">Q. 4</option>
+                                        <option value="Q. 5">Q. 5</option>
+                                        <option value="Q. 6">Q. 6</option>
+                                        <option value="Q. 7">Q. 7</option>
+                                        <option value="Q. 8">Q. 8</option>
+                                        <option value="Q. 9">Q. 9</option>
+                                        <option value="Q. 10">Q. 10</option>
+                                        <option value="Q. 11">Q. 11</option>
+                                        <option value="Q. 12">Q. 12</option>
+                                        <option value="Q. Bình Tân">Q. Bình Tân</option>
+                                        <option value="Q. Bình Thạnh">Q. Bình Thạnh</option>
+                                        <option value="Q. Gò Vấp">Q. Gò Vấp</option>
+                                        <option value="Q. Phú Nhuận">Q. Phú Nhuận</option>
+                                        <option value="Q. Tân Bình">Q. Tân Bình</option>
+                                        <option value="Q. Tân Phú">Q. Tân Phú</option>
+                                        <option value="Q. Thủ Đức">Q. Thủ Đức</option>
+                                        <option value="H. Bình Chánh">H. Bình Chánh</option>
+                                        <option value="H. Củ Chi">H. Củ Chi</option>
+                                        <option value="H. Hóc Môn">H. Hóc Môn</option>
+                                        <option value="H. Nhà Bè">H. Nhà Bè</option>
+                                        <option value="H. Cần Giờ">H. Cần Giờ</option>
+                                    </select>
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $("#district").val($("#district").data("cur"));
+                                        });
+                                    </script>
+                                </label>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="span9">
+                                <legend><span>YÊU CẦU</span> ĐẶC BIỆT</legend>
+                                <textarea name="Note" class="span9" rows="3"></textarea>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="span9">
+                                <br />
+                                <button type="submit" class="btn btn-primary btn-large book-now pull-right">GỬI YÊU CẦU</button>
+                                <br />
+                                <br />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+
+
+
+
+            </div>
+
+            <div class="span3">
+                <br />
+                <br />
+                <h3><span>CƠ CHẾ</span> TIẾP NHẬN</h3>
+                <p>
+                    Sau khi bạn gửi yêu cầu gia nhập với chúng tôi, chúng tôi sẽ liên lạc với bạn trong thời gian sớm nhất để xác nhận lại thông tin và thỏa thuận giữa hai bên.
+					<div class="pull-left">Hỗ trợ : <i class="pull-right">mailbox@fpb.com</i> <i class="pull-right">+841662194419</i></div>
+                    <br />
+                </p>
+            </div>
+        </div>
+    </div>
 </div>
