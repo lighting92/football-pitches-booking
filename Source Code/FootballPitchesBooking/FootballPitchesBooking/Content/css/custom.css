@@ -1,36 +1,49 @@
+div.ui-datepicker
+{
+    font-size: 11px;
+}
+
 .header-account
 {
     width: 400px;
     text-align: right;
 }
+
 .main_menu
 {
     width: inherit;
 }
+
 .header-login-input
 {
     width: 180px;
 }
+
 .special-font
 {
     font-family: "courier";
 }
+
 .home #starttime.home-start-time
 {
     width: 110px;
 }
-.home #starttime.home-start-time[readonly]
-{
-    cursor: pointer;
-}
+
+    .home #starttime.home-start-time[readonly]
+    {
+        cursor: pointer;
+    }
+
 .select_duration
 {
     width: 137px;
 }
+
 .home .home_picktime .control-group
 {
     margin-bottom: 20px;
 }
+
 .home-btn-find
 {
     background-color: #B81007;
@@ -42,11 +55,13 @@
     transition: all 0.2s linear 0s;
     width: 100%;
 }
-.home-btn-find:hover
-{
-    color: #ffffff;
-    background-color: #f62115;
-}
+
+    .home-btn-find:hover
+    {
+        color: #ffffff;
+        background-color: #f62115;
+    }
+
 .btn-header-login
 {
     background-color: #B81007;
@@ -57,17 +72,19 @@
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
     transition: all 0.2s linear 0s;
 }
-.btn-header-login:hover
-{
-    color: #ffffff;
-    background-color: #f62115;
-}
+
+    .btn-header-login:hover
+    {
+        color: #ffffff;
+        background-color: #f62115;
+    }
 
 
 .stadium-image
 {
     position: relative;
 }
+
 .promotion-amount
 {
     position: absolute;
@@ -78,6 +95,7 @@
     padding: 5px 15px 5px 5px;
     background-color: orange;
 }
+
 .promotion-date
 {
     position: absolute;
@@ -90,6 +108,7 @@
     width: 280px;
     text-align: right;
 }
+
 .promotion
 {
     position: absolute;
@@ -101,11 +120,13 @@
     background-color: rgba(184, 16, 7, 0.8);
     width: 280px;
 }
+
 .stadium-image img
 {
     max-width: 100%;
     max-height: 100%;
 }
+
 .item-divider
 {
     width: 100%;
@@ -113,14 +134,17 @@
     border: 1px solid #e38d13;
     margin: 10px 0;
 }
+
 .stadium-name
 {
     font-weight: bold;
 }
+
 .r-name
 {
     font-weight: bold;
 }
+
 .rival-item
 {
     min-height: 226px;
