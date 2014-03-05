@@ -219,6 +219,7 @@ namespace FootballPitchesBooking.Controllers
             rank.RankName = form["RankName"];
             rank.Point = Int32.Parse(form["Point"]);
             rank.Promotion = form["Promotion"];
+            rank.ErrorMessages = new List<string>();
 
             if (string.IsNullOrEmpty(rank.RankName) || string.IsNullOrEmpty(rank.Promotion))
             {
