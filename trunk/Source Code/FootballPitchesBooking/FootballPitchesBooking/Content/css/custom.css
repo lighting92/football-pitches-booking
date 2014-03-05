@@ -1,0 +1,127 @@
+.header-account
+{
+    width: 400px;
+    text-align: right;
+}
+.main_menu
+{
+    width: inherit;
+}
+.header-login-input
+{
+    width: 180px;
+}
+.special-font
+{
+    font-family: "courier";
+}
+.home #starttime.home-start-time
+{
+    width: 110px;
+}
+.home #starttime.home-start-time[readonly]
+{
+    cursor: pointer;
+}
+.select_duration
+{
+    width: 137px;
+}
+.home .home_picktime .control-group
+{
+    margin-bottom: 20px;
+}
+.home-btn-find
+{
+    background-color: #B81007;
+    background-image: none;
+    background-repeat: no-repeat;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    color: #FFFFFF;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    transition: all 0.2s linear 0s;
+    width: 100%;
+}
+.home-btn-find:hover
+{
+    color: #ffffff;
+    background-color: #f62115;
+}
+.btn-header-login
+{
+    background-color: #B81007;
+    background-image: none;
+    background-repeat: no-repeat;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    color: #FFFFFF;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    transition: all 0.2s linear 0s;
+}
+.btn-header-login:hover
+{
+    color: #ffffff;
+    background-color: #f62115;
+}
+
+
+.stadium-image
+{
+    position: relative;
+}
+.promotion-amount
+{
+    position: absolute;
+    right: 0px;
+    top: 0;
+    height: 30px;
+    color: white;
+    padding: 5px 15px 5px 5px;
+    background-color: orange;
+}
+.promotion-date
+{
+    position: absolute;
+    left: 0px;
+    bottom: 0;
+    height: 30px;
+    color: white;
+    padding: 5px 15px 5px 5px;
+    background-color: rgba(184, 16, 7, 0.8);
+    width: 280px;
+    text-align: right;
+}
+.promotion
+{
+    position: absolute;
+    left: 0px;
+    bottom: 0;
+    height: 30px;
+    color: white;
+    padding: 5px 15px 5px 5px;
+    background-color: rgba(184, 16, 7, 0.8);
+    width: 280px;
+}
+.stadium-image img
+{
+    max-width: 100%;
+    max-height: 100%;
+}
+.item-divider
+{
+    width: 100%;
+    display: block;
+    border: 1px solid #e38d13;
+    margin: 10px 0;
+}
+.stadium-name
+{
+    font-weight: bold;
+}
+.r-name
+{
+    font-weight: bold;
+}
+.rival-item
+{
+    min-height: 226px;
+}
