@@ -179,13 +179,36 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Bootstrap\bootstrap-datetimepicker.css" />
-    <Content Include="Content\Bootstrap\bootstrap-datetimepicker.min.css" />
-    <Content Include="Content\Bootstrap\bootstrap-responsive.css" />
-    <Content Include="Content\Bootstrap\bootstrap-responsive.min.css" />
-    <Content Include="Content\Bootstrap\bootstrap.css" />
-    <Content Include="Content\Bootstrap\bootstrap.min.css" />
-    <Content Include="Content\Bootstrap\fileinput.css" />
+    <Content Include="Content\bootstrap\css\bootstrap-responsive.min.css" />
+    <Content Include="Content\bootstrap\css\bootstrap-timepicker.min.css" />
+    <Content Include="Content\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\bootstrap\img\glyphicons-halflings-white.png" />
+    <Content Include="Content\bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="Content\bootstrap\js\bootstrap.js" />
+    <Content Include="Content\css\custom.css" />
+    <Content Include="Content\css\fpb-responsive.css" />
+    <Content Include="Content\css\fpb.css" />
+    <Content Include="Content\css\images\airlines\ac_white.jpg" />
+    <Content Include="Content\css\images\airlines\ba2.gif" />
+    <Content Include="Content\css\images\airlines\delta3.gif" />
+    <Content Include="Content\css\images\airlines\virgin4.gif" />
+    <Content Include="Content\css\images\glyphicons-halflings-white.png" />
+    <Content Include="Content\css\images\glyphicons-halflings.png" />
+    <Content Include="Content\css\images\homepage\slide1.jpg" />
+    <Content Include="Content\css\images\homepage\slide2.jpg" />
+    <Content Include="Content\css\images\homepage\slide3.jpg" />
+    <Content Include="Content\css\images\icon-hd-s9293bc9986.png" />
+    <Content Include="Content\css\images\icon-s8df06ae4f6.png" />
+    <Content Include="Content\css\images\icon_marker.png" />
+    <Content Include="Content\css\images\stadiums\san11nguoi.png" />
+    <Content Include="Content\css\images\stadiums\san5nguoi.jpg" />
+    <Content Include="Content\css\images\stadiums\san7nguoi.jpg" />
+    <Content Include="Content\css\images\ui-bg_glass_75_ffffff_1x400.png" />
+    <Content Include="Content\css\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\css\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\css\nivo-slider.css" />
+    <Content Include="Content\css\socialcount-with-icons.css" />
+    <Content Include="Content\images\stadium.jpg" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -242,28 +265,23 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Models\FPB.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>FPB.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Scripts\jquery-1.8.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.8.2.js" />
-    <Content Include="Scripts\jquery-1.8.2.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery-ui-1.8.24.js" />
-    <Content Include="Scripts\jquery-ui-1.8.24.min.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\knockout-2.2.0.debug.js" />
-    <Content Include="Scripts\knockout-2.2.0.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\_references.js" />
+    <Content Include="Scripts\bootstrap-timepicker.js" />
+    <Content Include="Scripts\global.js" />
+    <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery.js" />
+    <Content Include="Scripts\jquery.nivo.slider.js" />
+    <Content Include="Scripts\jquery.quicksand.js" />
+    <Content Include="Scripts\jquery.ui.datepicker-vi-VN.js" />
+    <Content Include="Scripts\slider\arrows.png" />
+    <Content Include="Scripts\slider\bullets.png" />
+    <Content Include="Scripts\slider\default.css" />
+    <Content Include="Scripts\slider\loading.gif" />
+    <Content Include="Scripts\socialcount.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
