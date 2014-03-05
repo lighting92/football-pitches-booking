@@ -1,0 +1,39 @@
+﻿@model FootballPitchesBooking.Models.RankModels.AddRankModel
+@{
+    ViewBag.Title = "AddMemberRank";
+}
+
+<h2>AddMemberRank</h2>
+@if (Model != null && Model.ErrorMessage.Count() > 0)
+{
+    <div style="color:red">
+        @foreach (var error in Model.ErrorMessage)
+        {
+            <p>- @error</p>
+        }
+    </div>
+}
+
+<form action="AddRank" method="post">
+    <table> 
+        <tr>
+            <td>Tên Hạng:</td>
+            <td><input type="text" name="Owner" value="" /></td>
+        </tr>
+        <tr>
+            <td>Điểm:</td>
+            <td><input type="text" name="StadiumName" value="" /></td>
+        </tr>
+        <tr>
+            <td>Phần Thưởng:</td>
+            <td><input type="text" name="Street" value="" /></td>
+        </tr> 
+        
+        <tr>
+            <td colspan="2">
+                <button type="submit">Lưu</button>
+                <button type="button" onclick="window.location = '/WebsiteStaff/Index'">Hủy bỏ</button>
+            </td>
+        </tr>
+    </table>
+</form>

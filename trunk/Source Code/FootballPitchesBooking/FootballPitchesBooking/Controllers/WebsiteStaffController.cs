@@ -1,5 +1,6 @@
 ﻿using FootballPitchesBooking.BusinessObjects;
 using FootballPitchesBooking.Models;
+using FootballPitchesBooking.Models.RankModels;
 using FootballPitchesBooking.Properties;
 using System;
 using System.Collections.Generic;
@@ -204,6 +205,51 @@ namespace FootballPitchesBooking.Controllers
                 // Wrtite to log file.
                 return View("Error");
             }
+        }
+
+        public ActionResult AddMemberRank()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddMemberRank(FormCollection form)
+        {
+            AddRankModel add = new AddRankModel();
+            add.RankName = form["RankName"];
+            add.Point = Int32.Parse(form["Point"]);
+            add.Promotion = form["Promotion"];
+
+            if (string.IsNullOrEmpty(add.RankName) || string.IsNullOrEmpty(add.Promotion))
+            {
+                add.ErrorMessage = Resources.Form_EmptyFields;
+            }
+
+            if (string.IsNullOrEmpty(add.ErrorMessage))
+            {
+                WebsiteBO websiteBO = new WebsiteBO();
+
+                MemberRank memberrank = new MemberRank
+                {
+                    RankName = add.RankName,
+                    Point = add.Point,
+                    Promotion = add.Promotion,
+                    
+                };
+
+                int result = websiteBO.CreateMemberRank(memberrank);
+
+                if (result > 0)
+                {
+                    //success
+                }
+                else
+                {
+                    add.ErrorMessage = Resources.DB_Exception;
+                }
+               
+            }
+            return View(add);
         }
     }
 }
