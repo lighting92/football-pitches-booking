@@ -24,6 +24,21 @@ namespace FootballPitchesBooking.DataAccessObjects
         /// </summary>
         /// <returns>List Ranks</returns>
 
+        public int CreateMemberRank(MemberRank rank)
+        {
+           
+            db.MemberRanks.InsertOnSubmit(rank);
+            try
+            {
+                db.SubmitChanges();
+                return rank.Id;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
         public List<MemberRank> Select()
         {
             try
