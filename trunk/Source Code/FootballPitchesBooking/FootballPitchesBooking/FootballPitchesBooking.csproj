@@ -167,6 +167,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FPB.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Models\RankModels\RankModel.cs" />
     <Compile Include="Models\StadiumModels\AddStadiumModel.cs" />
     <Compile Include="Models\StadiumModels\JoinUsModel.cs" />
     <Compile Include="Models\NoModel.cs" />
@@ -328,6 +329,7 @@
     <Content Include="Views\Shared\_WebsiteStaffLayout.cshtml" />
     <Content Include="Views\WebsiteStaff\EditJSR.cshtml" />
     <Content Include="Views\WebsiteStaff\Error.cshtml" />
+    <Content Include="Views\WebsiteStaff\AddMemberRank.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
