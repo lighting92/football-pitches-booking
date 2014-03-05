@@ -222,7 +222,33 @@ namespace FootballPitchesBooking.BusinessObjects
             return ranks;
         }
 
-        
+        //View account profile
+        public User ViewAccountProfile(int userId) 
+        {
+            UserDAO userDAO = new UserDAO();
+            return userDAO.GetUserByUserId(userId);
+        }
 
+
+        //Get all role 
+        public List<Role> getAllRole()
+        {
+            RoleDAO roleDAO = new RoleDAO();
+            return roleDAO.GetAllRoles();
+        }
+
+        //Get role name
+        public Role getRoleName(int roleId)
+        {
+            RoleDAO roleDAO = new RoleDAO();
+            return roleDAO.GetRoleNameById(roleId);
+        }
+
+        //Update role
+        public int updateRole(int userID, int roleId)
+        {
+            RoleDAO roleDAO = new RoleDAO();
+            return roleDAO.UpdateRole(roleId, roleId);
+        }
     }
 }
