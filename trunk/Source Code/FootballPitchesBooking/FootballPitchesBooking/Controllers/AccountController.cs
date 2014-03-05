@@ -175,5 +175,34 @@ namespace FootballPitchesBooking.Controllers
             }
             return View(reg);
         }
+
+        
+        // GET: /Account/View Account Profile           
+        public ActionResult ViewAccountProfile(int id)
+        {
+            UserBO userBO = new UserBO();
+            User user = userBO.ViewAccountProfile(id);
+            ViewBag.user = user;
+            ViewBag.role = userBO.getRoleName(Int32.Parse(user.RoleId.ToString()));
+            return View(userBO.getAllRole()); 
+        }
+
+        //POST: Update Role
+        [HttpPost]
+        public ActionResult UpdateUser(FormCollection form, int userId)
+        {
+            int roleId = 0;
+            int.TryParse(form["Role"], out roleId);
+            UserBO userBO = new UserBO();
+            if (userBO.updateRole(userId, roleId) > 0)
+            {
+                return RedirectToAction("Users", "WebsiteStaff");
+            }
+            else
+            {
+                return RedirectToAction("ViewAccountProfile", "AccountController", userId);
+            }
+
+        }
     }
 }
