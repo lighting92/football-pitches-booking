@@ -84,6 +84,22 @@ textarea
         background-color: #f62115;
     }
 
+.home-btn-book
+{
+    background-color: #B81007;
+    background-image: none;
+    background-repeat: no-repeat;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    color: #FFFFFF;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    transition: all 0.2s linear 0s;
+}
+
+    .home-btn-book:hover
+    {
+        color: #ffffff;
+        background-color: #f62115;
+    }
 
 .stadium-image
 {
