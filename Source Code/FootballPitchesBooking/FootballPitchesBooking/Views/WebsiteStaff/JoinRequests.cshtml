@@ -1,9 +1,10 @@
 ﻿@model List<FootballPitchesBooking.Models.JoinSystemRequest>
 @{
-    ViewBag.Title = "JoinRequests";
+    ViewBag.Title = "QUẢN LÝ YÊU CẦU THAM GIA HỆ THỐNG";
+    Layout = "~/Views/Shared/_WebsiteStaffLayout.cshtml";
 }
 
-<h2>Yêu Cầu Tham Gia Hệ Thống</h2>
+<h1><span>QUẢN LÝ</span> YÊU CẦU THAM GIA HỆ THỐNG</h1>
 
 @if (TempData["DeleteError"] != null)
 {
@@ -12,7 +13,7 @@
 
 @if (Model != null && Model.Count != 0)
 {
-    <table>
+    <table border="1">
         <thead>
             <tr>
                 <th>Tên Tài Khoản</th>

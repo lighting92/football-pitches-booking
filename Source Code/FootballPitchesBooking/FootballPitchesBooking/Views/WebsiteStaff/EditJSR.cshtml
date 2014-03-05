@@ -1,43 +1,78 @@
-﻿@model FootballPitchesBooking.Models.StadiumModels.JoinUsModel
+﻿@model FootballPitchesBooking.Models.WebsiteStaffModels.EditJSRModel
 @{
-    ViewBag.Title = "GIA NHẬP";
+    ViewBag.Title = "SỬA THÔNG TIN YÊU CẦU";
+    Layout = "~/Views/Shared/_WebsiteStaffLayout.cshtml";
 }
 
 <div class="row join-us">
     <div class="span12">
         <div class="row">
             <div class="span9">
-                <form action="JoinUs" method="post" class="form-horizontal">
+                <form action="EditJSR?Id=@Request.QueryString["Id"]" method="post" class="form-horizontal">
                     <fieldset>
                         <br />
                         <br />
-                        <h1>Đăng Ký Sân Bóng Của Bạn
-                            <br />
-                            <small>ĐIỀN ĐẦY ĐỦ VÀO MẪU BÊN DƯỚI ĐỂ GỬI YÊU CẦU.</small>
+                        <h1>SỬA THÔNG TIN YÊU CẦU GIA NHẬP
                         </h1>
                         <br />
                         @if (!string.IsNullOrEmpty(Model.ErrorMessage))
                         {
                             <div class="alert alert-danger">@Model.ErrorMessage</div>
                         }
+                        else if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                        {
+                            <div class="alert alert-success">@Model.SuccessMessage</div>
+                        }
                         <div class="row">
                             <div class="span8">
-                                <legend><span>TÊN</span> CỦA BẠN</legend>
+                                <legend><span>THÔNG TIN </span>CƠ BẢN</legend>
                             </div>
                             <div class="span3">
                                 <label>
-                                    <input name="FullName" type="text" placeholder="HỌ VÀ TÊN" value="@Model.FullName">
+                                    TRẠNG THÁI XỬ LÝ
+                                    <select id="status" name="Status" data-cur="@Model.Status">
+                                        <option value="MỚI">MỚI</option>
+                                        <option value="ĐANG XỬ LÝ">ĐANG XỬ LÝ</option>
+                                        <option value="KHÔNG CHẤP NHẬN">KHÔNG CHẤP NHẬN</option>
+                                        <option value="CHẤP NHẬN">CHẤP NHẬN</option>
+                                    </select>
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $("#status").val($("#status").data("cur"));
+                                        });
+                                    </script>
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    NGÀY GỬI YÊU CẦU
+                                    <input name="CreateDate" type="text" placeholder="NGÀY GỬI YÊU CẦU" value="@Model.CreateDate" readonly>
                                 </label>
                             </div>
                         </div>
-                        <br />
                         <div class="row">
                             <div class="span8">
-                                <legend><span>THÔNG TIN</span> LIÊN LẠC</legend>
+                                <legend><span>THÔNG TIN</span> NGƯỜI YÊU CẦU</legend>
                             </div>
                             <div class="span3">
                                 <label>
-                                    Địa Chỉ E-Mail
+                                    TÊN TÀI KHOẢN
+                                    <input name="UserName" type="text" placeholder="HỌ VÀ TÊN" value="@Model.UserName" readonly>
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    HỌ VÀ TÊN
+                                    <input name="FullName" type="text" placeholder="HỌ VÀ TÊN" value="@Model.FullName">
+                                </label>
+                            </div>
+                             <div class="span3" style="visibility: hidden;">
+                                <label>&nbsp</label>
+                                <input type="text">
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    ĐỊA CHỈ E-MAIL
 									<input name="Email" type="text" value="@Model.Email">
                                 </label>
                             </div>
@@ -58,7 +93,7 @@
                         <br />
                         <div class="row">
                             <div class="span8">
-                                <legend><span>SÂN BÓNG</span> CỦA BẠN</legend>
+                                <legend><span>SÂN BÓNG</span> GIA NHẬP</legend>
                             </div>
                             <div class="span3">
                                 <label>
@@ -126,34 +161,18 @@
                                 <legend><span>YÊU CẦU</span> ĐẶC BIỆT</legend>
                                 <textarea name="Note" class="span9" rows="3">@Model.Note</textarea>
                             </div>
-
                         </div>
-
                         <div class="row">
                             <div class="span9">
                                 <br />
-                                <button type="submit" class="btn btn-primary btn-large book-now pull-right">GỬI YÊU CẦU</button>
+                                <button type="button" onclick="window.location='/WebsiteStaff/JoinRequests'" class="btn btn-primary btn-large book-now pull-right">HỦY BỎ</button>
+                                <button type="submit" class="btn btn-primary btn-large book-now pull-right">CẬP NHẬT</button>
                                 <br />
                                 <br />
                             </div>
                         </div>
                     </fieldset>
                 </form>
-
-
-
-
-            </div>
-
-            <div class="span3">
-                <br />
-                <br />
-                <h3><span>CƠ CHẾ</span> TIẾP NHẬN</h3>
-                <p>
-                    Sau khi bạn gửi yêu cầu gia nhập với chúng tôi, chúng tôi sẽ liên lạc với bạn trong thời gian sớm nhất để xác nhận lại thông tin và thỏa thuận giữa hai bên.
-					<div class="pull-left">Hỗ trợ : <i class="pull-right">mailbox@fpb.com</i> <i class="pull-right">+841662194419</i></div>
-                    <br />
-                </p>
             </div>
         </div>
     </div>

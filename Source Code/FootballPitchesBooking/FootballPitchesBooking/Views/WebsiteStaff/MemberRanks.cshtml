@@ -8,7 +8,7 @@
 <br />
 <div class="search_content" style="background-image: none; background-color: white">
     <div>
-        @using (Ajax.BeginForm("Index", "Rank", new AjaxOptions
+        @using (Ajax.BeginForm("MemberRanks", "WebsiteStaff", new AjaxOptions
             {
                 InsertionMode = InsertionMode.Replace,
                 HttpMethod = "GET",
@@ -18,7 +18,7 @@
             @Html.TextBox("keyWord", "", new { placeholder = "Name of Rank" })
             <button type="submit" class="btn" value="Search" style="width: 80px;">
                 Search</button>
-            @Html.ActionLink("Reload", "Index", "Rank", null, new { @class = "btn", style = "width:54px" })
+            @Html.ActionLink("Reload", "MemberRanks", "WebsiteStaff", null, new { @class = "btn", style = "width:54px" })
         }
     </div>
 </div>
