@@ -52,7 +52,7 @@ namespace FootballPitchesBooking.DataAccessObjects
             try
             {
                 db.SubmitChanges();
-                return stadium.Id;
+                return currentStadium.Id;
             }
             catch (Exception)
             {

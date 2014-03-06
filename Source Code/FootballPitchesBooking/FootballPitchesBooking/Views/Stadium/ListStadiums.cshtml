@@ -16,7 +16,7 @@
     @foreach (var stadium in Model)
     {
         <tr>
-            <td><a href="@Url.Action("Edit", "Stadium", new { s = stadium.Id }, null)">@stadium.Name</a></td>
+            <td><a href="@Url.Action("EditStadium", "Stadium", new { s = stadium.Id }, null)">@stadium.Name</a></td>
             <td>@String.Concat(stadium.Street, " - ", stadium.Ward, " - ", stadium.District, " - ", stadium.City)</td>
             <td><input type="checkbox" name="IsActive" checked="@((bool)stadium.IsActive?"checked":"")" /></td>
         </tr> 
