@@ -21,6 +21,10 @@ namespace FootballPitchesBooking.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public ActionResult ListStadiums()
         {
             StadiumBO stadiumBO = new StadiumBO();
@@ -29,50 +33,59 @@ namespace FootballPitchesBooking.Controllers
             return View(listStadiums);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public ActionResult AddStadium()
         {
             return View();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="form"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult AddStadium(FormCollection form)
         {
-            AddStadiumModel add = new AddStadiumModel();
-            add.Owner = form["Owner"];
-            add.Name = form["StadiumName"];
-            add.Street = form["Street"];
-            add.Ward = form["Ward"];
-            add.District = form["District"];
-            add.City = form["City"];
-            add.PhoneNumber = form["PhoneNumber"];
-            add.Email = form["Email"];
-            add.Description = form["Description"];
-            add.ErrorMessages = new List<string>();
+            StadiumModel std = new StadiumModel();
+            std.Owner = form["Owner"];
+            std.Name = form["StadiumName"];
+            std.Street = form["Street"];
+            std.Ward = form["Ward"];
+            std.District = form["District"];
+            std.City = form["City"];
+            std.PhoneNumber = form["PhoneNumber"];
+            std.Email = form["Email"];
+            std.Description = form["Description"];
+            std.ErrorMessages = new List<string>();
 
-            if (string.IsNullOrEmpty(add.Owner) || string.IsNullOrEmpty(add.Name) || string.IsNullOrEmpty(add.Street) ||
-                string.IsNullOrEmpty(add.Ward) || string.IsNullOrEmpty(add.District) || string.IsNullOrEmpty(add.City) ||
-                string.IsNullOrEmpty(add.PhoneNumber) || string.IsNullOrEmpty(add.Email) || string.IsNullOrEmpty(add.Description))
+            if (string.IsNullOrEmpty(std.Owner) || string.IsNullOrEmpty(std.Name) || string.IsNullOrEmpty(std.Street) ||
+                string.IsNullOrEmpty(std.Ward) || string.IsNullOrEmpty(std.District) || string.IsNullOrEmpty(std.City) ||
+                string.IsNullOrEmpty(std.PhoneNumber) || string.IsNullOrEmpty(std.Email) || string.IsNullOrEmpty(std.Description))
             {
-                add.ErrorMessages.Add(Resources.Form_EmptyFields);
+                std.ErrorMessages.Add(Resources.Form_EmptyFields);
             }
 
-            if (add.ErrorMessages.Count == 0)
+            if (std.ErrorMessages.Count == 0)
             {
                 StadiumBO stadiumBO = new StadiumBO();
 
                 Stadium stadium = new Stadium
                 {
-                    Name = add.Name,
-                    Street = add.Street,
-                    Ward = add.Ward,
-                    District = add.District,
-                    City = add.City,
-                    Phone = add.PhoneNumber,
-                    Email = add.Email,
-                    Description = add.Description
+                    Name = std.Name,
+                    Street = std.Street,
+                    Ward = std.Ward,
+                    District = std.District,
+                    City = std.City,
+                    Phone = std.PhoneNumber,
+                    Email = std.Email,
+                    Description = std.Description
                 };
 
-                List<int> results = stadiumBO.CreateStadium(stadium, add.Owner);
+                List<int> results = stadiumBO.CreateStadium(stadium, std.Owner);
 
                 if (results.Count == 2 && results[1] > 0)
                 {
@@ -84,16 +97,109 @@ namespace FootballPitchesBooking.Controllers
                     {
                         if (error == 0) 
                         {
-                            add.ErrorMessages.Add(Resources.DB_Exception);
+                            std.ErrorMessages.Add(Resources.DB_Exception);
                         }
                         else if (error == -1)
                         {
-                            add.ErrorMessages.Add(Resources.User_UserNotMatched);
+                            std.ErrorMessages.Add(Resources.User_UserNotMatched);
                         }
                     }
                 }
             }
-            return View(add);
+            return View(std);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult EditStadium(int? s)
+        {
+            if (s == null)
+            {
+                return RedirectToAction("ListStadiums", "Stadium");
+            }
+            else
+            {
+                StadiumBO stadiumBO = new StadiumBO();
+                Stadium stadium = stadiumBO.GetStadiumById((int)s);
+                StadiumModel std = new StadiumModel 
+                {
+                    Id = stadium.Id,
+                    Name = stadium.Name,
+                    Street = stadium.Street,
+                    Ward = stadium.Ward,
+                    District = stadium.District,
+                    City = stadium.City,
+                    PhoneNumber = stadium.Phone,
+                    Email = stadium.Email,
+                    Description = stadium.Description,
+                    IsActive = stadium.IsActive,
+                    ErrorMessages = new List<string>()
+                };
+                return View(std);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="form"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult EditStadium(FormCollection form)
+        {
+            StadiumModel std = new StadiumModel();
+            std.Id = int.Parse(form["StadiumId"]);
+            std.Name = form["StadiumName"];
+            std.Street = form["Street"];
+            std.Ward = form["Ward"];
+            std.District = form["District"];
+            std.City = form["City"];
+            std.PhoneNumber = form["PhoneNumber"];
+            std.Email = form["Email"];
+            std.Description = form["Description"];
+            string aa = form["IsActive"];
+            //std.IsActive = bool.Parse(form["IsActive"]);
+            std.ErrorMessages = new List<string>();
+
+            if (string.IsNullOrEmpty(std.Name) || string.IsNullOrEmpty(std.Street) || string.IsNullOrEmpty(std.Ward) || 
+                string.IsNullOrEmpty(std.District) || string.IsNullOrEmpty(std.City) || string.IsNullOrEmpty(std.PhoneNumber) || 
+                string.IsNullOrEmpty(std.Email) || string.IsNullOrEmpty(std.Description))
+            {
+                std.ErrorMessages.Add(Resources.Form_EmptyFields);
+            }
+
+            if (std.ErrorMessages.Count == 0)
+            {
+                StadiumBO stadiumBO = new StadiumBO();
+
+                Stadium stadium = new Stadium
+                {
+                    Id = std.Id,
+                    Name = std.Name,
+                    Street = std.Street,
+                    Ward = std.Ward,
+                    District = std.District,
+                    City = std.City,
+                    Phone = std.PhoneNumber,
+                    Email = std.Email,
+                    Description = std.Description,
+                    //IsActive = std.IsActive
+                };
+
+                int results = stadiumBO.UpdateStadiumProfiles(stadium);
+
+                if (results > 0)
+                {
+                    return RedirectToAction("ListStadiums", "Stadium");
+                }
+                else if (results == 0)
+                {
+                    std.ErrorMessages.Add(Resources.DB_Exception);
+                }
+            }
+            return View(std);
         }
 
         //

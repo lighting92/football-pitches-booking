@@ -2296,7 +2296,7 @@ namespace FootballPitchesBooking.Models
 		
 		private double _Discount;
 		
-		private System.Nullable<int> _Creator;
+		private int _Creator;
 		
 		private System.Nullable<bool> _IsActive;
 		
@@ -2436,7 +2436,7 @@ namespace FootballPitchesBooking.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Creator", DbType="Int")]
-		public System.Nullable<int> Creator
+		public int Creator
 		{
 			get
 			{
@@ -3505,7 +3505,7 @@ namespace FootballPitchesBooking.Models
 		
 		private string _Email;
 		
-		private System.Nullable<bool> _IsActive;
+		private bool _IsActive;
 		
 		private EntitySet<Field> _Fields;
 		
@@ -3734,7 +3734,7 @@ namespace FootballPitchesBooking.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActive", DbType="Bit")]
-		public System.Nullable<bool> IsActive
+		public bool IsActive
 		{
 			get
 			{

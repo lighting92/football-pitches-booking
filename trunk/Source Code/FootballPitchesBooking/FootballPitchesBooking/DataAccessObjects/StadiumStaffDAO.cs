@@ -29,5 +29,24 @@ namespace FootballPitchesBooking.DataAccessObjects
             }
         }
 
+        public int UpdateStadiumStaff(StadiumStaff stadiumStaff)
+        {
+            FPBDataContext db = new FPBDataContext();
+            StadiumStaff currentStadiumStaff = db.StadiumStaffs.Where(s => s.Id == stadiumStaff.Id).FirstOrDefault();
+            currentStadiumStaff.UserId = stadiumStaff.UserId;
+            currentStadiumStaff.StadiumId = stadiumStaff.StadiumId;
+            currentStadiumStaff.IsOwner = stadiumStaff.IsOwner;
+
+            try
+            {
+                db.SubmitChanges();
+                return currentStadiumStaff.Id;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
     }
 }
