@@ -43,8 +43,6 @@ namespace FootballPitchesBooking.DataAccessObjects
             currentStadium.Street = stadium.Street;
             currentStadium.Ward = stadium.Ward;
             currentStadium.District = stadium.District;
-            currentStadium.City = stadium.City;
-            currentStadium.Description = stadium.Description;
             currentStadium.Phone = stadium.Phone;
             currentStadium.Email = stadium.Email;
             currentStadium.IsActive = stadium.IsActive;
@@ -70,6 +68,22 @@ namespace FootballPitchesBooking.DataAccessObjects
             {
                 db.SubmitChanges();
                 return stadium.Id;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+        public int DeleteStadium(int stadiumId)
+        {
+            FPBDataContext db = new FPBDataContext();
+            Stadium stadium = db.Stadiums.Where(s => s.Id == stadiumId).FirstOrDefault();
+            try
+            {
+                db.Stadiums.DeleteOnSubmit(stadium);
+                db.SubmitChanges();
+                return 1;
             }
             catch (Exception)
             {

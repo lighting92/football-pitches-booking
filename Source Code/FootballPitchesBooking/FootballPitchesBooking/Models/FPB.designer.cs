@@ -33,9 +33,9 @@ namespace FootballPitchesBooking.Models
     partial void InsertAdvertisement(Advertisement instance);
     partial void UpdateAdvertisement(Advertisement instance);
     partial void DeleteAdvertisement(Advertisement instance);
-    partial void InsertUser(User instance);
-    partial void UpdateUser(User instance);
-    partial void DeleteUser(User instance);
+    partial void InsertStadiumStaff(StadiumStaff instance);
+    partial void UpdateStadiumStaff(StadiumStaff instance);
+    partial void DeleteStadiumStaff(StadiumStaff instance);
     partial void InsertField(Field instance);
     partial void UpdateField(Field instance);
     partial void DeleteField(Field instance);
@@ -69,9 +69,9 @@ namespace FootballPitchesBooking.Models
     partial void InsertStadiumReview(StadiumReview instance);
     partial void UpdateStadiumReview(StadiumReview instance);
     partial void DeleteStadiumReview(StadiumReview instance);
-    partial void InsertStadiumStaff(StadiumStaff instance);
-    partial void UpdateStadiumStaff(StadiumStaff instance);
-    partial void DeleteStadiumStaff(StadiumStaff instance);
+    partial void InsertUser(User instance);
+    partial void UpdateUser(User instance);
+    partial void DeleteUser(User instance);
     #endregion
 		
 		public FPBDataContext() : 
@@ -112,11 +112,11 @@ namespace FootballPitchesBooking.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<User> Users
+		public System.Data.Linq.Table<StadiumStaff> StadiumStaffs
 		{
 			get
 			{
-				return this.GetTable<User>();
+				return this.GetTable<StadiumStaff>();
 			}
 		}
 		
@@ -208,11 +208,11 @@ namespace FootballPitchesBooking.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<StadiumStaff> StadiumStaffs
+		public System.Data.Linq.Table<User> Users
 		{
 			get
 			{
-				return this.GetTable<StadiumStaff>();
+				return this.GetTable<User>();
 			}
 		}
 	}
@@ -464,61 +464,23 @@ namespace FootballPitchesBooking.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[User]")]
-	public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.StadiumStaff")]
+	public partial class StadiumStaff : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private int _Id;
 		
-		private string _UserName;
+		private int _UserId;
 		
-		private string _Password;
+		private int _StadiumId;
 		
-		private string _FullName;
+		private bool _IsOwner;
 		
-		private string _Address;
+		private EntityRef<Stadium> _Stadium;
 		
-		private string _PhoneNumber;
-		
-		private string _Email;
-		
-		private int _Point;
-		
-		private int _RankId;
-		
-		private bool _IsReceivedReward;
-		
-		private System.DateTime _JoinDate;
-		
-		private bool _IsActive;
-		
-		private System.Nullable<int> _RoleId;
-		
-		private EntitySet<Advertisement> _Advertisements;
-		
-		private EntitySet<JoinSystemRequest> _JoinSystemRequests;
-		
-		private EntitySet<Reservation> _Reservations;
-		
-		private EntitySet<Reservation> _Reservations1;
-		
-		private EntitySet<Reservation> _Reservations2;
-		
-		private EntitySet<Reservation> _Reservations3;
-		
-		private EntitySet<StadiumRating> _StadiumRatings;
-		
-		private EntitySet<StadiumReview> _StadiumReviews;
-		
-		private EntitySet<StadiumReview> _StadiumReviews1;
-		
-		private EntitySet<StadiumStaff> _StadiumStaffs;
-		
-		private EntityRef<MemberRank> _MemberRank;
-		
-		private EntityRef<Role> _Role;
+		private EntityRef<User> _User;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -526,46 +488,18 @@ namespace FootballPitchesBooking.Models
     partial void OnCreated();
     partial void OnIdChanging(int value);
     partial void OnIdChanged();
-    partial void OnUserNameChanging(string value);
-    partial void OnUserNameChanged();
-    partial void OnPasswordChanging(string value);
-    partial void OnPasswordChanged();
-    partial void OnFullNameChanging(string value);
-    partial void OnFullNameChanged();
-    partial void OnAddressChanging(string value);
-    partial void OnAddressChanged();
-    partial void OnPhoneNumberChanging(string value);
-    partial void OnPhoneNumberChanged();
-    partial void OnEmailChanging(string value);
-    partial void OnEmailChanged();
-    partial void OnPointChanging(int value);
-    partial void OnPointChanged();
-    partial void OnRankIdChanging(int value);
-    partial void OnRankIdChanged();
-    partial void OnIsReceivedRewardChanging(bool value);
-    partial void OnIsReceivedRewardChanged();
-    partial void OnJoinDateChanging(System.DateTime value);
-    partial void OnJoinDateChanged();
-    partial void OnIsActiveChanging(bool value);
-    partial void OnIsActiveChanged();
-    partial void OnRoleIdChanging(System.Nullable<int> value);
-    partial void OnRoleIdChanged();
+    partial void OnUserIdChanging(int value);
+    partial void OnUserIdChanged();
+    partial void OnStadiumIdChanging(int value);
+    partial void OnStadiumIdChanged();
+    partial void OnIsOwnerChanging(bool value);
+    partial void OnIsOwnerChanged();
     #endregion
 		
-		public User()
+		public StadiumStaff()
 		{
-			this._Advertisements = new EntitySet<Advertisement>(new Action<Advertisement>(this.attach_Advertisements), new Action<Advertisement>(this.detach_Advertisements));
-			this._JoinSystemRequests = new EntitySet<JoinSystemRequest>(new Action<JoinSystemRequest>(this.attach_JoinSystemRequests), new Action<JoinSystemRequest>(this.detach_JoinSystemRequests));
-			this._Reservations = new EntitySet<Reservation>(new Action<Reservation>(this.attach_Reservations), new Action<Reservation>(this.detach_Reservations));
-			this._Reservations1 = new EntitySet<Reservation>(new Action<Reservation>(this.attach_Reservations1), new Action<Reservation>(this.detach_Reservations1));
-			this._Reservations2 = new EntitySet<Reservation>(new Action<Reservation>(this.attach_Reservations2), new Action<Reservation>(this.detach_Reservations2));
-			this._Reservations3 = new EntitySet<Reservation>(new Action<Reservation>(this.attach_Reservations3), new Action<Reservation>(this.detach_Reservations3));
-			this._StadiumRatings = new EntitySet<StadiumRating>(new Action<StadiumRating>(this.attach_StadiumRatings), new Action<StadiumRating>(this.detach_StadiumRatings));
-			this._StadiumReviews = new EntitySet<StadiumReview>(new Action<StadiumReview>(this.attach_StadiumReviews), new Action<StadiumReview>(this.detach_StadiumReviews));
-			this._StadiumReviews1 = new EntitySet<StadiumReview>(new Action<StadiumReview>(this.attach_StadiumReviews1), new Action<StadiumReview>(this.detach_StadiumReviews1));
-			this._StadiumStaffs = new EntitySet<StadiumStaff>(new Action<StadiumStaff>(this.attach_StadiumStaffs), new Action<StadiumStaff>(this.detach_StadiumStaffs));
-			this._MemberRank = default(EntityRef<MemberRank>);
-			this._Role = default(EntityRef<Role>);
+			this._Stadium = default(EntityRef<Stadium>);
+			this._User = default(EntityRef<User>);
 			OnCreated();
 		}
 		
@@ -589,448 +523,138 @@ namespace FootballPitchesBooking.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string UserName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="Int NOT NULL")]
+		public int UserId
 		{
 			get
 			{
-				return this._UserName;
+				return this._UserId;
 			}
 			set
 			{
-				if ((this._UserName != value))
+				if ((this._UserId != value))
 				{
-					this.OnUserNameChanging(value);
-					this.SendPropertyChanging();
-					this._UserName = value;
-					this.SendPropertyChanged("UserName");
-					this.OnUserNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string Password
-		{
-			get
-			{
-				return this._Password;
-			}
-			set
-			{
-				if ((this._Password != value))
-				{
-					this.OnPasswordChanging(value);
-					this.SendPropertyChanging();
-					this._Password = value;
-					this.SendPropertyChanged("Password");
-					this.OnPasswordChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FullName", DbType="NVarChar(50)")]
-		public string FullName
-		{
-			get
-			{
-				return this._FullName;
-			}
-			set
-			{
-				if ((this._FullName != value))
-				{
-					this.OnFullNameChanging(value);
-					this.SendPropertyChanging();
-					this._FullName = value;
-					this.SendPropertyChanged("FullName");
-					this.OnFullNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="NVarChar(100)")]
-		public string Address
-		{
-			get
-			{
-				return this._Address;
-			}
-			set
-			{
-				if ((this._Address != value))
-				{
-					this.OnAddressChanging(value);
-					this.SendPropertyChanging();
-					this._Address = value;
-					this.SendPropertyChanged("Address");
-					this.OnAddressChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PhoneNumber", DbType="NVarChar(20)")]
-		public string PhoneNumber
-		{
-			get
-			{
-				return this._PhoneNumber;
-			}
-			set
-			{
-				if ((this._PhoneNumber != value))
-				{
-					this.OnPhoneNumberChanging(value);
-					this.SendPropertyChanging();
-					this._PhoneNumber = value;
-					this.SendPropertyChanged("PhoneNumber");
-					this.OnPhoneNumberChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string Email
-		{
-			get
-			{
-				return this._Email;
-			}
-			set
-			{
-				if ((this._Email != value))
-				{
-					this.OnEmailChanging(value);
-					this.SendPropertyChanging();
-					this._Email = value;
-					this.SendPropertyChanged("Email");
-					this.OnEmailChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Point", DbType="Int NOT NULL")]
-		public int Point
-		{
-			get
-			{
-				return this._Point;
-			}
-			set
-			{
-				if ((this._Point != value))
-				{
-					this.OnPointChanging(value);
-					this.SendPropertyChanging();
-					this._Point = value;
-					this.SendPropertyChanged("Point");
-					this.OnPointChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RankId", DbType="Int NOT NULL")]
-		public int RankId
-		{
-			get
-			{
-				return this._RankId;
-			}
-			set
-			{
-				if ((this._RankId != value))
-				{
-					if (this._MemberRank.HasLoadedOrAssignedValue)
+					if (this._User.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnRankIdChanging(value);
+					this.OnUserIdChanging(value);
 					this.SendPropertyChanging();
-					this._RankId = value;
-					this.SendPropertyChanged("RankId");
-					this.OnRankIdChanged();
+					this._UserId = value;
+					this.SendPropertyChanged("UserId");
+					this.OnUserIdChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsReceivedReward", DbType="Bit NOT NULL")]
-		public bool IsReceivedReward
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StadiumId", DbType="Int NOT NULL")]
+		public int StadiumId
 		{
 			get
 			{
-				return this._IsReceivedReward;
+				return this._StadiumId;
 			}
 			set
 			{
-				if ((this._IsReceivedReward != value))
+				if ((this._StadiumId != value))
 				{
-					this.OnIsReceivedRewardChanging(value);
-					this.SendPropertyChanging();
-					this._IsReceivedReward = value;
-					this.SendPropertyChanged("IsReceivedReward");
-					this.OnIsReceivedRewardChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_JoinDate", DbType="Date NOT NULL")]
-		public System.DateTime JoinDate
-		{
-			get
-			{
-				return this._JoinDate;
-			}
-			set
-			{
-				if ((this._JoinDate != value))
-				{
-					this.OnJoinDateChanging(value);
-					this.SendPropertyChanging();
-					this._JoinDate = value;
-					this.SendPropertyChanged("JoinDate");
-					this.OnJoinDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActive", DbType="Bit NOT NULL")]
-		public bool IsActive
-		{
-			get
-			{
-				return this._IsActive;
-			}
-			set
-			{
-				if ((this._IsActive != value))
-				{
-					this.OnIsActiveChanging(value);
-					this.SendPropertyChanging();
-					this._IsActive = value;
-					this.SendPropertyChanged("IsActive");
-					this.OnIsActiveChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleId", DbType="Int")]
-		public System.Nullable<int> RoleId
-		{
-			get
-			{
-				return this._RoleId;
-			}
-			set
-			{
-				if ((this._RoleId != value))
-				{
-					if (this._Role.HasLoadedOrAssignedValue)
+					if (this._Stadium.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnRoleIdChanging(value);
+					this.OnStadiumIdChanging(value);
 					this.SendPropertyChanging();
-					this._RoleId = value;
-					this.SendPropertyChanged("RoleId");
-					this.OnRoleIdChanged();
+					this._StadiumId = value;
+					this.SendPropertyChanged("StadiumId");
+					this.OnStadiumIdChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Advertisement", Storage="_Advertisements", ThisKey="Id", OtherKey="Creator")]
-		public EntitySet<Advertisement> Advertisements
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsOwner", DbType="Bit NOT NULL")]
+		public bool IsOwner
 		{
 			get
 			{
-				return this._Advertisements;
+				return this._IsOwner;
 			}
 			set
 			{
-				this._Advertisements.Assign(value);
+				if ((this._IsOwner != value))
+				{
+					this.OnIsOwnerChanging(value);
+					this.SendPropertyChanging();
+					this._IsOwner = value;
+					this.SendPropertyChanged("IsOwner");
+					this.OnIsOwnerChanged();
+				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_JoinSystemRequest", Storage="_JoinSystemRequests", ThisKey="Id", OtherKey="UserId")]
-		public EntitySet<JoinSystemRequest> JoinSystemRequests
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Stadium_StadiumStaff", Storage="_Stadium", ThisKey="StadiumId", OtherKey="Id", IsForeignKey=true)]
+		public Stadium Stadium
 		{
 			get
 			{
-				return this._JoinSystemRequests;
+				return this._Stadium.Entity;
 			}
 			set
 			{
-				this._JoinSystemRequests.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Reservation", Storage="_Reservations", ThisKey="Id", OtherKey="UserId")]
-		public EntitySet<Reservation> Reservations
-		{
-			get
-			{
-				return this._Reservations;
-			}
-			set
-			{
-				this._Reservations.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Reservation1", Storage="_Reservations1", ThisKey="Id", OtherKey="Approver")]
-		public EntitySet<Reservation> Reservations1
-		{
-			get
-			{
-				return this._Reservations1;
-			}
-			set
-			{
-				this._Reservations1.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Reservation2", Storage="_Reservations2", ThisKey="Id", OtherKey="RivalId")]
-		public EntitySet<Reservation> Reservations2
-		{
-			get
-			{
-				return this._Reservations2;
-			}
-			set
-			{
-				this._Reservations2.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Reservation3", Storage="_Reservations3", ThisKey="Id", OtherKey="RivalFinder")]
-		public EntitySet<Reservation> Reservations3
-		{
-			get
-			{
-				return this._Reservations3;
-			}
-			set
-			{
-				this._Reservations3.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_StadiumRating", Storage="_StadiumRatings", ThisKey="Id", OtherKey="UserId")]
-		public EntitySet<StadiumRating> StadiumRatings
-		{
-			get
-			{
-				return this._StadiumRatings;
-			}
-			set
-			{
-				this._StadiumRatings.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_StadiumReview", Storage="_StadiumReviews", ThisKey="Id", OtherKey="UserId")]
-		public EntitySet<StadiumReview> StadiumReviews
-		{
-			get
-			{
-				return this._StadiumReviews;
-			}
-			set
-			{
-				this._StadiumReviews.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_StadiumReview1", Storage="_StadiumReviews1", ThisKey="Id", OtherKey="Approver")]
-		public EntitySet<StadiumReview> StadiumReviews1
-		{
-			get
-			{
-				return this._StadiumReviews1;
-			}
-			set
-			{
-				this._StadiumReviews1.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_StadiumStaff", Storage="_StadiumStaffs", ThisKey="Id", OtherKey="UserId")]
-		public EntitySet<StadiumStaff> StadiumStaffs
-		{
-			get
-			{
-				return this._StadiumStaffs;
-			}
-			set
-			{
-				this._StadiumStaffs.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MemberRank_User", Storage="_MemberRank", ThisKey="RankId", OtherKey="Id", IsForeignKey=true)]
-		public MemberRank MemberRank
-		{
-			get
-			{
-				return this._MemberRank.Entity;
-			}
-			set
-			{
-				MemberRank previousValue = this._MemberRank.Entity;
+				Stadium previousValue = this._Stadium.Entity;
 				if (((previousValue != value) 
-							|| (this._MemberRank.HasLoadedOrAssignedValue == false)))
+							|| (this._Stadium.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._MemberRank.Entity = null;
-						previousValue.Users.Remove(this);
+						this._Stadium.Entity = null;
+						previousValue.StadiumStaffs.Remove(this);
 					}
-					this._MemberRank.Entity = value;
+					this._Stadium.Entity = value;
 					if ((value != null))
 					{
-						value.Users.Add(this);
-						this._RankId = value.Id;
+						value.StadiumStaffs.Add(this);
+						this._StadiumId = value.Id;
 					}
 					else
 					{
-						this._RankId = default(int);
+						this._StadiumId = default(int);
 					}
-					this.SendPropertyChanged("MemberRank");
+					this.SendPropertyChanged("Stadium");
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Role_User", Storage="_Role", ThisKey="RoleId", OtherKey="Id", IsForeignKey=true)]
-		public Role Role
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_StadiumStaff", Storage="_User", ThisKey="UserId", OtherKey="Id", IsForeignKey=true)]
+		public User User
 		{
 			get
 			{
-				return this._Role.Entity;
+				return this._User.Entity;
 			}
 			set
 			{
-				Role previousValue = this._Role.Entity;
+				User previousValue = this._User.Entity;
 				if (((previousValue != value) 
-							|| (this._Role.HasLoadedOrAssignedValue == false)))
+							|| (this._User.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Role.Entity = null;
-						previousValue.Users.Remove(this);
+						this._User.Entity = null;
+						previousValue.StadiumStaffs.Remove(this);
 					}
-					this._Role.Entity = value;
+					this._User.Entity = value;
 					if ((value != null))
 					{
-						value.Users.Add(this);
-						this._RoleId = value.Id;
+						value.StadiumStaffs.Add(this);
+						this._UserId = value.Id;
 					}
 					else
 					{
-						this._RoleId = default(Nullable<int>);
+						this._UserId = default(int);
 					}
-					this.SendPropertyChanged("Role");
+					this.SendPropertyChanged("User");
 				}
 			}
 		}
@@ -1053,126 +677,6 @@ namespace FootballPitchesBooking.Models
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_Advertisements(Advertisement entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_Advertisements(Advertisement entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-		
-		private void attach_JoinSystemRequests(JoinSystemRequest entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_JoinSystemRequests(JoinSystemRequest entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-		
-		private void attach_Reservations(Reservation entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_Reservations(Reservation entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-		
-		private void attach_Reservations1(Reservation entity)
-		{
-			this.SendPropertyChanging();
-			entity.User1 = this;
-		}
-		
-		private void detach_Reservations1(Reservation entity)
-		{
-			this.SendPropertyChanging();
-			entity.User1 = null;
-		}
-		
-		private void attach_Reservations2(Reservation entity)
-		{
-			this.SendPropertyChanging();
-			entity.User2 = this;
-		}
-		
-		private void detach_Reservations2(Reservation entity)
-		{
-			this.SendPropertyChanging();
-			entity.User2 = null;
-		}
-		
-		private void attach_Reservations3(Reservation entity)
-		{
-			this.SendPropertyChanging();
-			entity.User3 = this;
-		}
-		
-		private void detach_Reservations3(Reservation entity)
-		{
-			this.SendPropertyChanging();
-			entity.User3 = null;
-		}
-		
-		private void attach_StadiumRatings(StadiumRating entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_StadiumRatings(StadiumRating entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-		
-		private void attach_StadiumReviews(StadiumReview entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_StadiumReviews(StadiumReview entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-		
-		private void attach_StadiumReviews1(StadiumReview entity)
-		{
-			this.SendPropertyChanging();
-			entity.User1 = this;
-		}
-		
-		private void detach_StadiumReviews1(StadiumReview entity)
-		{
-			this.SendPropertyChanging();
-			entity.User1 = null;
-		}
-		
-		private void attach_StadiumStaffs(StadiumStaff entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_StadiumStaffs(StadiumStaff entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
 		}
 	}
 	
@@ -2296,7 +1800,7 @@ namespace FootballPitchesBooking.Models
 		
 		private double _Discount;
 		
-		private int _Creator;
+		private System.Nullable<int> _Creator;
 		
 		private System.Nullable<bool> _IsActive;
 		
@@ -2436,7 +1940,7 @@ namespace FootballPitchesBooking.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Creator", DbType="Int")]
-		public int Creator
+		public System.Nullable<int> Creator
 		{
 			get
 			{
@@ -3497,15 +3001,15 @@ namespace FootballPitchesBooking.Models
 		
 		private string _District;
 		
-		private string _City;
-		
-		private string _Description;
-		
 		private string _Phone;
 		
 		private string _Email;
 		
 		private bool _IsActive;
+		
+		private int _MainOwner;
+		
+		private EntitySet<StadiumStaff> _StadiumStaffs;
 		
 		private EntitySet<Field> _Fields;
 		
@@ -3515,7 +3019,7 @@ namespace FootballPitchesBooking.Models
 		
 		private EntitySet<StadiumReview> _StadiumReviews;
 		
-		private EntitySet<StadiumStaff> _StadiumStaffs;
+		private EntityRef<User> _User;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -3531,25 +3035,24 @@ namespace FootballPitchesBooking.Models
     partial void OnWardChanged();
     partial void OnDistrictChanging(string value);
     partial void OnDistrictChanged();
-    partial void OnCityChanging(string value);
-    partial void OnCityChanged();
-    partial void OnDescriptionChanging(string value);
-    partial void OnDescriptionChanged();
     partial void OnPhoneChanging(string value);
     partial void OnPhoneChanged();
     partial void OnEmailChanging(string value);
     partial void OnEmailChanged();
-    partial void OnIsActiveChanging(System.Nullable<bool> value);
+    partial void OnIsActiveChanging(bool value);
     partial void OnIsActiveChanged();
+    partial void OnMainOwnerChanging(int value);
+    partial void OnMainOwnerChanged();
     #endregion
 		
 		public Stadium()
 		{
+			this._StadiumStaffs = new EntitySet<StadiumStaff>(new Action<StadiumStaff>(this.attach_StadiumStaffs), new Action<StadiumStaff>(this.detach_StadiumStaffs));
 			this._Fields = new EntitySet<Field>(new Action<Field>(this.attach_Fields), new Action<Field>(this.detach_Fields));
 			this._StadiumImages = new EntitySet<StadiumImage>(new Action<StadiumImage>(this.attach_StadiumImages), new Action<StadiumImage>(this.detach_StadiumImages));
 			this._StadiumRatings = new EntitySet<StadiumRating>(new Action<StadiumRating>(this.attach_StadiumRatings), new Action<StadiumRating>(this.detach_StadiumRatings));
 			this._StadiumReviews = new EntitySet<StadiumReview>(new Action<StadiumReview>(this.attach_StadiumReviews), new Action<StadiumReview>(this.detach_StadiumReviews));
-			this._StadiumStaffs = new EntitySet<StadiumStaff>(new Action<StadiumStaff>(this.attach_StadiumStaffs), new Action<StadiumStaff>(this.detach_StadiumStaffs));
+			this._User = default(EntityRef<User>);
 			OnCreated();
 		}
 		
@@ -3653,46 +3156,6 @@ namespace FootballPitchesBooking.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_City", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string City
-		{
-			get
-			{
-				return this._City;
-			}
-			set
-			{
-				if ((this._City != value))
-				{
-					this.OnCityChanging(value);
-					this.SendPropertyChanging();
-					this._City = value;
-					this.SendPropertyChanged("City");
-					this.OnCityChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(500) NOT NULL", CanBeNull=false)]
-		public string Description
-		{
-			get
-			{
-				return this._Description;
-			}
-			set
-			{
-				if ((this._Description != value))
-				{
-					this.OnDescriptionChanging(value);
-					this.SendPropertyChanging();
-					this._Description = value;
-					this.SendPropertyChanged("Description");
-					this.OnDescriptionChanged();
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Phone", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
 		public string Phone
 		{
@@ -3733,7 +3196,7 @@ namespace FootballPitchesBooking.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActive", DbType="Bit")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActive", DbType="Bit NOT NULL")]
 		public bool IsActive
 		{
 			get
@@ -3750,6 +3213,43 @@ namespace FootballPitchesBooking.Models
 					this.SendPropertyChanged("IsActive");
 					this.OnIsActiveChanged();
 				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MainOwner", DbType="Int NOT NULL")]
+		public int MainOwner
+		{
+			get
+			{
+				return this._MainOwner;
+			}
+			set
+			{
+				if ((this._MainOwner != value))
+				{
+					if (this._User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnMainOwnerChanging(value);
+					this.SendPropertyChanging();
+					this._MainOwner = value;
+					this.SendPropertyChanged("MainOwner");
+					this.OnMainOwnerChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Stadium_StadiumStaff", Storage="_StadiumStaffs", ThisKey="Id", OtherKey="StadiumId")]
+		public EntitySet<StadiumStaff> StadiumStaffs
+		{
+			get
+			{
+				return this._StadiumStaffs;
+			}
+			set
+			{
+				this._StadiumStaffs.Assign(value);
 			}
 		}
 		
@@ -3805,16 +3305,37 @@ namespace FootballPitchesBooking.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Stadium_StadiumStaff", Storage="_StadiumStaffs", ThisKey="Id", OtherKey="StadiumId")]
-		public EntitySet<StadiumStaff> StadiumStaffs
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Stadium", Storage="_User", ThisKey="MainOwner", OtherKey="Id", IsForeignKey=true)]
+		public User User
 		{
 			get
 			{
-				return this._StadiumStaffs;
+				return this._User.Entity;
 			}
 			set
 			{
-				this._StadiumStaffs.Assign(value);
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.Stadiums.Remove(this);
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.Stadiums.Add(this);
+						this._MainOwner = value.Id;
+					}
+					else
+					{
+						this._MainOwner = default(int);
+					}
+					this.SendPropertyChanged("User");
+				}
 			}
 		}
 		
@@ -3836,6 +3357,18 @@ namespace FootballPitchesBooking.Models
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_StadiumStaffs(StadiumStaff entity)
+		{
+			this.SendPropertyChanging();
+			entity.Stadium = this;
+		}
+		
+		private void detach_StadiumStaffs(StadiumStaff entity)
+		{
+			this.SendPropertyChanging();
+			entity.Stadium = null;
 		}
 		
 		private void attach_Fields(Field entity)
@@ -3881,18 +3414,6 @@ namespace FootballPitchesBooking.Models
 		}
 		
 		private void detach_StadiumReviews(StadiumReview entity)
-		{
-			this.SendPropertyChanging();
-			entity.Stadium = null;
-		}
-		
-		private void attach_StadiumStaffs(StadiumStaff entity)
-		{
-			this.SendPropertyChanging();
-			entity.Stadium = this;
-		}
-		
-		private void detach_StadiumStaffs(StadiumStaff entity)
 		{
 			this.SendPropertyChanging();
 			entity.Stadium = null;
@@ -4643,23 +4164,63 @@ namespace FootballPitchesBooking.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.StadiumStaff")]
-	public partial class StadiumStaff : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[User]")]
+	public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private int _Id;
 		
-		private int _UserId;
+		private string _UserName;
 		
-		private int _StadiumId;
+		private string _Password;
 		
-		private bool _IsOwner;
+		private string _FullName;
 		
-		private EntityRef<Stadium> _Stadium;
+		private string _Address;
 		
-		private EntityRef<User> _User;
+		private string _PhoneNumber;
+		
+		private string _Email;
+		
+		private int _Point;
+		
+		private int _RankId;
+		
+		private bool _IsReceivedReward;
+		
+		private System.DateTime _JoinDate;
+		
+		private bool _IsActive;
+		
+		private System.Nullable<int> _RoleId;
+		
+		private EntitySet<Advertisement> _Advertisements;
+		
+		private EntitySet<StadiumStaff> _StadiumStaffs;
+		
+		private EntitySet<JoinSystemRequest> _JoinSystemRequests;
+		
+		private EntitySet<Reservation> _Reservations;
+		
+		private EntitySet<Reservation> _Reservations1;
+		
+		private EntitySet<Reservation> _Reservations2;
+		
+		private EntitySet<Reservation> _Reservations3;
+		
+		private EntitySet<Stadium> _Stadiums;
+		
+		private EntitySet<StadiumRating> _StadiumRatings;
+		
+		private EntitySet<StadiumReview> _StadiumReviews;
+		
+		private EntitySet<StadiumReview> _StadiumReviews1;
+		
+		private EntityRef<MemberRank> _MemberRank;
+		
+		private EntityRef<Role> _Role;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -4667,18 +4228,47 @@ namespace FootballPitchesBooking.Models
     partial void OnCreated();
     partial void OnIdChanging(int value);
     partial void OnIdChanged();
-    partial void OnUserIdChanging(int value);
-    partial void OnUserIdChanged();
-    partial void OnStadiumIdChanging(int value);
-    partial void OnStadiumIdChanged();
-    partial void OnIsOwnerChanging(bool value);
-    partial void OnIsOwnerChanged();
+    partial void OnUserNameChanging(string value);
+    partial void OnUserNameChanged();
+    partial void OnPasswordChanging(string value);
+    partial void OnPasswordChanged();
+    partial void OnFullNameChanging(string value);
+    partial void OnFullNameChanged();
+    partial void OnAddressChanging(string value);
+    partial void OnAddressChanged();
+    partial void OnPhoneNumberChanging(string value);
+    partial void OnPhoneNumberChanged();
+    partial void OnEmailChanging(string value);
+    partial void OnEmailChanged();
+    partial void OnPointChanging(int value);
+    partial void OnPointChanged();
+    partial void OnRankIdChanging(int value);
+    partial void OnRankIdChanged();
+    partial void OnIsReceivedRewardChanging(bool value);
+    partial void OnIsReceivedRewardChanged();
+    partial void OnJoinDateChanging(System.DateTime value);
+    partial void OnJoinDateChanged();
+    partial void OnIsActiveChanging(bool value);
+    partial void OnIsActiveChanged();
+    partial void OnRoleIdChanging(System.Nullable<int> value);
+    partial void OnRoleIdChanged();
     #endregion
 		
-		public StadiumStaff()
+		public User()
 		{
-			this._Stadium = default(EntityRef<Stadium>);
-			this._User = default(EntityRef<User>);
+			this._Advertisements = new EntitySet<Advertisement>(new Action<Advertisement>(this.attach_Advertisements), new Action<Advertisement>(this.detach_Advertisements));
+			this._StadiumStaffs = new EntitySet<StadiumStaff>(new Action<StadiumStaff>(this.attach_StadiumStaffs), new Action<StadiumStaff>(this.detach_StadiumStaffs));
+			this._JoinSystemRequests = new EntitySet<JoinSystemRequest>(new Action<JoinSystemRequest>(this.attach_JoinSystemRequests), new Action<JoinSystemRequest>(this.detach_JoinSystemRequests));
+			this._Reservations = new EntitySet<Reservation>(new Action<Reservation>(this.attach_Reservations), new Action<Reservation>(this.detach_Reservations));
+			this._Reservations1 = new EntitySet<Reservation>(new Action<Reservation>(this.attach_Reservations1), new Action<Reservation>(this.detach_Reservations1));
+			this._Reservations2 = new EntitySet<Reservation>(new Action<Reservation>(this.attach_Reservations2), new Action<Reservation>(this.detach_Reservations2));
+			this._Reservations3 = new EntitySet<Reservation>(new Action<Reservation>(this.attach_Reservations3), new Action<Reservation>(this.detach_Reservations3));
+			this._Stadiums = new EntitySet<Stadium>(new Action<Stadium>(this.attach_Stadiums), new Action<Stadium>(this.detach_Stadiums));
+			this._StadiumRatings = new EntitySet<StadiumRating>(new Action<StadiumRating>(this.attach_StadiumRatings), new Action<StadiumRating>(this.detach_StadiumRatings));
+			this._StadiumReviews = new EntitySet<StadiumReview>(new Action<StadiumReview>(this.attach_StadiumReviews), new Action<StadiumReview>(this.detach_StadiumReviews));
+			this._StadiumReviews1 = new EntitySet<StadiumReview>(new Action<StadiumReview>(this.attach_StadiumReviews1), new Action<StadiumReview>(this.detach_StadiumReviews1));
+			this._MemberRank = default(EntityRef<MemberRank>);
+			this._Role = default(EntityRef<Role>);
 			OnCreated();
 		}
 		
@@ -4702,138 +4292,461 @@ namespace FootballPitchesBooking.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="Int NOT NULL")]
-		public int UserId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string UserName
 		{
 			get
 			{
-				return this._UserId;
+				return this._UserName;
 			}
 			set
 			{
-				if ((this._UserId != value))
+				if ((this._UserName != value))
 				{
-					if (this._User.HasLoadedOrAssignedValue)
+					this.OnUserNameChanging(value);
+					this.SendPropertyChanging();
+					this._UserName = value;
+					this.SendPropertyChanged("UserName");
+					this.OnUserNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Password
+		{
+			get
+			{
+				return this._Password;
+			}
+			set
+			{
+				if ((this._Password != value))
+				{
+					this.OnPasswordChanging(value);
+					this.SendPropertyChanging();
+					this._Password = value;
+					this.SendPropertyChanged("Password");
+					this.OnPasswordChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FullName", DbType="NVarChar(50)")]
+		public string FullName
+		{
+			get
+			{
+				return this._FullName;
+			}
+			set
+			{
+				if ((this._FullName != value))
+				{
+					this.OnFullNameChanging(value);
+					this.SendPropertyChanging();
+					this._FullName = value;
+					this.SendPropertyChanged("FullName");
+					this.OnFullNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="NVarChar(100)")]
+		public string Address
+		{
+			get
+			{
+				return this._Address;
+			}
+			set
+			{
+				if ((this._Address != value))
+				{
+					this.OnAddressChanging(value);
+					this.SendPropertyChanging();
+					this._Address = value;
+					this.SendPropertyChanged("Address");
+					this.OnAddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PhoneNumber", DbType="NVarChar(20)")]
+		public string PhoneNumber
+		{
+			get
+			{
+				return this._PhoneNumber;
+			}
+			set
+			{
+				if ((this._PhoneNumber != value))
+				{
+					this.OnPhoneNumberChanging(value);
+					this.SendPropertyChanging();
+					this._PhoneNumber = value;
+					this.SendPropertyChanged("PhoneNumber");
+					this.OnPhoneNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this.OnEmailChanging(value);
+					this.SendPropertyChanging();
+					this._Email = value;
+					this.SendPropertyChanged("Email");
+					this.OnEmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Point", DbType="Int NOT NULL")]
+		public int Point
+		{
+			get
+			{
+				return this._Point;
+			}
+			set
+			{
+				if ((this._Point != value))
+				{
+					this.OnPointChanging(value);
+					this.SendPropertyChanging();
+					this._Point = value;
+					this.SendPropertyChanged("Point");
+					this.OnPointChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RankId", DbType="Int NOT NULL")]
+		public int RankId
+		{
+			get
+			{
+				return this._RankId;
+			}
+			set
+			{
+				if ((this._RankId != value))
+				{
+					if (this._MemberRank.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnUserIdChanging(value);
+					this.OnRankIdChanging(value);
 					this.SendPropertyChanging();
-					this._UserId = value;
-					this.SendPropertyChanged("UserId");
-					this.OnUserIdChanged();
+					this._RankId = value;
+					this.SendPropertyChanged("RankId");
+					this.OnRankIdChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StadiumId", DbType="Int NOT NULL")]
-		public int StadiumId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsReceivedReward", DbType="Bit NOT NULL")]
+		public bool IsReceivedReward
 		{
 			get
 			{
-				return this._StadiumId;
+				return this._IsReceivedReward;
 			}
 			set
 			{
-				if ((this._StadiumId != value))
+				if ((this._IsReceivedReward != value))
 				{
-					if (this._Stadium.HasLoadedOrAssignedValue)
+					this.OnIsReceivedRewardChanging(value);
+					this.SendPropertyChanging();
+					this._IsReceivedReward = value;
+					this.SendPropertyChanged("IsReceivedReward");
+					this.OnIsReceivedRewardChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_JoinDate", DbType="Date NOT NULL")]
+		public System.DateTime JoinDate
+		{
+			get
+			{
+				return this._JoinDate;
+			}
+			set
+			{
+				if ((this._JoinDate != value))
+				{
+					this.OnJoinDateChanging(value);
+					this.SendPropertyChanging();
+					this._JoinDate = value;
+					this.SendPropertyChanged("JoinDate");
+					this.OnJoinDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActive", DbType="Bit NOT NULL")]
+		public bool IsActive
+		{
+			get
+			{
+				return this._IsActive;
+			}
+			set
+			{
+				if ((this._IsActive != value))
+				{
+					this.OnIsActiveChanging(value);
+					this.SendPropertyChanging();
+					this._IsActive = value;
+					this.SendPropertyChanged("IsActive");
+					this.OnIsActiveChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleId", DbType="Int")]
+		public System.Nullable<int> RoleId
+		{
+			get
+			{
+				return this._RoleId;
+			}
+			set
+			{
+				if ((this._RoleId != value))
+				{
+					if (this._Role.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnStadiumIdChanging(value);
+					this.OnRoleIdChanging(value);
 					this.SendPropertyChanging();
-					this._StadiumId = value;
-					this.SendPropertyChanged("StadiumId");
-					this.OnStadiumIdChanged();
+					this._RoleId = value;
+					this.SendPropertyChanged("RoleId");
+					this.OnRoleIdChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsOwner", DbType="Bit NOT NULL")]
-		public bool IsOwner
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Advertisement", Storage="_Advertisements", ThisKey="Id", OtherKey="Creator")]
+		public EntitySet<Advertisement> Advertisements
 		{
 			get
 			{
-				return this._IsOwner;
+				return this._Advertisements;
 			}
 			set
 			{
-				if ((this._IsOwner != value))
-				{
-					this.OnIsOwnerChanging(value);
-					this.SendPropertyChanging();
-					this._IsOwner = value;
-					this.SendPropertyChanged("IsOwner");
-					this.OnIsOwnerChanged();
-				}
+				this._Advertisements.Assign(value);
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Stadium_StadiumStaff", Storage="_Stadium", ThisKey="StadiumId", OtherKey="Id", IsForeignKey=true)]
-		public Stadium Stadium
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_StadiumStaff", Storage="_StadiumStaffs", ThisKey="Id", OtherKey="UserId")]
+		public EntitySet<StadiumStaff> StadiumStaffs
 		{
 			get
 			{
-				return this._Stadium.Entity;
+				return this._StadiumStaffs;
 			}
 			set
 			{
-				Stadium previousValue = this._Stadium.Entity;
+				this._StadiumStaffs.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_JoinSystemRequest", Storage="_JoinSystemRequests", ThisKey="Id", OtherKey="UserId")]
+		public EntitySet<JoinSystemRequest> JoinSystemRequests
+		{
+			get
+			{
+				return this._JoinSystemRequests;
+			}
+			set
+			{
+				this._JoinSystemRequests.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Reservation", Storage="_Reservations", ThisKey="Id", OtherKey="UserId")]
+		public EntitySet<Reservation> Reservations
+		{
+			get
+			{
+				return this._Reservations;
+			}
+			set
+			{
+				this._Reservations.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Reservation1", Storage="_Reservations1", ThisKey="Id", OtherKey="Approver")]
+		public EntitySet<Reservation> Reservations1
+		{
+			get
+			{
+				return this._Reservations1;
+			}
+			set
+			{
+				this._Reservations1.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Reservation2", Storage="_Reservations2", ThisKey="Id", OtherKey="RivalId")]
+		public EntitySet<Reservation> Reservations2
+		{
+			get
+			{
+				return this._Reservations2;
+			}
+			set
+			{
+				this._Reservations2.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Reservation3", Storage="_Reservations3", ThisKey="Id", OtherKey="RivalFinder")]
+		public EntitySet<Reservation> Reservations3
+		{
+			get
+			{
+				return this._Reservations3;
+			}
+			set
+			{
+				this._Reservations3.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Stadium", Storage="_Stadiums", ThisKey="Id", OtherKey="MainOwner")]
+		public EntitySet<Stadium> Stadiums
+		{
+			get
+			{
+				return this._Stadiums;
+			}
+			set
+			{
+				this._Stadiums.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_StadiumRating", Storage="_StadiumRatings", ThisKey="Id", OtherKey="UserId")]
+		public EntitySet<StadiumRating> StadiumRatings
+		{
+			get
+			{
+				return this._StadiumRatings;
+			}
+			set
+			{
+				this._StadiumRatings.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_StadiumReview", Storage="_StadiumReviews", ThisKey="Id", OtherKey="UserId")]
+		public EntitySet<StadiumReview> StadiumReviews
+		{
+			get
+			{
+				return this._StadiumReviews;
+			}
+			set
+			{
+				this._StadiumReviews.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_StadiumReview1", Storage="_StadiumReviews1", ThisKey="Id", OtherKey="Approver")]
+		public EntitySet<StadiumReview> StadiumReviews1
+		{
+			get
+			{
+				return this._StadiumReviews1;
+			}
+			set
+			{
+				this._StadiumReviews1.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MemberRank_User", Storage="_MemberRank", ThisKey="RankId", OtherKey="Id", IsForeignKey=true)]
+		public MemberRank MemberRank
+		{
+			get
+			{
+				return this._MemberRank.Entity;
+			}
+			set
+			{
+				MemberRank previousValue = this._MemberRank.Entity;
 				if (((previousValue != value) 
-							|| (this._Stadium.HasLoadedOrAssignedValue == false)))
+							|| (this._MemberRank.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Stadium.Entity = null;
-						previousValue.StadiumStaffs.Remove(this);
+						this._MemberRank.Entity = null;
+						previousValue.Users.Remove(this);
 					}
-					this._Stadium.Entity = value;
+					this._MemberRank.Entity = value;
 					if ((value != null))
 					{
-						value.StadiumStaffs.Add(this);
-						this._StadiumId = value.Id;
+						value.Users.Add(this);
+						this._RankId = value.Id;
 					}
 					else
 					{
-						this._StadiumId = default(int);
+						this._RankId = default(int);
 					}
-					this.SendPropertyChanged("Stadium");
+					this.SendPropertyChanged("MemberRank");
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_StadiumStaff", Storage="_User", ThisKey="UserId", OtherKey="Id", IsForeignKey=true)]
-		public User User
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Role_User", Storage="_Role", ThisKey="RoleId", OtherKey="Id", IsForeignKey=true)]
+		public Role Role
 		{
 			get
 			{
-				return this._User.Entity;
+				return this._Role.Entity;
 			}
 			set
 			{
-				User previousValue = this._User.Entity;
+				Role previousValue = this._Role.Entity;
 				if (((previousValue != value) 
-							|| (this._User.HasLoadedOrAssignedValue == false)))
+							|| (this._Role.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._User.Entity = null;
-						previousValue.StadiumStaffs.Remove(this);
+						this._Role.Entity = null;
+						previousValue.Users.Remove(this);
 					}
-					this._User.Entity = value;
+					this._Role.Entity = value;
 					if ((value != null))
 					{
-						value.StadiumStaffs.Add(this);
-						this._UserId = value.Id;
+						value.Users.Add(this);
+						this._RoleId = value.Id;
 					}
 					else
 					{
-						this._UserId = default(int);
+						this._RoleId = default(Nullable<int>);
 					}
-					this.SendPropertyChanged("User");
+					this.SendPropertyChanged("Role");
 				}
 			}
 		}
@@ -4856,6 +4769,138 @@ namespace FootballPitchesBooking.Models
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_Advertisements(Advertisement entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_Advertisements(Advertisement entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_StadiumStaffs(StadiumStaff entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_StadiumStaffs(StadiumStaff entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_JoinSystemRequests(JoinSystemRequest entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_JoinSystemRequests(JoinSystemRequest entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_Reservations(Reservation entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_Reservations(Reservation entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_Reservations1(Reservation entity)
+		{
+			this.SendPropertyChanging();
+			entity.User1 = this;
+		}
+		
+		private void detach_Reservations1(Reservation entity)
+		{
+			this.SendPropertyChanging();
+			entity.User1 = null;
+		}
+		
+		private void attach_Reservations2(Reservation entity)
+		{
+			this.SendPropertyChanging();
+			entity.User2 = this;
+		}
+		
+		private void detach_Reservations2(Reservation entity)
+		{
+			this.SendPropertyChanging();
+			entity.User2 = null;
+		}
+		
+		private void attach_Reservations3(Reservation entity)
+		{
+			this.SendPropertyChanging();
+			entity.User3 = this;
+		}
+		
+		private void detach_Reservations3(Reservation entity)
+		{
+			this.SendPropertyChanging();
+			entity.User3 = null;
+		}
+		
+		private void attach_Stadiums(Stadium entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_Stadiums(Stadium entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_StadiumRatings(StadiumRating entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_StadiumRatings(StadiumRating entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_StadiumReviews(StadiumReview entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_StadiumReviews(StadiumReview entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_StadiumReviews1(StadiumReview entity)
+		{
+			this.SendPropertyChanging();
+			entity.User1 = this;
+		}
+		
+		private void detach_StadiumReviews1(StadiumReview entity)
+		{
+			this.SendPropertyChanging();
+			entity.User1 = null;
 		}
 	}
 }
