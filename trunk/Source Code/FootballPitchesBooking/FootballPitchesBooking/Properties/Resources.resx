@@ -147,6 +147,9 @@
   <data name="Update_Success" xml:space="preserve">
     <value>Cập nhật thành công</value>
   </data>
+  <data name="Upload_NotImage" xml:space="preserve">
+    <value>Hình tải lên không đúng định dạng</value>
+  </data>
   <data name="User_UserNotMatched" xml:space="preserve">
     <value>Tài khoản không tìm thấy</value>
   </data>

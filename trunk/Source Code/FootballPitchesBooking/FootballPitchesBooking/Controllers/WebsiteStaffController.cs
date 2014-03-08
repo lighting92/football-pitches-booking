@@ -25,7 +25,135 @@ namespace FootballPitchesBooking.Controllers
             return View();
         }
 
+        [Authorize(Roles="WebsiteMaster")]
+        public ActionResult Stadiums()
+        {
+            StadiumBO stadiumBO = new StadiumBO();
+            List<Stadium> stadiums = stadiumBO.GetAllStadiums();
+            return View(stadiums);
+        }
 
+        [Authorize(Roles = "WebsiteMaster")]
+        public ActionResult AddStadium()
+        {
+            EditStadiumModel model = new EditStadiumModel();            
+            return View(model);
+        }
+
+        [Authorize(Roles = "WebsiteMaster")]
+        [HttpPost]
+        public ActionResult AddStadium(FormCollection form)
+        {
+            EditStadiumModel model = new EditStadiumModel();
+            model.Name = form["Name"];
+            model.MainOwner = form["MainOwner"];
+            model.IsActive = bool.Parse(form["IsActive"]);
+            model.Phone = form["Phone"];
+            model.Email = form["Email"];
+            model.Street = form["Street"];
+            model.Ward = form["Ward"];
+            model.District = form["District"];
+            model.ErrorMessage = new List<string>();
+
+            List<String> images = new List<string>();
+            List<HttpPostedFileBase> listFiles = new List<HttpPostedFileBase>();
+            if (Request.Files.Count > 0)
+            {
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    if (Request.Files[i] != null)
+                    {
+                        var file = Request.Files[i];
+                        if (file.ContentLength > 0)
+                        {                            
+                            listFiles.Add(file);
+                        }
+                    }
+                }                
+            }
+
+            if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.MainOwner) || string.IsNullOrEmpty(model.Phone) ||
+                string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Street) || string.IsNullOrEmpty(model.Ward) ||
+                string.IsNullOrEmpty(model.District))
+            {
+                model.ErrorMessage.Add(Resources.Form_EmptyFields);
+            }
+
+            foreach (var item in listFiles)
+            {
+                if (!item.ContentType.Contains("image"))
+                {
+                    model.ErrorMessage.Add(Resources.Upload_NotImage);
+                    break;
+                }
+            }
+
+            if (model.ErrorMessage.Count == 0)
+            {
+                Stadium stadium = new Stadium
+                {
+                    Name = model.Name,
+                    Phone = model.Phone,
+                    Email = model.Email,
+                    Street = model.Street,
+                    Ward = model.Ward,
+                    District = model.District,
+                    IsActive = model.IsActive
+                };
+
+                StadiumBO stadiumBO = new StadiumBO();
+
+                int result = stadiumBO.CreateStadium(stadium, model.MainOwner, listFiles);
+                if (result == 0)
+                {
+                    model.ErrorMessage.Add(Resources.DB_Exception);
+                }
+                else if (result == -1)
+                {
+                }
+                else if (result == -2)
+                {
+                }
+
+                return View();
+            }
+            else
+            {
+                return View(model);
+            }
+        }
+
+        [Authorize(Roles = "WebsiteMaster")]
+        public ActionResult EditStadium(int id)
+        {
+            StadiumBO stadiumBO = new StadiumBO();
+            Stadium stadium = stadiumBO.GetStadiumById(id);
+
+            List<string> listImages = new List<string>();
+            List<string> imageIds = new List<string>();
+
+            foreach (var img in stadium.StadiumImages)
+            {
+                listImages.Add(img.Path);
+                imageIds.Add(img.Id.ToString());
+
+            }
+
+            EditStadiumModel model = new EditStadiumModel
+            {
+                Name = stadium.Name,
+                Street =stadium.Street,
+                Ward = stadium.Ward,
+                District = stadium.District,
+                Phone = stadium.Phone,
+                Email = stadium.Email,
+                IsActive = stadium.IsActive,
+                MainOwner = stadium.User.UserName,
+                Images = listImages,
+                ImageIds = imageIds
+            };
+            return View(model);
+        }
 
         //
         // GET: /WebsiteStaff/Users
@@ -175,6 +303,7 @@ namespace FootballPitchesBooking.Controllers
             }
         }
 
+        [Authorize(Roles = "WebsiteMaster")]
         public ActionResult MemberRanks(int? page, string keyWord = "", string column = "", string sort = "")
         {
             try
@@ -207,11 +336,13 @@ namespace FootballPitchesBooking.Controllers
             }
         }
 
+        [Authorize(Roles = "WebsiteMaster")]
         public ActionResult AddMemberRank()
         {
             return View();
         }
 
+        [Authorize(Roles = "WebsiteMaster")]
         [HttpPost]
         public ActionResult AddMemberRank(FormCollection form)
         {
