@@ -15,9 +15,14 @@ namespace FootballPitchesBooking.BusinessObjects
             return stadiumDAO.GetAllStadiums();
         }
 
-        public List<int> CreateStadium(Stadium stadium, string owner)
+        public Stadium GetStadiumById(int id)
         {
-            List<int> results = new List<int>();
+            StadiumDAO stadiumDAO = new StadiumDAO();
+            return stadiumDAO.GetStadiumById(id);
+        }
+
+        public int CreateStadium(Stadium stadium, string owner, List<HttpPostedFileBase> images)
+        {
             StadiumDAO stadiumDAO = new StadiumDAO();
             UserDAO userDAO = new UserDAO();
 
@@ -25,27 +30,52 @@ namespace FootballPitchesBooking.BusinessObjects
 
             if (stadiumOwner == null)
             {
-                results.Add(-1);
+                return -1;
             }
 
-            if (results.Count == 0)
-            {
-                stadium.IsActive = true;
-                results.Add(stadiumDAO.CreateStadium(stadium));
+            stadium.IsActive = true;
 
-                if (results.Count == 1 && results[0] > 0)
+            int result = stadiumDAO.CreateStadium(stadium);
+
+            List<string> imagesName = new List<string>();
+            for (int i = 0; i < images.Count(); i++)
+            {
+                var image = images[i];
+                var fileName = DateTime.Now.Ticks;
+                int lastDot = image.FileName.LastIndexOf('.');
+                var fileType = image.FileName.Substring(lastDot + 1);
+                var fullFileName = i + "_" + fileName + "." + fileType;
+                imagesName.Add(fullFileName);
+            }
+            if (result > 0)
+            {
+                StadiumStaff stadiumStaff = new StadiumStaff
                 {
-                    StadiumStaff stadiumStaff = new StadiumStaff
+                    UserId = stadiumOwner.Id,
+                    StadiumId = result,
+                    IsOwner = true
+                };
+                StadiumStaffDAO ssDAO = new StadiumStaffDAO();
+                if (ssDAO.CreateStadiumStaff(stadiumStaff) > 0)
+                {
+                    return result;
+                }
+                else
+                {
+                    if (stadiumDAO.DeleteStadium(result) > 0)
                     {
-                        UserId = stadiumOwner.Id,
-                        StadiumId = results[0],
-                        IsOwner = true
-                    };
-                    results.Add(CreateStadiumStaff(stadiumStaff));
+                        return 0;
+                    }
+                    else
+                    {
+                        return -2;
+                    }
                 }
             }
-
-            return results;
+            else
+            {
+                return result;
+            }
         }
 
         public int CreateStadiumStaff(StadiumStaff stadiumStaff)
