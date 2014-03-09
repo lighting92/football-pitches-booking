@@ -1,0 +1,63 @@
+﻿@model FootballPitchesBooking.Models.StadiumModels.StadiumModel
+@{
+    ViewBag.Title = "EditStadium";
+}
+
+<h2>EditStadium</h2>
+
+@if (Model != null && Model.ErrorMessages.Count() > 0)
+{
+    <div style="color:red">
+        @foreach (var error in Model.ErrorMessages)
+        {
+            <p>- @error</p>
+        }
+    </div>
+}
+
+<form action="EditStadium" method="post">
+    <input type="hidden" name="StadiumId" value="@Model.Id" />
+    <table> 
+        <tr>
+            <td>Tên sân:</td>
+            <td><input type="text" name="StadiumName" value="@Model.Name" /></td>
+        </tr>
+        <tr>
+            <td>Đường:</td>
+            <td><input type="text" name="Street" value="@Model.Street" /></td>
+        </tr> 
+        <tr>
+            <td>Phường:</td>
+            <td><input type="text" name="Ward" value="@Model.Ward" /></td>
+        </tr> <tr>
+            <td>Quận:</td>
+            <td><input type="text" name="District" value="@Model.District" /></td>
+        </tr> 
+        <tr>
+            <td>Tỉnh/Thành phố:</td>
+            <td><input type="text" name="City" value="@Model.City" /></td>
+        </tr>
+        <tr>
+            <td>Điện thoại:</td>
+            <td><input type="text" name="PhoneNumber" value="@Model.PhoneNumber" /></td>
+        </tr>
+        <tr>
+            <td>Email:</td>
+            <td><input type="text" name="Email" value="@Model.Email" /></td>
+        </tr>
+        <tr>
+            <td>Mô tả:</td>
+            <td><textarea name="Description">@Model.Description</textarea></td>
+        </tr>
+        <tr>
+            <td>Tình trạng hoạt động:</td>
+            <td><input type="checkbox" name="IsActive" checked="@((bool)Model.IsActive?"checked":"")" /></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button type="submit">Lưu</button>
+                <button type="button" onclick="window.location = '/Stadium/ListStadiums'">Hủy bỏ</button>
+            </td>
+        </tr>
+    </table>
+</form>
