@@ -1,5 +1,6 @@
 ﻿@model FootballPitchesBooking.Models.WebsiteStaffModels.EditStadiumModel
 @{
+    ViewBag.STADIUM = "active";
     ViewBag.Title = "Chỉnh Sửa Thông Tin Sân Bóng";
     Layout = "~/Views/Shared/_WebsiteStaffLayout.cshtml";
 }
@@ -16,9 +17,14 @@
                         <h1>CHỈNH SỬA THÔNG TIN SÂN BÓNG
                         </h1>
                         <br />
-                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                        @if (Model.ErrorMessage != null && Model.ErrorMessage.Count() > 0)
                         {
-                            <div class="alert alert-danger">@Model.ErrorMessage</div>
+                            <div class="alert alert-danger">
+                            @foreach (var error in Model.ErrorMessage)
+                            {
+                                <p>- @error</p>
+                            }
+                            </div>
                         }
                         else if (!string.IsNullOrEmpty(Model.SuccessMessage))
                         {
@@ -37,8 +43,21 @@
                             <div class="span3">
                                 <label>
                                     CHỦ SÂN
-                                    <input name="MainOwner" type="text" placeholder="CHỦ SÂN" value="@Model.MainOwner">
+                                    <input name="MainOwner" id="mainowner" type="text" placeholder="CHỦ SÂN" value="@Model.MainOwner">
                                 </label>
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        $.ajax({
+                                            url: "/Account/GetAllUserName",
+                                            type: "post",
+                                            success: function (data) {
+                                                $("#mainowner").typeahead({
+                                                    source: data
+                                                });
+                                            }
+                                        });
+                                    });
+                                </script>
                             </div>
                             <div class="span3" style="visibility: hidden;">
                                 <label>&nbsp</label>
@@ -48,8 +67,8 @@
                                 <label>
                                     TRẠNG THÁI HOẠT ĐỘNG
                                     <select id="isActive" name="IsActive" data-cur="@Model.IsActive">
-                                        <option value="true">ĐANG HOẠT ĐỘNG</option>
-                                        <option value="false">KHÔNG HOẠT ĐỘNG</option>
+                                        <option value="True">ĐANG HOẠT ĐỘNG</option>
+                                        <option value="False">KHÔNG HOẠT ĐỘNG</option>
                                     </select>
                                     <script type="text/javascript">
                                         $(document).ready(function () {
@@ -78,7 +97,7 @@
                             <div class="span3">
                                 <label>
                                     ĐƯỜNG
-                                    <input name="Street" type="text" placeholder="ĐƯỜNG" value="@Model.Street" readonly>
+                                    <input name="Street" type="text" placeholder="ĐƯỜNG" value="@Model.Street">
                                 </label>
                             </div>
                             <div class="span3">
@@ -135,25 +154,33 @@
                                     <input type="file" name="Images" multiple id="imageUpload" />
                                 </label>
                             </div>
+                             <div class="span6" style="visibility: hidden;">
+                                <label>&nbsp</label>
+                                <input type="text">
+                            </div>
                             @if (Model.Images != null)
                             {
                                 for (int i = 0; i < Model.Images.Count(); i++)
                                 {
-                                <div class="span3">
-                                    <img src="~/Content/images/stadiums/@Model.Images[i]" />
+                                <div class="span3" id="si_@Model.ImageIds[i]">
+                                    <img src="~/Content/images/@Model.Images[i]" />
                                     <label class="center"><a onclick="DeleteImage(@Model.ImageIds[i])">XÓA</a></label>
                                 </div>
                                 }
                             }
                             <script type="text/javascript">
                                 function DeleteImage(id) {
-                                    var confirm = confirm("Bạn có muốn xóa tấm hình này không? Hành động này không thể phục hồi.");
-                                    if (confirm) {
+                                    var cf = confirm("Bạn có muốn xóa tấm hình này không? Hành động này không thể phục hồi.");
+                                    if (cf) {
                                         $.ajax({
                                             url: "/WebsiteStaff/DeleteStadiumImage?id=" + id,
                                             type: "post",
                                             success: function (data) {
-                                                alert(data);
+                                                var message = data.substring(data.indexOf("::") + 2, data.length);
+                                                alert(message);
+                                                if (data.indexOf("SUCCESS::") != -1) {
+                                                    $("#si_" + id).remove();
+                                                }
                                             }
                                         });
                                     }

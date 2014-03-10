@@ -25,7 +25,10 @@ namespace FootballPitchesBooking.Controllers
             return View();
         }
 
-        [Authorize(Roles="WebsiteMaster")]
+
+        #region STADIUM MANAGEMENT
+
+        [Authorize(Roles = "WebsiteMaster")]
         public ActionResult Stadiums()
         {
             StadiumBO stadiumBO = new StadiumBO();
@@ -36,7 +39,7 @@ namespace FootballPitchesBooking.Controllers
         [Authorize(Roles = "WebsiteMaster")]
         public ActionResult AddStadium()
         {
-            EditStadiumModel model = new EditStadiumModel();            
+            EditStadiumModel model = new EditStadiumModel();
             return View(model);
         }
 
@@ -65,11 +68,11 @@ namespace FootballPitchesBooking.Controllers
                     {
                         var file = Request.Files[i];
                         if (file.ContentLength > 0)
-                        {                            
+                        {
                             listFiles.Add(file);
                         }
                     }
-                }                
+                }
             }
 
             if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.MainOwner) || string.IsNullOrEmpty(model.Phone) ||
@@ -102,20 +105,23 @@ namespace FootballPitchesBooking.Controllers
                 };
 
                 StadiumBO stadiumBO = new StadiumBO();
-
-                int result = stadiumBO.CreateStadium(stadium, model.MainOwner, listFiles);
+                string serverPath = Server.MapPath("~/Content/images/");
+                int result = stadiumBO.CreateStadium(stadium, model.MainOwner, listFiles, serverPath);
                 if (result == 0)
                 {
                     model.ErrorMessage.Add(Resources.DB_Exception);
                 }
                 else if (result == -1)
                 {
+                    model.ErrorMessage.Add(Resources.Webstaff_MainOwnerNotFound);
                 }
-                else if (result == -2)
+                else
                 {
+                    return Redirect("/WebsiteStaff/EditStadium?id=" + result);
                 }
 
-                return View();
+
+                return View(model);
             }
             else
             {
@@ -142,7 +148,7 @@ namespace FootballPitchesBooking.Controllers
             EditStadiumModel model = new EditStadiumModel
             {
                 Name = stadium.Name,
-                Street =stadium.Street,
+                Street = stadium.Street,
                 Ward = stadium.Ward,
                 District = stadium.District,
                 Phone = stadium.Phone,
@@ -155,6 +161,125 @@ namespace FootballPitchesBooking.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "WebsiteMaster")]
+        [HttpPost]
+        public ActionResult EditStadium(FormCollection form, int id)
+        {
+            StadiumBO stadiumBO = new StadiumBO();
+
+            EditStadiumModel model = new EditStadiumModel();
+            model.Name = form["Name"];
+            model.MainOwner = form["MainOwner"];
+            model.IsActive = bool.Parse(form["IsActive"]);
+            model.Phone = form["Phone"];
+            model.Email = form["Email"];
+            model.Street = form["Street"];
+            model.Ward = form["Ward"];
+            model.District = form["District"];
+            model.ErrorMessage = new List<string>();
+
+            List<String> images = new List<string>();
+            List<HttpPostedFileBase> listFiles = new List<HttpPostedFileBase>();
+            if (Request.Files.Count > 0)
+            {
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    if (Request.Files[i] != null)
+                    {
+                        var file = Request.Files[i];
+                        if (file.ContentLength > 0)
+                        {
+                            listFiles.Add(file);
+                        }
+                    }
+                }
+            }
+
+            if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.MainOwner) || string.IsNullOrEmpty(model.Phone) ||
+                string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Street) || string.IsNullOrEmpty(model.Ward) ||
+                string.IsNullOrEmpty(model.District))
+            {
+                model.ErrorMessage.Add(Resources.Form_EmptyFields);
+            }
+
+            foreach (var item in listFiles)
+            {
+                if (!item.ContentType.Contains("image"))
+                {
+                    model.ErrorMessage.Add(Resources.Upload_NotImage);
+                    break;
+                }
+            }
+
+            if (model.ErrorMessage.Count == 0)
+            {
+                Stadium stadium = new Stadium
+                {
+                    Id = id,
+                    Name = model.Name,
+                    Phone = model.Phone,
+                    Email = model.Email,
+                    Street = model.Street,
+                    Ward = model.Ward,
+                    District = model.District,
+                    IsActive = model.IsActive
+                };
+
+                string serverPath = Server.MapPath("~/Content/images/");
+                int result = stadiumBO.UpdateStadium(stadium, model.MainOwner, listFiles, serverPath);
+                if (result == 0)
+                {
+                    model.ErrorMessage.Add(Resources.DB_Exception);
+                }
+                else if (result == -1)
+                {
+                    model.ErrorMessage.Add(Resources.Webstaff_MainOwnerNotFound);
+                }
+                else
+                {
+                    model.SuccessMessage = Resources.Update_Success;
+                }
+
+            }
+
+            List<string> listImages = new List<string>();
+            List<string> imageIds = new List<string>();
+
+            foreach (var img in stadiumBO.GetAllImageOfStadium(id))
+            {
+                listImages.Add(img.Path);
+                imageIds.Add(img.Id.ToString());
+
+            }
+
+            model.Images = listImages;
+            model.ImageIds = imageIds;
+
+            return View(model);
+
+        }
+
+
+        [Authorize(Roles = "WebsiteMaster")]
+        [HttpPost]
+        public JsonResult DeleteStadiumImage(int id)
+        {
+            StadiumBO stadiumBO = new StadiumBO();
+            string serverPath = Server.MapPath("~/Content/images/");
+            int result = stadiumBO.DeleteStadiumImage(id, serverPath);
+            if (result == 0)
+            {
+                return Json("ERROR::" + Resources.DB_Exception);
+            }
+            else
+            {
+                return Json("SUCCESS::" + Resources.Delete_Success);
+            }
+        }
+
+        #endregion STADIUM MANAGEMENT
+
+        #region USER MANAGEMENT
         //
         // GET: /WebsiteStaff/Users
 
@@ -189,6 +314,11 @@ namespace FootballPitchesBooking.Controllers
                 return RedirectToAction("Users", "Error", new { Area = "" });
             }
         }
+
+        #endregion USER MANAGEMENT
+
+
+        #region JOIN SYSTEM REQUEST MANAGEMENT
 
         //
         // GET: /WebsiteStaff/JoinRequests
@@ -303,6 +433,10 @@ namespace FootballPitchesBooking.Controllers
             }
         }
 
+        #endregion JOIN SYSTEM REQUEST MANAGEMENT
+
+        #region MEMBER RANK MANAGEMENT
+
         [Authorize(Roles = "WebsiteMaster")]
         public ActionResult MemberRanks(int? page, string keyWord = "", string column = "", string sort = "")
         {
@@ -366,7 +500,7 @@ namespace FootballPitchesBooking.Controllers
                     RankName = rank.RankName,
                     Point = rank.Point,
                     Promotion = rank.Promotion,
-                    
+
                 };
 
                 List<int> results = userBO.CreateMemberRank(memberrank);
@@ -393,9 +527,11 @@ namespace FootballPitchesBooking.Controllers
                         }
                     }
                 }
-               
+
             }
             return View(rank); //cai bao' loi~ mang tinh' tuong doi', chua biet requirement chinh xac sao nen chu check trc cho chac
         }
+
+        #endregion MEMBER RANK MANAGEMENT
     }
 }

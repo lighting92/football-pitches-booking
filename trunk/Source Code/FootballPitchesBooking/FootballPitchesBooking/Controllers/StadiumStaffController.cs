@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace FootballPitchesBooking.Controllers
 {
-    [Authorize(Roles="StadiumStaff, StadiumMaster")]
+    [Authorize(Roles = "StadiumStaff, StadiumOwner")]
     public class StadiumStaffController : Controller
     {
         //
@@ -16,6 +16,34 @@ namespace FootballPitchesBooking.Controllers
         {
             return View();
         }
+
+
+        #region STADIUMS MANAGEMENT
+
+        public ActionResult Stadiums()
+        {
+            return View();
+        }
+
+        #endregion STADIUMS MANAGEMENT
+        
+        #region RESERVATION MANAGEMENT
+
+        public ActionResult Reservations()
+        {
+            return View();
+        }
+
+        #endregion RESERVATION MANAGEMENT
+
+        #region PROMOTION MANAGEMENT
+
+        public ActionResult Promotions()
+        {
+            return View();
+        }
+
+        #endregion PROMOTION MANAGEMENT
 
     }
 }

@@ -275,5 +275,12 @@ namespace FootballPitchesBooking.BusinessObjects
 
             return results;
         }
+
+        public string[] GetAllUserName()
+        {
+            UserDAO userDAO = new UserDAO();
+            var userNames = userDAO.GetAllUser().Select(u => u.UserName).ToArray();
+            return userNames;
+        }
     }
 }

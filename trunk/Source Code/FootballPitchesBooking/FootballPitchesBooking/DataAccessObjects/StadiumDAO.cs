@@ -14,6 +14,12 @@ namespace FootballPitchesBooking.DataAccessObjects
             return db.Stadiums.Where(s => s.Id == stadiumId).FirstOrDefault();
         }
 
+        public List<Stadium> GetStadiumsByOwner(int ownerId)
+        {
+            FPBDataContext db = new FPBDataContext();
+            return db.Stadiums.Where(s => s.MainOwner == ownerId).ToList();
+        }
+
         public List<Stadium> GetAllStadiums()
         {
             FPBDataContext db = new FPBDataContext();
@@ -46,6 +52,7 @@ namespace FootballPitchesBooking.DataAccessObjects
             currentStadium.Phone = stadium.Phone;
             currentStadium.Email = stadium.Email;
             currentStadium.IsActive = stadium.IsActive;
+            currentStadium.MainOwner = stadium.MainOwner;
 
             try
             {

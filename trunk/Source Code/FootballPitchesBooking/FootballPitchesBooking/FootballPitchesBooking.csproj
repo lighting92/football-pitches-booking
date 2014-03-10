@@ -331,6 +331,10 @@
     <Content Include="Views\WebsiteStaff\Stadiums.cshtml" />
     <Content Include="Views\WebsiteStaff\EditStadium.cshtml" />
     <Content Include="Views\WebsiteStaff\AddStadium.cshtml" />
+    <Content Include="Views\Shared\_StadiumStaffLayout.cshtml" />
+    <Content Include="Views\StadiumStaff\Stadiums.cshtml" />
+    <Content Include="Views\StadiumStaff\Reservations.cshtml" />
+    <Content Include="Views\StadiumStaff\Promotions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

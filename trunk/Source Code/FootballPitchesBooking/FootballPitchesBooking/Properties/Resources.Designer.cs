@@ -70,6 +70,15 @@ namespace FootballPitchesBooking.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Xóa thành công.
+        /// </summary>
+        internal static string Delete_Success {
+            get {
+                return ResourceManager.GetString("Delete_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Xin hãy điền đầy đủ vào những trường thông tin bắt buộc.
         /// </summary>
         internal static string Form_EmptyFields {
@@ -160,11 +169,20 @@ namespace FootballPitchesBooking.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tài khoản không tìm thấy.
+        ///   Looks up a localized string similar to Không tìm thấy tài khoản này.
         /// </summary>
         internal static string User_UserNotMatched {
             get {
                 return ResourceManager.GetString("User_UserNotMatched", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Không tìm thấy tài khoản chủ sân đã nhập.
+        /// </summary>
+        internal static string Webstaff_MainOwnerNotFound {
+            get {
+                return ResourceManager.GetString("Webstaff_MainOwnerNotFound", resourceCulture);
             }
         }
     }

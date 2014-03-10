@@ -1,5 +1,6 @@
 ﻿@model FootballPitchesBooking.Models.WebsiteStaffModels.EditStadiumModel
 @{
+    ViewBag.STADIUM = "active";
     ViewBag.Title = "Thêm Sân Bóng";
     Layout = "~/Views/Shared/_WebsiteStaffLayout.cshtml";
 }
@@ -37,8 +38,21 @@
                             <div class="span3">
                                 <label>
                                     CHỦ SÂN
-                                    <input name="MainOwner" type="text" placeholder="CHỦ SÂN" value="@Model.MainOwner">
+                                    <input id="mainowner" name="MainOwner" type="text" placeholder="CHỦ SÂN" value="@Model.MainOwner">
                                 </label>
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        $.ajax({
+                                            url: "/Account/GetAllUserName",
+                                            type: "post",
+                                            success: function (data) {
+                                                $("#mainowner").typeahead({
+                                                    source: data
+                                                });
+                                            }
+                                        });
+                                    });
+                                </script>
                             </div>
                             <div class="span3" style="visibility: hidden;">
                                 <label>&nbsp</label>
@@ -78,7 +92,7 @@
                             <div class="span3">
                                 <label>
                                     ĐƯỜNG
-                                    <input name="Street" type="text" placeholder="ĐƯỜNG" value="@Model.Street" readonly>
+                                    <input name="Street" type="text" placeholder="ĐƯỜNG" value="@Model.Street">
                                 </label>
                             </div>
                             <div class="span3">
@@ -135,16 +149,6 @@
                                     <input type="file" name="Images" multiple id="imageUpload" />
                                 </label>
                             </div>
-                            @if (Model.Images != null)
-                            {
-                                for (int i = 0; i < Model.Images.Count(); i++)
-                                {
-                                <div class="span3">
-                                    <img src="~/Content/images/stadiums/@Model.Images[i]" />
-                                    <label class="center"><a onclick="DeleteImage(@Model.ImageIds[i])">XÓA</a></label>
-                                </div>
-                                }
-                            }
                             <script type="text/javascript">
                                 function DeleteImage(id) {
                                     var confirm = confirm("Bạn có muốn xóa tấm hình này không? Hành động này không thể phục hồi.");

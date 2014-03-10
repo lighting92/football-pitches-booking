@@ -24,12 +24,12 @@
         <div class="row">
             <!-- start header -->
             <div class="span5 logo">
-                <a href="/WebsiteStaff">
+                <a href="/StadiumStaff">
                     <div class="row">
                         <div class="span4 logo">
                             <h1>ĐẶT SÂN BÓNG ĐÁ<span> ONLINE</span></h1>
                             <p>&#9917;&#9917;&#9917;&#9917;&#9917;</p>
-                            <h1><span>TRANG QUẢN TRỊ</span></h1>
+                            <h1><span>TRANG QUẢN LÝ SÂN</span></h1>
                         </div>
                     </div>
                 </a>
@@ -81,19 +81,13 @@
 
                         <div class="nav-collapse">
                             <ul class="nav nav-pills">
-                                @if (User.IsInRole("WebsiteMaster"))
+                                <li class="@ViewBag.HELP"><a href="/StadiumStaff">HƯỚNG DẪN</a></li>
+                                @if (User.IsInRole("StadiumOwner"))
                                 {
-                                    <li class="@ViewBag.REQUEST"><a href="/WebsiteStaff/JoinRequests">YÊU CẦU THAM GIA</a></li>
-                                    <li class="@ViewBag.STADIUM"><a href="/WebsiteStaff/Stadiums">SÂN BÓNG</a></li>
-                                    <li class="@ViewBag.MEMBER"><a href="/WebsiteStaff/Users">THÀNH VIÊN</a></li>
-                                    <li class="@ViewBag.RANK"><a href="/WebsiteStaff/MemberRanks">HỆ THỐNG CẤP BẬC</a></li>
-                                    <li class="@ViewBag.ADVERTISEMENT"><a href="/WebsiteStaff/Advertisements">QUẢNG CÁO</a></li>
+                                    <li class="@ViewBag.STADIUM"><a href="/StadiumStaff/Stadiums">SÂN BÓNG</a></li>
                                 }
-                                else
-                                {
-                                    <li class="@ViewBag.MEMBER"><a href="/WebsiteStaff/Users">THÀNH VIÊN</a></li>
-                                    <li class="@ViewBag.ADVERTISEMENT"><a href="/WebsiteStaff/Advertisements">QUẢNG CÁO</a></li>
-                                }
+                                <li class="@ViewBag.RESERVATION"><a href="/StadiumStaff/Reservations">ĐẶT SÂN</a></li>
+                                <li class="@ViewBag.PROMOTION"><a href="/StadiumStaff/Promotions">KHUYẾN MÃI</a></li>
                             </ul>
                         </div>
                         <!-- /.nav-collapse -->
