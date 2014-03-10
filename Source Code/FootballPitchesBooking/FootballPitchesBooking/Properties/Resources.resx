@@ -120,6 +120,9 @@
   <data name="DB_Exception" xml:space="preserve">
     <value>Máy chủ đang bận. Xin vui lòng thử lại sau</value>
   </data>
+  <data name="Delete_Success" xml:space="preserve">
+    <value>Xóa thành công</value>
+  </data>
   <data name="Form_EmptyFields" xml:space="preserve">
     <value>Xin hãy điền đầy đủ vào những trường thông tin bắt buộc</value>
   </data>
@@ -151,6 +154,9 @@
     <value>Hình tải lên không đúng định dạng</value>
   </data>
   <data name="User_UserNotMatched" xml:space="preserve">
-    <value>Tài khoản không tìm thấy</value>
+    <value>Không tìm thấy tài khoản này</value>
+  </data>
+  <data name="Webstaff_MainOwnerNotFound" xml:space="preserve">
+    <value>Không tìm thấy tài khoản chủ sân đã nhập</value>
   </data>
 </root>

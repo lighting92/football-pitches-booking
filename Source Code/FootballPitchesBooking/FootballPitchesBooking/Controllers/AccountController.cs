@@ -204,5 +204,13 @@ namespace FootballPitchesBooking.Controllers
             }
 
         }
+
+        [HttpPost]
+        public JsonResult GetAllUserName()
+        {
+            UserBO userBO = new UserBO();
+            var userNames = userBO.GetAllUserName();
+            return Json(userNames);
+        }
     }
 }

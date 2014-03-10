@@ -40,6 +40,12 @@ namespace FootballPitchesBooking.DataAccessObjects
             }
         }
 
+        public List<User> GetAllUser()
+        {
+            FPBDataContext db = new FPBDataContext();
+            return db.Users.ToList();
+        }
+
         /// <summary>
         /// Select all User in db
         /// </summary>
@@ -56,7 +62,22 @@ namespace FootballPitchesBooking.DataAccessObjects
             {
                 return null;
             }
-        }        
+        }
 
+        public int UpdateUserRole(int userId, int roleId)
+        {
+            FPBDataContext db = new FPBDataContext();
+            var user = db.Users.Where(u => u.Id == userId).FirstOrDefault();
+            try
+            {
+                user.RoleId = roleId;
+                db.SubmitChanges();
+                return 1;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
     }
 }

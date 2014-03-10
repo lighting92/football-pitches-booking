@@ -8,6 +8,10 @@ textarea
     resize: none;
 }
 
+h1, h2, h3, h4, h5, h6, .what_people_say p
+{
+    font-family: Arial,sans-serif;
+}
 .header-account
 {
     width: 400px;
@@ -170,3 +174,14 @@ textarea
 {
     min-height: 226px;
 }
+
+.typeahead.dropdown-menu
+{
+    min-width: 214px;
+}
+
+    .typeahead.dropdown-menu .active > a, .dropdown-menu .active > a:hover
+    {
+        background: none;
+        background-color: rgba(0, 0, 0, 0.1);
+    }
