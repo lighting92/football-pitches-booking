@@ -197,5 +197,41 @@ namespace FootballPitchesBooking.BusinessObjects
             StadiumImageDAO siDAO = new StadiumImageDAO();
             return siDAO.GetAllImageOfStadium(stadiumId);
         }
+
+        public Field GetFieldById(int fieldId)
+        {
+            FieldDAO fieldDAO = new FieldDAO();
+            return fieldDAO.GetFieldById(fieldId);
+        }
+
+        public int CreateField(Field field, List<FieldPrice> fieldPrice)
+        {
+            FieldDAO fieldDAO = new FieldDAO();
+
+            Field duplicatedFieldNumber = fieldDAO.GetFieldByNumber(field.Number, field.StadiumId);
+
+            if (duplicatedFieldNumber != null)
+            {
+                return -1;
+            }
+
+            int result = fieldDAO.CreateField(field);
+
+            if (result > 0)
+            {
+                foreach (var item in fieldPrice)
+                {
+                    item.FieldId = result;
+                }
+
+                FieldPriceDAO fieldPriceDAO = new FieldPriceDAO();
+
+                if (fieldPriceDAO.InsertListFieldPrice(fieldPrice) > 0)
+                {
+                    return result;
+                }
+            }
+            return 0;
+        }
     }
 }
