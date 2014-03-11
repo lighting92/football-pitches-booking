@@ -1,161 +1,185 @@
 ﻿@{
     ViewBag.Title = "TRANG CHỦ";
 }
-
+<script src="~/Content/bootstrap/js/collapse.js"></script>
 
 <div class="row-fluid slideshow-row">
     <div class="span12 slideshow">
-        <div class="slider-wrapper theme-default">
-            <div class="ribbon"></div>
-            <div id="nivoslider-125" class="nivoSlider">
-                <img src="/Content/css/images/homepage/slide1.jpg" alt="" />
-                <img src="/Content/css/images/homepage/slide2.jpg" alt="" />
-                <img src="/Content/css/images/homepage/slide3.jpg" alt="" />
-            </div>
-        </div>
     </div>
 </div>
+
+<!--collapse search -->
 <div class="row-fluid home" id="findavailablesection">
+
+
     <div class="span12">
-        <h2>tìm sân nhanh<br>
-            <span class="special-font">chọn kiểu sân, ngày giờ và địa điểm</span></h2>
-    </div>
-</div>
-<form class="form-inline">
-    <div class="row-fluid home">
-        <div class="span3">
-            <div class="room_selector" data-price="34" data-adults="1" data-kids="1">
-                <h5><a href="#" class="pull-left"><i class="icon-chevron-left"></i></a>sân 5 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
-                <a href="/Content/css/images/stadiums/san5nguoi.jpg">
-                    <img src="/Content/css/images/stadiums/san5nguoi.jpg" alt="" /></a>
-                <p>Sân hình chữ nhật, chiều dài tối đa 42m và tối thiểu 25m, chiều rộng tối đa 25m và tối thiểu 15m.</p>                
-            </div>
-            <div class="room_selector" data-price="48" data-adults="2" data-kids="1" style="display: none;">
-                <h5><a href="#" class="pull-left "><i class="icon-chevron-left"></i></a>sân 7 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
-                <a href="/Content/css/images/stadiums/san7nguoi.jpg">
-                    <img src="/Content/css/images/stadiums/san7nguoi.jpg" alt="" /></a>
-                <p>Sân hình chữ nhật, chiều dài tối đa 75m và tối thiểu 50m, chiều rộng tối đa 40m và tối thiểu 55m.</p>
-            </div>
-            <div class="room_selector" data-price="62" data-adults="3" data-kids="2" style="display: none;">
-                <h5><a href="#" class="pull-left "><i class="icon-chevron-left"></i></a>sân 11 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
-                <a href="/Content/css/images/stadiums/san7nguoi.jpg">
-                    <img src="/Content/css/images/stadiums/san11nguoi.png" alt="" /></a>
-                <p>Sân hình chữ nhật, chiều dài tối đa 120m và tối thiểu 90m, chiều rộng tối đa 90m và tối thiểu 45m. </p>
-            </div>
-        </div>
-        <div class="span3 home_calendar">
-            <div class="form-horizontal">
-                <div class="control-group">
-                    <label class="control-label pull-left" for="startdate">NGÀY</label>
-                    <div class="controls">
-                        <input type="text" id="startdate" value="" class="span2 check-in-date" value="" />
+
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                            <h2>tìm sân nhanh</h2>
+                                
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <h2><span class="special-font">chọn kiểu sân, ngày giờ và địa điểm</span></h2>
+                        <form class="form-inline">
+                            <div class="row-fluid home">
+                                <div class="span3">
+                                    <div class="room_selector" data-price="34" data-adults="1" data-kids="1">
+                                        <h5><a href="#" class="pull-left"><i class="icon-chevron-left"></i></a>sân 5 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
+                                        <a href="/Content/css/images/stadiums/san5nguoi.jpg">
+                                            <img src="/Content/css/images/stadiums/san5nguoi.jpg" alt="" /></a>
+                                        <p>Sân hình chữ nhật, chiều dài tối đa 42m và tối thiểu 25m, chiều rộng tối đa 25m và tối thiểu 15m.</p>
+                                    </div>
+                                    <div class="room_selector" data-price="48" data-adults="2" data-kids="1" style="display: none;">
+                                        <h5><a href="#" class="pull-left "><i class="icon-chevron-left"></i></a>sân 7 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
+                                        <a href="/Content/css/images/stadiums/san7nguoi.jpg">
+                                            <img src="/Content/css/images/stadiums/san7nguoi.jpg" alt="" /></a>
+                                        <p>Sân hình chữ nhật, chiều dài tối đa 75m và tối thiểu 50m, chiều rộng tối đa 40m và tối thiểu 55m.</p>
+                                    </div>
+                                    <div class="room_selector" data-price="62" data-adults="3" data-kids="2" style="display: none;">
+                                        <h5><a href="#" class="pull-left "><i class="icon-chevron-left"></i></a>sân 11 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
+                                        <a href="/Content/css/images/stadiums/san7nguoi.jpg">
+                                            <img src="/Content/css/images/stadiums/san11nguoi.png" alt="" /></a>
+                                        <p>Sân hình chữ nhật, chiều dài tối đa 120m và tối thiểu 90m, chiều rộng tối đa 90m và tối thiểu 45m. </p>
+                                    </div>
+                                </div>
+                                <div class="span3 home_calendar">
+                                    <div class="form-horizontal">
+                                        <div class="control-group">
+                                            <label class="control-label pull-left" for="startdate">NGÀY</label>
+                                            <div class="controls">
+                                                <input type="text" id="startdate" value="" class="span2 check-in-date" value="" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="datepicker_from"></div>
+                                </div>
+                                <div class="span3 home_calendar home_picktime">
+                                    <div class="form-horizontal">
+                                        <div class="control-group">
+                                            <label class="control-label pull-left" for="starttime">GIỜ</label>
+                                            <div class="controls">
+                                                <div class="input-append bootstrap-timepicker">
+                                                    <input id="starttime" type="text" value="" class="span2 home-start-time" value="" />
+                                                    <script type="text/javascript">
+                                                        var timepicker = document.getElementById("starttime");
+                                                        timepicker.onkeydown = function () {
+                                                            return false;
+                                                        }
+                                                    </script>
+                                                    <span class="add-on"><i class="icon-time"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label pull-left" for="duration">THỜI LƯỢNG</label>
+                                            <div class="controls">
+                                                <select class="select_duration" id="duration">
+                                                    <option value="1" selected="selected">60 phút</option>
+                                                    <option value="1.5">90 phút</option>
+                                                    <option value="2">120 phút</option>
+                                                    <option value="2.5">150 phút</option>
+                                                    <option value="3">180 phút</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label pull-left" for="city">TỈNH/TP</label>
+                                            <div class="controls">
+                                                <select class="select_city" id="city">
+                                                    <option value="Hồ Chí Minh" selected="selected">Hồ Chí Minh</option>
+                                                    <option value="Đồng Nai">Đồng Nai</option>
+                                                    <option value="Biên Hòa">Biên Hòa</option>
+                                                    <option value="Bình Dương">Bình Dương</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label pull-left" for="district">QUẬN / HUYỆN</label>
+                                            <div class="controls">
+                                                <select class="select_district" id="district">
+                                                    <option value="Q. 1" selected="selected">Q. 1</option>
+                                                    <option value="Q. 2">Q. 2</option>
+                                                    <option value="Q. 3">Q. 3</option>
+                                                    <option value="Q. 4">Q. 4</option>
+                                                    <option value="Q. 5">Q. 5</option>
+                                                    <option value="Q. 6">Q. 6</option>
+                                                    <option value="Q. 7">Q. 7</option>
+                                                    <option value="Q. 8">Q. 8</option>
+                                                    <option value="Q. 9">Q. 9</option>
+                                                    <option value="Q. 10">Q. 10</option>
+                                                    <option value="Q. 11">Q. 11</option>
+                                                    <option value="Q. 12">Q. 12</option>
+                                                    <option value="Q. Bình Tân">Q. Bình Tân</option>
+                                                    <option value="Q. Bình Thạnh">Q. Bình Thạnh</option>
+                                                    <option value="Q. Gò Vấp">Q. Gò Vấp</option>
+                                                    <option value="Q. Phú Nhuận">Q. Phú Nhuận</option>
+                                                    <option value="Q. Tân Bình">Q. Tân Bình</option>
+                                                    <option value="Q. Tân Phú">Q. Tân Phú</option>
+                                                    <option value="Q. Thủ Đức">Q. Thủ Đức</option>
+                                                    <option value="H. Bình Chánh">H. Bình Chánh</option>
+                                                    <option value="H. Củ Chi">H. Củ Chi</option>
+                                                    <option value="H. Hóc Môn">H. Hóc Môn</option>
+                                                    <option value="H. Nhà Bè">H. Nhà Bè</option>
+                                                    <option value="H. Cần Giờ">H. Cần Giờ</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-primary btn-large home-btn-find pull-right">Tìm Kiếm</button>
+                                    </div>
+                                </div>
+
+                                <div class="span3">
+                                    <p>
+                                        BẠN LÀ CHỦ CỦA 1 SÂN BÓNG?
+                                    </p>
+                                    <p>
+                                        BẠN MUỐN SÂN BÓNG CỦA BẠN ĐƯỢC HỖ TRỢ TRỰC TUYẾN?
+                                    </p>
+                                    <p>
+                                        HÃY ĐẾN VỚI HỆ THỐNG SÂN BÓNG TRỰC TUYẾN CỦA CHÚNG TÔI.
+                                    </p>
+                                    <p>
+                                        <a class="pull-right" href="#">YÊU CẦU HỖ TRỢ >>></a>
+                                    </p>
+                                    <div class="span12 logo">
+                                        <div class="row">
+                                            <div class="span12 logo">
+                                                <h1>ĐẶT SÂN BÓNG ĐÁ<span> ONLINE</span></h1>
+                                                <p>&#9917;&#9917;&#9917;&#9917;&#9917;</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
                     </div>
                 </div>
-            </div>
-            <div class="datepicker_from"></div>
-        </div>
-        <div class="span3 home_calendar home_picktime">
-            <div class="form-horizontal">
-                <div class="control-group">
-                    <label class="control-label pull-left" for="starttime">GIỜ</label>
-                    <div class="controls">
-                        <div class="input-append bootstrap-timepicker">
-                            <input id="starttime" type="text" value="" class="span2 home-start-time" value="" />
-                            <script type="text/javascript">
-                                var timepicker = document.getElementById("starttime");
-                                timepicker.onkeydown = function () {
-                                    return false;
-                                }
-                            </script>
-                            <span class="add-on"><i class="icon-time"></i></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label pull-left" for="duration">THỜI LƯỢNG</label>
-                    <div class="controls">
-                        <select class="select_duration" id="duration">
-                            <option value="1" selected="selected">60 phút</option>
-                            <option value="1.5">90 phút</option>
-                            <option value="2">120 phút</option>
-                            <option value="2.5">150 phút</option>
-                            <option value="3">180 phút</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label pull-left" for="city">TỈNH/TP</label>
-                    <div class="controls">
-                        <select class="select_city" id="city">
-                            <option value="Hồ Chí Minh" selected="selected">Hồ Chí Minh</option>
-                            <option value="Đồng Nai">Đồng Nai</option>
-                            <option value="Biên Hòa">Biên Hòa</option>
-                            <option value="Bình Dương">Bình Dương</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label pull-left" for="district">QUẬN / HUYỆN</label>
-                    <div class="controls">
-                        <select class="select_district" id="district">
-                            <option value="Q. 1" selected="selected">Q. 1</option>
-                            <option value="Q. 2">Q. 2</option>
-                            <option value="Q. 3">Q. 3</option>
-                            <option value="Q. 4">Q. 4</option>
-                            <option value="Q. 5">Q. 5</option>
-                            <option value="Q. 6">Q. 6</option>
-                            <option value="Q. 7">Q. 7</option>
-                            <option value="Q. 8">Q. 8</option>
-                            <option value="Q. 9">Q. 9</option>
-                            <option value="Q. 10">Q. 10</option>
-                            <option value="Q. 11">Q. 11</option>
-                            <option value="Q. 12">Q. 12</option>
-                            <option value="Q. Bình Tân">Q. Bình Tân</option>
-                            <option value="Q. Bình Thạnh">Q. Bình Thạnh</option>
-                            <option value="Q. Gò Vấp">Q. Gò Vấp</option>
-                            <option value="Q. Phú Nhuận">Q. Phú Nhuận</option>
-                            <option value="Q. Tân Bình">Q. Tân Bình</option>
-                            <option value="Q. Tân Phú">Q. Tân Phú</option>
-                            <option value="Q. Thủ Đức">Q. Thủ Đức</option>
-                            <option value="H. Bình Chánh">H. Bình Chánh</option>
-                            <option value="H. Củ Chi">H. Củ Chi</option>
-                            <option value="H. Hóc Môn">H. Hóc Môn</option>
-                            <option value="H. Nhà Bè">H. Nhà Bè</option>
-                            <option value="H. Cần Giờ">H. Cần Giờ</option>
-                        </select>
-                    </div>
-                </div>
-                <button class="btn btn-primary btn-large home-btn-find pull-right">Tìm Kiếm</button>
             </div>
         </div>
 
-        <div class="span3">
-            <p>
-                BẠN LÀ CHỦ CỦA 1 SÂN BÓNG?
-            </p>
-            <p>
-                BẠN MUỐN SÂN BÓNG CỦA BẠN ĐƯỢC HỖ TRỢ TRỰC TUYẾN?
-            </p>
-            <p>
-                HÃY ĐẾN VỚI HỆ THỐNG SÂN BÓNG TRỰC TUYẾN CỦA CHÚNG TÔI.
-            </p>
-            <p>
-                <a class="pull-right" href="#">YÊU CẦU HỖ TRỢ >>></a>
-            </p>
-            <div class="span12 logo">
-                <div class="row">
-                    <div class="span12 logo">
-                        <h1>ĐẶT SÂN BÓNG ĐÁ<span> ONLINE</span></h1>
-                        <p>&#9917;&#9917;&#9917;&#9917;&#9917;</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+
+
+
+
+
+
     </div>
-</form>
+</div>
+<!--end collapse search -->
+
+
 <hr />
 <div class="row-fluid">
-    <div class="span4"> 
+    <div class="span4">
         <h3><span>S</span>ân Bóng</h3>
         <div class="stadium-item">
             <div class="stadium-image">
@@ -165,7 +189,10 @@
             <div class="stadium-detail">
                 <p class="stadium-name">Sân FTOWN</p>
                 <p class="stadium-address">Quận 12, HCM</p>
-                <p class="field-type">Kiểu Sân: 5, 7, 11 <button class="btn btn-primary home-btn-book pull-right">ĐẶT</button></p>
+                <p class="field-type">
+                    Kiểu Sân: 5, 7, 11
+                    <button class="btn btn-primary home-btn-book pull-right">ĐẶT</button>
+                </p>
             </div>
         </div>
         <hr />
@@ -177,7 +204,10 @@
             <div class="stadium-detail">
                 <p class="stadium-name">Sân FTOWN</p>
                 <p class="stadium-address">Quận 12, HCM</p>
-                <p class="field-type">Kiểu Sân: 5, 7, 11 <button class="btn btn-primary home-btn-book pull-right">ĐẶT</button></p>
+                <p class="field-type">
+                    Kiểu Sân: 5, 7, 11
+                    <button class="btn btn-primary home-btn-book pull-right">ĐẶT</button>
+                </p>
             </div>
         </div>
     </div>
@@ -217,7 +247,10 @@
             <div class="stadium-detail">
                 <p class="stadium-name">Sân FTOWN</p>
                 <p class="stadium-address">Quận 12, HCM</p>
-                <p class="field-type">Kiểu Sân Khuyến Mãi: 5, 7, 11 <button class="btn btn-primary home-btn-book pull-right">ĐẶT</button></p>
+                <p class="field-type">
+                    Kiểu Sân Khuyến Mãi: 5, 7, 11
+                    <button class="btn btn-primary home-btn-book pull-right">ĐẶT</button>
+                </p>
             </div>
         </div>
         <hr />
@@ -229,7 +262,10 @@
             <div class="stadium-detail">
                 <p class="stadium-name">Sân FTOWN</p>
                 <p class="stadium-address">Quận 12, HCM</p>
-                <p class="field-type">Kiểu Sân Khuyến Mãi: 5, 7, 11 <button class="btn btn-primary home-btn-book pull-right">ĐẶT</button></p>
+                <p class="field-type">
+                    Kiểu Sân Khuyến Mãi: 5, 7, 11
+                    <button class="btn btn-primary home-btn-book pull-right">ĐẶT</button>
+                </p>
             </div>
         </div>
     </div>
