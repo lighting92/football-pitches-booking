@@ -532,6 +532,80 @@ namespace FootballPitchesBooking.Controllers
             return View(rank); //cai bao' loi~ mang tinh' tuong doi', chua biet requirement chinh xac sao nen chu check trc cho chac
         }
 
+        //giao dien tinh' sau
+        [Authorize(Roles = "WebsiteMaster")]
+        public ActionResult EditMemberRank(int? id) //truyen vao 1 id, int? id tuc la id nay co the null hoac kieu khac, vi du user co' tinh` gõ đường dẫn là EditMemberRank?id=abc thì sao, int? id để bắt các TH này
+        {
+            MemberRank memberRank = new MemberRank();
+            memberRank = userBO.GetRankById((int)id); //convert từ int? về int rồi mới gọi hàm
+            RankModel rank = new RankModel 
+            {
+                Id = memberRank.Id,
+                RankName = memberRank.RankName,
+                Point = (int)memberRank.Point,
+                Promotion = memberRank.Promotion,
+                ErrorMessages = new List<string>()
+            };
+            return View(rank); //trả về Rankmodel, à mà bm, cái rank kia là trả về RankModel
+        }
+
+        [Authorize(Roles = "WebsiteMaster")]
+        [HttpPost]
+        public ActionResult EditMemberRank(FormCollection form) //cái này là lấy form vào, các field của form tương tự ở dưới
+        {
+            RankModel rank = new RankModel();
+            rank.Id = Int32.Parse(form["RankId"]);
+            rank.RankName = form["RankName"];
+            rank.Point = Int32.Parse(form["Point"]);
+            rank.Promotion = form["Promotion"];
+            rank.ErrorMessages = new List<string>();
+
+            if (string.IsNullOrEmpty(rank.RankName) || string.IsNullOrEmpty(rank.Promotion)) //check null
+            {
+                rank.ErrorMessages.Add(Resources.Form_EmptyFields);
+            }
+
+            if (rank.ErrorMessages.Count == 0) //nếu ko có lỗi thì gọi BO lên update
+            {
+                MemberRank memberrank = new MemberRank
+                {
+                    Id = rank.Id,
+                    RankName = rank.RankName,
+                    Point = rank.Point,
+                    Promotion = rank.Promotion,
+
+                };
+
+                List<int> results = userBO.UpdateMemberRank(memberrank);
+
+                if (results.Count == 2 && results[0] > 0 && results[1] > 0) //nếu update ko có lỗi thì redirect qua cái này
+                {
+                    return RedirectToAction("Index", "Home"); //cai nay sau nay sua lai redirect den trang list rank hay gi day, khi nao add success thi no redirect, ko thi bao loi
+                }
+                else //nếu update lỗi thì báo lỗi ra ngoài rồi kiu ng ta update lại, vậy thôi
+                {
+                    foreach (var error in results)
+                    {
+                        if (error == 0)
+                        {
+                            rank.ErrorMessages.Add(Resources.DB_Exception);
+                        }
+                        if (error == -1)
+                        {
+                            rank.ErrorMessages.Add(Resources.Rank_RankNameNotAvailable);
+                        }
+                        if (error == -2)
+                        {
+                            rank.ErrorMessages.Add(Resources.Rank_RankPointNotAvailable);
+                        }
+                    }
+                }
+
+            }
+            return View(rank); //cai bao' loi~ mang tinh' tuong doi', chua biet requirement chinh xac sao nen chu check trc cho chac
+        }
+
+
         #endregion MEMBER RANK MANAGEMENT
     }
 }

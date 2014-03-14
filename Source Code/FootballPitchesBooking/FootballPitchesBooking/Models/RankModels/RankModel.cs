@@ -7,6 +7,7 @@ namespace FootballPitchesBooking.Models.RankModels
 {
     public class RankModel
     {
+        public int Id { get; set; }
         public string RankName { get; set; }
         public int Point { get; set; }
         public string Promotion { get; set; }
