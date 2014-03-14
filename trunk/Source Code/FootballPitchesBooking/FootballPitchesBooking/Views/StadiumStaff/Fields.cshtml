@@ -1,0 +1,58 @@
+﻿@model FootballPitchesBooking.Models.StadiumStaffModels.FieldsModel
+@{
+    ViewBag.STADIUM = "active";
+    ViewBag.Title = "Quản Lý Sân Con";
+    Layout = "~/Views/Shared/_StadiumStaffLayout.cshtml";
+}
+@if (Model.HavePermission)
+{
+    <h1>QUẢN LÝ SÂN CON</h1>
+    <h4>HỆ THỐNG SÂN <a href="/StadiumStaff/Fields?Stadium=@Model.StadiumId">@Model.StadiumName</a> : <i>@Model.StadiumAddress</i></h4>
+    
+    <a href="/StadiumStaff/AddField?Stadium=@Model.StadiumId"><button class="btn-default">THÊM SÂN CON</button></a>
+
+    if (Model.Fields != null && Model.Fields.Count != 0)
+    {
+    <table class="table table-condensed table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>TÊN SÂN</th>
+                <th>KIỂU SÂN</th>
+                <th>TÊN SÂN CHA</th>
+                <th>TRẠNG THÁI HOẠT ĐỘNG</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Fields)
+            {
+                <tr>
+                    <td>@item.Number</td>
+                    <td>@item.FieldType</td>
+                    @if (!string.IsNullOrEmpty(item.Parent))
+                    {
+                        <td>@item.Parent</td>
+                    }
+                    else
+                    {
+                        <td>-</td>
+                    }
+                    @if (item.IsActive)
+                    {
+                        <td>Đang Hoạt Động</td>
+                    }
+                    else
+                    {
+                        <td>Không Hoạt Động</td>
+                    }
+                    <td class="table-cell-action"><a href="/StadiumStaff/EditField?Id=@item.Id">Chỉnh Sửa</a> | <a href="/StadiumStaff/FieldPrices?Field=@item.Id">Bảng Giá</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    }
+}
+else
+{
+    <h3>@Model.ErrorMessage</h3>
+}

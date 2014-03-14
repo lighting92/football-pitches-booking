@@ -14,7 +14,7 @@
 
 @if (Model != null && Model.Count != 0)
 {
-    <table border="1">
+    <table class="table table-bordered table-hover">
         <thead>
             <tr>
                 <th>Tên Tài Khoản</th>
@@ -23,13 +23,13 @@
                 <th>Số Điện Thoại</th>
                 <th>Tên Sân Bóng</th>
                 <th>Địa Chỉ Sân</th>
-                <th>Ghi Chú</th>
                 <th>Trạng Thái</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
-            {
+            {               
                 <tr>
                     <td>@item.User.UserName</td>
                     <td>@item.FullName</td>                    
@@ -37,10 +37,9 @@
                     <td>@item.Phone</td>
                     <td>@item.StadiumName</td>
                     <td>@item.StadiumAddress</td>
-                    <td>@item.Note</td>
                     <td>@item.Status</td>
-                    <td><a href="/WebsiteStaff/EditJSR?Id=@item.Id">Chỉnh Sửa</a></td>
-                    <td><a href="/WebsiteStaff/DeleteJSR?Id=@item.Id">Xóa</a></td>
+                    <td><a href="/WebsiteStaff/EditJSR?Id=@item.Id">Chỉnh Sửa</a> | 
+                    <a href="/WebsiteStaff/DeleteJSR?Id=@item.Id">Xóa</a></td>
                 </tr>
             }
         </tbody>

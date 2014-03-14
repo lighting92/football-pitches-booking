@@ -1,7 +1,40 @@
-﻿@{
+﻿@model List<FootballPitchesBooking.Models.Stadium>
+@{
     ViewBag.STADIUM = "active";
     ViewBag.Title = "Stadiums";
     Layout = "~/Views/Shared/_StadiumStaffLayout.cshtml";
 }
 
 <h1>QUẢN LÝ SÂN BÓNG</h1>
+
+
+<table class="table table-condensed table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>TÊN SÂN BÓNG</th>
+            <th>ĐỊA CHỈ SÂN</th>
+            <th>SỐ ĐIỆN THOẠI</th>
+            <th>TRẠNG THÁI HOẠT ĐỘNG</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Street, @item.Ward, @item.District</td>
+                <td>@item.Phone</td>
+                @if (item.IsActive)
+                {
+                    <td>Đang Hoạt Động</td>
+                }
+                else
+                {
+                    <td>Không Hoạt Động</td>
+                }
+                <td class="table-cell-action"><a href="/StadiumStaff/EditStadium?Id=@item.Id">Chỉnh Sửa</a> | <a href="/StadiumStaff/Fields?Stadium=@item.Id">Sân Con</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
