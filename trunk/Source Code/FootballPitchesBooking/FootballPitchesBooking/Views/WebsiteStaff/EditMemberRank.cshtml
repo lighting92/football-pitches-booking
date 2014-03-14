@@ -1,0 +1,41 @@
+﻿@model FootballPitchesBooking.Models.RankModels.RankModel
+@{
+    ViewBag.Title = "Sửa thứ hạng";
+    ViewBag.RANK = "active";
+}
+
+<h2>Sửa thứ hạng</h2>
+@if (Model != null && Model.ErrorMessages.Count() > 0)
+{
+    <div style="color:red">
+        @foreach (var error in Model.ErrorMessages)
+        {
+            <p>- @error</p>
+        }
+    </div>
+}
+
+<form action="EditMemberRank" method="post">
+    <input type="hidden" name="RankId" value="@Model.Id" />
+    <table> 
+        <tr>
+            <td>Tên Hạng:</td>
+            <td><input type="text" name="RankName" value="@Model.RankName" /></td>
+        </tr>
+        <tr>
+            <td>Điểm:</td>
+            <td><input type="text" name="Point" value="@Model.Point" /></td>
+        </tr>
+        <tr>
+            <td>Phần Thưởng:</td>
+            <td><input type="text" name="Promotion" value="@Model.Promotion" /></td>
+        </tr> 
+        
+        <tr>
+            <td colspan="2">
+                <button type="submit">Lưu</button>
+                <button type="button" onclick="window.location = '/WebsiteStaff/MemberRanks'">Hủy bỏ</button>
+            </td>
+        </tr>
+    </table>
+</form>

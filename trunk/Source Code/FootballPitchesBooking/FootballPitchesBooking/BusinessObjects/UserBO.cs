@@ -9,7 +9,7 @@ namespace FootballPitchesBooking.BusinessObjects
 {
     public class UserBO
     {
-        UserDAO userDAO = new UserDAO();
+        UserDAO userDAO = new UserDAO(); // day dung ko, uh
         MemberRankDAO rankDAO = new MemberRankDAO();
 
 
@@ -249,13 +249,13 @@ namespace FootballPitchesBooking.BusinessObjects
         {
             RoleDAO roleDAO = new RoleDAO();
             return roleDAO.UpdateRole(roleId, roleId);
-        }
+        } // thang nao viet vay @@ func thi phai viet hoa chu dau tien theo coding convention @@
 
-        public List<int> CreateMemberRank(MemberRank memberRank)
+        public List<int> CreateMemberRank(MemberRank rank)
         {
             List<int> results = new List<int>();
-            MemberRank existedMemberRankName = rankDAO.GetMemberRankByName(memberRank.RankName);
-            MemberRank existedMemberRankPoint = rankDAO.GetMemberRankByPoint((int)memberRank.Point);
+            MemberRank existedMemberRankName = rankDAO.GetMemberRankByName(rank.RankName);
+            MemberRank existedMemberRankPoint = rankDAO.GetMemberRankByPoint((int)rank.Point);
 
             if (existedMemberRankName != null) //check xem co trung ten voi rank nao ko
             {
@@ -269,7 +269,12 @@ namespace FootballPitchesBooking.BusinessObjects
 
             if (results.Count == 0) //neu ko co loi~
             {
-                results.Add(rankDAO.CreateMemberRank(memberRank));
+                results.Add(rankDAO.CreateMemberRank(rank));
+            }
+
+            if (results.Count == 1 && results[0] > 0)
+            {
+                results.Add(userDAO.UpdateUserRank(rank));
             }
 
             return results;
@@ -295,5 +300,49 @@ namespace FootballPitchesBooking.BusinessObjects
                 return listUsers;
             }
         }
+
+        public MemberRank GetRankById(int rankId)
+        {
+            return rankDAO.GetMemberRankById(rankId);
+        }
+
+        public List<int> UpdateMemberRank(MemberRank rank)
+        {
+            List<int> results = new List<int>();
+            MemberRank existedMemberRankName = rankDAO.GetMemberRankByName(rank.RankName);
+            MemberRank existedMemberRankPoint = rankDAO.GetMemberRankByPoint((int)rank.Point);
+
+            if (existedMemberRankName != null) //check xem co trung ten voi rank nao ko
+            {
+                results.Add(-1);
+            }
+
+            if (existedMemberRankPoint != null) //check xem co cung point voi rank nao ko
+            {
+                results.Add(-2);
+            }
+
+            if (results.Count == 0) //neu ko co loi~
+            {
+                results.Add(rankDAO.UpdateMemberRank(rank));
+            } // doan validate nay y chang create
+
+            if (results.Count == 1 && results[0] > 0)
+            {
+                results.Add(userDAO.UpdateUserRank(rank));
+                //hoàn thành việc update rank, nhưng còn có đk gì nữa ko? validate?
+                //rank có 2 chỗ cần validate, là point với name có trùng với dữ liệu đã có trong db ko, để tránh lỗi logic
+                //ví dụ: nếu có 2 rank cùng point thì user sẽ lấy rank nào? conflict
+                //hoặc nếu 2 rank cùng tên thì ng ngoài nhìn vào sẽ ko thấy thay đổi gì thì sao? cũng conflict về lỗi logic
+                //vậy nên check 2 cái này trc rồi mới update
+                //chỗ này để update toàn bộ user dựa vào point đã thay đổi
+                //cai nay dung den user nen phai khai bao userDAO vao, ma hinh nhu o tren khai bao userDAO roi thi phai
+                //hết rồi đó, sửa lại create như này luôn
+            }
+
+            return results;
+        }
+
+
     }
 }
