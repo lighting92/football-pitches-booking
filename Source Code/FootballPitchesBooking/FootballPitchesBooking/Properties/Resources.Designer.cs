@@ -151,6 +151,33 @@ namespace FootballPitchesBooking.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bạn không có quyền hạn để quản lý sân bóng này.
+        /// </summary>
+        internal static string StadiumStaff_HaveNoPermissionTotAccessStadium {
+            get {
+                return ResourceManager.GetString("StadiumStaff_HaveNoPermissionTotAccessStadium", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Một trong số những nhân viên mới thêm vào đã là nhân viên của sân này.
+        /// </summary>
+        internal static string StadiumStaff_UpdateStadiumNewStaffConflict {
+            get {
+                return ResourceManager.GetString("StadiumStaff_UpdateStadiumNewStaffConflict", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sai một trong những tên tài khoản được cấp quyền quản lý sân.
+        /// </summary>
+        internal static string StadiumStaff_UpdateStadiumUserNotFound {
+            get {
+                return ResourceManager.GetString("StadiumStaff_UpdateStadiumUserNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cập nhật thành công.
         /// </summary>
         internal static string Update_Success {

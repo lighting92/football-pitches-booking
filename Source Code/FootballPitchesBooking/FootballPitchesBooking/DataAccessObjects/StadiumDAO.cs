@@ -14,10 +14,24 @@ namespace FootballPitchesBooking.DataAccessObjects
             return db.Stadiums.Where(s => s.Id == stadiumId).FirstOrDefault();
         }
 
-        public List<Stadium> GetStadiumsByOwner(int ownerId)
+        public List<Stadium> GetStadiumsByMainOwnerId(int mainOwnerId)
         {
             FPBDataContext db = new FPBDataContext();
-            return db.Stadiums.Where(s => s.MainOwner == ownerId).ToList();
+            return db.Stadiums.Where(s => s.MainOwner == mainOwnerId).ToList();
+        }
+
+        public List<Stadium> GetStadiumsByOwnerName(string ownerName)
+        {
+            FPBDataContext db = new FPBDataContext();
+
+            var result = db.StadiumStaffs.Where(ss => ss.User.UserName.ToLower().Equals(ownerName.ToLower())).Select(ss => ss.Stadium).ToList();
+            var more = db.Stadiums.Where(s => s.User.UserName.ToLower().Equals(ownerName.ToLower())).ToList();
+
+            foreach (var item in more)
+            {
+                result.Add(item);
+            }
+            return result.Distinct().ToList();
         }
 
         public List<Stadium> GetAllStadiums()
@@ -41,7 +55,7 @@ namespace FootballPitchesBooking.DataAccessObjects
             }
         }
 
-        public int UpdateStadium(Stadium stadium)
+        public int UpdateStadium(Stadium stadium, bool updateOwner = true)
         {
             FPBDataContext db = new FPBDataContext();
             Stadium currentStadium = db.Stadiums.Where(s => s.Id == stadium.Id).FirstOrDefault();
@@ -52,8 +66,10 @@ namespace FootballPitchesBooking.DataAccessObjects
             currentStadium.Phone = stadium.Phone;
             currentStadium.Email = stadium.Email;
             currentStadium.IsActive = stadium.IsActive;
-            currentStadium.MainOwner = stadium.MainOwner;
-
+            if (updateOwner)
+            {
+                currentStadium.MainOwner = stadium.MainOwner;
+            }
             try
             {
                 db.SubmitChanges();

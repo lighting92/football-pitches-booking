@@ -14,6 +14,12 @@ namespace FootballPitchesBooking.DataAccessObjects
             return db.StadiumStaffs.Where(staff => staff.StadiumId == stadiumId).ToList();
         }
 
+        public User GetMainOwnerOfStadium(int stadiumId)
+        {
+            FPBDataContext db = new FPBDataContext();
+            return db.Stadiums.Where(s => s.Id == stadiumId).FirstOrDefault().User;
+        }
+
         public List<StadiumStaff> GetStadiumStaffByUser(int userId)
         {
             FPBDataContext db = new FPBDataContext();
@@ -66,6 +72,25 @@ namespace FootballPitchesBooking.DataAccessObjects
             try
             {
                 var stadiumStaff = db.StadiumStaffs.Where(ss => ss.Id == ssId).FirstOrDefault();
+                if (stadiumStaff != null)
+                {
+                    db.StadiumStaffs.DeleteOnSubmit(stadiumStaff);
+                }
+                db.SubmitChanges();
+                return 1;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+        public int DeleteStadiumStaffByUserAndStadium(int userId, int stadiumId)
+        {
+            FPBDataContext db = new FPBDataContext();
+            try
+            {
+                var stadiumStaff = db.StadiumStaffs.Where(ss => ss.UserId == userId && ss.StadiumId == stadiumId).FirstOrDefault();
                 if (stadiumStaff != null)
                 {
                     db.StadiumStaffs.DeleteOnSubmit(stadiumStaff);

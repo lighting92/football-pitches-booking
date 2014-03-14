@@ -251,7 +251,6 @@ namespace FootballPitchesBooking.BusinessObjects
             return roleDAO.UpdateRole(roleId, roleId);
         }
 
-
         public List<int> CreateMemberRank(MemberRank memberRank)
         {
             List<int> results = new List<int>();
@@ -281,6 +280,20 @@ namespace FootballPitchesBooking.BusinessObjects
             UserDAO userDAO = new UserDAO();
             var userNames = userDAO.GetAllUser().Select(u => u.UserName).ToArray();
             return userNames;
+        }
+
+        public List<User> CheckAndGetAllUserInListName(List<string> userNames)
+        {
+            UserDAO userDAO = new UserDAO();
+            var listUsers = userDAO.GetUsersInListNames(userNames);
+            if (listUsers.Count() != userNames.Count())
+            {
+                return null;
+            }
+            else
+            {
+                return listUsers;
+            }
         }
     }
 }

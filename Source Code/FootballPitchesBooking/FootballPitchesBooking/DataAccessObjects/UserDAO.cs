@@ -25,6 +25,15 @@ namespace FootballPitchesBooking.DataAccessObjects
             return db.Users.Where(u => u.Email.ToLower().Equals(email.ToLower())).FirstOrDefault();
         }
 
+        public List<User> GetUsersInListNames(List<string> userNames)
+        {
+            for (int i = 0; i < userNames.Count(); i++)
+            {
+                userNames[i] = userNames[i].Trim().ToLower();
+            }
+            return db.Users.Where(u => userNames.Contains(u.UserName.ToLower())).ToList();
+        }
+
         public int CreateUser(User user)
         {
             FPBDataContext db = new FPBDataContext();

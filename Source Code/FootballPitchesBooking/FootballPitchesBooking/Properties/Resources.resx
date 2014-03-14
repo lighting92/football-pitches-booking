@@ -147,6 +147,15 @@
   <data name="Reg_UserNameNotAvailable" xml:space="preserve">
     <value>Tên tài khoản đã được sử dụng. Xin vui lòng chọn tên khác</value>
   </data>
+  <data name="StadiumStaff_HaveNoPermissionTotAccessStadium" xml:space="preserve">
+    <value>Bạn không có quyền hạn để quản lý sân bóng này</value>
+  </data>
+  <data name="StadiumStaff_UpdateStadiumNewStaffConflict" xml:space="preserve">
+    <value>Một trong số những nhân viên mới thêm vào đã là nhân viên của sân này</value>
+  </data>
+  <data name="StadiumStaff_UpdateStadiumUserNotFound" xml:space="preserve">
+    <value>Sai một trong những tên tài khoản được cấp quyền quản lý sân</value>
+  </data>
   <data name="Update_Success" xml:space="preserve">
     <value>Cập nhật thành công</value>
   </data>

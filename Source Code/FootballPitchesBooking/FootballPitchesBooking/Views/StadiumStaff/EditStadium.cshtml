@@ -1,0 +1,336 @@
+﻿@model FootballPitchesBooking.Models.StadiumStaffModels.EditStadiumModel
+@{
+    ViewBag.STADIUM = "active";
+    ViewBag.Title = "CHỈNH SỬA THÔNG TIN SÂN BÓNG";
+    Layout = "~/Views/Shared/_StadiumStaffLayout.cshtml";
+}
+
+<div class="row stadiumstaff-edit-stadium">
+    <div class="span12">
+        <div class="row">
+            <div class="span9">
+                <form action="EditStadium?Id=@Request.QueryString["Id"]" method="post" class="form-horizontal" enctype="multipart/form-data">
+                    <fieldset>
+                        <br />
+                        <br />
+                        <h1>CHỈNH SỬA THÔNG TIN SÂN BÓNG
+                        </h1>
+                        <br />
+                        @if (Model.ErrorMessage != null && Model.ErrorMessage.Count() > 0)
+                        {
+                            <div class="alert alert-danger">
+                                @foreach (var error in Model.ErrorMessage)
+                                {
+                                    <p>- @error</p>
+                                }
+                            </div>
+                        }
+                        else if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                        {
+                            <div class="alert alert-success">@Model.SuccessMessage</div>
+                        }
+                        <div class="row">
+                            <div class="span8">
+                                <legend><span>THÔNG TIN CƠ BẢN</span></legend>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    TÊN SÂN BÓNG
+                                    <input name="Name" type="text" placeholder="TÊN SÂN BÓNG" value="@Model.Name">
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    CHỦ SÂN
+                                    <input name="MainOwner" id="mainowner" type="text" placeholder="CHỦ SÂN" value="@Model.MainOwner" readonly>
+                                </label>
+                            </div>
+                            <div class="span3" style="visibility: hidden;">
+                                <label>&nbsp</label>
+                                <input type="text">
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    TRẠNG THÁI HOẠT ĐỘNG
+                                    <select id="isActive" name="IsActive" data-cur="@Model.IsActive">
+                                        <option value="True">ĐANG HOẠT ĐỘNG</option>
+                                        <option value="False">KHÔNG HOẠT ĐỘNG</option>
+                                    </select>
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $("#isActive").val($("#isActive").data("cur"));
+                                        });
+                                    </script>
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    SỐ ĐIỆN THOẠI SÂN
+                                    <input name="Phone" type="text" placeholder="SỐ ĐIỆN THOẠI SÂN" value="@Model.Phone">
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    E-MAIL SÂN
+                                    <input name="Email" type="text" placeholder="E-Mail" value="@Model.Email">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span8">
+                                <legend><span>ĐỊA CHỈ SÂN BÓNG</span></legend>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    ĐƯỜNG
+                                    <input name="Street" type="text" placeholder="ĐƯỜNG" value="@Model.Street">
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    PHƯỜNG
+                                    <input name="Ward" type="text" placeholder="PHƯỜNG" value="@Model.Ward">
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    QUẬN
+									<select name="District" id="district" data-cur="@Model.District">
+                                        <option id="first_district" value="Q. 1" selected="selected">Q. 1</option>
+                                        <option value="Q. 2">Q. 2</option>
+                                        <option value="Q. 3">Q. 3</option>
+                                        <option value="Q. 4">Q. 4</option>
+                                        <option value="Q. 5">Q. 5</option>
+                                        <option value="Q. 6">Q. 6</option>
+                                        <option value="Q. 7">Q. 7</option>
+                                        <option value="Q. 8">Q. 8</option>
+                                        <option value="Q. 9">Q. 9</option>
+                                        <option value="Q. 10">Q. 10</option>
+                                        <option value="Q. 11">Q. 11</option>
+                                        <option value="Q. 12">Q. 12</option>
+                                        <option value="Q. Bình Tân">Q. Bình Tân</option>
+                                        <option value="Q. Bình Thạnh">Q. Bình Thạnh</option>
+                                        <option value="Q. Gò Vấp">Q. Gò Vấp</option>
+                                        <option value="Q. Phú Nhuận">Q. Phú Nhuận</option>
+                                        <option value="Q. Tân Bình">Q. Tân Bình</option>
+                                        <option value="Q. Tân Phú">Q. Tân Phú</option>
+                                        <option value="Q. Thủ Đức">Q. Thủ Đức</option>
+                                        <option value="H. Bình Chánh">H. Bình Chánh</option>
+                                        <option value="H. Củ Chi">H. Củ Chi</option>
+                                        <option value="H. Hóc Môn">H. Hóc Môn</option>
+                                        <option value="H. Nhà Bè">H. Nhà Bè</option>
+                                        <option value="H. Cần Giờ">H. Cần Giờ</option>
+                                    </select>
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $("#district").val($("#district").data("cur"));
+                                        });
+                                    </script>
+                                </label>
+                            </div>
+                        </div>
+                        <br />
+
+                        <div class="row">
+                            <div class="span9">
+                                <legend><span>NGƯỜI QUẢN LÝ</span></legend>
+                            </div>
+                            @{
+                                int count = 0;
+                                foreach (var item in Model.Staffs)
+                                {
+                                    count++;
+                                <div class="span3">
+                                    <label>
+                                        TÊN TÀI KHOẢN
+                                    <input type="text" readonly name="User_Name_@count" value="@item.UserName" />
+                                    </label>
+                                </div>
+
+                           
+                                <div class="span6">
+                                    <div class="span2">
+                                        <label>
+                                            CHỦ SÂN
+                                        <br />
+                                            @if (item.Role.Equals("Main Owner"))
+                                            {
+                                                <input type="radio" name="User_Role_@count" value="main_owner" checked="checked" disabled="disabled"/>
+                                            }
+                                            else if (item.Role.Equals("Owner") && Model.IsMainOwner)
+                                            {
+                                                <input type="radio" name="User_Role_@count" value="owner" checked="checked"/>
+                                            }
+                                            else if (item.Role.Equals("Owner") && !Model.IsMainOwner)
+                                            {
+                                                <input type="radio" name="User_Role_@count" value="owner" checked="checked" disabled="disabled"/>
+                                            }
+                                            else if (Model.IsMainOwner)
+                                            {
+                                                <input type="radio" name="User_Role_@count" value="owner"/>
+                                            }
+                                            else
+                                            {
+                                                <input type="radio" name="User_Role_@count" value="owner" disabled="disabled"/>
+                                            }
+                                        </label>
+                                    </div>
+                                    <div class="span2">
+                                        <label>
+                                            NHÂN VIÊN
+                                        <br />
+                                            @if (item.Role.Equals("Main Owner"))
+                                            {
+                                                <input type="radio" name="User_Role_@count" value="staff" disabled="disabled"/>
+                                            }
+                                            else if (item.Role.Equals("Owner") && !Model.IsMainOwner)
+                                            {
+                                                <input type="radio" name="User_Role_@count" value="staff" disabled="disabled"/>
+                                            }
+                                            else if (item.Role.Equals("Staff"))
+                                            {
+                                                <input type="radio" name="User_Role_@count" value="staff" checked="checked" />
+                                            }
+                                            else
+                                            {
+                                                <input type="radio" name="User_Role_@count" value="staff" />
+                                            }
+                                        </label>
+                                    </div>
+                                    <div class="span1">
+                                        <label>
+                                            GỠ BỎ
+                                        <br />
+                                            @if (item.Role.Equals("Main Owner"))
+                                            {
+                                                <input type="radio" name="User_Role_@count" value="remove" disabled="disabled"/>
+                                            }
+                                            else if (item.Role.Equals("Owner") && !Model.IsMainOwner)
+                                            {
+                                                <input type="radio" name="User_Role_@count" value="remove" disabled="disabled" />
+                                            }
+                                            else
+                                            {
+                                                <input type="radio" name="User_Role_@count" value="remove" />
+                                            }
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="span6">
+                                    <label><legend>&nbsp</legend></label>
+                                </div>
+                                }
+                            }
+                            <div class="span3">
+                                <label>
+                                    NHÂN VIÊN MỚI
+                                    <input type="text" class="new-staff-user-name" name="New_Staff_Name_1" value="" placeholder="TÊN TÀI KHOẢN" />
+                                </label>
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        $.ajax({
+                                            url: "/Account/GetAllUserName",
+                                            type: "post",
+                                            success: function (data) {
+                                                $(".new-staff-user-name").typeahead({
+                                                    source: data
+                                                });
+                                            }
+                                        });
+                                    });
+                                </script>
+                            </div>
+                            <div class="span6">
+                                <div class="span2">
+                                    <label>
+                                        CHỦ SÂN
+                                        <br />
+                                        @if (Model.IsMainOwner)
+                                        {
+                                            <input type="radio" name="New_Staff_Role_1" value="owner" />
+                                        }
+                                        else
+                                        {
+                                            <input type="radio" name="New_Staff_Role_1" value="owner" disabled="disabled" />
+                                        }
+                                    </label>
+                                </div>
+                                <div class="span2">
+                                    <label>
+                                        NHÂN VIÊN
+                                        <br />
+
+                                        <input type="radio" name="New_Staff_Role_1" value="staff" />
+
+                                    </label>
+                                </div>
+                                <div class="span1">
+                                    <label>
+                                        GỠ BỎ
+                                        <br />
+
+                                        <input type="radio" name="New_Staff_Role_1" value="remove" />
+
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="span9">
+                                <legend><span>HÌNH ẢNH SÂN</span></legend>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    THÊM HÌNH SÂN
+                                    <input type="file" name="Images" multiple id="imageUpload" />
+                                </label>
+                            </div>
+                            <div class="span6" style="visibility: hidden;">
+                                <label>&nbsp</label>
+                                <input type="text">
+                            </div>
+                            @if (Model.Images != null)
+                            {
+                                for (int i = 0; i < Model.Images.Count(); i++)
+                                {
+                                <div class="span3" id="si_@Model.ImageIds[i]">
+                                    <img src="~/Content/images/@Model.Images[i]" />
+                                    <label class="center"><a onclick="DeleteImage(@Model.ImageIds[i])">XÓA</a></label>
+                                </div>
+                                }
+                            }
+                            <script type="text/javascript">
+                                function DeleteImage(id) {
+                                    var cf = confirm("Bạn có muốn xóa tấm hình này không? Hành động này không thể phục hồi.");
+                                    if (cf) {
+                                        $.ajax({
+                                            url: "/StadiumStaff/DeleteStadiumImage?id=" + id,
+                                            type: "post",
+                                            success: function (data) {
+                                                var message = data.substring(data.indexOf("::") + 2, data.length);
+                                                alert(message);
+                                                if (data.indexOf("SUCCESS::") != -1) {
+                                                    $("#si_" + id).remove();
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            </script>
+                        </div>
+                        <div class="row">
+                            <div class="span9">
+                                <br />
+                                <button type="button" onclick="window.location='/StadiumStaff/Stadiums'" class="btn btn-primary btn-large book-now pull-right">HỦY BỎ</button>
+                                <button type="submit" class="btn btn-primary btn-large book-now pull-right">CẬP NHẬT</button>
+                                <br />
+                                <br />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

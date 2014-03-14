@@ -170,6 +170,10 @@
     <Compile Include="Models\RankModels\RankModel.cs" />
     <Compile Include="Models\StadiumModels\JoinUsModel.cs" />
     <Compile Include="Models\NoModel.cs" />
+    <Compile Include="Models\StadiumStaffModels\EditStadiumModel.cs" />
+    <Compile Include="Models\StadiumStaffModels\FieldModel.cs" />
+    <Compile Include="Models\StadiumStaffModels\FieldsModel.cs" />
+    <Compile Include="Models\StadiumStaffModels\StadiumStaffModel.cs" />
     <Compile Include="Models\WebsiteStaffModels\EditJSRModel.cs" />
     <Compile Include="Models\WebsiteStaffModels\EditStadiumModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -181,11 +185,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap\css\bootstrap-responsive.min.css" />
+    <Content Include="Content\bootstrap\css\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap\css\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap\css\bootstrap-timepicker.min.css" />
+    <Content Include="Content\bootstrap\css\bootstrap.css" />
     <Content Include="Content\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\bootstrap\css\bootstrap.new.min.css" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\bootstrap\img\glyphicons-halflings-white.png" />
     <Content Include="Content\bootstrap\img\glyphicons-halflings.png" />
-    <Content Include="Content\bootstrap\js\bootstrap.js" />
+    <Content Include="Content\bootstrap\js\bootstrap2.js" />
+    <Content Include="Content\bootstrap\js\bootstrap3.js" />
     <Content Include="Content\css\custom.css" />
     <Content Include="Content\css\fpb-responsive.css" />
     <Content Include="Content\css\fpb.css" />
@@ -321,6 +331,10 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap\config.json" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <None Include="Models\FPB.dbml.layout">
       <DependentUpon>FPB.dbml</DependentUpon>
     </None>
@@ -335,6 +349,8 @@
     <Content Include="Views\StadiumStaff\Stadiums.cshtml" />
     <Content Include="Views\StadiumStaff\Reservations.cshtml" />
     <Content Include="Views\StadiumStaff\Promotions.cshtml" />
+    <Content Include="Views\StadiumStaff\EditStadium.cshtml" />
+    <Content Include="Views\StadiumStaff\Fields.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
