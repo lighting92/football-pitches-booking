@@ -336,8 +336,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 //hoặc nếu 2 rank cùng tên thì ng ngoài nhìn vào sẽ ko thấy thay đổi gì thì sao? cũng conflict về lỗi logic
                 //vậy nên check 2 cái này trc rồi mới update
                 //chỗ này để update toàn bộ user dựa vào point đã thay đổi
-                //cai nay dung den user nen phai khai bao userDAO vao, ma hinh nhu o tren khai bao userDAO roi thi phai
-                //hết rồi đó, sửa lại create như này luôn
+                //cai nay dung den user nen phai khai bao userDAO vao
             }
 
             return results;

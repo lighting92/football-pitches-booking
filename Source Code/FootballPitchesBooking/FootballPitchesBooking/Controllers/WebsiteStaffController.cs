@@ -546,7 +546,7 @@ namespace FootballPitchesBooking.Controllers
                 Promotion = memberRank.Promotion,
                 ErrorMessages = new List<string>()
             };
-            return View(rank); //trả về Rankmodel, à mà bm, cái rank kia là trả về RankModel
+            return View(rank); //trả về Rankmodel
         }
 
         [Authorize(Roles = "WebsiteMaster")]
@@ -582,7 +582,7 @@ namespace FootballPitchesBooking.Controllers
                 {
                     return RedirectToAction("Index", "Home"); //cai nay sau nay sua lai redirect den trang list rank hay gi day, khi nao add success thi no redirect, ko thi bao loi
                 }
-                else //nếu update lỗi thì báo lỗi ra ngoài rồi kiu ng ta update lại, vậy thôi
+                else //nếu update lỗi thì báo lỗi ra ngoài rồi kiu ng ta update lại
                 {
                     foreach (var error in results)
                     {
@@ -602,7 +602,7 @@ namespace FootballPitchesBooking.Controllers
                 }
 
             }
-            return View(rank); //cai bao' loi~ mang tinh' tuong doi', chua biet requirement chinh xac sao nen chu check trc cho chac
+            return View(rank); //cai bao' loi~ mang tinh' tuong doi', chua biet requirement chinh xac sao nen  check trc cho chac
         }
 
 

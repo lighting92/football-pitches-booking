@@ -17,7 +17,7 @@ namespace FootballPitchesBooking.DataAccessObjects
         public MemberRank GetMemberRankByUserPoint(int point) //ham nay la get rank by point theo diem? user
         {
             FPBDataContext db = new FPBDataContext();
-            return db.MemberRanks.Where(m => m.Point <= point).OrderByDescending(m => m.Point).FirstOrDefault();    //descending nghia la gi     sap xep giam dan, ma eo hieu, point thi chi co 1 sap xep giam dam lam cai gi @@    
+            return db.MemberRanks.Where(m => m.Point <= point).OrderByDescending(m => m.Point).FirstOrDefault(); 
         }
 
         public MemberRank GetMemberRankByPoint(int point) //ham nay get rank by point cua rank nhap vao
@@ -26,8 +26,7 @@ namespace FootballPitchesBooking.DataAccessObjects
             return db.MemberRanks.Where(m => m.Point == point).FirstOrDefault();
         }
 
-        //eo biet dat ten nhu nao`
-        //cu dat binh thuong cho de nho
+        
 
         public MemberRank GetMemberRankByName(string rankName)
         {
