@@ -14,11 +14,20 @@ namespace FootballPitchesBooking.DataAccessObjects
             return db.Promotions.Where(p => p.Id == promotionId).FirstOrDefault();
         }
 
+
         public List<Promotion> GetAllPromotions()
         {
             FPBDataContext db = new FPBDataContext();
-            return db.Promotions.ToList();
+            return db.Promotions.OrderByDescending(p => p.PromotionTo).ToList();
         }
+
+
+        public List<Promotion> GetAllPromotionsByStadium(int stadiumId)
+        {
+            FPBDataContext db = new FPBDataContext();
+            return db.Promotions.Where(p => p.Field.StadiumId == stadiumId).OrderByDescending(p => p.PromotionTo).ToList();
+        }
+
 
         public int CreatePromotion(Promotion promotion)
         {
@@ -67,6 +76,24 @@ namespace FootballPitchesBooking.DataAccessObjects
             {
                 db.SubmitChanges();
                 return promotion.Id;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+
+        public int DeletePromotion(int promotionId)
+        {
+            FPBDataContext db = new FPBDataContext();
+            Promotion promotion = db.Promotions.Where(p => p.Id == promotionId).FirstOrDefault();
+
+            try
+            {
+                db.Promotions.DeleteOnSubmit(promotion);
+                db.SubmitChanges();
+                return 1;
             }
             catch (Exception)
             {

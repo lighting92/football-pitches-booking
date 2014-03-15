@@ -173,6 +173,7 @@
     <Compile Include="Models\StadiumStaffModels\EditStadiumModel.cs" />
     <Compile Include="Models\StadiumStaffModels\FieldModel.cs" />
     <Compile Include="Models\StadiumStaffModels\FieldsModel.cs" />
+    <Compile Include="Models\StadiumStaffModels\PromotionsModel.cs" />
     <Compile Include="Models\StadiumStaffModels\StadiumStaffModel.cs" />
     <Compile Include="Models\WebsiteStaffModels\EditJSRModel.cs" />
     <Compile Include="Models\WebsiteStaffModels\EditStadiumModel.cs" />
@@ -352,6 +353,7 @@
     <Content Include="Views\StadiumStaff\EditStadium.cshtml" />
     <Content Include="Views\StadiumStaff\Fields.cshtml" />
     <Content Include="Views\WebsiteStaff\EditMemberRank.cshtml" />
+    <Content Include="Views\StadiumStaff\AddPromotion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
