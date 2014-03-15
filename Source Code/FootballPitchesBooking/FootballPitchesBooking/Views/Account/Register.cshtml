@@ -12,7 +12,8 @@
         var password = $("input[name=Password]").val();
         var confirmpassword = $("input[name=ConfirmPassword]").val();
         var fullname = $("input[name=FullName]").val();
-
+        var email = $("input[name=Email]").val();
+        var reg = /^\w+([-+.']\w+)*@@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
 
         if (username == "" || username.length < 6 || username.length > 32) {
             $("#UserName_Error").append("Yêu cầu tài khoản từ 6 đến 32 kí tự");
@@ -36,14 +37,19 @@
         }
 
         if (fullname == "" || fullname.length < 1 || fullname.length > 30){
-           $("#FullName_Error").append("Yêu cầu phải từ 1 đến 30 kí tự");
-           $("#FullName_Error").css("display", "block");
-           flag++;
-           //return false;
-
-
-
+            $("#FullName_Error").append("Yêu cầu phải từ 1 đến 30 kí tự");
+            $("#FullName_Error").css("display", "block");
+            flag++;
+            //return false;
         }
+
+        if (!reg.test(email)){
+            $("#Email_Error").append("Email không đúng");
+            $("#Email_Error").css("display", "block");
+            flag++;
+        }
+
+        
         if (flag > 0) {
             return false;
         } else return true;
@@ -98,6 +104,7 @@
         <p>
             <label for="Email">(*) Email:</label>
             <input type="text" placeholder="Nhập vào Email" required="required" name="Email" value="@email" />
+            <div class="alert alert-danger" id="Email_Error" style="display: none"></div>
         </p>
         <p>
             <label for="FullName">(*) Họ và tên:</label>
