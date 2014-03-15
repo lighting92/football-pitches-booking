@@ -1,11 +1,11 @@
-﻿using FootballPitchesBooking.BusinessObjects;
-using FootballPitchesBooking.Models;
-using FootballPitchesBooking.Properties;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using FootballPitchesBooking.BusinessObjects;
+using FootballPitchesBooking.Models;
+using FootballPitchesBooking.Properties;
 using PagedList;
 
 namespace FootballPitchesBooking.Controllers
@@ -14,17 +14,15 @@ namespace FootballPitchesBooking.Controllers
     {
         //
         // GET: /Rank/
+
         UserBO userBO = new UserBO();
 
         public ActionResult Index(int? page, string keyWord = "", string column = "", string sort = "")
         {
             try
             {
-                // No. list.
                 var noList = new List<NoModel>();
-
-                // User list.
-                List<MemberRank> ranks = userBO.ToListMR(ref noList, page, keyWord, column, sort);
+                var ranks = userBO.ToListMR(ref noList, page, keyWord, column, sort);
 
                 // Sort states.
                 ViewBag.KeyWord = keyWord;
@@ -47,6 +45,5 @@ namespace FootballPitchesBooking.Controllers
                 return RedirectToAction("Users", "Error", new { Area = "" });
             }
         }
-
     }
 }
