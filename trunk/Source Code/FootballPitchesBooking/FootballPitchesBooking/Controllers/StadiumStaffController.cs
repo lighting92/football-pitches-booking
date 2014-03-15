@@ -288,7 +288,36 @@ namespace FootballPitchesBooking.Controllers
 
         #region PROMOTION MANAGEMENT
 
-        public ActionResult Promotions()
+
+        public ActionResult Promotions(int stadium)
+        {
+            StadiumBO stadiumBO = new StadiumBO();
+            Stadium std = stadiumBO.GetStadiumByStaffAndId(User.Identity.Name, stadium);
+            PromotionsModel model = new PromotionsModel();
+
+            if (std == null)
+            {
+                model.HavePermission = false;
+                model.ErrorMessage = Resources.StadiumStaff_HaveNoPermissionTotAccessStadium;
+            }
+            else
+            {
+                model.HavePermission = true;
+                model.StadiumId = std.Id;
+                model.StadiumName = std.Name;
+                model.StadiumAddress = std.Street + ", " + std.Ward + ", " + std.District;
+                model.Promotions = stadiumBO.GetAllPromotionsByStadium(stadium);
+            } 
+            return View(model);
+        }
+
+
+        public ActionResult AddPromotion()
+        {
+            return View();
+        }
+
+        public ActionResult AddPromotion(FormCollection form)
         {
             return View();
         }

@@ -30,6 +30,15 @@ namespace FootballPitchesBooking.BusinessObjects
             return stadiumDAO.GetStadiumById(id);
         }
 
+
+        public Stadium GetStadiumByStaffAndId(string staffName, int stadiumId)
+        {
+            StadiumDAO stadiumDAO = new StadiumDAO();
+
+            return stadiumDAO.GetStadiumByStaffAndId(staffName, stadiumId);
+        }
+
+
         public Stadium GetAuthorizeStadium(int stadiumId, string userName)
         {
             StadiumDAO stadiumDAO = new StadiumDAO();
@@ -432,6 +441,83 @@ namespace FootballPitchesBooking.BusinessObjects
 
             }
             return result;
+        }
+
+
+        public List<Promotion> GetAllPromotions()
+        {
+            PromotionDAO promotionDAO = new PromotionDAO();
+            return promotionDAO.GetAllPromotions();
+        }
+
+
+        public List<Promotion> GetAllPromotionsByStadium(int stadiumId)
+        {
+            PromotionDAO promotionDAO = new PromotionDAO();
+            return promotionDAO.GetAllPromotionsByStadium(stadiumId);
+        }
+
+
+        public int CreatePromotion(Promotion promotion)
+        {
+            if (promotion.PromotionTo <= DateTime.Now)
+            {
+                return -1;
+            }
+
+            if (promotion.PromotionTo <= promotion.PromotionFrom)
+            {
+                return -2;
+            }
+
+            PromotionDAO promotionDAO = new PromotionDAO();
+            int result = promotionDAO.CreatePromotion(promotion);
+
+            return result;
+        }
+
+        public int UpdatePromotion(Promotion promotion)
+        {
+            if (promotion.PromotionTo <= DateTime.Now)
+            {
+                return -1;
+            }
+
+            if (promotion.PromotionTo <= promotion.PromotionFrom)
+            {
+                return -2;
+            }
+
+            PromotionDAO promotionDAO = new PromotionDAO();
+            int result = promotionDAO.UpdatePromotion(promotion);
+
+            return result;
+        }
+
+
+        public int UpdatePromotionStatus(int promotionId, bool promotionStatus)
+        {
+            PromotionDAO promotionDAO = new PromotionDAO();
+            int result = promotionDAO.UpdatePromotionStatus(promotionId, promotionStatus);
+
+            return result;
+        }
+
+
+        public int DeletePromotion(int promotionId)
+        {
+            PromotionDAO promotionDAO = new PromotionDAO();
+            int result = promotionDAO.DeletePromotion(promotionId);
+
+            if (result > 0)
+            {
+                ReservationDAO reservationDAO = new ReservationDAO();
+                if (reservationDAO.UpdateReservationByPromotionChanged(promotionId) > 0)
+                {
+                    return result;
+                }                
+            }
+            return 0;
         }
     }
 }

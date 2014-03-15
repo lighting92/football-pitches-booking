@@ -90,22 +90,11 @@ namespace FootballPitchesBooking.DataAccessObjects
         {
             MemberRank prevRank = db.MemberRanks.OrderByDescending(m => m.Point < rank.Point).FirstOrDefault();
             MemberRank nextRank = db.MemberRanks.OrderBy(m => m.Point > rank.Point).FirstOrDefault();
-            db.Users.Where(u => u.Point < rank.Point && u.Point >= prevRank.Point).ToList().ForEach(u => u.RankId = prevRank.Id);
-
+            
             try
             {
-                db.SubmitChanges();
-                return 1;
-            }
-            catch (Exception)
-            {
-                return 0;
-            }
-
-            db.Users.Where(u => u.Point >= rank.Point && u.Point < nextRank.Point).ToList().ForEach(u => u.RankId = rank.Id);
-
-            try
-            {
+                db.Users.Where(u => u.Point < rank.Point && u.Point >= prevRank.Point).ToList().ForEach(u => u.RankId = prevRank.Id);
+                db.Users.Where(u => u.Point >= rank.Point && u.Point < nextRank.Point).ToList().ForEach(u => u.RankId = rank.Id);
                 db.SubmitChanges();
                 return 1;
             }

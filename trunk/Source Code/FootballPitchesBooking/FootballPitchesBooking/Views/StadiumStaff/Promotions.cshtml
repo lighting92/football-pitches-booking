@@ -1,7 +1,52 @@
-﻿@{
+﻿@model FootballPitchesBooking.Models.StadiumStaffModels.PromotionsModel
+@{
     ViewBag.PROMOTION = "active";
     ViewBag.Title = "Promotions";
     Layout = "~/Views/Shared/_StadiumStaffLayout.cshtml";
 }
 
-<h1>QUẢN LÝ KHUYẾN MÃI</h1>
+@if (Model.HavePermission)
+{
+    <h1>QUẢN LÝ KHUYẾN MÃI</h1>
+    <h4>HỆ THỐNG SÂN <a href="/StadiumStaff/Fields?Stadium=@Model.StadiumId">@Model.StadiumName</a> : <i>@Model.StadiumAddress</i></h4>
+    
+    <a href="/StadiumStaff/AddPromotion?Stadium=@Model.StadiumId"><button class="btn-default">THÊM KHUYẾN MÃI</button></a>
+
+    if (Model.Promotions != null && Model.Promotions.Count > 0)
+    {
+    <table class="table table-condensed table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>SỐ SÂN</th>
+                <th>THỜI GIAN KHUYẾN MÃI</th>
+                <th>GIẢM GIÁ</th>
+                <th>TRẠNG THÁI HOẠT ĐỘNG</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Promotions)
+            {
+                <tr>
+                    <td>@item.Field.Number</td>
+                    <td>@item.PromotionFrom.ToShortDateString() - @item.PromotionTo.ToShortDateString()</td>
+                    <td>@item.Discount</td>
+                    @if (item.IsActive)
+                    {
+                        <td>Đang Hoạt Động</td>
+                    }
+                    else
+                    {
+                        <td>Không Hoạt Động</td>
+                    }
+                    <td class="table-cell-action"><a href="/StadiumStaff/EditPromotion?Id=@item.Id">Chỉnh Sửa</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    }
+}
+else
+{
+    <h3>@Model.ErrorMessage</h3>
+}

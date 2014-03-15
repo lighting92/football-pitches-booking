@@ -2326,7 +2326,7 @@ namespace FootballPitchesBooking.Models
 		
 		private System.Nullable<int> _Creator;
 		
-		private System.Nullable<bool> _IsActive;
+		private bool _IsActive;
 		
 		private EntitySet<Reservation> _Reservations;
 		
@@ -2484,7 +2484,7 @@ namespace FootballPitchesBooking.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActive", DbType="Bit")]
-		public System.Nullable<bool> IsActive
+		public bool IsActive
 		{
 			get
 			{
