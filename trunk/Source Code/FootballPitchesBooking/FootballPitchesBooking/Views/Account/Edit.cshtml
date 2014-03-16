@@ -4,7 +4,44 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Chỉnh sửa thông tin</h2>
+
+<script type="text/ecmascript">
+    function check() {
+        var flag = 0;
+        var fullname = $("#txtFullN").val();
+
+        if (fullname == "" || fullname.length < 1 || fullname.length > 30) {
+            $("#FullName_Error").text("Yêu cầu phải từ 1 đến 30 kí tự");
+            $("#FullName_Error").css("display", "block");
+            flag++;
+
+        }
+        else {
+            $("#FullName_Error").text(" ");
+            $("#FullName_Error").css("display", "none");
+
+
+            if (flag > 0) {
+                return false;
+            } else return true;
+        }
+    }
+</script>
+
+
+@{
+    
+    string fullName = "";
+    
+    if (Model != null)
+    {
+        
+        fullName = Model.FullName;
+    }
+}
+
+
 <form action="Edit" method="post">
     @Html.HiddenFor(model => Model.Id)
     <table>
@@ -20,7 +57,9 @@
             <td>Họ và Tên:
             </td>
             <td>
-                @Html.TextBoxFor(model => Model.FullName)
+              @* @Html.TextBoxFor(model => Model.FullName)*@
+                <input type="text" id="txtFullN" name="FullName" placeholder="Nhập vào Họ và Tên" required="required" value="@fullName" />
+                <div class="alert alert-danger" id="FullName_Error" style="display: none"></div>
             </td>
         </tr>
 
@@ -62,7 +101,7 @@
         </tr>
         <tr>
             <td>
-                <button type="submit" name="Save">Chỉnh sửa</button>
+                <button type="submit" name="Save" onclick="return check()">Lưu</button>
             </td>
             <td>
                 <button type="button" onclick="window.location = '/Account/Details/@Model.Id'">Quay về</button>
