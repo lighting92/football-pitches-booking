@@ -1,0 +1,73 @@
+﻿@model FootballPitchesBooking.Models.User
+
+@{
+    ViewBag.Title = "Details";
+    
+}
+
+
+<h2>Chi Tiết Tài Khoản</h2>
+
+    <table>
+        <tr>
+            <td>
+                Tên tài khoản:
+            </td>
+            <td>
+                @Html.DisplayFor(model => Model.UserName)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Họ và Tên:
+            </td>
+            <td>
+                @Html.DisplayFor(model => Model.FullName)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Địa chỉ:
+            </td>
+            <td>
+                @Html.DisplayFor(model => Model.Address)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Email:
+            </td>
+            <td>
+                @Html.DisplayFor(model => Model.Email)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Điểm thưởng:
+            </td>
+            <td>
+                @Html.DisplayFor(model => Model.Point)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Ngày tham gia:
+            </td>
+            <td>
+                @Html.DisplayFor(model => Model.JoinDate)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit" name="Edit" >Chỉnh sửa</button>
+            </td>
+            <td>
+                <button type="button" onclick="window.location = '/Home'">Quay về</button>
+            </td>
+        </tr>
+    </table>

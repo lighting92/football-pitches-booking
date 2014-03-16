@@ -223,7 +223,7 @@ namespace FootballPitchesBooking.BusinessObjects
         }
 
         //View account profile
-        public User ViewAccountProfile(int userId) 
+        public User GetUserById(int userId) 
         {
             UserDAO userDAO = new UserDAO();
             return userDAO.GetUserByUserId(userId);

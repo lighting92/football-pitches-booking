@@ -8,48 +8,66 @@
 <script type="text/ecmascript">
     function check() {
         var flag = 0;
-        var username = $("input[name=UserName]").val();
-        var password = $("input[name=Password]").val();
-        var confirmpassword = $("input[name=ConfirmPassword]").val();
-        var fullname = $("input[name=FullName]").val();
-        var email = $("input[name=Email]").val();
+        var username = $("#txtName").val();
+        var password = $("#txtPass").val();
+        var confirmpassword = $("#txtConfirmPass").val();
+        var fullname = $("#txtFullN").val();
+        var email = $("#txtMail").val();
         var reg = /^\w+([-+.']\w+)*@@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
 
         if (username == "" || username.length < 6 || username.length > 32) {
-            $("#UserName_Error").append("Yêu cầu tài khoản từ 6 đến 32 kí tự");
-            $("#UserName_Error").css("display", "block");
+            $("#ErrorName").text("Yêu cầu tài khoản từ 6 đến 32 kí tự");
+            $("#ErrorName").css("display", "block");
             flag++;
-            //return false;
+        }
+        else {
+            $("#ErrorName").text(" ");
+            $("#ErrorName").css("display", "none");
         }
 
         if (password == "" || password.length < 6 || password.length > 32) {
-            $("#Password_Error").append("Yêu cầu mật khầu từ 6 đến 32 kí tự");
-            $("#Password_Error").css("display", "block");
-            flag++;
-            //return false;
+            $("#ErrorPass").text("Yêu cầu mật khầu từ 6 đến 32 kí tự");
+            $("#ErrorPass").css("display", "block");
+            flag++;           
+        }
+        else {
+            $("#ErrorPass").text(" ");
+            $("#ErrorPass").css("display", "none");
         }
 
         if (confirmpassword == "" || confirmpassword != password) {
-            $("#ConfirmPassword_Error").append("Xác nhận mật khẩu phải giống với mật khẩu");
-            $("#Password_Error").css("display", "block");
+            $("#ConfirmErrorPass").text("Xác nhận mật khẩu phải giống với mật khẩu");
+            $("#ConfirmErrorPass").css("display", "block");
             flag++;
-            //return false;
+                
+        }
+        else {
+            $("#ConfirmErrorPass").text(" ");
+            $("#ConfirmErrorPass").css("display", "none");
         }
 
         if (fullname == "" || fullname.length < 1 || fullname.length > 30){
-            $("#FullName_Error").append("Yêu cầu phải từ 1 đến 30 kí tự");
+            $("#FullName_Error").text("Yêu cầu phải từ 1 đến 30 kí tự");
             $("#FullName_Error").css("display", "block");
             flag++;
-            //return false;
+                
+        }
+        else {
+            $("#FullName_Error").text(" ");
+            $("#FullName_Error").css("display", "none");
         }
 
+
         if (!reg.test(email)){
-            $("#Email_Error").append("Email không đúng");
+            $("#Email_Error").text("Email không đúng");
             $("#Email_Error").css("display", "block");
             flag++;
         }
+        else {
+            $("#Email_Error").text(" ");
+            $("#Email_Error").css("display", "none");
+        }
 
-        
         if (flag > 0) {
             return false;
         } else return true;
@@ -88,27 +106,27 @@
     <form action="Register" method="post">
         <p>
             <label for="UserName">(*) Tên tài khoản:</label>
-            <input type="text" name="UserName" placeholder="Nhập tên của bạn" required="Required" value="@userName" />
-            <div class="alert alert-danger" id="UserName_Error" style="display: none"></div>
+            <input type="text" id="txtName" name="UserName" placeholder="Tài khoản đăng nhập" required="Required" value="@userName" />
+            <div class="alert alert-danger" id="ErrorName" style="display: none"></div>
         </p>
         <p>
-            <label for="UserName">(*) Mật khẩu:</label>
-            <input type="password" placeholder="Nhập mật khẩu" required="required" name="Password" />
-            <div class="alert alert-danger" id="Password_Error" style="display: none"></div>
+            <label for="Password">(*) Mật khẩu:</label>
+            <input type="password" id="txtPass" name="Password" placeholder="Nhập mật khẩu" required="required" />
+            <div class="alert alert-danger" id="ErrorPass" style="display: none"></div>
         </p>
         <p>
-            <label for="UserName">(*) Xác nhận mật khẩu:</label>
-            <input type="password" placeholder="Nhập lại mật khẩu" required="required" name="ConfirmPassword" />
-            <div class="alert alert-danger" id="ConfirmPassword_Error" style="display: none"></div>
+            <label for="ConfirmPassword">(*) Xác nhận mật khẩu:</label>
+            <input type="password" id="txtConfirmPass" name="ConfirmPassword" placeholder="Nhập lại mật khẩu" required="required" />
+            <div class="alert alert-danger" id="ConfirmErrorPass" style="display: none"></div>
         </p>
         <p>
             <label for="Email">(*) Email:</label>
-            <input type="text" placeholder="Nhập vào Email" required="required" name="Email" value="@email" />
+            <input type="text" id="txtMail" name="Email" placeholder="Nhập vào Email" required="required" value="@email" />
             <div class="alert alert-danger" id="Email_Error" style="display: none"></div>
         </p>
         <p>
             <label for="FullName">(*) Họ và tên:</label>
-            <input type="text" placeholder="Nhập vào Họ và Tên" required="required" name="FullName" value="@fullName" />
+            <input type="text" id="txtFullN" name="FullName" placeholder="Nhập vào Họ và Tên" required="required" value="@fullName" />
             <div class="alert alert-danger" id="FullName_Error" style="display: none"></div>
         </p>
         <p>
@@ -129,7 +147,7 @@
         </p>
         <p>
             <label for="PhoneNumber">(*) Số điện thoại:</label>
-            <input type="text" placeholder="Nhập số điện thoại" required="required" name="PhoneNumber" value="@phoneNumber" />
+            <input type="text" name="PhoneNumber" placeholder="Nhập số điện thoại" required="required" value="@phoneNumber" />
         </p>
         <button type="submit" name="Register" onclick="return check()">Đăng ký</button>
         <button type="button" onclick="window.location = '/Home'">Hủy bỏ</button>

@@ -353,6 +353,7 @@
     <Content Include="Views\StadiumStaff\EditStadium.cshtml" />
     <Content Include="Views\StadiumStaff\Fields.cshtml" />
     <Content Include="Views\WebsiteStaff\EditMemberRank.cshtml" />
+    <Content Include="Views\Account\Details.cshtml" />
     <Content Include="Views\StadiumStaff\AddPromotion.cshtml" />
   </ItemGroup>
   <ItemGroup>
