@@ -135,6 +135,12 @@
   <data name="Password_NotMatchWithConfirm" xml:space="preserve">
     <value>Mật khẩu không giống với xác nhận. Xin vui lòng nhập lại</value>
   </data>
+  <data name="Promotion_TimeFromOverTo" xml:space="preserve">
+    <value>Thời gian khuyến mãi không đúng, vui lòng chọn thời gian khác</value>
+  </data>
+  <data name="Promotion_TimeOver" xml:space="preserve">
+    <value>Thời gian khuyến mãi đã kết thúc, xin vui lòng chọn thời gian kết thúc khác</value>
+  </data>
   <data name="Rank_RankNameNotAvailable" xml:space="preserve">
     <value>Tên thứ hạng đã được sử dụng. Xin vui lòng chọn tên khác</value>
   </data>

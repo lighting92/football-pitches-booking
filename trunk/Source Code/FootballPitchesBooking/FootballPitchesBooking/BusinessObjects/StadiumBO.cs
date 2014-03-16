@@ -458,14 +458,21 @@ namespace FootballPitchesBooking.BusinessObjects
         }
 
 
+        public Promotion GetPromotionById(int promotionId)
+        {
+            PromotionDAO promotionDAO = new PromotionDAO();
+            return promotionDAO.GetPromotionById(promotionId);
+        }
+
+
         public int CreatePromotion(Promotion promotion)
         {
-            if (promotion.PromotionTo <= DateTime.Now)
+            if (promotion.PromotionTo < DateTime.Now)
             {
                 return -1;
             }
 
-            if (promotion.PromotionTo <= promotion.PromotionFrom)
+            if (promotion.PromotionTo < promotion.PromotionFrom)
             {
                 return -2;
             }
@@ -495,15 +502,6 @@ namespace FootballPitchesBooking.BusinessObjects
         }
 
 
-        public int UpdatePromotionStatus(int promotionId, bool promotionStatus)
-        {
-            PromotionDAO promotionDAO = new PromotionDAO();
-            int result = promotionDAO.UpdatePromotionStatus(promotionId, promotionStatus);
-
-            return result;
-        }
-
-
         public int DeletePromotion(int promotionId)
         {
             PromotionDAO promotionDAO = new PromotionDAO();
@@ -518,6 +516,14 @@ namespace FootballPitchesBooking.BusinessObjects
                 }                
             }
             return 0;
+        }
+
+
+        public List<Field> GetFieldsByStadiumId(int stadiumId)
+        {
+            FieldDAO fieldDAO = new FieldDAO();
+
+            return fieldDAO.GetFieldsByStadiumId(stadiumId);
         }
     }
 }

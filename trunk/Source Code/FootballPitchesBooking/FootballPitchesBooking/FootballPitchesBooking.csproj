@@ -173,6 +173,7 @@
     <Compile Include="Models\StadiumStaffModels\EditStadiumModel.cs" />
     <Compile Include="Models\StadiumStaffModels\FieldModel.cs" />
     <Compile Include="Models\StadiumStaffModels\FieldsModel.cs" />
+    <Compile Include="Models\StadiumStaffModels\PromotionModel.cs" />
     <Compile Include="Models\StadiumStaffModels\PromotionsModel.cs" />
     <Compile Include="Models\StadiumStaffModels\StadiumStaffModel.cs" />
     <Compile Include="Models\WebsiteStaffModels\EditJSRModel.cs" />
@@ -192,11 +193,65 @@
     <Content Include="Content\bootstrap\css\bootstrap.css" />
     <Content Include="Content\bootstrap\css\bootstrap.min.css" />
     <Content Include="Content\bootstrap\css\bootstrap.new.min.css" />
+    <Content Include="Content\bootstrap\css\datepicker.css" />
+    <Content Include="Content\bootstrap\css\datepicker3.css" />
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\bootstrap\img\glyphicons-halflings-white.png" />
     <Content Include="Content\bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="Content\bootstrap\js\bootstrap-datepicker.js" />
     <Content Include="Content\bootstrap\js\bootstrap2.js" />
     <Content Include="Content\bootstrap\js\bootstrap3.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.ar.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.az.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.bg.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.ca.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.cs.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.cy.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.da.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.de.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.el.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.es.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.et.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.fa.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.fi.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.fr.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.gl.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.he.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.hr.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.hu.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.id.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.is.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.it.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.ja.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.ka.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.kk.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.kr.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.lt.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.lv.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.mk.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.ms.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.nb.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.nl-BE.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.nl.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.no.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.pl.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.pt-BR.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.pt.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.ro.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.rs-latin.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.rs.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.ru.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.sk.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.sl.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.sq.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.sv.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.sw.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.th.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.tr.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.ua.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.vi.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.zh-CN.js" />
+    <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.zh-TW.js" />
     <Content Include="Content\css\custom.css" />
     <Content Include="Content\css\fpb-responsive.css" />
     <Content Include="Content\css\fpb.css" />
@@ -355,7 +410,11 @@
     <Content Include="Views\WebsiteStaff\EditMemberRank.cshtml" />
     <Content Include="Views\Account\Details.cshtml" />
     <Content Include="Views\StadiumStaff\AddPromotion.cshtml" />
+<<<<<<< .mine
+    <Content Include="Views\StadiumStaff\EditPromotion.cshtml" />
+=======
     <Content Include="Views\Account\Edit.cshtml" />
+>>>>>>> .r272
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
