@@ -103,5 +103,22 @@ namespace FootballPitchesBooking.DataAccessObjects
                 return 0;
             }
         }
+
+        public int UpdateUser(User newuser)
+        {
+            try
+            {
+                var olduser = db.Users.Where(x => x.Id == newuser.Id).FirstOrDefault();
+                olduser.FullName = newuser.FullName;
+                olduser.Address = newuser.Address;
+                olduser.PhoneNumber = newuser.PhoneNumber;
+                db.SubmitChanges();
+                return 1;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
     }
 }
