@@ -355,6 +355,7 @@
     <Content Include="Views\WebsiteStaff\EditMemberRank.cshtml" />
     <Content Include="Views\Account\Details.cshtml" />
     <Content Include="Views\StadiumStaff\AddPromotion.cshtml" />
+    <Content Include="Views\Account\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

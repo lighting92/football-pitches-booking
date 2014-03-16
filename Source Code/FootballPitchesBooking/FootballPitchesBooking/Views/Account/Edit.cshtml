@@ -1,0 +1,72 @@
+﻿@model FootballPitchesBooking.Models.User
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+<form action="Edit" method="post">
+    @Html.HiddenFor(model => Model.Id)
+    <table>
+        <tr>
+            <td>Tên tài khoản:
+            </td>
+            <td>
+                @Html.DisplayFor(model => Model.UserName)
+            </td>
+        </tr>
+
+        <tr>
+            <td>Họ và Tên:
+            </td>
+            <td>
+                @Html.TextBoxFor(model => Model.FullName)
+            </td>
+        </tr>
+
+        <tr>
+            <td>Địa chỉ:
+            </td>
+            <td>
+                @Html.TextBoxFor(model => Model.Address)
+            </td>
+        </tr>
+        <tr>
+            <td>Phone:
+            </td>
+            <td>
+                @Html.TextBoxFor(model => Model.PhoneNumber)
+            </td>
+        </tr>
+        <tr>
+            <td>Email:
+            </td>
+            <td>
+                @Html.DisplayFor(model => Model.Email)
+            </td>
+        </tr>
+        <tr>
+            <td>Điểm thưởng:
+            </td>
+            <td>
+                @Html.DisplayFor(model => Model.Point)
+            </td>
+        </tr>
+
+        <tr>
+            <td>Ngày tham gia:
+            </td>
+            <td>
+                @Html.DisplayFor(model => Model.JoinDate)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit" name="Save">Chỉnh sửa</button>
+            </td>
+            <td>
+                <button type="button" onclick="window.location = '/Account/Details/@Model.Id'">Quay về</button>
+            </td>
+        </tr>
+    </table>
+</form>

@@ -176,7 +176,7 @@ namespace FootballPitchesBooking.Controllers
             return View(reg);
         }
 
-        
+
         // GET: /Account/View Account Profile           
         //public ActionResult ViewAccountProfile(int id)
         //{
@@ -213,7 +213,7 @@ namespace FootballPitchesBooking.Controllers
             return Json(userNames);
         }
 
-        public ActionResult Details(int id=0)
+        public ActionResult Details(int id = 0)
         {
             try
             {
@@ -232,5 +232,30 @@ namespace FootballPitchesBooking.Controllers
 
         }
 
+        public ActionResult Edit(int id = 0)
+        {
+            UserBO userBO = new UserBO();
+            var user = userBO.GetUserById(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(user);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(User user)
+        {
+            UserBO userBO = new UserBO();
+            var result = userBO.EditDetails(user);
+            if (result == 1)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(user);
+            }
+        }
     }
 }

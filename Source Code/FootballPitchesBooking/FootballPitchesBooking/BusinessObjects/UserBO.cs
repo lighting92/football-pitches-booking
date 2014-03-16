@@ -54,6 +54,11 @@ namespace FootballPitchesBooking.BusinessObjects
             return results;
         }
 
+        public int EditDetails(User newuser)
+        {
+            UserDAO userDAO = new UserDAO();
+            return userDAO.UpdateUser(newuser);
+        }
 
         /// <summary>
         /// Validate for login information of user.
