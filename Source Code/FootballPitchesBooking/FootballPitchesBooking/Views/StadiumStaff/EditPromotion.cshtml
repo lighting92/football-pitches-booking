@@ -1,7 +1,7 @@
 ﻿@model FootballPitchesBooking.Models.StadiumStaffModels.PromotionModel
 @{
     ViewBag.PROMOTION = "active";
-    ViewBag.Title = "Thêm khuyến mãi";
+    ViewBag.Title = "Sửa khuyến mãi";
     Layout = "~/Views/Shared/_StadiumStaffLayout.cshtml";
 }
 
@@ -32,22 +32,9 @@
     }
 </script>
 
-@{
-    string promotionFrom = "";
-    string promotionTo = "";
-    string discount = "";
-    
-    if (Model != null)
-    {
-        promotionFrom = Model.PromotionFrom.ToString("dd/MM/yyyy");
-        promotionTo = Model.PromotionTo.ToString("dd/MM/yyyy");
-        discount = Model.Discount.ToString();
-    }
-}
-
 <div class="row stadiumstaff-create-promotion">
-    <h1>THÊM KHUYẾN MÃI</h1>
-    <form action="AddPromotion?stadium=@Request.QueryString["stadium"]" method="post" class="form-horizontal" enctype="multipart/form-data">
+    <h1>CHỈNH SỬA THÔNG TIN KHUYẾN MÃI</h1>
+    <form action="EditPromotion?stadium=@Request.QueryString["pr"]" method="post" class="form-horizontal" enctype="multipart/form-data">
         <p>
              @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
              {
@@ -74,9 +61,9 @@
         <p>
             <label for="PromotionTime">(*) Thời gian khuyến mãi:</label><br />
             <div class="input-daterange input-group" id="promotionTime">
-                <input type="text" class="input-sm form-control" name="PromotionFrom" required="required" value="@promotionFrom" />
+                <input type="text" class="input-sm form-control" name="PromotionFrom" required="required" value="@Model.PromotionFrom.ToString("dd/MM/yyyy")" />
                 <span class="input-group-addon">to</span>
-                <input type="text" class="input-sm form-control" name="PromotionTo" required="required" value="@promotionTo" />
+                <input type="text" class="input-sm form-control" name="PromotionTo" required="required" value="@Model.PromotionTo.ToString("dd/MM/yyyy")" />
             </div>
             <script>
                 $('.promotionTime').datepicker({
@@ -88,7 +75,7 @@
         </p>
         <p>
             <label for="Discount">(*) Giảm giá (%):</label>
-            <input name="Discount" type="text" placeholder="Giảm giá (%)" required="required" value="@discount">
+            <input name="Discount" type="text" placeholder="Giảm giá (%)" required="required" value="@Model.Discount">
             <script type="text/javascript"> 
                 $("input[name=Discount]").keyup(function(){
                     var val = $(this).val();
@@ -102,7 +89,20 @@
             </script>
             <div class="alert alert-danger" id="Discount_Error" style="display: none"></div>
         </p>
-        <button type="submit" name="AddPromotion" onclick="return check()">Lưu</button>
+        <p>
+            <label for="IsActive">(*) Trạng thái hoạt động:</label>
+            <select id="isActive" name="IsActive" data-cur="@Model.IsActive">
+                <option value="True">ĐANG HOẠT ĐỘNG</option>
+                <option value="False">KHÔNG HOẠT ĐỘNG</option>
+            </select>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $("#isActive").val($("#isActive").data("cur"));
+                });
+            </script>
+        </p>
+        <button type="submit" name="EditPromotion" onclick="return check()">Lưu</button>
         <button type="button" onclick="window.location = '/StadiumStaff/Promotions'">Hủy bỏ</button>
     </form>
 </div>
+

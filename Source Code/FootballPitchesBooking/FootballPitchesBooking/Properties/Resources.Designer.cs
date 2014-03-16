@@ -115,6 +115,24 @@ namespace FootballPitchesBooking.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Thời gian khuyến mãi không đúng, vui lòng chọn thời gian khác.
+        /// </summary>
+        internal static string Promotion_TimeFromOverTo {
+            get {
+                return ResourceManager.GetString("Promotion_TimeFromOverTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thời gian khuyến mãi đã kết thúc, xin vui lòng chọn thời gian kết thúc khác.
+        /// </summary>
+        internal static string Promotion_TimeOver {
+            get {
+                return ResourceManager.GetString("Promotion_TimeOver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tên thứ hạng đã được sử dụng. Xin vui lòng chọn tên khác.
         /// </summary>
         internal static string Rank_RankNameNotAvailable {

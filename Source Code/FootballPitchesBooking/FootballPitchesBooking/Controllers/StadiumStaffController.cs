@@ -312,14 +312,160 @@ namespace FootballPitchesBooking.Controllers
         }
 
 
-        public ActionResult AddPromotion()
+        public ActionResult AddPromotion(int stadium)
         {
-            return View();
+            StadiumBO stadiumBO = new StadiumBO();
+
+            PromotionModel model = new PromotionModel();
+
+            model.Fields = stadiumBO.GetFieldsByStadiumId(stadium);
+
+            if (model.Fields == null)
+            {
+                return RedirectToAction("Promotions", "StadiumStaff");
+            }
+
+            return View(model);
         }
 
-        public ActionResult AddPromotion(FormCollection form)
+
+        [HttpPost]
+        public ActionResult AddPromotion(FormCollection form, int stadium)
         {
-            return View();
+
+            PromotionModel model = new PromotionModel();
+            
+            try
+            {
+                model.FieldId = Int32.Parse(form["FieldId"]);
+                model.PromotionFrom = DateTime.Parse(form["PromotionFrom"]);
+                model.PromotionTo = DateTime.Parse(form["PromotionTo"]);
+                model.Discount = Double.Parse(form["Discount"]);
+            } 
+            catch (Exception)
+            {
+                model.ErrorMessages.Add(Resources.Form_EmptyFields);
+            }
+
+            if (model.ErrorMessages.Count == 0)
+            {
+                StadiumBO stadiumBO = new StadiumBO();
+                UserBO userBO = new UserBO();
+
+                User creator = userBO.GetUserByUserName(User.Identity.Name);
+
+                Promotion promotion = new Promotion
+                {
+                    FieldId = model.FieldId,
+                    PromotionFrom = model.PromotionFrom,
+                    PromotionTo = model.PromotionTo,
+                    Discount = model.Discount,
+                    Creator = creator.Id,
+                    IsActive = true
+                };
+
+                int result = stadiumBO.CreatePromotion(promotion);
+
+                if (result > 0)
+                {
+                    return RedirectToAction("Promotions", "StadiumStaff");
+                }
+                else if (result == 0)
+                {
+                    model.ErrorMessages.Add(Resources.DB_Exception);
+                }
+                else if (result == -1)
+                {
+                    model.ErrorMessages.Add(Resources.Promotion_TimeOver);
+                }
+                else if (result == -2)
+                {
+                    model.ErrorMessages.Add(Resources.Promotion_TimeFromOverTo);
+                }
+            }
+
+            return View(model);
+        }
+
+
+        public ActionResult EditPromotion(int id)
+        {
+            StadiumBO stadiumBO = new StadiumBO();
+
+            Promotion promotion = stadiumBO.GetPromotionById(id);
+
+            if (promotion == null)
+            {
+                return RedirectToAction("Promotions", "StadiumStaff");
+            }
+
+            PromotionModel model = new PromotionModel()
+            {
+                FieldId = promotion.FieldId,
+                Fields = promotion.Field.Stadium.Fields.ToList(),
+                PromotionFrom = promotion.PromotionFrom,
+                PromotionTo = promotion.PromotionTo,
+                Discount = promotion.Discount,
+                IsActive = promotion.IsActive
+            };
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public ActionResult EditPromotion(FormCollection form, int id)
+        {
+            PromotionModel model = new PromotionModel();
+
+            try
+            {
+                model.FieldId = Int32.Parse(form["FieldId"]);
+                model.PromotionFrom = DateTime.Parse(form["PromotionFrom"]);
+                model.PromotionTo = DateTime.Parse(form["PromotionTo"]);
+                model.Discount = Double.Parse(form["Discount"]);
+                model.IsActive = Boolean.Parse(form["IsActive"]);
+            }
+            catch (Exception)
+            {
+                model.ErrorMessages.Add(Resources.Form_EmptyFields);
+            }
+
+            if (model.ErrorMessages.Count == 0)
+            {
+                StadiumBO stadiumBO = new StadiumBO();
+
+                Promotion promotion = new Promotion
+                {
+                    Id = id,
+                    FieldId = model.FieldId,
+                    PromotionFrom = model.PromotionFrom,
+                    PromotionTo = model.PromotionTo,
+                    Discount = model.Discount,
+                    IsActive = model.IsActive
+                };
+
+                int result = stadiumBO.UpdatePromotion(promotion);
+
+                if (result > 0)
+                {
+                    return RedirectToAction("Promotions", "StadiumStaff");
+                }
+                else if (result == 0)
+                {
+                    model.ErrorMessages.Add(Resources.DB_Exception);
+                }
+                else if (result == -1)
+                {
+                    model.ErrorMessages.Add(Resources.Promotion_TimeOver);
+                }
+                else if (result == -2)
+                {
+                    model.ErrorMessages.Add(Resources.Promotion_TimeFromOverTo);
+                }
+            }
+
+            return View(model);
         }
 
         #endregion PROMOTION MANAGEMENT

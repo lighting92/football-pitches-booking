@@ -52,30 +52,12 @@ namespace FootballPitchesBooking.DataAccessObjects
             currentPromotion.PromotionFrom = promotion.PromotionFrom;
             currentPromotion.PromotionTo = promotion.PromotionTo;
             currentPromotion.Discount = promotion.Discount;
-            currentPromotion.Creator = promotion.Creator;
             currentPromotion.IsActive = promotion.IsActive;
 
             try
             {
                 db.SubmitChanges();
                 return currentPromotion.Id;
-            }
-            catch (Exception)
-            {
-                return 0;
-            }
-        }
-
-        public int UpdatePromotionStatus(int promotionId, bool promotionStatus)
-        {
-            FPBDataContext db = new FPBDataContext();
-            Promotion promotion = db.Promotions.Where(p => p.Id == promotionId).FirstOrDefault();
-            promotion.IsActive = promotionStatus;
-
-            try
-            {
-                db.SubmitChanges();
-                return promotion.Id;
             }
             catch (Exception)
             {
