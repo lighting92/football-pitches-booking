@@ -178,14 +178,14 @@ namespace FootballPitchesBooking.Controllers
 
         
         // GET: /Account/View Account Profile           
-        public ActionResult ViewAccountProfile(int id)
-        {
-            UserBO userBO = new UserBO();
-            User user = userBO.ViewAccountProfile(id);
-            ViewBag.user = user;
-            ViewBag.role = userBO.getRoleName(Int32.Parse(user.RoleId.ToString()));
-            return View(userBO.getAllRole()); 
-        }
+        //public ActionResult ViewAccountProfile(int id)
+        //{
+        //    UserBO userBO = new UserBO();
+        //    User user = userBO.ViewAccountProfile(id);
+        //    ViewBag.user = user;
+        //    ViewBag.role = userBO.getRoleName(Int32.Parse(user.RoleId.ToString()));
+        //    return View(userBO.getAllRole()); 
+        //}
 
         //POST: Update Role
         [HttpPost]
@@ -212,5 +212,25 @@ namespace FootballPitchesBooking.Controllers
             var userNames = userBO.GetAllUserName();
             return Json(userNames);
         }
+
+        public ActionResult Details(int id=0)
+        {
+            try
+            {
+                UserBO userBO = new UserBO();
+                var user = userBO.GetUserById(id);
+                if (user == null)
+                {
+                    return HttpNotFound();
+                }
+                else return View(user);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index");
+            }
+
+        }
+
     }
 }
