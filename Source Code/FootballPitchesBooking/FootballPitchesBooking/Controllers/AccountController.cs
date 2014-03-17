@@ -164,11 +164,6 @@ namespace FootballPitchesBooking.Controllers
                 reg.ErrorMessages.Add("");
             }
 
-            if (!reg.Password.Equals(reg.ConfirmPassword))
-            {
-                reg.ErrorMessages.Add(Resources.Password_NotMatchWithConfirm);
-            }
-
 
             if (reg.ErrorMessages.Count == 0)
             {
