@@ -201,6 +201,7 @@
     <Content Include="Content\bootstrap\js\bootstrap-datepicker.js" />
     <Content Include="Content\bootstrap\js\bootstrap2.js" />
     <Content Include="Content\bootstrap\js\bootstrap3.js" />
+    <Content Include="Content\bootstrap\js\collapse.js" />
     <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.ar.js" />
     <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.az.js" />
     <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.bg.js" />
@@ -410,11 +411,8 @@
     <Content Include="Views\WebsiteStaff\EditMemberRank.cshtml" />
     <Content Include="Views\Account\Details.cshtml" />
     <Content Include="Views\StadiumStaff\AddPromotion.cshtml" />
-<<<<<<< .mine
-    <Content Include="Views\StadiumStaff\EditPromotion.cshtml" />
-=======
     <Content Include="Views\Account\Edit.cshtml" />
->>>>>>> .r272
+    <Content Include="Views\StadiumStaff\EditPromotion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
