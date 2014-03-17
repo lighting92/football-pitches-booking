@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using FootballPitchesBooking.Properties;
+using System.Text.RegularExpressions;
 
 namespace FootballPitchesBooking.Controllers
 {
@@ -109,6 +110,8 @@ namespace FootballPitchesBooking.Controllers
         public ActionResult Register(FormCollection form)
         {
             RegisterModel reg = new RegisterModel();
+            Regex alphanumeric = new Regex(@"^[a-z|A-Z|0-9]*$");
+            Regex emailFormat = new Regex(@"^\w+([-+.']\w+)*@@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
             reg.UserName = form["UserName"];
             reg.Password = form["Password"];
             reg.ConfirmPassword = form["ConfirmPassword"];
@@ -124,6 +127,41 @@ namespace FootballPitchesBooking.Controllers
                 || string.IsNullOrEmpty(reg.PhoneNumber))
             {
                 reg.ErrorMessages.Add(Resources.Form_EmptyFields);
+            }
+
+            if (!reg.Password.Equals(reg.ConfirmPassword))
+            {
+                reg.ErrorMessages.Add(Resources.Password_NotMatchWithConfirm);
+            }
+
+            if (reg.UserName.Length < 6 || reg.UserName.Length > 32)
+            {
+                reg.ErrorMessages.Add(Resources.Reg_UserNameOutOfLength);
+            }
+
+            if (reg.Password.Length < 6 || reg.Password.Length > 32)
+            {
+                reg.ErrorMessages.Add("");
+            }
+
+            if (reg.FullName.Length <= 0 || reg.FullName.Length > 50)
+            {
+                reg.ErrorMessages.Add("");
+            }
+
+            if (reg.PhoneNumber.Length < 6 || reg.PhoneNumber.Length > 20)
+            {
+                reg.ErrorMessages.Add("");
+            }
+
+            if (!alphanumeric.IsMatch(reg.UserName))
+            {
+                reg.ErrorMessages.Add("");
+            }
+
+            if (!emailFormat.IsMatch(reg.Email))
+            {
+                reg.ErrorMessages.Add("");
             }
 
             if (!reg.Password.Equals(reg.ConfirmPassword))

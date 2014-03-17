@@ -169,6 +169,15 @@ namespace FootballPitchesBooking.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tên đăng nhập yêu cầu từ 6 đến 32 ký tự.
+        /// </summary>
+        internal static string Reg_UserNameOutOfLength {
+            get {
+                return ResourceManager.GetString("Reg_UserNameOutOfLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bạn không có quyền hạn để quản lý sân bóng này.
         /// </summary>
         internal static string StadiumStaff_HaveNoPermissionTotAccessStadium {
