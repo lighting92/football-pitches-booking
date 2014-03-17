@@ -13,16 +13,24 @@
         var confirmpassword = $("#txtConfirmPass").val();
         var fullname = $("#txtFullN").val();
         var email = $("#txtMail").val();
+        var phone = $("#txtPhone").val();
         var reg = /^\w+([-+.']\w+)*@@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+        var aln = /^[a-zA-Z][0-9]{3}$/;
+
 
         if (username == "" || username.length < 6 || username.length > 32) {
             $("#ErrorName").text("Yêu cầu tài khoản từ 6 đến 32 kí tự");
             $("#ErrorName").css("display", "block");
             flag++;
         }
+        else if (!aln.test(username)) {
+            $("#ErrorName").text("Tên đăng nhập chỉ chấp nhận chữ và số");
+            $("#ErrorName").css("display", "block");
+            flag++;
+        }
         else {
             $("#ErrorName").text(" ");
-            $("#ErrorName").css("display", "none");
+            $("#ErrorName").css("display", "none"); 
         }
 
         if (password == "" || password.length < 6 || password.length > 32) {
@@ -67,6 +75,18 @@
             $("#Email_Error").text(" ");
             $("#Email_Error").css("display", "none");
         }
+
+        if (phone == "" || phone.length < 6 || phone.length > 20) {
+            $("#Phone_Error").text("Yêu cầu phải nhập đúng số điện thoại");
+            $("#Phone_Error").css("display", "block");
+            flag++;
+
+        }
+        else {
+            $("#Phone_Error").text(" ");
+            $("#Phone_Error").css("display", "none");
+        }
+
 
         if (flag > 0) {
             return false;
@@ -147,7 +167,8 @@
         </p>
         <p>
             <label for="PhoneNumber">(*) Số điện thoại:</label>
-            <input type="text" name="PhoneNumber" placeholder="Nhập số điện thoại" required="required" value="@phoneNumber" />
+            <input type="text" id="txtPhone" name="PhoneNumber" placeholder="Nhập số điện thoại" required="required" value="@phoneNumber" />
+            <div class="alert alert-danger" id="Phone_Error" style="display: none"></div>
         </p>
         <button type="submit" name="Register" onclick="return check()">Đăng ký</button>
         <button type="button" onclick="window.location = '/Home'">Hủy bỏ</button>
