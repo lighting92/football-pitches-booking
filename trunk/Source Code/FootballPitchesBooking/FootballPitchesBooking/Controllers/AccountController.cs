@@ -18,7 +18,7 @@ namespace FootballPitchesBooking.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Details", "Account");
         }
 
         //
@@ -213,29 +213,48 @@ namespace FootballPitchesBooking.Controllers
             return Json(userNames);
         }
 
-        public ActionResult Details(int id = 0)
+        public ActionResult Details(int? id)
         {
-            try
+            if (id == null)
             {
-                UserBO userBO = new UserBO();
-                var user = userBO.GetUserById(id);
-                if (user == null)
+                try
                 {
-                    return HttpNotFound();
+                    UserBO userBO = new UserBO();
+                    var user = userBO.GetUserByUserName(User.Identity.Name);
+                    if (user == null)
+                    {
+                        return HttpNotFound();
+                    }
+                    else return View(user);
                 }
-                else return View(user);
+                catch (Exception)
+                {
+                    return RedirectToAction("Index");
+                }
             }
-            catch (Exception)
+            else
             {
-                return RedirectToAction("Index");
+                try
+                {
+                    UserBO userBO = new UserBO();
+                    var user = userBO.GetUserById((int)id);
+                    if (user == null)
+                    {
+                        return HttpNotFound();
+                    }
+                    else return View(user);
+                }
+                catch (Exception)
+                {
+                    return RedirectToAction("Index");
+                }
             }
-
         }
 
-        public ActionResult Edit(int id = 0)
+        public ActionResult Edit()
         {
             UserBO userBO = new UserBO();
-            var user = userBO.GetUserById(id);
+            var user = userBO.GetUserByUserName(User.Identity.Name);
             if (user == null)
             {
                 return HttpNotFound();

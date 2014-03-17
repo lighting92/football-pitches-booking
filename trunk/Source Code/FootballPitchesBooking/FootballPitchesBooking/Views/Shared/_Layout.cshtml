@@ -79,19 +79,19 @@
                                             @if (User.IsInRole("WebsiteMaster") || User.IsInRole("WebsiteStaff"))
                                             {
                                                 <div class="links">
-                                                    <a href="/WebsiteStaff">QUẢN TRỊ WEBSITE</a> | <a href="/Account">QUẢN LÝ TÀI KHOẢN</a> | <a href="/Account/Logout">ĐĂNG XUẤT</a>
+                                                    <a href="/WebsiteStaff">QUẢN TRỊ WEBSITE</a> | <a href="/Account/Details">QUẢN LÝ TÀI KHOẢN</a> | <a href="/Account/Logout">ĐĂNG XUẤT</a>
                                                 </div>
                                             }
                                             else if (User.IsInRole("StadiumOwner") || User.IsInRole("StadiumStaff"))
                                             {
                                                 <div class="links">
-                                                    <a href="/StadiumStaff">QUẢN LÝ SÂN BÓNG</a> | <a href="/Account">QUẢN LÝ TÀI KHOẢN</a> | <a href="/Account/Logout">ĐĂNG XUẤT</a>
+                                                    <a href="/StadiumStaff">QUẢN LÝ SÂN BÓNG</a> | <a href="/Account/Details">QUẢN LÝ TÀI KHOẢN</a> | <a href="/Account/Logout">ĐĂNG XUẤT</a>
                                                 </div>
                                             }
                                             else
                                             {
                                                 <div class="links">
-                                                    <a href="/Account">QUẢN LÝ TÀI KHOẢN</a> | <a href="/Account/Logout">ĐĂNG XUẤT</a>
+                                                    <a href="/Account/Details">QUẢN LÝ TÀI KHOẢN</a> | <a href="/Account/Logout">ĐĂNG XUẤT</a>
                                                 </div>
                                             }
 

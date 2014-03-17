@@ -65,10 +65,11 @@
         </td>
     </tr>
     <tr>
-        <td>
-            @Html.ActionLink("Chỉnh sửa", "Edit", "Account", new { id = Model.Id }, null)
-        </td>
-        <td>
+        <td colspan="2">
+            @if (User.Identity.Name.Equals(Model.UserName))
+            {
+                <button type="button" onclick="window.location = '/Account/Edit'">Chỉnh sửa</button>
+            }
             <button type="button" onclick="window.location = '/Home'">Quay về</button>
         </td>
     </tr>
