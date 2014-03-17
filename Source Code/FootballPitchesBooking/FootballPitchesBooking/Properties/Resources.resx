@@ -153,6 +153,9 @@
   <data name="Reg_UserNameNotAvailable" xml:space="preserve">
     <value>Tên tài khoản đã được sử dụng. Xin vui lòng chọn tên khác</value>
   </data>
+  <data name="Reg_UserNameOutOfLength" xml:space="preserve">
+    <value>Tên đăng nhập yêu cầu từ 6 đến 32 ký tự</value>
+  </data>
   <data name="StadiumStaff_HaveNoPermissionTotAccessStadium" xml:space="preserve">
     <value>Bạn không có quyền hạn để quản lý sân bóng này</value>
   </data>
