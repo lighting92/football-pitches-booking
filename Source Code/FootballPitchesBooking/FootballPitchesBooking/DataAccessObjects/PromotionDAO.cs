@@ -22,10 +22,17 @@ namespace FootballPitchesBooking.DataAccessObjects
         }
 
 
-        public List<Promotion> GetAllPromotionsByStadium(int stadiumId)
+        public List<Promotion> GetAllPromotionsOfStadium(int stadiumId)
         {
             FPBDataContext db = new FPBDataContext();
             return db.Promotions.Where(p => p.Field.StadiumId == stadiumId).OrderByDescending(p => p.PromotionTo).ToList();
+        }
+
+
+        public List<Promotion> GetAllPromotionsOfField(int fieldId)
+        {
+            FPBDataContext db = new FPBDataContext();
+            return db.Promotions.Where(p => p.FieldId == fieldId).OrderByDescending(p => p.PromotionTo).ToList();
         }
 
 

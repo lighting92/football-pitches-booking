@@ -454,7 +454,7 @@ namespace FootballPitchesBooking.BusinessObjects
         public List<Promotion> GetAllPromotionsByStadium(int stadiumId)
         {
             PromotionDAO promotionDAO = new PromotionDAO();
-            return promotionDAO.GetAllPromotionsByStadium(stadiumId);
+            return promotionDAO.GetAllPromotionsOfStadium(stadiumId);
         }
 
 

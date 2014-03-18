@@ -284,6 +284,31 @@ namespace FootballPitchesBooking.Controllers
             return View();
         }
 
+
+        public ActionResult AddReservation(int stadium)
+        {
+            StadiumBO stadiumBO = new StadiumBO();
+
+            ReservationModel model = new ReservationModel();
+
+            model.Fields = stadiumBO.GetFieldsByStadiumId(stadium);
+
+            if (model.Fields == null)
+            {
+                return RedirectToAction("Promotions", "StadiumStaff");
+            }
+
+            return View(model);
+        }
+
+
+        public ActionResult AddReservation(FormCollection form, int stadium)
+        {
+
+            return View();
+        }
+
+
         #endregion RESERVATION MANAGEMENT
 
         #region PROMOTION MANAGEMENT
