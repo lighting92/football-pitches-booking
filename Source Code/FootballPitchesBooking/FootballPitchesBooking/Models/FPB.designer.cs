@@ -48,6 +48,9 @@ namespace FootballPitchesBooking.Models
     partial void InsertMemberRank(MemberRank instance);
     partial void UpdateMemberRank(MemberRank instance);
     partial void DeleteMemberRank(MemberRank instance);
+    partial void InsertPriceTable(PriceTable instance);
+    partial void UpdatePriceTable(PriceTable instance);
+    partial void DeletePriceTable(PriceTable instance);
     partial void InsertPromotion(Promotion instance);
     partial void UpdatePromotion(Promotion instance);
     partial void DeletePromotion(Promotion instance);
@@ -149,6 +152,14 @@ namespace FootballPitchesBooking.Models
 			get
 			{
 				return this.GetTable<MemberRank>();
+			}
+		}
+		
+		public System.Data.Linq.Table<PriceTable> PriceTables
+		{
+			get
+			{
+				return this.GetTable<PriceTable>();
 			}
 		}
 		
@@ -1222,15 +1233,17 @@ namespace FootballPitchesBooking.Models
 		
 		private bool _IsActive;
 		
-		private EntitySet<Field> _Fields;
+		private int _PriceId;
 		
-		private EntitySet<FieldPrice> _FieldPrices;
+		private EntitySet<Field> _Fields;
 		
 		private EntitySet<Promotion> _Promotions;
 		
 		private EntitySet<Reservation> _Reservations;
 		
 		private EntityRef<Field> _Field1;
+		
+		private EntityRef<FieldPrice> _FieldPrice;
 		
 		private EntityRef<Stadium> _Stadium;
 		
@@ -1250,15 +1263,17 @@ namespace FootballPitchesBooking.Models
     partial void OnFieldTypeChanged();
     partial void OnIsActiveChanging(bool value);
     partial void OnIsActiveChanged();
+    partial void OnPriceIdChanging(int value);
+    partial void OnPriceIdChanged();
     #endregion
 		
 		public Field()
 		{
 			this._Fields = new EntitySet<Field>(new Action<Field>(this.attach_Fields), new Action<Field>(this.detach_Fields));
-			this._FieldPrices = new EntitySet<FieldPrice>(new Action<FieldPrice>(this.attach_FieldPrices), new Action<FieldPrice>(this.detach_FieldPrices));
 			this._Promotions = new EntitySet<Promotion>(new Action<Promotion>(this.attach_Promotions), new Action<Promotion>(this.detach_Promotions));
 			this._Reservations = new EntitySet<Reservation>(new Action<Reservation>(this.attach_Reservations), new Action<Reservation>(this.detach_Reservations));
 			this._Field1 = default(EntityRef<Field>);
+			this._FieldPrice = default(EntityRef<FieldPrice>);
 			this._Stadium = default(EntityRef<Stadium>);
 			OnCreated();
 		}
@@ -1391,6 +1406,30 @@ namespace FootballPitchesBooking.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PriceId", DbType="Int NOT NULL")]
+		public int PriceId
+		{
+			get
+			{
+				return this._PriceId;
+			}
+			set
+			{
+				if ((this._PriceId != value))
+				{
+					if (this._FieldPrice.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPriceIdChanging(value);
+					this.SendPropertyChanging();
+					this._PriceId = value;
+					this.SendPropertyChanged("PriceId");
+					this.OnPriceIdChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Field_Field", Storage="_Fields", ThisKey="Id", OtherKey="ParentField")]
 		public EntitySet<Field> Fields
 		{
@@ -1401,19 +1440,6 @@ namespace FootballPitchesBooking.Models
 			set
 			{
 				this._Fields.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Field_FieldPrice", Storage="_FieldPrices", ThisKey="Id", OtherKey="FieldId")]
-		public EntitySet<FieldPrice> FieldPrices
-		{
-			get
-			{
-				return this._FieldPrices;
-			}
-			set
-			{
-				this._FieldPrices.Assign(value);
 			}
 		}
 		
@@ -1473,6 +1499,40 @@ namespace FootballPitchesBooking.Models
 						this._ParentField = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("Field1");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="FieldPrice_Field", Storage="_FieldPrice", ThisKey="PriceId", OtherKey="Id", IsForeignKey=true)]
+		public FieldPrice FieldPrice
+		{
+			get
+			{
+				return this._FieldPrice.Entity;
+			}
+			set
+			{
+				FieldPrice previousValue = this._FieldPrice.Entity;
+				if (((previousValue != value) 
+							|| (this._FieldPrice.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._FieldPrice.Entity = null;
+						previousValue.Fields.Remove(this);
+					}
+					this._FieldPrice.Entity = value;
+					if ((value != null))
+					{
+						value.Fields.Add(this);
+						this._PriceId = value.Id;
+					}
+					else
+					{
+						this._PriceId = default(int);
+					}
+					this.SendPropertyChanged("FieldPrice");
 				}
 			}
 		}
@@ -1543,18 +1603,6 @@ namespace FootballPitchesBooking.Models
 			entity.Field1 = null;
 		}
 		
-		private void attach_FieldPrices(FieldPrice entity)
-		{
-			this.SendPropertyChanging();
-			entity.Field = this;
-		}
-		
-		private void detach_FieldPrices(FieldPrice entity)
-		{
-			this.SendPropertyChanging();
-			entity.Field = null;
-		}
-		
 		private void attach_Promotions(Promotion entity)
 		{
 			this.SendPropertyChanging();
@@ -1588,17 +1636,17 @@ namespace FootballPitchesBooking.Models
 		
 		private int _Id;
 		
-		private int _FieldId;
+		private int _StadiumId;
 		
-		private double _TimeFrom;
+		private string _FieldPriceName;
 		
-		private double _TimeTo;
+		private string _FieldPriceDescription;
 		
-		private double _Price;
+		private EntitySet<Field> _Fields;
 		
-		private int _Day;
+		private EntitySet<PriceTable> _PriceTables;
 		
-		private EntityRef<Field> _Field;
+		private EntityRef<Stadium> _Stadium;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1606,21 +1654,19 @@ namespace FootballPitchesBooking.Models
     partial void OnCreated();
     partial void OnIdChanging(int value);
     partial void OnIdChanged();
-    partial void OnFieldIdChanging(int value);
-    partial void OnFieldIdChanged();
-    partial void OnTimeFromChanging(double value);
-    partial void OnTimeFromChanged();
-    partial void OnTimeToChanging(double value);
-    partial void OnTimeToChanged();
-    partial void OnPriceChanging(double value);
-    partial void OnPriceChanged();
-    partial void OnDayChanging(int value);
-    partial void OnDayChanged();
+    partial void OnStadiumIdChanging(int value);
+    partial void OnStadiumIdChanged();
+    partial void OnFieldPriceNameChanging(string value);
+    partial void OnFieldPriceNameChanged();
+    partial void OnFieldPriceDescriptionChanging(string value);
+    partial void OnFieldPriceDescriptionChanged();
     #endregion
 		
 		public FieldPrice()
 		{
-			this._Field = default(EntityRef<Field>);
+			this._Fields = new EntitySet<Field>(new Action<Field>(this.attach_Fields), new Action<Field>(this.detach_Fields));
+			this._PriceTables = new EntitySet<PriceTable>(new Action<PriceTable>(this.attach_PriceTables), new Action<PriceTable>(this.detach_PriceTables));
+			this._Stadium = default(EntityRef<Stadium>);
 			OnCreated();
 		}
 		
@@ -1644,140 +1690,126 @@ namespace FootballPitchesBooking.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FieldId", DbType="Int NOT NULL")]
-		public int FieldId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StadiumId", DbType="Int NOT NULL")]
+		public int StadiumId
 		{
 			get
 			{
-				return this._FieldId;
+				return this._StadiumId;
 			}
 			set
 			{
-				if ((this._FieldId != value))
+				if ((this._StadiumId != value))
 				{
-					if (this._Field.HasLoadedOrAssignedValue)
+					if (this._Stadium.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnFieldIdChanging(value);
+					this.OnStadiumIdChanging(value);
 					this.SendPropertyChanging();
-					this._FieldId = value;
-					this.SendPropertyChanged("FieldId");
-					this.OnFieldIdChanged();
+					this._StadiumId = value;
+					this.SendPropertyChanged("StadiumId");
+					this.OnStadiumIdChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TimeFrom", DbType="Float NOT NULL")]
-		public double TimeFrom
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FieldPriceName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string FieldPriceName
 		{
 			get
 			{
-				return this._TimeFrom;
+				return this._FieldPriceName;
 			}
 			set
 			{
-				if ((this._TimeFrom != value))
+				if ((this._FieldPriceName != value))
 				{
-					this.OnTimeFromChanging(value);
+					this.OnFieldPriceNameChanging(value);
 					this.SendPropertyChanging();
-					this._TimeFrom = value;
-					this.SendPropertyChanged("TimeFrom");
-					this.OnTimeFromChanged();
+					this._FieldPriceName = value;
+					this.SendPropertyChanged("FieldPriceName");
+					this.OnFieldPriceNameChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TimeTo", DbType="Float NOT NULL")]
-		public double TimeTo
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FieldPriceDescription", DbType="NVarChar(200)")]
+		public string FieldPriceDescription
 		{
 			get
 			{
-				return this._TimeTo;
+				return this._FieldPriceDescription;
 			}
 			set
 			{
-				if ((this._TimeTo != value))
+				if ((this._FieldPriceDescription != value))
 				{
-					this.OnTimeToChanging(value);
+					this.OnFieldPriceDescriptionChanging(value);
 					this.SendPropertyChanging();
-					this._TimeTo = value;
-					this.SendPropertyChanged("TimeTo");
-					this.OnTimeToChanged();
+					this._FieldPriceDescription = value;
+					this.SendPropertyChanged("FieldPriceDescription");
+					this.OnFieldPriceDescriptionChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Price", DbType="Float NOT NULL")]
-		public double Price
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="FieldPrice_Field", Storage="_Fields", ThisKey="Id", OtherKey="PriceId")]
+		public EntitySet<Field> Fields
 		{
 			get
 			{
-				return this._Price;
+				return this._Fields;
 			}
 			set
 			{
-				if ((this._Price != value))
-				{
-					this.OnPriceChanging(value);
-					this.SendPropertyChanging();
-					this._Price = value;
-					this.SendPropertyChanged("Price");
-					this.OnPriceChanged();
-				}
+				this._Fields.Assign(value);
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Day", DbType="Int NOT NULL")]
-		public int Day
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="FieldPrice_PriceTable", Storage="_PriceTables", ThisKey="Id", OtherKey="FieldPriceId")]
+		public EntitySet<PriceTable> PriceTables
 		{
 			get
 			{
-				return this._Day;
+				return this._PriceTables;
 			}
 			set
 			{
-				if ((this._Day != value))
-				{
-					this.OnDayChanging(value);
-					this.SendPropertyChanging();
-					this._Day = value;
-					this.SendPropertyChanged("Day");
-					this.OnDayChanged();
-				}
+				this._PriceTables.Assign(value);
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Field_FieldPrice", Storage="_Field", ThisKey="FieldId", OtherKey="Id", IsForeignKey=true)]
-		public Field Field
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Stadium_FieldPrice", Storage="_Stadium", ThisKey="StadiumId", OtherKey="Id", IsForeignKey=true)]
+		public Stadium Stadium
 		{
 			get
 			{
-				return this._Field.Entity;
+				return this._Stadium.Entity;
 			}
 			set
 			{
-				Field previousValue = this._Field.Entity;
+				Stadium previousValue = this._Stadium.Entity;
 				if (((previousValue != value) 
-							|| (this._Field.HasLoadedOrAssignedValue == false)))
+							|| (this._Stadium.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Field.Entity = null;
+						this._Stadium.Entity = null;
 						previousValue.FieldPrices.Remove(this);
 					}
-					this._Field.Entity = value;
+					this._Stadium.Entity = value;
 					if ((value != null))
 					{
 						value.FieldPrices.Add(this);
-						this._FieldId = value.Id;
+						this._StadiumId = value.Id;
 					}
 					else
 					{
-						this._FieldId = default(int);
+						this._StadiumId = default(int);
 					}
-					this.SendPropertyChanged("Field");
+					this.SendPropertyChanged("Stadium");
 				}
 			}
 		}
@@ -1800,6 +1832,30 @@ namespace FootballPitchesBooking.Models
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_Fields(Field entity)
+		{
+			this.SendPropertyChanging();
+			entity.FieldPrice = this;
+		}
+		
+		private void detach_Fields(Field entity)
+		{
+			this.SendPropertyChanging();
+			entity.FieldPrice = null;
+		}
+		
+		private void attach_PriceTables(PriceTable entity)
+		{
+			this.SendPropertyChanging();
+			entity.FieldPrice = this;
+		}
+		
+		private void detach_PriceTables(PriceTable entity)
+		{
+			this.SendPropertyChanging();
+			entity.FieldPrice = null;
 		}
 	}
 	
@@ -2305,6 +2361,229 @@ namespace FootballPitchesBooking.Models
 		{
 			this.SendPropertyChanging();
 			entity.MemberRank = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.PriceTable")]
+	public partial class PriceTable : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _FieldPriceId;
+		
+		private int _Day;
+		
+		private double _TimeFrom;
+		
+		private double _TimeTo;
+		
+		private double _Price;
+		
+		private EntityRef<FieldPrice> _FieldPrice;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnFieldPriceIdChanging(int value);
+    partial void OnFieldPriceIdChanged();
+    partial void OnDayChanging(int value);
+    partial void OnDayChanged();
+    partial void OnTimeFromChanging(double value);
+    partial void OnTimeFromChanged();
+    partial void OnTimeToChanging(double value);
+    partial void OnTimeToChanged();
+    partial void OnPriceChanging(double value);
+    partial void OnPriceChanged();
+    #endregion
+		
+		public PriceTable()
+		{
+			this._FieldPrice = default(EntityRef<FieldPrice>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FieldPriceId", DbType="Int NOT NULL")]
+		public int FieldPriceId
+		{
+			get
+			{
+				return this._FieldPriceId;
+			}
+			set
+			{
+				if ((this._FieldPriceId != value))
+				{
+					if (this._FieldPrice.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnFieldPriceIdChanging(value);
+					this.SendPropertyChanging();
+					this._FieldPriceId = value;
+					this.SendPropertyChanged("FieldPriceId");
+					this.OnFieldPriceIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Day", DbType="Int NOT NULL")]
+		public int Day
+		{
+			get
+			{
+				return this._Day;
+			}
+			set
+			{
+				if ((this._Day != value))
+				{
+					this.OnDayChanging(value);
+					this.SendPropertyChanging();
+					this._Day = value;
+					this.SendPropertyChanged("Day");
+					this.OnDayChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TimeFrom", DbType="Float NOT NULL")]
+		public double TimeFrom
+		{
+			get
+			{
+				return this._TimeFrom;
+			}
+			set
+			{
+				if ((this._TimeFrom != value))
+				{
+					this.OnTimeFromChanging(value);
+					this.SendPropertyChanging();
+					this._TimeFrom = value;
+					this.SendPropertyChanged("TimeFrom");
+					this.OnTimeFromChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TimeTo", DbType="Float NOT NULL")]
+		public double TimeTo
+		{
+			get
+			{
+				return this._TimeTo;
+			}
+			set
+			{
+				if ((this._TimeTo != value))
+				{
+					this.OnTimeToChanging(value);
+					this.SendPropertyChanging();
+					this._TimeTo = value;
+					this.SendPropertyChanged("TimeTo");
+					this.OnTimeToChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Price", DbType="Float NOT NULL")]
+		public double Price
+		{
+			get
+			{
+				return this._Price;
+			}
+			set
+			{
+				if ((this._Price != value))
+				{
+					this.OnPriceChanging(value);
+					this.SendPropertyChanging();
+					this._Price = value;
+					this.SendPropertyChanged("Price");
+					this.OnPriceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="FieldPrice_PriceTable", Storage="_FieldPrice", ThisKey="FieldPriceId", OtherKey="Id", IsForeignKey=true)]
+		public FieldPrice FieldPrice
+		{
+			get
+			{
+				return this._FieldPrice.Entity;
+			}
+			set
+			{
+				FieldPrice previousValue = this._FieldPrice.Entity;
+				if (((previousValue != value) 
+							|| (this._FieldPrice.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._FieldPrice.Entity = null;
+						previousValue.PriceTables.Remove(this);
+					}
+					this._FieldPrice.Entity = value;
+					if ((value != null))
+					{
+						value.PriceTables.Add(this);
+						this._FieldPriceId = value.Id;
+					}
+					else
+					{
+						this._FieldPriceId = default(int);
+					}
+					this.SendPropertyChanged("FieldPrice");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 	
@@ -3535,6 +3814,8 @@ namespace FootballPitchesBooking.Models
 		
 		private EntitySet<Field> _Fields;
 		
+		private EntitySet<FieldPrice> _FieldPrices;
+		
 		private EntitySet<StadiumImage> _StadiumImages;
 		
 		private EntitySet<StadiumRating> _StadiumRatings;
@@ -3572,6 +3853,7 @@ namespace FootballPitchesBooking.Models
 		public Stadium()
 		{
 			this._Fields = new EntitySet<Field>(new Action<Field>(this.attach_Fields), new Action<Field>(this.detach_Fields));
+			this._FieldPrices = new EntitySet<FieldPrice>(new Action<FieldPrice>(this.attach_FieldPrices), new Action<FieldPrice>(this.detach_FieldPrices));
 			this._StadiumImages = new EntitySet<StadiumImage>(new Action<StadiumImage>(this.attach_StadiumImages), new Action<StadiumImage>(this.detach_StadiumImages));
 			this._StadiumRatings = new EntitySet<StadiumRating>(new Action<StadiumRating>(this.attach_StadiumRatings), new Action<StadiumRating>(this.detach_StadiumRatings));
 			this._StadiumReviews = new EntitySet<StadiumReview>(new Action<StadiumReview>(this.attach_StadiumReviews), new Action<StadiumReview>(this.detach_StadiumReviews));
@@ -3777,6 +4059,19 @@ namespace FootballPitchesBooking.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Stadium_FieldPrice", Storage="_FieldPrices", ThisKey="Id", OtherKey="StadiumId")]
+		public EntitySet<FieldPrice> FieldPrices
+		{
+			get
+			{
+				return this._FieldPrices;
+			}
+			set
+			{
+				this._FieldPrices.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Stadium_StadiumImage", Storage="_StadiumImages", ThisKey="Id", OtherKey="StadiumId")]
 		public EntitySet<StadiumImage> StadiumImages
 		{
@@ -3890,6 +4185,18 @@ namespace FootballPitchesBooking.Models
 		}
 		
 		private void detach_Fields(Field entity)
+		{
+			this.SendPropertyChanging();
+			entity.Stadium = null;
+		}
+		
+		private void attach_FieldPrices(FieldPrice entity)
+		{
+			this.SendPropertyChanging();
+			entity.Stadium = this;
+		}
+		
+		private void detach_FieldPrices(FieldPrice entity)
 		{
 			this.SendPropertyChanging();
 			entity.Stadium = null;

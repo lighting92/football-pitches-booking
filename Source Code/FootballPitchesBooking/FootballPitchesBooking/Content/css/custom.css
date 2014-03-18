@@ -1,8 +1,32 @@
+.btn.groupbtn
+{
+    margin-left: 10px;
+}
+form h1
+{
+    font-size: 25px;
+}
+    form h1 small
+    {
+        font-size: 20px;
+        text-transform: none;
+    }
+footer
+{
+    margin-top: 20px;
+}
 div.ui-datepicker
 {
     font-size: 11px;
 }
-
+h1 span, h2 span, h3 span, h4 span, h5 span, h6 span, legend span
+{
+    color: inherit;
+}
+.navbar .nav a
+{
+    font-size: 15px;
+}
 textarea
 {
     resize: none;
@@ -214,4 +238,9 @@ footer a
 .span5.logo, #accordion.panel-group.span7
 {
     margin:0;
+}
+
+#findavailablesection .input-date-collapse, #findavailablesection .input-time-collapse
+{
+    width: 110px;
 }

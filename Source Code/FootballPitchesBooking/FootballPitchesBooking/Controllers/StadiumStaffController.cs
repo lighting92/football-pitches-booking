@@ -25,7 +25,7 @@ namespace FootballPitchesBooking.Controllers
         #region STADIUMS MANAGEMENT
 
 
-        [Authorize(Roles="StadiumOwner")]
+        [Authorize(Roles = "StadiumOwner")]
         public ActionResult Stadiums()
         {
             StadiumBO stadiumBO = new StadiumBO();
@@ -52,7 +52,7 @@ namespace FootballPitchesBooking.Controllers
 
                 }
 
-                var staffs = stadiumBO.GetAllStaffOfStadium(id);                
+                var staffs = stadiumBO.GetAllStaffOfStadium(id);
 
                 EditStadiumModel model = new EditStadiumModel
                 {
@@ -241,9 +241,613 @@ namespace FootballPitchesBooking.Controllers
         }
 
         [Authorize(Roles = "StadiumOwner")]
+        public ActionResult FieldPrices(int stadium)
+        {
+            StadiumBO stadiumBO = new StadiumBO();
+            var fieldPrices = stadiumBO.GetAuthorizeStadiumFieldPrices(stadium, User.Identity.Name);
+            FieldPricesModel model = new FieldPricesModel();
+            if (fieldPrices == null)
+            {
+                model.HavePermission = false;
+                model.ErrorMessage = Resources.StadiumStaff_HaveNoPermissionTotAccessStadium;
+            }
+            else
+            {
+                model.HavePermission = true;
+                var s = stadiumBO.GetStadiumById(stadium);
+                model.StadiumId = s.Id;
+                model.StadiumName = s.Name;
+                model.StadiumAddress = s.Street + ", " + s.Ward + ", " + s.District;
+                model.PriceTables = new List<FieldPriceModel>();
+                foreach (var item in fieldPrices)
+                {
+                    FieldPriceModel f = new FieldPriceModel();
+                    f.Id = item.Id;
+                    f.Name = item.FieldPriceName;
+                    f.Description = item.FieldPriceDescription;
+                    model.PriceTables.Add(f);
+                }
+            }
+            return View(model);
+        }
+
+        [Authorize(Roles = "StadiumOwner")]
+        public ActionResult AddFieldPrices(int stadium)
+        {
+            StadiumBO stadiumBO = new StadiumBO();
+            Stadium s = stadiumBO.GetAuthorizeStadium(stadium, User.Identity.Name);
+            AddFieldPricesModel model = new AddFieldPricesModel();
+            if (s != null)
+            {
+                model.HavePermission = true;
+                model.StadiumId = s.Id;
+                model.StadiumName = s.Name;
+                model.StadiumAddress = s.Street + ", " + s.Ward + ", " + s.District;
+                model.FieldPrice = new FieldPriceModel();
+                model.DefaultPriceTables = new List<PriceTableModel>();
+                model.DefaultPriceTables.Add(new PriceTableModel { StartTime = "0:00", EndTime = "0:00" });
+                model.MondayPriceTables = new List<PriceTableModel>();
+                model.TuesdayPriceTables = new List<PriceTableModel>();
+                model.WednesdayPriceTables = new List<PriceTableModel>();
+                model.ThurdayPriceTables = new List<PriceTableModel>();
+                model.FridayPriceTables = new List<PriceTableModel>();
+                model.SaturdayPriceTables = new List<PriceTableModel>();
+                model.SundayPriceTables = new List<PriceTableModel>();
+            }
+            else
+            {
+                model.HavePermission = false;
+                model.ErrorMessages = new List<string>();
+                model.ErrorMessages.Add(Resources.StadiumStaff_HaveNoPermissionTotAccessStadium);
+            }
+            return View(model);
+        }
+        [HttpPost]
+        [Authorize(Roles = "StadiumOwner")]
+        public ActionResult AddFieldPrices(FormCollection form, int stadium)
+        {
+            StadiumBO stadiumBO = new StadiumBO();
+            Stadium s = stadiumBO.GetAuthorizeStadium(stadium, User.Identity.Name);
+            AddFieldPricesModel model = new AddFieldPricesModel();
+            if (s != null)
+            {
+                model.HavePermission = true;
+                model.StadiumId = s.Id;
+                model.StadiumName = s.Name;
+                model.StadiumAddress = s.Street + ", " + s.Ward + ", " + s.District;
+                model.FieldPrice = new FieldPriceModel();
+                model.FieldPrice.Name = form["FieldPriceName"];
+                model.FieldPrice.Description = form["FieldPriceDescription"];
+                model.DefaultPriceTables = new List<PriceTableModel>();
+                model.MondayPriceTables = new List<PriceTableModel>();
+                model.TuesdayPriceTables = new List<PriceTableModel>();
+                model.WednesdayPriceTables = new List<PriceTableModel>();
+                model.ThurdayPriceTables = new List<PriceTableModel>();
+                model.FridayPriceTables = new List<PriceTableModel>();
+                model.SaturdayPriceTables = new List<PriceTableModel>();
+                model.SundayPriceTables = new List<PriceTableModel>();
+                model.ErrorMessages = new List<string>();
+
+                var defaultStartTimeKeys = form.AllKeys.Where(k => k.Contains("defaultstarttime_")).ToList();
+                var monStartTimeKeys = form.AllKeys.Where(k => k.Contains("monstarttime_")).ToList();
+                var tueStartTimeKeys = form.AllKeys.Where(k => k.Contains("tuestarttime_")).ToList();
+                var wedStartTimeKeys = form.AllKeys.Where(k => k.Contains("wedstarttime_")).ToList();
+                var thuStartTimeKeys = form.AllKeys.Where(k => k.Contains("thustarttime_")).ToList();
+                var friStartTimeKeys = form.AllKeys.Where(k => k.Contains("fristarttime_")).ToList();
+                var satStartTimeKeys = form.AllKeys.Where(k => k.Contains("satstarttime_")).ToList();
+                var sunStartTimeKeys = form.AllKeys.Where(k => k.Contains("sunstarttime_")).ToList();
+
+                var fp = new FieldPrice();
+                fp.FieldPriceName = model.FieldPrice.Name;
+                fp.FieldPriceDescription = model.FieldPrice.Description;
+                fp.StadiumId = s.Id;
+                fp.PriceTables = new System.Data.Linq.EntitySet<PriceTable>();
+
+
+                #region first validate data type
+
+                var fperror = false;
+                if (string.IsNullOrEmpty(model.FieldPrice.Name) || string.IsNullOrEmpty(model.FieldPrice.Description))
+                {
+                    fperror = true;
+                    model.ErrorMessages.Add(Resources.Form_EmptyFields);
+                }
+
+                var derror = false;
+                foreach (var item in defaultStartTimeKeys)
+                {
+                    var count = item.Substring(item.LastIndexOf("_") + 1, item.Length - item.LastIndexOf("_") - 1);
+                    var tempStart = form[item];
+                    var tempEnd = form["defaultendtime_" + count];
+                    var tempPrice = form["defaultprice_" + count];
+                    model.DefaultPriceTables.Add(new PriceTableModel
+                    {
+                        StartTime = tempStart,
+                        EndTime = tempEnd,
+                        Price = tempPrice
+                    });
+                    if (!derror && (string.IsNullOrEmpty(tempStart) || string.IsNullOrEmpty(tempEnd) || string.IsNullOrEmpty(tempPrice)))
+                    {
+                        model.ErrorMessages.Add("Bảng giá mặc định không hợp lệ");
+                        derror = true;
+                    }
+                    else
+                    {
+                        int hourStart;
+                        bool parseHS = int.TryParse(tempStart.Substring(0, tempStart.LastIndexOf(":")).Trim(), out hourStart);
+                        int minuteStart;
+                        bool parseMS = int.TryParse(tempStart.Substring(tempStart.LastIndexOf(":") + 1, tempStart.Length - tempStart.LastIndexOf(":") - 1), out minuteStart);
+                        int hourEnd;
+                        bool parseHE = int.TryParse(tempEnd.Substring(0, tempEnd.LastIndexOf(":")).Trim(), out hourEnd);
+                        int minuteEnd;
+                        bool parseME = int.TryParse(tempEnd.Substring(tempEnd.LastIndexOf(":") + 1, tempEnd.Length - tempEnd.LastIndexOf(":") - 1), out minuteEnd);
+                        double truePrice;
+                        bool parseTP = double.TryParse(tempPrice.Replace(",", ""), out truePrice);
+                        if (parseHS && parseMS && parseHE && parseME && parseTP)
+                        {
+                            var tempPB = new PriceTable();
+                            tempPB.Day = 0;
+                            tempPB.TimeFrom = hourStart + (minuteStart / 60.0);
+                            tempPB.TimeTo = hourEnd + (minuteEnd / 60.0);
+                            tempPB.Price = truePrice;
+                            fp.PriceTables.Add(tempPB);
+                        }
+                        else if (!derror)
+                        {
+                            model.ErrorMessages.Add("Bảng giá mặc định không hợp lệ");
+                            derror = true;
+                        }
+                    }
+                }
+
+                var merror = false;
+                foreach (var item in monStartTimeKeys)
+                {
+                    var count = item.Substring(item.LastIndexOf("_") + 1, item.Length - item.LastIndexOf("_") - 1);
+                    var tempStart = form[item];
+                    var tempEnd = form["monendtime_" + count];
+                    var tempPrice = form["monprice_" + count];
+                    model.MondayPriceTables.Add(new PriceTableModel
+                    {
+                        StartTime = tempStart,
+                        EndTime = tempEnd,
+                        Price = tempPrice
+                    });
+                    if (!merror && (string.IsNullOrEmpty(tempStart) || string.IsNullOrEmpty(tempEnd) || string.IsNullOrEmpty(tempPrice)))
+                    {
+                        model.ErrorMessages.Add("Bảng giá thứ 2 không hợp lệ");
+                        merror = true;
+                    }
+                    else
+                    {
+                        int hourStart;
+                        bool parseHS = int.TryParse(tempStart.Substring(0, tempStart.LastIndexOf(":")).Trim(), out hourStart);
+                        int minuteStart;
+                        bool parseMS = int.TryParse(tempStart.Substring(tempStart.LastIndexOf(":") + 1, tempStart.Length - tempStart.LastIndexOf(":") - 1), out minuteStart);
+                        int hourEnd;
+                        bool parseHE = int.TryParse(tempEnd.Substring(0, tempEnd.LastIndexOf(":")).Trim(), out hourEnd);
+                        int minuteEnd;
+                        bool parseME = int.TryParse(tempEnd.Substring(tempEnd.LastIndexOf(":") + 1, tempEnd.Length - tempEnd.LastIndexOf(":") - 1), out minuteEnd);
+                        double truePrice;
+                        bool parseTP = double.TryParse(tempPrice.Replace(",", ""), out truePrice);
+                        if (parseHS && parseMS && parseHE && parseME && parseTP)
+                        {
+                            var tempPB = new PriceTable();
+                            tempPB.Day = 1;
+                            tempPB.TimeFrom = hourStart + (minuteStart / 60.0);
+                            tempPB.TimeTo = hourEnd + (minuteEnd / 60.0);
+                            tempPB.Price = truePrice;
+                            fp.PriceTables.Add(tempPB);
+                        }
+                        else if (!merror)
+                        {
+                            model.ErrorMessages.Add("Bảng giá thứ 2 không hợp lệ");
+                            merror = true;
+                        }
+                    }
+                }
+
+                var tuerror = false;
+                foreach (var item in tueStartTimeKeys)
+                {
+                    var count = item.Substring(item.LastIndexOf("_") + 1, item.Length - item.LastIndexOf("_") - 1);
+                    var tempStart = form[item];
+                    var tempEnd = form["tueendtime_" + count];
+                    var tempPrice = form["tueprice_" + count];
+                    model.TuesdayPriceTables.Add(new PriceTableModel
+                    {
+                        StartTime = tempStart,
+                        EndTime = tempEnd,
+                        Price = tempPrice
+                    });
+                    if (!tuerror && (string.IsNullOrEmpty(tempStart) || string.IsNullOrEmpty(tempEnd) || string.IsNullOrEmpty(tempPrice)))
+                    {
+                        model.ErrorMessages.Add("Bảng giá thứ 3 không hợp lệ");
+                        tuerror = true;
+                    }
+                    else
+                    {
+                        int hourStart;
+                        bool parseHS = int.TryParse(tempStart.Substring(0, tempStart.LastIndexOf(":")).Trim(), out hourStart);
+                        int minuteStart;
+                        bool parseMS = int.TryParse(tempStart.Substring(tempStart.LastIndexOf(":") + 1, tempStart.Length - tempStart.LastIndexOf(":") - 1), out minuteStart);
+                        int hourEnd;
+                        bool parseHE = int.TryParse(tempEnd.Substring(0, tempEnd.LastIndexOf(":")).Trim(), out hourEnd);
+                        int minuteEnd;
+                        bool parseME = int.TryParse(tempEnd.Substring(tempEnd.LastIndexOf(":") + 1, tempEnd.Length - tempEnd.LastIndexOf(":") - 1), out minuteEnd);
+                        double truePrice;
+                        bool parseTP = double.TryParse(tempPrice.Replace(",", ""), out truePrice);
+                        if (parseHS && parseMS && parseHE && parseME && parseTP)
+                        {
+                            var tempPB = new PriceTable();
+                            tempPB.Day = 2;
+                            tempPB.TimeFrom = hourStart + (minuteStart / 60.0);
+                            tempPB.TimeTo = hourEnd + (minuteEnd / 60.0);
+                            tempPB.Price = truePrice;
+                            fp.PriceTables.Add(tempPB);
+                        }
+                        else if (!tuerror)
+                        {
+                            model.ErrorMessages.Add("Bảng giá thứ 3 không hợp lệ");
+                            tuerror = true;
+                        }
+                    }
+                }
+
+                var werror = false;
+                foreach (var item in wedStartTimeKeys)
+                {
+                    var count = item.Substring(item.LastIndexOf("_") + 1, item.Length - item.LastIndexOf("_") - 1);
+                    var tempStart = form[item];
+                    var tempEnd = form["wedendtime_" + count];
+                    var tempPrice = form["wedprice_" + count];
+                    model.WednesdayPriceTables.Add(new PriceTableModel
+                    {
+                        StartTime = tempStart,
+                        EndTime = tempEnd,
+                        Price = tempPrice
+                    });
+                    if (!werror && (string.IsNullOrEmpty(tempStart) || string.IsNullOrEmpty(tempEnd) || string.IsNullOrEmpty(tempPrice)))
+                    {
+                        model.ErrorMessages.Add("Bảng giá thứ 4 không hợp lệ");
+                        werror = true;
+                    }
+                    else
+                    {
+                        int hourStart;
+                        bool parseHS = int.TryParse(tempStart.Substring(0, tempStart.LastIndexOf(":")).Trim(), out hourStart);
+                        int minuteStart;
+                        bool parseMS = int.TryParse(tempStart.Substring(tempStart.LastIndexOf(":") + 1, tempStart.Length - tempStart.LastIndexOf(":") - 1), out minuteStart);
+                        int hourEnd;
+                        bool parseHE = int.TryParse(tempEnd.Substring(0, tempEnd.LastIndexOf(":")).Trim(), out hourEnd);
+                        int minuteEnd;
+                        bool parseME = int.TryParse(tempEnd.Substring(tempEnd.LastIndexOf(":") + 1, tempEnd.Length - tempEnd.LastIndexOf(":") - 1), out minuteEnd);
+                        double truePrice;
+                        bool parseTP = double.TryParse(tempPrice.Replace(",", ""), out truePrice);
+                        if (parseHS && parseMS && parseHE && parseME && parseTP)
+                        {
+                            var tempPB = new PriceTable();
+                            tempPB.Day = 3;
+                            tempPB.TimeFrom = hourStart + (minuteStart / 60.0);
+                            tempPB.TimeTo = hourEnd + (minuteEnd / 60.0);
+                            tempPB.Price = truePrice;
+                            fp.PriceTables.Add(tempPB);
+                        }
+                        else if (!werror)
+                        {
+                            model.ErrorMessages.Add("Bảng giá thứ 4 không hợp lệ");
+                            werror = true;
+                        }
+                    }
+                }
+
+                var therror = false;
+                foreach (var item in thuStartTimeKeys)
+                {
+                    var count = item.Substring(item.LastIndexOf("_") + 1, item.Length - item.LastIndexOf("_") - 1);
+                    var tempStart = form[item];
+                    var tempEnd = form["thuendtime_" + count];
+                    var tempPrice = form["thuprice_" + count];
+                    model.ThurdayPriceTables.Add(new PriceTableModel
+                    {
+                        StartTime = tempStart,
+                        EndTime = tempEnd,
+                        Price = tempPrice
+                    });
+                    if (!therror && (string.IsNullOrEmpty(tempStart) || string.IsNullOrEmpty(tempEnd) || string.IsNullOrEmpty(tempPrice)))
+                    {
+                        model.ErrorMessages.Add("Bảng giá thứ 5 không hợp lệ");
+                        therror = true;
+                    }
+                    else
+                    {
+                        int hourStart;
+                        bool parseHS = int.TryParse(tempStart.Substring(0, tempStart.LastIndexOf(":")).Trim(), out hourStart);
+                        int minuteStart;
+                        bool parseMS = int.TryParse(tempStart.Substring(tempStart.LastIndexOf(":") + 1, tempStart.Length - tempStart.LastIndexOf(":") - 1), out minuteStart);
+                        int hourEnd;
+                        bool parseHE = int.TryParse(tempEnd.Substring(0, tempEnd.LastIndexOf(":")).Trim(), out hourEnd);
+                        int minuteEnd;
+                        bool parseME = int.TryParse(tempEnd.Substring(tempEnd.LastIndexOf(":") + 1, tempEnd.Length - tempEnd.LastIndexOf(":") - 1), out minuteEnd);
+                        double truePrice;
+                        bool parseTP = double.TryParse(tempPrice.Replace(",", ""), out truePrice);
+                        if (parseHS && parseMS && parseHE && parseME && parseTP)
+                        {
+                            var tempPB = new PriceTable();
+                            tempPB.Day = 4;
+                            tempPB.TimeFrom = hourStart + (minuteStart / 60.0);
+                            tempPB.TimeTo = hourEnd + (minuteEnd / 60.0);
+                            tempPB.Price = truePrice;
+                            fp.PriceTables.Add(tempPB);
+                        }
+                        else if (!therror)
+                        {
+                            model.ErrorMessages.Add("Bảng giá thứ 5 không hợp lệ");
+                            therror = true;
+                        }
+                    }
+                }
+
+                var ferror = false;
+                foreach (var item in friStartTimeKeys)
+                {
+                    var count = item.Substring(item.LastIndexOf("_") + 1, item.Length - item.LastIndexOf("_") - 1);
+                    var tempStart = form[item];
+                    var tempEnd = form["friendtime_" + count];
+                    var tempPrice = form["friprice_" + count];
+                    model.FridayPriceTables.Add(new PriceTableModel
+                    {
+                        StartTime = tempStart,
+                        EndTime = tempEnd,
+                        Price = tempPrice
+                    });
+                    if (!ferror && (string.IsNullOrEmpty(tempStart) || string.IsNullOrEmpty(tempEnd) || string.IsNullOrEmpty(tempPrice)))
+                    {
+                        model.ErrorMessages.Add("Bảng giá thứ 6 không hợp lệ");
+                        ferror = true;
+                    }
+                    else
+                    {
+                        int hourStart;
+                        bool parseHS = int.TryParse(tempStart.Substring(0, tempStart.LastIndexOf(":")).Trim(), out hourStart);
+                        int minuteStart;
+                        bool parseMS = int.TryParse(tempStart.Substring(tempStart.LastIndexOf(":") + 1, tempStart.Length - tempStart.LastIndexOf(":") - 1), out minuteStart);
+                        int hourEnd;
+                        bool parseHE = int.TryParse(tempEnd.Substring(0, tempEnd.LastIndexOf(":")).Trim(), out hourEnd);
+                        int minuteEnd;
+                        bool parseME = int.TryParse(tempEnd.Substring(tempEnd.LastIndexOf(":") + 1, tempEnd.Length - tempEnd.LastIndexOf(":") - 1), out minuteEnd);
+                        double truePrice;
+                        bool parseTP = double.TryParse(tempPrice.Replace(",", ""), out truePrice);
+                        if (parseHS && parseMS && parseHE && parseME && parseTP)
+                        {
+                            var tempPB = new PriceTable();
+                            tempPB.Day = 5;
+                            tempPB.TimeFrom = hourStart + (minuteStart / 60.0);
+                            tempPB.TimeTo = hourEnd + (minuteEnd / 60.0);
+                            tempPB.Price = truePrice;
+                            fp.PriceTables.Add(tempPB);
+                        }
+                        else if (!ferror)
+                        {
+                            model.ErrorMessages.Add("Bảng giá thứ 6 không hợp lệ");
+                            ferror = true;
+                        }
+                    }
+                }
+
+                var saerror = false;
+                foreach (var item in satStartTimeKeys)
+                {
+                    var count = item.Substring(item.LastIndexOf("_") + 1, item.Length - item.LastIndexOf("_") - 1);
+                    var tempStart = form[item];
+                    var tempEnd = form["satendtime_" + count];
+                    var tempPrice = form["satprice_" + count];
+                    model.SaturdayPriceTables.Add(new PriceTableModel
+                    {
+                        StartTime = tempStart,
+                        EndTime = tempEnd,
+                        Price = tempPrice
+                    });
+                    if (!saerror && (string.IsNullOrEmpty(tempStart) || string.IsNullOrEmpty(tempEnd) || string.IsNullOrEmpty(tempPrice)))
+                    {
+                        model.ErrorMessages.Add("Bảng giá thứ 7 không hợp lệ");
+                        saerror = true;
+                    }
+                    else
+                    {
+                        int hourStart;
+                        bool parseHS = int.TryParse(tempStart.Substring(0, tempStart.LastIndexOf(":")).Trim(), out hourStart);
+                        int minuteStart;
+                        bool parseMS = int.TryParse(tempStart.Substring(tempStart.LastIndexOf(":") + 1, tempStart.Length - tempStart.LastIndexOf(":") - 1), out minuteStart);
+                        int hourEnd;
+                        bool parseHE = int.TryParse(tempEnd.Substring(0, tempEnd.LastIndexOf(":")).Trim(), out hourEnd);
+                        int minuteEnd;
+                        bool parseME = int.TryParse(tempEnd.Substring(tempEnd.LastIndexOf(":") + 1, tempEnd.Length - tempEnd.LastIndexOf(":") - 1), out minuteEnd);
+                        double truePrice;
+                        bool parseTP = double.TryParse(tempPrice.Replace(",", ""), out truePrice);
+                        if (parseHS && parseMS && parseHE && parseME && parseTP)
+                        {
+                            var tempPB = new PriceTable();
+                            tempPB.Day = 6;
+                            tempPB.TimeFrom = hourStart + (minuteStart / 60.0);
+                            tempPB.TimeTo = hourEnd + (minuteEnd / 60.0);
+                            tempPB.Price = truePrice;
+                            fp.PriceTables.Add(tempPB);
+                        }
+                        else if (!saerror)
+                        {
+                            model.ErrorMessages.Add("Bảng giá thứ 7 không hợp lệ");
+                            saerror = true;
+                        }
+                    }
+                }
+
+                var suerror = false;
+                foreach (var item in sunStartTimeKeys)
+                {
+                    var count = item.Substring(item.LastIndexOf("_") + 1, item.Length - item.LastIndexOf("_") - 1);
+                    var tempStart = form[item];
+                    var tempEnd = form["sunendtime_" + count];
+                    var tempPrice = form["sunprice_" + count];
+                    model.SundayPriceTables.Add(new PriceTableModel
+                    {
+                        StartTime = tempStart,
+                        EndTime = tempEnd,
+                        Price = tempPrice
+                    });
+                    if (!suerror && (string.IsNullOrEmpty(tempStart) || string.IsNullOrEmpty(tempEnd) || string.IsNullOrEmpty(tempPrice)))
+                    {
+                        model.ErrorMessages.Add("Bảng giá chủ nhật không hợp lệ");
+                        suerror = true;
+                    }
+                    else
+                    {
+                        int hourStart;
+                        bool parseHS = int.TryParse(tempStart.Substring(0, tempStart.LastIndexOf(":")).Trim(), out hourStart);
+                        int minuteStart;
+                        bool parseMS = int.TryParse(tempStart.Substring(tempStart.LastIndexOf(":") + 1, tempStart.Length - tempStart.LastIndexOf(":") - 1), out minuteStart);
+                        int hourEnd;
+                        bool parseHE = int.TryParse(tempEnd.Substring(0, tempEnd.LastIndexOf(":")).Trim(), out hourEnd);
+                        int minuteEnd;
+                        bool parseME = int.TryParse(tempEnd.Substring(tempEnd.LastIndexOf(":") + 1, tempEnd.Length - tempEnd.LastIndexOf(":") - 1), out minuteEnd);
+                        double truePrice;
+                        bool parseTP = double.TryParse(tempPrice.Replace(",", ""), out truePrice);
+                        if (parseHS && parseMS && parseHE && parseME && parseTP)
+                        {
+                            var tempPB = new PriceTable();
+                            tempPB.Day = 7;
+                            tempPB.TimeFrom = hourStart + (minuteStart / 60.0);
+                            tempPB.TimeTo = hourEnd + (minuteEnd / 60.0);
+                            tempPB.Price = truePrice;
+                            fp.PriceTables.Add(tempPB);
+                        }
+                        else if (!suerror)
+                        {
+                            model.ErrorMessages.Add("Bảng giá chủ nhật không hợp lệ");
+                            suerror = true;
+                        }
+                    }
+                }
+
+
+                #endregion first validate data type
+
+                if (fperror || merror || tuerror || werror || therror || ferror || saerror || suerror)
+                {
+                    return View(model);
+                }
+                else
+                {
+                    var results = stadiumBO.CreateStadiumFieldPrice(fp);
+
+                    if (results.FirstOrDefault() > 0)
+                    {
+                        return Redirect("/StadiumStaff/FieldPrices?Stadium=" + s.Id);
+                    }
+                    else
+                    {
+                        foreach (var item in results)
+                        {
+                            switch (item)
+                            {
+                                case 0:
+                                    model.ErrorMessages.Add(Resources.DB_Exception);
+                                    break;
+                                case -1:
+                                    model.ErrorMessages.Add("Bảng giá mặc định có nhiều hơn 1 khung giá mặc định");
+                                    break;
+                                case -2:
+                                    model.ErrorMessages.Add("Bảng giá mặc định bắt buộc phải có 1 khung giá mặc định");
+                                    break;
+                                case -3:
+                                    model.ErrorMessages.Add("Bảng giá mặc định có khung giờ không hợp lệ, giờ bắt đầu phải nhỏ hơn giờ kết thúc ngoại trừ khung giờ mặc định");
+                                    break;
+                                case -4:
+                                    model.ErrorMessages.Add("Bảng giá mặc định có khung giờ trùng nhau, khung giờ này đè lên khung giờ khác ngoại trừ khung giờ mặc định");
+                                    break;
+                                case -5:
+                                    model.ErrorMessages.Add("Bảng giá thứ 2 có nhiều hơn 1 khung giá mặc định");
+                                    break;
+                                case -6:
+                                    model.ErrorMessages.Add("Bảng giá thứ 2 có khung giờ không hợp lệ, giờ bắt đầu phải nhỏ hơn giờ kết thúc ngoại trừ khung giờ mặc định");
+                                    break;
+                                case -7:
+                                    model.ErrorMessages.Add("Bảng giá thứ 2 có khung giờ trùng nhau, khung giờ này đè lên khung giờ khác ngoại trừ khung giờ mặc định");
+                                    break;
+                                case -8:
+                                    model.ErrorMessages.Add("Bảng giá thứ 3 có nhiều hơn 1 khung giá mặc định");
+                                    break;
+                                case -9:
+                                    model.ErrorMessages.Add("Bảng giá thứ 3 có khung giờ không hợp lệ, giờ bắt đầu phải nhỏ hơn giờ kết thúc ngoại trừ khung giờ mặc định");
+                                    break;
+                                case -10:
+                                    model.ErrorMessages.Add("Bảng giá thứ 3 có khung giờ trùng nhau, khung giờ này đè lên khung giờ khác ngoại trừ khung giờ mặc định");
+                                    break;
+                                case -11:
+                                    model.ErrorMessages.Add("Bảng giá thứ 4 có nhiều hơn 1 khung giá mặc định");
+                                    break;
+                                case -12:
+                                    model.ErrorMessages.Add("Bảng giá thứ 4 có khung giờ không hợp lệ, giờ bắt đầu phải nhỏ hơn giờ kết thúc ngoại trừ khung giờ mặc định");
+                                    break;
+                                case -13:
+                                    model.ErrorMessages.Add("Bảng giá thứ 4 có khung giờ trùng nhau, khung giờ này đè lên khung giờ khác ngoại trừ khung giờ mặc định");
+                                    break;
+                                case -14:
+                                    model.ErrorMessages.Add("Bảng giá thứ 5 có nhiều hơn 1 khung giá mặc định");
+                                    break;
+                                case -15:
+                                    model.ErrorMessages.Add("Bảng giá thứ 5 có khung giờ không hợp lệ, giờ bắt đầu phải nhỏ hơn giờ kết thúc ngoại trừ khung giờ mặc định");
+                                    break;
+                                case -16:
+                                    model.ErrorMessages.Add("Bảng giá thứ 5 có khung giờ trùng nhau, khung giờ này đè lên khung giờ khác ngoại trừ khung giờ mặc định");
+                                    break;
+                                case -17:
+                                    model.ErrorMessages.Add("Bảng giá thứ 6 có nhiều hơn 1 khung giá mặc định");
+                                    break;
+                                case -18:
+                                    model.ErrorMessages.Add("Bảng giá thứ 6 có khung giờ không hợp lệ, giờ bắt đầu phải nhỏ hơn giờ kết thúc ngoại trừ khung giờ mặc định");
+                                    break;
+                                case -19:
+                                    model.ErrorMessages.Add("Bảng giá thứ 6 có khung giờ trùng nhau, khung giờ này đè lên khung giờ khác ngoại trừ khung giờ mặc định");
+                                    break;
+                                case -20:
+                                    model.ErrorMessages.Add("Bảng giá thứ 7 có nhiều hơn 1 khung giá mặc định");
+                                    break;
+                                case -21:
+                                    model.ErrorMessages.Add("Bảng giá thứ 7 có khung giờ không hợp lệ, giờ bắt đầu phải nhỏ hơn giờ kết thúc ngoại trừ khung giờ mặc định");
+                                    break;
+                                case -22:
+                                    model.ErrorMessages.Add("Bảng giá thứ 7 có khung giờ trùng nhau, khung giờ này đè lên khung giờ khác ngoại trừ khung giờ mặc định");
+                                    break;
+                                case -23:
+                                    model.ErrorMessages.Add("Bảng giá chủ nhật có nhiều hơn 1 khung giá mặc định");
+                                    break;
+                                case -24:
+                                    model.ErrorMessages.Add("Bảng giá chủ nhật có khung giờ không hợp lệ, giờ bắt đầu phải nhỏ hơn giờ kết thúc ngoại trừ khung giờ mặc định");
+                                    break;
+                                case -25:
+                                    model.ErrorMessages.Add("Bảng giá chủ nhật có khung giờ trùng nhau, khung giờ này đè lên khung giờ khác ngoại trừ khung giờ mặc định");
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                model.HavePermission = false;
+                model.ErrorMessages = new List<string>();
+                model.ErrorMessages.Add(Resources.StadiumStaff_HaveNoPermissionTotAccessStadium);
+            }
+            return View(model);
+        }
+
+        [Authorize(Roles = "StadiumOwner")]
         public ActionResult Fields(int stadium)
         {
-            StadiumBO stadiumBO = new StadiumBO();            
+            StadiumBO stadiumBO = new StadiumBO();
             var fields = stadiumBO.GetAuthorizeStadiumFields(stadium, User.Identity.Name);
             FieldsModel model = new FieldsModel();
             if (fields == null)
@@ -270,13 +874,280 @@ namespace FootballPitchesBooking.Controllers
                         f.Parent = item.Field1.Number;
                     }
                     f.IsActive = item.IsActive;
+                    model.Fields.Add(f);
                 }
             }
             return View(model);
         }
 
+        [Authorize(Roles = "StadiumOwner")]
+        public ActionResult AddField(int stadium)
+        {
+            StadiumBO stadiumBO = new StadiumBO();
+            Stadium s = stadiumBO.GetAuthorizeStadium(stadium, User.Identity.Name);
+            AddFieldModel model = new AddFieldModel();
+            if (s != null)
+            {
+                model.HavePermission = true;
+                model.StadiumId = s.Id;
+                model.StadiumName = s.Name;
+                model.StadiumAddress = s.Street + ", " + s.Ward + ", " + s.District;
+                model.ChosenParent = null;
+                model.Parent = stadiumBO.GetAllFields7And11(s.Id);
+                model.Prices = stadiumBO.GetAllFieldPriceOfStadium(s.Id);
+                if (model.Prices != null && model.Prices.Count > 0)
+                {
+                    model.ChosenPrice = model.Prices.FirstOrDefault().Id;
+                }
+            }
+            else
+            {
+                model.HavePermission = false;
+                model.ErrorMessages = new List<string>();
+                model.ErrorMessages.Add(Resources.StadiumStaff_HaveNoPermissionTotAccessStadium);
+            }
+            return View(model);
+        }
+
+        [Authorize(Roles = "StadiumOwner")]
+        [HttpPost]
+        public ActionResult AddField(FormCollection form, int stadium)
+        {
+            StadiumBO stadiumBO = new StadiumBO();
+            Stadium s = stadiumBO.GetAuthorizeStadium(stadium, User.Identity.Name);
+            AddFieldModel model = new AddFieldModel();
+            if (s != null)
+            {
+                model.HavePermission = true;
+                model.StadiumId = s.Id;
+                model.StadiumName = s.Name;
+                model.StadiumAddress = s.Street + ", " + s.Ward + ", " + s.District;
+                model.Parent = stadiumBO.GetAllFields7And11(s.Id);
+                model.Prices = stadiumBO.GetAllFieldPriceOfStadium(s.Id);
+                if (model.Prices != null && model.Prices.Count > 0)
+                {
+                    model.ChosenPrice = model.Prices.FirstOrDefault().Id;
+                }
+                model.ErrorMessages = new List<string>();
+
+                model.Number = form["Number"];
+                bool isActive;
+                bool parseStatus = bool.TryParse(form["IsActive"], out isActive);
+                model.IsActive = isActive;
+                int fieldType;
+                bool parseType = int.TryParse(form["FieldType"], out fieldType);
+                model.FieldType = fieldType;
+                string strParent = form["Parent"];
+
+                bool parseParent = true;
+                if (strParent.Trim().ToLower().Equals("null"))
+                {
+                    model.ChosenParent = null; ;
+                }
+                else
+                {
+                    int parent;
+                    parseParent = int.TryParse(strParent, out parent);
+                    model.ChosenParent = parent;
+                }
+
+
+                int prices;
+                bool parsePrices = int.TryParse(form["FieldPrice"], out prices);
+                model.ChosenPrice = prices;
+                //save state - validate - create
+
+                if (string.IsNullOrEmpty(model.Number) || !parseStatus || !parseType || !parseParent || !parsePrices)
+                {
+                    model.ErrorMessages.Add("Bạn cần sử dụng mẫu nhập bên dưới để thêm đầy đủ thông tin vào sân bóng");
+                }
+                else
+                {
+                    Field field = new Field();
+                    field.StadiumId = s.Id;
+                    field.Number = model.Number;
+                    field.IsActive = model.IsActive;
+                    field.FieldType = model.FieldType;
+                    field.PriceId = model.ChosenPrice;
+                    field.ParentField = model.ChosenParent;
+                    var result = stadiumBO.CreateField(field);
+
+                    if (result == 0)
+                    {
+                        model.ErrorMessages.Add(Resources.DB_Exception);
+                    }
+                    else if (result == -1)
+                    {
+                        model.ErrorMessages.Add("Sân tách đã không thể tách ra thêm");
+                    }
+                    else if (result == -2)
+                    {
+                        model.ErrorMessages.Add("Không thể tách sân ra thành sân bằng hoặc lớn hơn");
+                    }
+                    else if (result == -3)
+                    {
+                        model.ErrorMessages.Add("Không thể tách sân không có trong hệ thống");
+                    }
+                    else if (result > 0)
+                    {
+                        return Redirect("/StadiumStaff/Fields?Stadium=" + s.Id);
+                    }
+                }
+
+            }
+            else
+            {
+                model.HavePermission = false;
+                model.ErrorMessages = new List<string>();
+                model.ErrorMessages.Add(Resources.StadiumStaff_HaveNoPermissionTotAccessStadium);
+            }
+            return View(model);
+        }
+
+        [Authorize(Roles = "StadiumOwner")]
+        public ActionResult EditField(int id)
+        {
+            StadiumBO stadiumBO = new StadiumBO();
+
+            Field f = stadiumBO.GetAuthorizeField(id, User.Identity.Name);
+            EditFieldModel model = new EditFieldModel();
+            if (f != null)
+            {
+                var s = stadiumBO.GetStadiumById(f.StadiumId);
+                model.HavePermission = true;
+                model.StadiumId = s.Id;
+                model.StadiumName = s.Name;
+                model.StadiumAddress = s.Street + ", " + s.Ward + ", " + s.District;
+                model.FieldId = f.Id;
+                model.Parent = stadiumBO.GetAllFields7And11(s.Id);
+                var remove = model.Parent.Where(p => p.Id == f.Id).FirstOrDefault();
+                if (remove != null)
+                {
+                    model.Parent.Remove(remove);
+                }
+                model.Prices = stadiumBO.GetAllFieldPriceOfStadium(s.Id);
+                model.ChosenParent = f.ParentField;
+                model.ChosenPrice = f.PriceId;
+                model.IsActive = f.IsActive;
+                model.Number = f.Number;
+                model.FieldType = f.FieldType;
+            }
+            else
+            {
+                model.HavePermission = false;
+                model.ErrorMessages = new List<string>();
+                model.ErrorMessages.Add(Resources.StadiumStaff_HaveNoPermissionTotAccessStadium);
+            }
+            return View(model);
+        }
+
+        [Authorize(Roles = "StadiumOwner")]
+        [HttpPost]
+        public ActionResult EditField(FormCollection form, int id)
+        {
+            StadiumBO stadiumBO = new StadiumBO();
+            Field f = stadiumBO.GetAuthorizeField(id, User.Identity.Name);
+            EditFieldModel model = new EditFieldModel();
+            if (f != null)
+            {
+                var s = stadiumBO.GetStadiumById(f.StadiumId);
+                model.HavePermission = true;
+                model.StadiumId = s.Id;
+                model.StadiumName = s.Name;
+                model.StadiumAddress = s.Street + ", " + s.Ward + ", " + s.District;
+                model.FieldId = f.Id;
+                model.Parent = stadiumBO.GetAllFields7And11(s.Id);
+                var remove = model.Parent.Where(p => p.Id == f.Id).FirstOrDefault();
+                if (remove != null)
+                {
+                    model.Parent.Remove(remove);
+                }
+                model.Prices = stadiumBO.GetAllFieldPriceOfStadium(s.Id);
+                if (model.Prices != null && model.Prices.Count > 0)
+                {
+                    model.ChosenPrice = model.Prices.FirstOrDefault().Id;
+                }
+                model.ErrorMessages = new List<string>();
+
+                model.Number = form["Number"];
+                bool isActive;
+                bool parseStatus = bool.TryParse(form["IsActive"], out isActive);
+                model.IsActive = isActive;
+                int fieldType;
+                bool parseType = int.TryParse(form["FieldType"], out fieldType);
+                model.FieldType = fieldType;
+                string strParent = form["Parent"];
+
+                bool parseParent = true;
+                if (strParent.Trim().ToLower().Equals("null"))
+                {
+                    model.ChosenParent = null; ;
+                }
+                else
+                {
+                    int parent;
+                    parseParent = int.TryParse(strParent, out parent);
+                    model.ChosenParent = parent;
+                }
+
+
+                int prices;
+                bool parsePrices = int.TryParse(form["FieldPrice"], out prices);
+                model.ChosenPrice = prices;
+                //save state - validate - create
+
+                if (string.IsNullOrEmpty(model.Number) || !parseStatus || !parseType || !parseParent || !parsePrices)
+                {
+                    model.ErrorMessages.Add("Bạn cần sử dụng mẫu nhập bên dưới để cập nhật đầy đủ thông tin vào sân bóng");
+                }
+                else
+                {
+                    f.Number = model.Number;
+                    f.IsActive = model.IsActive;
+                    f.FieldType = model.FieldType;
+                    f.PriceId = model.ChosenPrice;
+                    f.ParentField = model.ChosenParent;
+                    var result = stadiumBO.UpdateField(f);
+
+                    if (result == 0)
+                    {
+                        model.ErrorMessages.Add(Resources.DB_Exception);
+                    }
+                    else if (result == -1)
+                    {
+                        model.ErrorMessages.Add("Sân tách đã không thể tách ra thêm");
+                    }
+                    else if (result == -2)
+                    {
+                        model.ErrorMessages.Add("Không thể tách sân ra thành sân bằng hoặc lớn hơn");
+                    }
+                    else if (result == -3)
+                    {
+                        model.ErrorMessages.Add("Không thể tách sân không có trong hệ thống");
+                    }
+                    else if (result == -4)
+                    {
+                        model.ErrorMessages.Add("Không thể tách sân từ chính sân đang cập nhật");
+                    }
+                    else if (result > 0)
+                    {
+                        model.SuccessMessage = Resources.Update_Success;
+                        return View(model);
+                    }
+                }
+
+            }
+            else
+            {
+                model.HavePermission = false;
+                model.ErrorMessages = new List<string>();
+                model.ErrorMessages.Add(Resources.StadiumStaff_HaveNoPermissionTotAccessStadium);
+            }
+            return View(model);
+        }
+
         #endregion STADIUMS MANAGEMENT
-        
+
         #region RESERVATION MANAGEMENT
 
         public ActionResult Reservations()
@@ -317,7 +1188,7 @@ namespace FootballPitchesBooking.Controllers
         public ActionResult Promotions(int stadium)
         {
             StadiumBO stadiumBO = new StadiumBO();
-            Stadium std = stadiumBO.GetStadiumByStaffAndId(User.Identity.Name, stadium);
+            Stadium std = stadiumBO.GetAuthorizeStadium(stadium, User.Identity.Name);
             PromotionsModel model = new PromotionsModel();
 
             if (std == null)

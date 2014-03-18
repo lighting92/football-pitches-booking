@@ -1,5 +1,6 @@
 ﻿@model FootballPitchesBooking.Models.StadiumModels.JoinUsModel
 @{
+    ViewBag.JOINUS = "active";
     ViewBag.Title = "GIA NHẬP";
 }
 
@@ -13,7 +14,7 @@
                         <br />
                         <h1>Đăng Ký Sân Bóng Của Bạn
                             <br />
-                            <small>ĐIỀN ĐẦY ĐỦ VÀO MẪU BÊN DƯỚI ĐỂ GỬI YÊU CẦU.</small>
+                            <small>Điền đầy đủ thông tin vào mẫu bên dưới để gửi yêu cầu.</small>
                         </h1>
                         <br />
                         @if (!string.IsNullOrEmpty(Model.ErrorMessage))
@@ -22,7 +23,7 @@
                         }
                         <div class="row">
                             <div class="span8">
-                                <legend><span>TÊN</span> CỦA BẠN</legend>
+                                <legend>Tên của bạn</legend>
                             </div>
                             <div class="span3">
                                 <label>
@@ -33,24 +34,24 @@
                         <br />
                         <div class="row">
                             <div class="span8">
-                                <legend><span>THÔNG TIN</span> LIÊN LẠC</legend>
+                                <legend>Thông tin liên lạc</legend>
                             </div>
                             <div class="span3">
                                 <label>
-                                    Địa Chỉ E-Mail
+                                    Địa chỉ E-Mail
 									<input name="Email" type="text" value="@Model.Email">
                                 </label>
                             </div>
 
                             <div class="span3">
                                 <label>
-                                    SỐ ĐIỆN THOẠI
+                                    Số điện thoại
 									<input name="PhoneNumber" type="text" value="@Model.Phone">
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    ĐỊA CHỈ NHÀ
+                                    Địa chỉ nhà
 									<input name="Address" type="text" value="@Model.Address">
                                 </label>
                             </div>
@@ -58,11 +59,11 @@
                         <br />
                         <div class="row">
                             <div class="span8">
-                                <legend><span>SÂN BÓNG</span> CỦA BẠN</legend>
+                                <legend>Sân bóng của bạn</legend>
                             </div>
                             <div class="span3">
                                 <label>
-                                    TÊN SÂN
+                                    Tên sân
 									<input name="StadiumName" type="text" value="@Model.StadiumName">
                                 </label>
                             </div>
@@ -72,20 +73,20 @@
                             </div>
                             <div class="span3">
                                 <label>
-                                    ĐƯỜNG
+                                    Đường
 									<input name="StadiumStreet" type="text" value="@Model.StadiumStreet">
                                 </label>
                             </div>
 
                             <div class="span3">
                                 <label>
-                                    PHƯỜNG
+                                    Phường
 									<input name="StadiumWard" type="text" value="@Model.StadiumWard">
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    QUẬN
+                                    Quận
                                     <select name="StadiumDistrict" id="district" data-cur="@Model.StadiumDistrict">
                                         <option id="first_district" value="Q. 1" selected="selected">Q. 1</option>
                                         <option value="Q. 2">Q. 2</option>
@@ -123,7 +124,7 @@
                         <br />
                         <div class="row">
                             <div class="span9">
-                                <legend><span>YÊU CẦU</span> ĐẶC BIỆT</legend>
+                                <legend>Yêu cầu đặc biệt</legend>
                                 <textarea name="Note" class="span9" rows="3">@Model.Note</textarea>
                             </div>
 
@@ -132,7 +133,7 @@
                         <div class="row">
                             <div class="span9">
                                 <br />
-                                <button type="submit" class="btn btn-primary btn-large book-now pull-right">GỬI YÊU CẦU</button>
+                                <button type="submit" class="btn btn-primary btn-large book-now pull-right">Gửi Yêu Cầu</button>
                                 <br />
                                 <br />
                             </div>

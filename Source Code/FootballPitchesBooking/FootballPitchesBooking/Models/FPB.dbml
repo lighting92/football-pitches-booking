@@ -50,23 +50,24 @@
       <Column Name="ParentField" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="FieldType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="PriceId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Field_Field" Member="Fields" ThisKey="Id" OtherKey="ParentField" Type="Field" />
-      <Association Name="Field_FieldPrice" Member="FieldPrices" ThisKey="Id" OtherKey="FieldId" Type="FieldPrice" />
       <Association Name="Field_Promotion" Member="Promotions" ThisKey="Id" OtherKey="FieldId" Type="Promotion" />
       <Association Name="Field_Reservation" Member="Reservations" ThisKey="Id" OtherKey="FieldId" Type="Reservation" />
       <Association Name="Field_Field" Member="Field1" ThisKey="ParentField" OtherKey="Id" Type="Field" IsForeignKey="true" />
+      <Association Name="FieldPrice_Field" Member="FieldPrice" ThisKey="PriceId" OtherKey="Id" Type="FieldPrice" IsForeignKey="true" />
       <Association Name="Stadium_Field" Member="Stadium" ThisKey="StadiumId" OtherKey="Id" Type="Stadium" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.FieldPrice" Member="FieldPrices">
     <Type Name="FieldPrice">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="FieldId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="TimeFrom" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Column Name="TimeTo" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Column Name="Price" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Column Name="Day" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Field_FieldPrice" Member="Field" ThisKey="FieldId" OtherKey="Id" Type="Field" IsForeignKey="true" />
+      <Column Name="StadiumId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FieldPriceName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="FieldPriceDescription" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Association Name="FieldPrice_Field" Member="Fields" ThisKey="Id" OtherKey="PriceId" Type="Field" />
+      <Association Name="FieldPrice_PriceTable" Member="PriceTables" ThisKey="Id" OtherKey="FieldPriceId" Type="PriceTable" />
+      <Association Name="Stadium_FieldPrice" Member="Stadium" ThisKey="StadiumId" OtherKey="Id" Type="Stadium" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.JoinSystemRequest" Member="JoinSystemRequests">
@@ -92,6 +93,17 @@
       <Column Name="Point" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Promotion" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
       <Association Name="MemberRank_User" Member="Users" ThisKey="Id" OtherKey="RankId" Type="User" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PriceTable" Member="PriceTables">
+    <Type Name="PriceTable">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FieldPriceId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Day" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TimeFrom" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="TimeTo" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Price" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Association Name="FieldPrice_PriceTable" Member="FieldPrice" ThisKey="FieldPriceId" OtherKey="Id" Type="FieldPrice" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Promotion" Member="Promotions">
@@ -158,6 +170,7 @@
       <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="MainOwner" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Stadium_Field" Member="Fields" ThisKey="Id" OtherKey="StadiumId" Type="Field" />
+      <Association Name="Stadium_FieldPrice" Member="FieldPrices" ThisKey="Id" OtherKey="StadiumId" Type="FieldPrice" />
       <Association Name="Stadium_StadiumImage" Member="StadiumImages" ThisKey="Id" OtherKey="StadiumId" Type="StadiumImage" />
       <Association Name="Stadium_StadiumRating" Member="StadiumRatings" ThisKey="Id" OtherKey="StadiumId" Type="StadiumRating" />
       <Association Name="Stadium_StadiumReview" Member="StadiumReviews" ThisKey="Id" OtherKey="StadiumId" Type="StadiumReview" />
