@@ -1,0 +1,197 @@
+﻿@model FootballPitchesBooking.Models.WebsiteStaffModels.UserModel
+@{
+    ViewBag.USER = "active";
+    ViewBag.Title = "AddUser";
+    Layout = "~/Views/Shared/_WebsiteStaffLayout.cshtml";
+}
+
+<h2>Thêm thành viên</h2>
+
+<script type="text/ecmascript">
+    function check() {
+        var flag = 0;
+        var username = $("#txtName").val();
+        var password = $("#txtPass").val();
+        var confirmpassword = $("#txtConfirmPass").val();
+        var fullname = $("#txtFullN").val();
+        var email = $("#txtMail").val();
+        var phone = $("#txtPhone").val();
+        var reg = /^\w+([-+.']\w+)*@@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+        var aln = /^[a-z|A-Z|0-9]*$/;
+       
+
+
+        if (username == "" || username.length < 6 || username.length > 32) {
+            $("#ErrorName").text("Yêu cầu tài khoản từ 6 đến 32 kí tự");
+            $("#ErrorName").css("display", "block");
+            flag++;
+        }
+        else if (!aln.test(username)) {
+            $("#ErrorName").text("Tên đăng nhập chỉ chấp nhận chữ và số");
+            $("#ErrorName").css("display", "block");
+            flag++;
+        }
+        else {
+            $("#ErrorName").text(" ");
+            $("#ErrorName").css("display", "none"); 
+        }
+
+        if (password == "" || password.length < 6 || password.length > 32) {
+            $("#ErrorPass").text("Yêu cầu mật khầu từ 6 đến 32 kí tự");
+            $("#ErrorPass").css("display", "block");
+            flag++;           
+        }
+        else {
+            $("#ErrorPass").text(" ");
+            $("#ErrorPass").css("display", "none");
+        }
+
+        if (confirmpassword == "" || confirmpassword != password) {
+            $("#ConfirmErrorPass").text("Xác nhận mật khẩu phải giống với mật khẩu");
+            $("#ConfirmErrorPass").css("display", "block");
+            flag++;
+                
+        }
+        else {
+            $("#ConfirmErrorPass").text(" ");
+            $("#ConfirmErrorPass").css("display", "none");
+        }
+
+        if (fullname == "" || fullname.length > 30){
+            $("#FullName_Error").text("Yêu cầu phải từ 1 đến 30 kí tự");
+            $("#FullName_Error").css("display", "block");
+            flag++;
+                
+        }
+        else {
+            $("#FullName_Error").text(" ");
+            $("#FullName_Error").css("display", "none");
+        }
+
+
+        if (!reg.test(email)){
+            $("#Email_Error").text("Email không đúng");
+            $("#Email_Error").css("display", "block");
+            flag++;
+        }
+        else {
+            $("#Email_Error").text(" ");
+            $("#Email_Error").css("display", "none");
+        }
+
+        if (phone == "" || phone.length < 10 || phone.length > 11) {
+            $("#Phone_Error").text("Yêu cầu phải nhập đúng số điện thoại");
+            $("#Phone_Error").css("display", "block");
+            flag++;
+
+        }
+        else {
+            $("#Phone_Error").text(" ");
+            $("#Phone_Error").css("display", "none");
+        }
+
+
+        if (flag > 0) {
+            return false;
+        } else return true;
+    }
+</script>
+
+@{
+    string userName = "";
+    string email = "";
+    string fullName = "";
+    string address = "";
+    string phoneNumber = "";
+    
+    if (Model != null)
+    {
+        userName = Model.UserName;
+        email = Model.Email;
+        fullName = Model.FullName;
+        address = Model.Address;
+        phoneNumber = Model.PhoneNumber;
+    }
+}
+
+
+@if (Model != null && Model.ErrorMessages.Count() > 0)
+{
+    <div style="color:red">
+        @foreach (var error in Model.ErrorMessages)
+        {
+            <p>- @error</p>
+        }
+    </div>
+}
+
+<div style="text-align:right; width: 300px;">
+    <form action="Register" method="post">
+        <p>
+            <label for="UserName">(*) Tên tài khoản:</label>
+            <input type="text" id="txtName" name="UserName" placeholder="Tài khoản đăng nhập" required="Required" value="@userName" />
+            <div class="alert alert-danger" id="ErrorName" style="display: none"></div>
+        </p>
+        <p>
+            <label for="Password">(*) Mật khẩu:</label>
+            <input type="password" id="txtPass" name="Password" placeholder="Nhập mật khẩu" required="required" />
+            <div class="alert alert-danger" id="ErrorPass" style="display: none"></div>
+        </p>
+        <p>
+            <label for="ConfirmPassword">(*) Xác nhận mật khẩu:</label>
+            <input type="password" id="txtConfirmPass" name="ConfirmPassword" placeholder="Nhập lại mật khẩu" required="required" />
+            <div class="alert alert-danger" id="ConfirmErrorPass" style="display: none"></div>
+        </p>
+        <p>
+            <label for="Email">(*) Email:</label>
+            <input type="text" id="txtMail" name="Email" placeholder="Nhập vào Email" required="required" value="@email" />
+            <div class="alert alert-danger" id="Email_Error" style="display: none"></div>
+        </p>
+        <p>
+            <label for="FullName">(*) Họ và tên:</label>
+            <input type="text" id="txtFullN" name="FullName" placeholder="Nhập vào Họ và Tên" required="required" value="@fullName" />
+            <div class="alert alert-danger" id="FullName_Error" style="display: none"></div>
+        </p>
+        <p>
+            <label for="Address">Địa chỉ:</label>            
+            Tỉnh Thành:
+            <select name="Province">
+                <option>TP.Hồ Chí Minh</option>
+                <option>Hà Nội</option>
+                <option>Đà Nẵng</option>
+            </select>
+            Quận/Huyện:
+            <select name="District">
+                <option>Quận 1</option>
+                <option>Quận 2</option>
+                <option>Quận 3</option>
+            </select>
+            <input type="text" name="Street" value="@address" />
+        </p>
+        <p>
+            <label for="PhoneNumber">(*) Số điện thoại:</label>
+            <input type="text" id="txtPhone" name="PhoneNumber" placeholder="Nhập số điện thoại" required="required" value="@phoneNumber" />
+            <script type="text/javascript"> 
+                $('#txtPhone').keyup(function (event) {
+                    if (isNaN(String.fromCharCode(event.which))) {
+                        var value = $(this).val();
+                        $(this).val(value.substr(0, value.length - 1));
+                    }
+                });
+            </script>
+            <div class="alert alert-danger" id="Phone_Error" style="display: none"></div>
+        </p>
+
+        <p>
+            <label for="IsActive">(*) Trạng thái hoạt động:</label>
+            <select id="isActive" name="IsActive">
+                <option value="True">ĐANG HOẠT ĐỘNG</option>
+                <option value="False">KHÔNG HOẠT ĐỘNG</option>
+            </select>
+            
+        </p>
+        <button type="submit" name="AddUser" onclick="return check()">Thêm</button>
+        <button type="button" onclick="window.location = '/Home'">Hủy bỏ</button>
+    </form>
+</div>
+

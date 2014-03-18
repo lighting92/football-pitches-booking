@@ -315,6 +315,20 @@ namespace FootballPitchesBooking.Controllers
             }
         }
 
+        public ActionResult AddUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddUser(FormCollection form)
+        {
+            UserModel model = new UserModel();
+
+            model.ErrorMessages = new List<string>();
+            return View(model);
+        }
+
         #endregion USER MANAGEMENT
 
 

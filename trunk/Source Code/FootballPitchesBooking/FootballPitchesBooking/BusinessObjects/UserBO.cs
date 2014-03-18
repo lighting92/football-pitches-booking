@@ -256,6 +256,34 @@ namespace FootballPitchesBooking.BusinessObjects
             return roleDAO.UpdateRole(roleId, roleId);
         } // thang nao viet vay @@ func thi phai viet hoa chu dau tien theo coding convention @@
 
+
+
+        public string[] GetAllUserName()
+        {
+            UserDAO userDAO = new UserDAO();
+            var userNames = userDAO.GetAllUser().Select(u => u.UserName).ToArray();
+            return userNames;
+        }
+
+        public List<User> CheckAndGetAllUserInListName(List<string> userNames)
+        {
+            UserDAO userDAO = new UserDAO();
+            var listUsers = userDAO.GetUsersInListNames(userNames);
+            if (listUsers.Count() != userNames.Count())
+            {
+                return null;
+            }
+            else
+            {
+                return listUsers;
+            }
+        }
+
+        public MemberRank GetRankById(int rankId)
+        {
+            return rankDAO.GetMemberRankById(rankId);
+        }
+
         public List<int> CreateMemberRank(MemberRank rank)
         {
             List<int> results = new List<int>();
@@ -283,32 +311,6 @@ namespace FootballPitchesBooking.BusinessObjects
             }
 
             return results;
-        }
-
-        public string[] GetAllUserName()
-        {
-            UserDAO userDAO = new UserDAO();
-            var userNames = userDAO.GetAllUser().Select(u => u.UserName).ToArray();
-            return userNames;
-        }
-
-        public List<User> CheckAndGetAllUserInListName(List<string> userNames)
-        {
-            UserDAO userDAO = new UserDAO();
-            var listUsers = userDAO.GetUsersInListNames(userNames);
-            if (listUsers.Count() != userNames.Count())
-            {
-                return null;
-            }
-            else
-            {
-                return listUsers;
-            }
-        }
-
-        public MemberRank GetRankById(int rankId)
-        {
-            return rankDAO.GetMemberRankById(rankId);
         }
 
         public List<int> UpdateMemberRank(MemberRank rank)
