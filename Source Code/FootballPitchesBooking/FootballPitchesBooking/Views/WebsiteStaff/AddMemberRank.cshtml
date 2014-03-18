@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_WebsiteStaffLayout.cshtml";
 }
 
-<h2>AddMemberRank</h2>
+<h2>Thêm Thứ Hạng</h2>
 @if (Model != null && Model.ErrorMessages.Count() > 0)
 {
     <div style="color:red">
@@ -19,7 +19,7 @@
 <form action="AddMemberRank" method="post">
     <table> 
         <tr>
-            <td>Tên Hạng:</td>
+            <td>Tên hạng:</td>
             <td><input type="text" name="RankName" value="" /></td>
         </tr>
         <tr>
@@ -27,7 +27,7 @@
             <td><input type="text" name="Point" value="" /></td>
         </tr>
         <tr>
-            <td>Phần Thưởng:</td>
+            <td>Ưu đãi giảm giá:</td>
             <td><input type="text" name="Promotion" value="" /></td>
         </tr> 
         

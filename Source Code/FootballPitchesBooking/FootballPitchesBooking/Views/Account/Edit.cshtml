@@ -12,6 +12,7 @@
         var fullname = $("#txtFullN").val();
         var password = $("#txtPass").val();
         var confirmpassword = $("#txtConfirmPass").val();
+        var phone = $("#txtPhone").val();
 
         if (fullname == "" || fullname.length > 30) {
             $("#FullName_Error").text("Yêu cầu phải từ 1 đến 30 kí tự");
@@ -44,6 +45,17 @@
             $("#ConfirmErrorPass").text(" ");
             $("#ConfirmErrorPass").css("display", "none");
         }
+        
+        if (phone == "" || phone.length < 10 || phone.length > 15) {
+            $("#Phone_Error").text("Yêu cầu phải nhập đúng số điện thoại");
+            $("#Phone_Error").css("display", "block");
+            flag++;
+
+        }
+        else {
+            $("#Phone_Error").text(" ");
+            $("#Phone_Error").css("display", "none");
+        }
 
 
         if (flag > 0) {
@@ -53,16 +65,7 @@
 </script>
 
 
-@{
-    
-    string fullName = "";
-    
-    if (Model != null)
-    {
-        
-        fullName = Model.FullName;
-    }
-}
+
 
 
 <form action="Edit" method="post">
@@ -71,7 +74,7 @@
         <tr>
             <td>Tên tài khoản:
             </td>
-            <td>
+            <td >
                 @Html.DisplayFor(model => Model.UserName)
             </td>
         </tr>
@@ -87,7 +90,7 @@
         </tr>
 
         <tr>
-            <td>Xác nhận mật khẩu:
+            <td>Xác nhận mật khẩu: 
             </td>
             <td>
                 <input type="password" id="txtConfirmPass" name="ConfirmPassword" placeholder="Nhập lại mật khẩu" required="required" />
@@ -99,7 +102,7 @@
             <td>Họ và Tên:
             </td>
             <td>
-                <input type="text" id="txtFullN" name="FullName" placeholder="Nhập vào Họ và Tên" required="required" value="@fullName" />
+                <input type="text" id="txtFullN" name="FullName" placeholder="Nhập vào Họ và Tên" required="required" value="@Model.FullName" />
                 <div class="alert alert-danger" id="FullName_Error" style="display: none"></div>
             </td>
         </tr>
@@ -117,7 +120,16 @@
             <td>Phone:
             </td>
             <td>
-                @Html.TextBoxFor(model => Model.PhoneNumber)
+                <input type="text" id="txtPhone" name="PhoneNumber" placeholder="Nhập số điện thoại" required="required" value="@Model.PhoneNumber" />
+            <script type="text/javascript">
+                $('#txtPhone').keyup(function (event) {
+                    if (isNaN(String.fromCharCode(event.which))) {
+                        var value = $(this).val();
+                        $(this).val(value.substr(0, value.length - 1));
+                    }
+                });
+            </script>
+            <div class="alert alert-danger" id="Phone_Error" style="display: none"></div>
             </td>
         </tr>
         <tr>
