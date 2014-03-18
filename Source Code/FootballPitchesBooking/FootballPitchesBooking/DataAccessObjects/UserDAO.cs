@@ -109,6 +109,7 @@ namespace FootballPitchesBooking.DataAccessObjects
             try
             {
                 var olduser = db.Users.Where(x => x.Id == newuser.Id).FirstOrDefault();
+                olduser.Password = newuser.Password;
                 olduser.FullName = newuser.FullName;
                 olduser.Address = newuser.Address;
                 olduser.PhoneNumber = newuser.PhoneNumber;
