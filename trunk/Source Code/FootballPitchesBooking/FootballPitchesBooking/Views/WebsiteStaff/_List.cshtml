@@ -114,43 +114,21 @@
 </script>
 <div id="list">
     <div>
-        <table class="table table-hover" style="table-layout: fixed">
+        <table class="table table-condensed table-bordered table-hover" >
             <tr>
                 <th style="vertical-align: middle; width: 50px">
-                    @Ajax.ActionLink("No.", "Index", new { column = "No", sort = (@ViewBag.Sort == "Asc" && @ViewBag.Column == "No") ? "Desc" : "Asc", keyWord = @ViewBag.KeyWord }, new AjaxOptions { UpdateTargetId = "list", InsertionMode = InsertionMode.Replace })
+                    No.
                 </th>
                 <th style="vertical-align: middle">
-                    @Ajax.ActionLink("Full Name", "Index", new { column = "FullName", sort = (@ViewBag.Sort == "Asc" && @ViewBag.Column == "FullName") ? "Desc" : "Asc", keyWord = @ViewBag.KeyWord }, new AjaxOptions { UpdateTargetId = "list", InsertionMode = InsertionMode.Replace })
+                    Họ và tên
                 </th>
                 <th style="vertical-align: middle">
-                    @Ajax.ActionLink("UserName", "Index", new { column = "UserName", sort = (@ViewBag.Sort == "Asc" && @ViewBag.Column == "UserName") ? "Desc" : "Asc", keyWord = @ViewBag.KeyWord }, new AjaxOptions { UpdateTargetId = "list", InsertionMode = InsertionMode.Replace })
+                    Tên đăng nhập
                 </th>
                 <th style="vertical-align: middle; width: 50px">
-                    @Ajax.ActionLink("Role", "Index", new { column = "Role", sort = (@ViewBag.Sort == "Asc" && @ViewBag.Column == "Role") ? "Desc" : "Asc", keyWord = @ViewBag.KeyWord }, new AjaxOptions { UpdateTargetId = "list", InsertionMode = InsertionMode.Replace })
+                    Quyền hạn
                 </th>
-                <th style="width: 30px">
-                    <div class="btn-group">
-                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu pull-right">
-                            <li>
-                                <button class="btn btn-link" id="select_all">
-                                    Select All</button></li>
-                            <li>
-                                <button class="btn btn-link" id="unselect_all">
-                                    Unselect All</button></li>
-                            <li>
-                                <button class="btn btn-link" id="deactivate">
-                                    Deactivate</button></li>
-                            <li>
-                                <button class="btn btn-link" id="activate">
-                                    Activate</button></li>
-                            <li>
-                                <button class="btn btn-link" id="delete">
-                                    Delete</button></li>
-                        </ul>
-                    </div>
-                </th>
+                
             </tr>
             @{
                 var row = 0;
@@ -173,20 +151,9 @@
                             <span style="word-wrap: break-word">@Html.DisplayFor(model => user.UserName)</span>
                         </td>
                         <td>
-                            @Html.DisplayFor(item => user.Role.Id)
+                            @Html.DisplayFor(item => user.Role.Role1)
                         </td>
-                        <td>
-                            @{
-                                if (user.RoleId != 1)
-                                {
-                                    <input type="checkbox" value="@user.Id" class="is_selected"/>
-                                }
-                                else
-                                {
-                                    <input type="checkbox" value="@user.Id" class="is_selected" disabled/>
-                                }
-                            }
-                        </td>
+                        
                         @if (!user.IsActive)
                         {
                             <script>

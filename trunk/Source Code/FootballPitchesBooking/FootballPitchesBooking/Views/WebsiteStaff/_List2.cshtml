@@ -114,42 +114,19 @@
 </script>
 <div id="list">
     <div>
-        <table class="table table-hover" style="table-layout: fixed">
+        <table class="table table-condensed table-bordered table-hover">
             <tr>
-                <th style="vertical-align: middle; width: 50px">
-                    @Ajax.ActionLink("No.", "Index", new { column = "No", sort = (@ViewBag.Sort == "Asc" && @ViewBag.Column == "No") ? "Desc" : "Asc", keyWord = @ViewBag.KeyWord }, new AjaxOptions { UpdateTargetId = "list", InsertionMode = InsertionMode.Replace })
+                <th style="vertical-align: middle">
+                    Tên thứ hạng
                 </th>
                 <th style="vertical-align: middle">
-                    @Ajax.ActionLink("Rank Name", "Index", new { column = "RankName", sort = (@ViewBag.Sort == "Asc" && @ViewBag.Column == "RankName") ? "Desc" : "Asc", keyWord = @ViewBag.KeyWord }, new AjaxOptions { UpdateTargetId = "list", InsertionMode = InsertionMode.Replace })
+                    Điểm 
                 </th>
-                <th style="vertical-align: middle">
-                    @Ajax.ActionLink("Point", "Index", new { column = "Point", sort = (@ViewBag.Sort == "Asc" && @ViewBag.Column == "Point") ? "Desc" : "Asc", keyWord = @ViewBag.KeyWord }, new AjaxOptions { UpdateTargetId = "list", InsertionMode = InsertionMode.Replace })
+                <th style="vertical-align: middle; width: 150px">
+                    Ưu đãi giảm giá
                 </th>
                 <th style="vertical-align: middle; width: 50px">
-                    @Ajax.ActionLink("Promotion", "Index", new { column = "Promotion", sort = (@ViewBag.Sort == "Asc" && @ViewBag.Column == "Promotion") ? "Desc" : "Asc", keyWord = @ViewBag.KeyWord }, new AjaxOptions { UpdateTargetId = "list", InsertionMode = InsertionMode.Replace })
-                </th>
-                <th style="width: 30px">
-                    <div class="btn-group">
-                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu pull-right">
-                            <li>
-                                <button class="btn btn-link" id="select_all">
-                                    Select All</button></li>
-                            <li>
-                                <button class="btn btn-link" id="unselect_all">
-                                    Unselect All</button></li>
-                            @*<li>
-                                <button class="btn btn-link" id="deactivate">
-                                    Deactivate</button></li>
-                            <li>
-                                <button class="btn btn-link" id="activate">
-                                    Activate</button></li>*@
-                            <li>
-                                <button class="btn btn-link" id="delete">
-                                    Delete</button></li>
-                        </ul>
-                    </div>
+                    
                 </th>
             </tr>
             @{
@@ -160,13 +137,6 @@
                     row++;
                     <tr id="row_@row">
                         <td>
-                            @{
-                                var noList = ViewBag.NoList as List<NoModel>;
-                                var no = noList.FirstOrDefault(n => n.Id == rank.Id).No;
-                                <span style="word-wrap: break-word">@no</span>
-                            }
-                        </td>
-                        <td>
                             <span style="word-wrap: break-word">@Html.ActionLink(rank.RankName, "Details", "Rank", new {id = @rank.Id}, null)</span>
                         </td>
                         <td>
@@ -176,16 +146,7 @@
                             @Html.DisplayFor(item => rank.Promotion)
                         </td>
                         <td>
-                            @*@{
-                    if (rank.promotion != 1)
-                                {
-                                    <input type="checkbox" value="@rank.id" class="is_selected"/>
-                                }
-                                else
-                                {
-                                    <input type="checkbox" value="@rank.id" class="is_selected" disabled/>
-                                }
-                            }*@
+                            <a href="/WebsiteStaff/EditMemberRank/@rank.Id">Sửa</a>
                         </td>
                         
                     </tr>
