@@ -10,8 +10,10 @@
     function check() {
         var flag = 0;
         var fullname = $("#txtFullN").val();
+        var password = $("#txtPass").val();
+        var confirmpassword = $("#txtConfirmPass").val();
 
-        if (fullname == "" || fullname.length < 1 || fullname.length > 30) {
+        if (fullname == "" || fullname.length > 30) {
             $("#FullName_Error").text("Yêu cầu phải từ 1 đến 30 kí tự");
             $("#FullName_Error").css("display", "block");
             flag++;
@@ -20,12 +22,33 @@
         else {
             $("#FullName_Error").text(" ");
             $("#FullName_Error").css("display", "none");
+        }
+
+        if (password == "" || password.length < 6 || password.length > 32) {
+            $("#ErrorPass").text("Yêu cầu mật khầu từ 6 đến 32 kí tự");
+            $("#ErrorPass").css("display", "block");
+            flag++;
+        }
+        else {
+            $("#ErrorPass").text(" ");
+            $("#ErrorPass").css("display", "none");
+        }
+
+        if (confirmpassword == "" || confirmpassword != password) {
+            $("#ConfirmErrorPass").text("Xác nhận mật khẩu phải giống với mật khẩu");
+            $("#ConfirmErrorPass").css("display", "block");
+            flag++;
+
+        }
+        else {
+            $("#ConfirmErrorPass").text(" ");
+            $("#ConfirmErrorPass").css("display", "none");
+        }
 
 
-            if (flag > 0) {
+        if (flag > 0) {
                 return false;
             } else return true;
-        }
     }
 </script>
 
@@ -54,14 +77,34 @@
         </tr>
 
         <tr>
+            <td>Mật Khẩu:
+                @*<label for="Password"> Mật khẩu:</label>*@
+            </td>
+            <td>
+                <input type="password" id="txtPass" name="Password" placeholder="Nhập mật khẩu" required="required" />
+                <div class="alert alert-danger" id="ErrorPass" style="display: none"></div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Xác nhận mật khẩu:
+            </td>
+            <td>
+                <input type="password" id="txtConfirmPass" name="ConfirmPassword" placeholder="Nhập lại mật khẩu" required="required" />
+                <div class="alert alert-danger" id="ConfirmErrorPass" style="display: none"></div>
+            </td>
+        </tr>
+
+        <tr>
             <td>Họ và Tên:
             </td>
             <td>
-              @* @Html.TextBoxFor(model => Model.FullName)*@
                 <input type="text" id="txtFullN" name="FullName" placeholder="Nhập vào Họ và Tên" required="required" value="@fullName" />
                 <div class="alert alert-danger" id="FullName_Error" style="display: none"></div>
             </td>
         </tr>
+
+        
 
         <tr>
             <td>Địa chỉ:
