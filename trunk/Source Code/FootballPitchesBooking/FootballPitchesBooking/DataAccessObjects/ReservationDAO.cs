@@ -22,22 +22,29 @@ namespace FootballPitchesBooking.DataAccessObjects
         }
 
 
-        public Reservation GetReservationById(int revId)
+        public List<Reservation> GetReservationsOfField(int fieldId)
         {
             FPBDataContext db = new FPBDataContext();
-            return db.Reservations.Where(r => r.Id == revId).FirstOrDefault();
+            return db.Reservations.Where(r => r.FieldId == fieldId).ToList();
         }
 
 
-        public int CreateReservation(Reservation rev)
+        public Reservation GetReservationById(int reservationId)
         {
             FPBDataContext db = new FPBDataContext();
-            db.Reservations.InsertOnSubmit(rev);
+            return db.Reservations.Where(r => r.Id == reservationId).FirstOrDefault();
+        }
+
+
+        public int CreateReservation(Reservation reservation)
+        {
+            FPBDataContext db = new FPBDataContext();
+            db.Reservations.InsertOnSubmit(reservation);
 
             try
             {
                 db.SubmitChanges();
-                return rev.Id;
+                return reservation.Id;
             }
             catch (Exception)
             {
@@ -46,31 +53,31 @@ namespace FootballPitchesBooking.DataAccessObjects
         }
 
 
-        public int UpdateReservation(Reservation rev)
+        public int UpdateReservation(Reservation reservation)
         {
             FPBDataContext db = new FPBDataContext();
-            Reservation curRev = db.Reservations.Where(r => r.Id == rev.Id).FirstOrDefault();
-            curRev.FieldId = rev.FieldId;
-            curRev.UserId = rev.UserId;
-            curRev.FullName = rev.FullName;
-            curRev.PhoneNumber = rev.PhoneNumber;
-            curRev.Email = rev.Email;
-            curRev.Date = rev.Date;
-            curRev.StartTime = rev.StartTime;
-            curRev.Duration = rev.Duration;
-            curRev.Price = rev.Price;
-            curRev.Discount = rev.Discount;
-            curRev.Status = rev.Status;
-            curRev.HasRival = rev.HasRival;
-            curRev.RivalId = rev.RivalId;
-            curRev.RivalName = rev.RivalName;
-            curRev.RivalPhone = rev.RivalPhone;
-            curRev.RivalEmail = rev.RivalEmail;
+            Reservation curRev = db.Reservations.Where(r => r.Id == reservation.Id).FirstOrDefault();
+            curRev.FieldId = reservation.FieldId;
+            curRev.UserId = reservation.UserId;
+            curRev.FullName = reservation.FullName;
+            curRev.PhoneNumber = reservation.PhoneNumber;
+            curRev.Email = reservation.Email;
+            curRev.Date = reservation.Date;
+            curRev.StartTime = reservation.StartTime;
+            curRev.Duration = reservation.Duration;
+            curRev.Price = reservation.Price;
+            curRev.Discount = reservation.Discount;
+            curRev.Status = reservation.Status;
+            curRev.HasRival = reservation.HasRival;
+            curRev.RivalId = reservation.RivalId;
+            curRev.RivalName = reservation.RivalName;
+            curRev.RivalPhone = reservation.RivalPhone;
+            curRev.RivalEmail = reservation.RivalEmail;
 
             try
             {
                 db.SubmitChanges();
-                return rev.Id;
+                return reservation.Id;
             }
             catch (Exception)
             {
@@ -79,21 +86,21 @@ namespace FootballPitchesBooking.DataAccessObjects
         }
 
 
-        public int UpdateReservationRival(Reservation rev)
+        public int UpdateReservationRival(Reservation reservation)
         {
             FPBDataContext db = new FPBDataContext();
-            Reservation curRev = db.Reservations.Where(r => r.Id == rev.Id).FirstOrDefault();
-            curRev.HasRival = rev.HasRival;
-            curRev.RivalId = rev.RivalId;
-            curRev.RivalName = rev.RivalName;
-            curRev.RivalPhone = rev.RivalPhone;
-            curRev.RivalEmail = rev.RivalEmail;
-            curRev.RivalFinder = rev.RivalFinder;
+            Reservation curRev = db.Reservations.Where(r => r.Id == reservation.Id).FirstOrDefault();
+            curRev.HasRival = reservation.HasRival;
+            curRev.RivalId = reservation.RivalId;
+            curRev.RivalName = reservation.RivalName;
+            curRev.RivalPhone = reservation.RivalPhone;
+            curRev.RivalEmail = reservation.RivalEmail;
+            curRev.RivalFinder = reservation.RivalFinder;
 
             try
             {
                 db.SubmitChanges();
-                return rev.Id;
+                return reservation.Id;
             }
             catch (Exception)
             {
@@ -102,16 +109,17 @@ namespace FootballPitchesBooking.DataAccessObjects
         }
 
 
-        public int UpdateReservationStatus(int revId, string status)
+        public int UpdateReservationStatus(int reservationId, string status, int approver)
         {
             FPBDataContext db = new FPBDataContext();
-            Reservation curRev = db.Reservations.Where(r => r.Id == revId).FirstOrDefault();
+            Reservation curRev = db.Reservations.Where(r => r.Id == reservationId).FirstOrDefault();
             curRev.Status = status;
+            curRev.Approver = approver;
 
             try
             {
                 db.SubmitChanges();
-                return revId;
+                return reservationId;
             }
             catch (Exception)
             {

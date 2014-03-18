@@ -137,6 +137,8 @@
     <Compile Include="BusinessObjects\ReservationBO.cs" />
     <Compile Include="BusinessObjects\StadiumBO.cs" />
     <Compile Include="BusinessObjects\UserBO.cs" />
+    <Compile Include="Models\StadiumStaffModels\ReservationModel.cs" />
+    <Compile Include="Utilities\Utils.cs" />
     <Compile Include="BusinessObjects\WebsiteBO.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
