@@ -9,7 +9,7 @@
     <h1>QUẢN LÝ SÂN CON</h1>
     <h4>HỆ THỐNG SÂN <a href="/StadiumStaff/Fields?Stadium=@Model.StadiumId">@Model.StadiumName</a> : <i>@Model.StadiumAddress</i></h4>
     
-    <a href="/StadiumStaff/AddField?Stadium=@Model.StadiumId"><button class="btn-default">THÊM SÂN CON</button></a>
+    <a href="/StadiumStaff/AddField?Stadium=@Model.StadiumId"><button class="btn-success">THÊM SÂN CON</button></a>
 
     if (Model.Fields != null && Model.Fields.Count > 0)
     {
@@ -50,6 +50,10 @@
             }
         </tbody>
     </table>
+    }
+    else
+    {
+        <h5>Hệ thống sân này hiện tại chưa có sân con nào</h5>
     }
 }
 else

@@ -14,7 +14,7 @@
             <th>TÊN SÂN BÓNG</th>
             <th>ĐỊA CHỈ SÂN</th>
             <th>SỐ ĐIỆN THOẠI</th>
-            <th>TRẠNG THÁI HOẠT ĐỘNG</th>
+            <th>TRẠNG THÁI</th>
             <th></th>
         </tr>
     </thead>
@@ -33,7 +33,7 @@
                 {
                     <td>Không Hoạt Động</td>
                 }
-                <td class="table-cell-action"><a href="/StadiumStaff/EditStadium?Id=@item.Id">Chỉnh Sửa</a> | <a href="/StadiumStaff/Fields?Stadium=@item.Id">Sân Con</a></td>
+                <td class="table-cell-action"><a href="/StadiumStaff/EditStadium?Id=@item.Id">Chỉnh Sửa</a> | <a href="/StadiumStaff/Fields?Stadium=@item.Id">Sân Con</a> | <a href="/StadiumStaff/FieldPrices?Stadium=@item.Id">Bảng Giá</a></td>
             </tr>
         }
     </tbody>

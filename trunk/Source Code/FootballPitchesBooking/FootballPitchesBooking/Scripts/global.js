@@ -38,7 +38,13 @@
     });
 })(jQuery);
 
-$(function(){
+$(function () {
+
+    /***** custom ********/
+    $(".format-price").priceFormat({
+        prefix: '',
+        centsLimit: 0
+    });
 
    	/**************************
 	*

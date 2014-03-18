@@ -8,27 +8,20 @@ namespace FootballPitchesBooking.DataAccessObjects
 {
     public class FieldPriceDAO
     {
-        public FieldPrice GetFieldPriceById(int fieldPriceId)
+        public List<FieldPrice> GetAllFieldPriceOfStadium(int stadiumId)
         {
             FPBDataContext db = new FPBDataContext();
-            return db.FieldPrices.Where(f => f.Id == fieldPriceId).FirstOrDefault();
+            return db.FieldPrices.Where(f => f.StadiumId == stadiumId).ToList();
         }
 
-        public List<FieldPrice> GetFieldPricesByField(int fieldId)
+        public int CreateFieldPrice(FieldPrice fp)
         {
             FPBDataContext db = new FPBDataContext();
-            return db.FieldPrices.Where(f => f.FieldId == fieldId).ToList();
-        }
-
-        public int InsertListFieldPrice(List<FieldPrice> fieldPrice)
-        {
-            FPBDataContext db = new FPBDataContext();
-            
             try
             {
-                db.FieldPrices.InsertAllOnSubmit(fieldPrice);
+                db.FieldPrices.InsertOnSubmit(fp);
                 db.SubmitChanges();
-                return 1;
+                return fp.Id;
             }
             catch (Exception)
             {
@@ -36,40 +29,10 @@ namespace FootballPitchesBooking.DataAccessObjects
             }
         }
 
-        public int UpdateFieldPrice(FieldPrice fieldPrice)
+        public List<PriceTable> GetAllPriceTableOfFieldPrice(int fieldPriceId)
         {
             FPBDataContext db = new FPBDataContext();
-            FieldPrice currentFieldPrice = db.FieldPrices.Where(f => f.Id == fieldPrice.Id).FirstOrDefault();
-            currentFieldPrice.Price = fieldPrice.Price;
-            currentFieldPrice.TimeFrom = fieldPrice.TimeFrom;
-            currentFieldPrice.TimeTo = fieldPrice.TimeTo;
-            currentFieldPrice.Day = fieldPrice.Day;
-
-            try
-            {
-                db.SubmitChanges();
-                return currentFieldPrice.Id;
-            }
-            catch (Exception)
-            {
-                return 0;
-            }
-        }
-
-        public int DeleteFieldPrice(int fieldPriceId)
-        {
-            FPBDataContext db = new FPBDataContext();
-            FieldPrice fieldPrice = db.FieldPrices.Where(s => s.Id == fieldPriceId).FirstOrDefault();
-            try
-            {
-                db.FieldPrices.DeleteOnSubmit(fieldPrice);
-                db.SubmitChanges();
-                return 1;
-            }
-            catch (Exception)
-            {
-                return 0;
-            }
+            return db.PriceTables.Where(p => p.FieldPriceId == fieldPriceId).ToList();
         }
     }
 }
