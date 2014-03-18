@@ -141,27 +141,27 @@ namespace FootballPitchesBooking.Controllers
 
             if (reg.Password.Length < 6 || reg.Password.Length > 32)
             {
-                reg.ErrorMessages.Add("");
+                reg.ErrorMessages.Add(Resources.Reg_PasswordNotInLenght);
             }
 
             if (reg.FullName.Length <= 0 || reg.FullName.Length > 50)
             {
-                reg.ErrorMessages.Add("");
+                reg.ErrorMessages.Add(Resources.Reg_FullnameNotInLenght);
             }
 
             if (reg.PhoneNumber.Length < 6 || reg.PhoneNumber.Length > 20)
             {
-                reg.ErrorMessages.Add("");
+                reg.ErrorMessages.Add(Resources.Reg_PhoneNumberNotInLenght  );
             }
 
             if (!alphanumeric.IsMatch(reg.UserName))
             {
-                reg.ErrorMessages.Add("");
+                reg.ErrorMessages.Add(Resources.Reg_UserNamealphanumeric);
             }
 
             if (!emailFormat.IsMatch(reg.Email))
             {
-                reg.ErrorMessages.Add("");
+                reg.ErrorMessages.Add(Resources.Reg_EmailWrongFormat);
             }
 
 

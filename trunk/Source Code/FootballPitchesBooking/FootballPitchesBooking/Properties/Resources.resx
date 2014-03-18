@@ -150,6 +150,21 @@
   <data name="Reg_EmailNotAvailable" xml:space="preserve">
     <value>Email đã được sử dụng. Xin vui lòng chọn email khác</value>
   </data>
+  <data name="Reg_EmailWrongFormat" xml:space="preserve">
+    <value>Email không đúng định dạng</value>
+  </data>
+  <data name="Reg_FullnameNotInLenght" xml:space="preserve">
+    <value>Tên đầy đủ yêu cầu từ 1 đến 50 kí tự</value>
+  </data>
+  <data name="Reg_PasswordNotInLenght" xml:space="preserve">
+    <value>Mật khẩu yêu cầu từ 6 đến 32 kí tự</value>
+  </data>
+  <data name="Reg_PhoneNumberNotInLenght" xml:space="preserve">
+    <value>Số điện thoại phải từ 6 đến 20 kí tự</value>
+  </data>
+  <data name="Reg_UserNamealphanumeric" xml:space="preserve">
+    <value>Tên đăng nhập chỉ được chữ và số</value>
+  </data>
   <data name="Reg_UserNameNotAvailable" xml:space="preserve">
     <value>Tên tài khoản đã được sử dụng. Xin vui lòng chọn tên khác</value>
   </data>
