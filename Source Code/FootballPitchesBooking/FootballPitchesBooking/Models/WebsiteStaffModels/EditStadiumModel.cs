@@ -19,5 +19,7 @@ namespace FootballPitchesBooking.Models.WebsiteStaffModels
         public string MainOwner { get; set; }
         public List<string> ErrorMessage { get; set; }
         public string SuccessMessage { get; set; }
+        public string OpenTime { get; set; }
+        public string CloseTime { get; set; }
     }
 }

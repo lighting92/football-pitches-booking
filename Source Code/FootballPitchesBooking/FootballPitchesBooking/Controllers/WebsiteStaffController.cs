@@ -41,6 +41,8 @@ namespace FootballPitchesBooking.Controllers
         public ActionResult AddStadium()
         {
             EditStadiumModel model = new EditStadiumModel();
+            model.OpenTime = "0:0";
+            model.CloseTime = "0:0";
             return View(model);
         }
 
@@ -58,6 +60,21 @@ namespace FootballPitchesBooking.Controllers
             model.Ward = form["Ward"];
             model.District = form["District"];
             model.ErrorMessage = new List<string>();
+            model.OpenTime = form["OpenTime"];
+            model.CloseTime = form["CloseTime"];
+
+            double openTime = 0;
+            double closeTime = 0;
+
+            int openHour;
+            int openMinute;
+            int closeHour;
+            int closeMinute;
+
+            bool parseOH = int.TryParse(model.OpenTime.Substring(0, model.OpenTime.LastIndexOf(":")).Trim(), out openHour);
+            bool parseOM = int.TryParse(model.OpenTime.Substring(model.OpenTime.LastIndexOf(":") + 1, model.OpenTime.Length - model.OpenTime.LastIndexOf(":") - 1).Trim(), out openMinute);
+            bool parseCH = int.TryParse(model.CloseTime.Substring(0, model.CloseTime.LastIndexOf(":")).Trim(), out closeHour);
+            bool parseCM = int.TryParse(model.CloseTime.Substring(model.CloseTime.LastIndexOf(":") + 1, model.CloseTime.Length - model.CloseTime.LastIndexOf(":") - 1).Trim(), out closeMinute);
 
             List<String> images = new List<string>();
             List<HttpPostedFileBase> listFiles = new List<HttpPostedFileBase>();
@@ -83,6 +100,21 @@ namespace FootballPitchesBooking.Controllers
                 model.ErrorMessage.Add(Resources.Form_EmptyFields);
             }
 
+            if (parseOH && parseOM && parseCH && parseCM)
+            {
+                openTime = openHour + (openMinute / 60.0);
+                closeTime = closeHour + (closeMinute / 60.0);
+
+                if (closeTime != 0 && openTime >= closeTime)
+                {
+                    model.ErrorMessage.Add("Bạn không thể có giờ mở cửa trễ hơn hoặc bằng giờ đóng cửa. Nếu bạn muốn mở cửa cả ngày hãy để giờ mở cửa và giờ đóng cửa là 0 giờ");
+                }
+            }
+            else
+            {
+                model.ErrorMessage.Add("Bạn hãy dùng mẫu bên dưới để nhập thông tin cho sân mới");
+            }
+
             foreach (var item in listFiles)
             {
                 if (!item.ContentType.Contains("image"))
@@ -102,7 +134,9 @@ namespace FootballPitchesBooking.Controllers
                     Street = model.Street,
                     Ward = model.Ward,
                     District = model.District,
-                    IsActive = model.IsActive
+                    IsActive = model.IsActive,
+                    OpenTime = openTime,
+                    CloseTime = closeTime
                 };
 
                 StadiumBO stadiumBO = new StadiumBO();
@@ -146,6 +180,9 @@ namespace FootballPitchesBooking.Controllers
 
             }
 
+            string openTime = (int)stadium.OpenTime + ":" + ((stadium.OpenTime - (int)stadium.OpenTime) * 60);
+            string closeTime = (int)stadium.CloseTime + ":" + ((stadium.CloseTime - (int)stadium.CloseTime) * 60);
+
             EditStadiumModel model = new EditStadiumModel
             {
                 Name = stadium.Name,
@@ -157,7 +194,9 @@ namespace FootballPitchesBooking.Controllers
                 IsActive = stadium.IsActive,
                 MainOwner = stadium.User.UserName,
                 Images = listImages,
-                ImageIds = imageIds
+                ImageIds = imageIds,
+                OpenTime = openTime,
+                CloseTime = closeTime
             };
             return View(model);
         }
@@ -178,6 +217,22 @@ namespace FootballPitchesBooking.Controllers
             model.Ward = form["Ward"];
             model.District = form["District"];
             model.ErrorMessage = new List<string>();
+            model.OpenTime = form["OpenTime"];
+            model.CloseTime = form["CloseTime"];
+
+            double openTime = 0;
+            double closeTime = 0;
+
+            int openHour;
+            int openMinute;
+            int closeHour;
+            int closeMinute;
+
+            bool parseOH = int.TryParse(model.OpenTime.Substring(0, model.OpenTime.LastIndexOf(":")).Trim(), out openHour);
+            bool parseOM = int.TryParse(model.OpenTime.Substring(model.OpenTime.LastIndexOf(":") + 1, model.OpenTime.Length - model.OpenTime.LastIndexOf(":") - 1).Trim(), out openMinute);
+            bool parseCH = int.TryParse(model.CloseTime.Substring(0, model.CloseTime.LastIndexOf(":")).Trim(), out closeHour);
+            bool parseCM = int.TryParse(model.CloseTime.Substring(model.CloseTime.LastIndexOf(":") + 1, model.CloseTime.Length - model.CloseTime.LastIndexOf(":") - 1).Trim(), out closeMinute);
+
 
             List<String> images = new List<string>();
             List<HttpPostedFileBase> listFiles = new List<HttpPostedFileBase>();
@@ -212,6 +267,21 @@ namespace FootballPitchesBooking.Controllers
                 }
             }
 
+            if (parseOH && parseOM && parseCH && parseCM)
+            {
+                openTime = openHour + (openMinute / 60.0);
+                closeTime = closeHour + (closeMinute / 60.0);
+
+                if (closeTime != 0 && openTime >= closeTime)
+                {
+                    model.ErrorMessage.Add("Bạn không thể có giờ mở cửa trễ hơn hoặc bằng giờ đóng cửa. Nếu bạn muốn mở cửa cả ngày hãy để giờ mở cửa và giờ đóng cửa là 0 giờ");
+                }
+            }
+            else
+            {
+                model.ErrorMessage.Add("Bạn hãy dùng mẫu bên dưới để nhập thông tin cho sân mới");
+            }
+
             if (model.ErrorMessage.Count == 0)
             {
                 Stadium stadium = new Stadium
@@ -223,7 +293,9 @@ namespace FootballPitchesBooking.Controllers
                     Street = model.Street,
                     Ward = model.Ward,
                     District = model.District,
-                    IsActive = model.IsActive
+                    IsActive = model.IsActive,
+                    OpenTime = openTime,
+                    CloseTime = closeTime
                 };
 
                 string serverPath = Server.MapPath("~/Content/images/");

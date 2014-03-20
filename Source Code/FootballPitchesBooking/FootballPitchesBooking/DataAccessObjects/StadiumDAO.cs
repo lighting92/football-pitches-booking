@@ -72,6 +72,8 @@ namespace FootballPitchesBooking.DataAccessObjects
             currentStadium.Phone = stadium.Phone;
             currentStadium.Email = stadium.Email;
             currentStadium.IsActive = stadium.IsActive;
+            currentStadium.OpenTime = stadium.OpenTime;
+            currentStadium.CloseTime = stadium.CloseTime;
             if (updateOwner)
             {
                 currentStadium.MainOwner = stadium.MainOwner;
