@@ -27,14 +27,26 @@
             <td>Điểm:</td>
             <td><input type="text" name="Point" value="@Model.Point" /></td>
         </tr>
-        <tr>
+
+        
+        <tr>            
             <td>Ưu đãi giảm giá:</td>
-            <td><input type="text" name="Promotion" value="@Model.Promotion" /></td>
+            <td><input placeholder="Nhập vào ưu đãi" type="text" name="Promotion" value="@Model.Promotion" />
+                <script type="text/javascript"> 
+                    $('input[name="Promotion"]').keyup(function (event) {
+                    if (isNaN(String.fromCharCode(event.which))) {
+                        var value = $(this).val();
+                        $(this).val(value.substr(0, value.length - 1));
+                    }
+                });
+            </script>
+            </td>            
         </tr> 
+        
         
         <tr>
             <td colspan="2">
-                <button type="submit">Lưu</button>
+                <button type="submit" name="Save" >Lưu</button>
                 <button type="button" onclick="window.location = '/WebsiteStaff/MemberRanks'">Hủy bỏ</button>
             </td>
         </tr>

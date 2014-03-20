@@ -299,7 +299,7 @@ namespace FootballPitchesBooking.Controllers
         public ActionResult Edit(User user)
         {
             UserBO userBO = new UserBO();
-            var result = userBO.EditDetails(user);
+            var result = userBO.UpdateUserProfiles(user);
             if (result == 1)
             {
                 return RedirectToAction("Index");
@@ -309,5 +309,7 @@ namespace FootballPitchesBooking.Controllers
                 return View(user);
             }
         }
+
+
     }
 }

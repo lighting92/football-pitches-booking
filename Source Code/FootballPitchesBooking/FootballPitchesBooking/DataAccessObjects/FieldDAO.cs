@@ -17,7 +17,7 @@ namespace FootballPitchesBooking.DataAccessObjects
         public List<Field> GetFieldsByStadiumId(int stadiumId)
         {
             FPBDataContext db = new FPBDataContext();
-                return db.Fields.Where(f => f.StadiumId == stadiumId).ToList();
+            return db.Fields.Where(f => f.StadiumId == stadiumId).ToList();
         }
 
         public List<Field> GetAllChildrenOfField(int fieldId)

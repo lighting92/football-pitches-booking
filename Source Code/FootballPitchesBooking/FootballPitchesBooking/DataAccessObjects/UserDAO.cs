@@ -88,13 +88,25 @@ namespace FootballPitchesBooking.DataAccessObjects
 
         public int UpdateUserRank(MemberRank rank)//  ko biet userDAO ma dung ham cua rankDAO thi sao ko =))
         {
-            MemberRank prevRank = db.MemberRanks.OrderByDescending(m => m.Point < rank.Point).FirstOrDefault();
-            MemberRank nextRank = db.MemberRanks.OrderBy(m => m.Point > rank.Point).FirstOrDefault();
+            MemberRank prevRank = db.MemberRanks.Where(m => m.Point < rank.Point).OrderByDescending(m => m.Point).FirstOrDefault();
+            MemberRank nextRank = db.MemberRanks.Where(m => m.Point > rank.Point).OrderBy(m => m.Point).FirstOrDefault();
             
             try
             {
-                db.Users.Where(u => u.Point < rank.Point && u.Point >= prevRank.Point).ToList().ForEach(u => u.RankId = prevRank.Id);
-                db.Users.Where(u => u.Point >= rank.Point && u.Point < nextRank.Point).ToList().ForEach(u => u.RankId = rank.Id);
+                List<User> users = db.Users.Where(u => u.RankId == rank.Id).ToList();
+                if (users != null)
+                {
+                    users.ForEach(u => u.RankId = db.MemberRanks.Where(m => m.Point <= u.Point).OrderByDescending(m => m.Point).FirstOrDefault().Id);
+                }
+
+                if (prevRank != null)
+                {
+                    db.Users.Where(u => u.Point < rank.Point && u.Point >= prevRank.Point).ToList().ForEach(u => u.RankId = prevRank.Id);
+                }
+                if (nextRank != null)
+                {
+                    db.Users.Where(u => u.Point >= rank.Point && u.Point < nextRank.Point).ToList().ForEach(u => u.RankId = rank.Id);
+                }
                 db.SubmitChanges();
                 return 1;
             }
@@ -104,15 +116,15 @@ namespace FootballPitchesBooking.DataAccessObjects
             }
         }
 
-        public int UpdateUser(User newuser)
+        public int UpdateUserProfiles(User user)
         {
             try
             {
-                var olduser = db.Users.Where(x => x.Id == newuser.Id).FirstOrDefault();
-                olduser.Password = newuser.Password;
-                olduser.FullName = newuser.FullName;
-                olduser.Address = newuser.Address;
-                olduser.PhoneNumber = newuser.PhoneNumber;
+                var olduser = db.Users.Where(x => x.Id == user.Id).FirstOrDefault();
+                olduser.Password = user.Password;
+                olduser.FullName = user.FullName;
+                olduser.Address = user.Address;
+                olduser.PhoneNumber = user.PhoneNumber;
                 db.SubmitChanges();
                 return 1;
             }
@@ -121,5 +133,28 @@ namespace FootballPitchesBooking.DataAccessObjects
                 return 0;
             }
         }
+
+
+        public int UpdateUser(User user)
+        {
+            try
+            {
+                var curUser = db.Users.Where(u => u.Id == user.Id).FirstOrDefault();
+                curUser.Password = user.Password;
+                curUser.Email = user.Email;
+                curUser.Point = user.Point;
+                curUser.IsActive = user.IsActive;
+                curUser.RoleId = user.RoleId;
+                db.SubmitChanges();
+                return 1;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+        
+
+
     }
 }
