@@ -5,6 +5,39 @@
     Layout = "~/Views/Shared/_WebsiteStaffLayout.cshtml";
 }
 
+<script type="text/ecmascript">
+    function check() {
+        var flag = 0;
+        var password = $("#txtPass").val();
+        var confirmpassword = $("#txtConfirmPass").val();
+        var email = $("#txtMail").val();
+        var reg = /^\w+([-+.']\w+)*@@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+        var aln = /^[a-z|A-Z|0-9]*$/;
+
+                
+        
+
+
+
+        if (!reg.test(email)) {
+            $("#Email_Error").text("Email không đúng");
+            $("#Email_Error").css("display", "block");
+            flag++;
+        }
+        else {
+            $("#Email_Error").text(" ");
+            $("#Email_Error").css("display", "none");
+        }
+
+
+
+        
+        if (flag > 0) {
+            return false;
+        } else return true;
+    }
+</script>
+
 <div class="row websitestaff-edit-user">
     <div class="span12">
         <div class="row">
@@ -38,13 +71,14 @@
                             <div class="span3">
                                 <label>
                                     MẬT KHẨU
-                                    <input name="Password" type="text" placeholder="MẬT KHẨU" value="">
+                                    <input name="Password" type="text" placeholder="MẬT KHẨU" required="required" value="">
+
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
                                     XÁC NHẬN MẬT KHẨU
-                                    <input name="ConfirmPassword" type="text" placeholder="XÁC NHẬN MẬT KHẨU" value="">
+                                    <input name="ConfirmPassword" type="text" placeholder="XÁC NHẬN MẬT KHẨU" required="required" value="">
                                 </label>
                             </div>
                             <div class="span3">
@@ -62,7 +96,8 @@
                             <div class="span3">
                                 <label>
                                     E-MAIL
-                                    <input name="Email" type="text" placeholder="E-Mail" value="@Model.Email">
+                                    <input name="Email" type="text" placeholder="E-Mail" required="required" value="@Model.Email">
+                                    <div class="alert alert-danger" id="Email_Error" style="display: none"></div>
                                 </label>
                             </div>
                             <div class="span3" style="width: 100%;">
@@ -74,7 +109,7 @@
                             <div class="span3">
                                 <label>
                                     POINT
-                                    <input name="Point" type="text" placeholder="ĐIỂM" value="@Model.Point">
+                                    <input name="Point" type="text" placeholder="ĐIỂM" required="required"   value="@Model.Point">
                                 </label>
                             </div>
                             <div class="span3">
@@ -122,7 +157,7 @@
                             <div class="span9">
                                 <br />
                                 <button type="button" onclick="window.location='/WebsiteStaff/Users'" class="btn btn-primary btn-large book-now pull-right groupbtn">HỦY BỎ</button>
-                                <button type="submit" class="btn btn-primary btn-large book-now pull-right groupbtn">CẬP NHẬT</button>
+                                <button type="submit" onclick="return check()" class="btn btn-primary btn-large book-now pull-right groupbtn">CẬP NHẬT</button>
                                 <br />
                                 <br />
                             </div>
