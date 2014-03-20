@@ -21,6 +21,7 @@ namespace FootballPitchesBooking.Models.StadiumStaffModels
         public string SuccessMessage { get; set; }
         public List<StadiumStaffModel> Staffs { get; set; }
         public bool IsMainOwner { get; set; }
-                
+        public string OpenTime { get; set; }
+        public string CloseTime { get; set; }
     }
 }

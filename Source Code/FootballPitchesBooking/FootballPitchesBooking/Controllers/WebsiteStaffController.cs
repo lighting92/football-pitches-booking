@@ -104,11 +104,6 @@ namespace FootballPitchesBooking.Controllers
             {
                 openTime = openHour + (openMinute / 60.0);
                 closeTime = closeHour + (closeMinute / 60.0);
-
-                if (closeTime != 0 && openTime >= closeTime)
-                {
-                    model.ErrorMessage.Add("Bạn không thể có giờ mở cửa trễ hơn hoặc bằng giờ đóng cửa. Nếu bạn muốn mở cửa cả ngày hãy để giờ mở cửa và giờ đóng cửa là 0 giờ");
-                }
             }
             else
             {
@@ -271,15 +266,10 @@ namespace FootballPitchesBooking.Controllers
             {
                 openTime = openHour + (openMinute / 60.0);
                 closeTime = closeHour + (closeMinute / 60.0);
-
-                if (closeTime != 0 && openTime >= closeTime)
-                {
-                    model.ErrorMessage.Add("Bạn không thể có giờ mở cửa trễ hơn hoặc bằng giờ đóng cửa. Nếu bạn muốn mở cửa cả ngày hãy để giờ mở cửa và giờ đóng cửa là 0 giờ");
-                }
             }
             else
             {
-                model.ErrorMessage.Add("Bạn hãy dùng mẫu bên dưới để nhập thông tin cho sân mới");
+                model.ErrorMessage.Add("Bạn hãy dùng mẫu bên dưới để chỉnh sửa thông tin của sân");
             }
 
             if (model.ErrorMessage.Count == 0)
