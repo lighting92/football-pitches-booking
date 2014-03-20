@@ -1,69 +1,101 @@
 ﻿@model FootballPitchesBooking.Models.User
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.USER = "active";
+    ViewBag.Title = "Chi Tiết Thông Tin Thành Viên";
     
 }
 
 
-<h2>Chi Tiết Tài Khoản</h2>
+<div class="row Account-view-profiles">
+    <div class="span12">
+        <div class="row">
+            <div class="span9">
+                <form action="EditUser?Id=@Request.QueryString["id"]" method="post" class="form-horizontal" enctype="multipart/form-data">
+                    <fieldset>
+                        <br />
+                        <br />
+                        <h1>CHI TIẾT THÔNG TIN THÀNH VIÊN
+                        </h1>
+                        <br />
+                        @*@if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
+                        {
+                            <div class="alert alert-danger">
+                                @foreach (var error in Model.ErrorMessages)
+                                {
+                                    <p>- @error</p>
+                                }
+                            </div>
+                        }*@
+                        <div class="row">
+                            <div class="span3">
+                                <label>
+                                    TÊN ĐĂNG NHẬP
+                                    <input name="UserName" type="text" disabled="disabled" value="@Model.UserName">
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    TÊN THÀNH VIÊN
+                                    <input name="FullName" type="text" disabled="disabled" value="@Model.FullName">
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    SỐ ĐIỆN THOẠI
+                                    <input name="PhoneNumber" type="text" disabled="disabled" value="@Model.PhoneNumber">
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    E-MAIL
+                                    <input name="Email" type="text" placeholder="E-Mail" disabled="disabled" value="@Model.Email">
+                                </label>
+                            </div>
+                            <div class="span3" style="width: 100%;">
+                                <label>
+                                    ĐỊA CHỈ
+                                    <input style="width: 685px;" name="Address" type="text" disabled="disabled" value="@Model.Address">
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    POINT
+                                    <input name="Point" type="text" placeholder="ĐIỂM" disabled="disabled" value="@Model.Point">
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    Ngày Tham Gia
+                                    <input name="JoinDate" type="text" placeholder="NGÀY THAM GIA" disabled="disabled" value="@Model.JoinDate">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span9">
+                                <br />
+                                @if (User.Identity.Name.Equals(Model.UserName))
+                                 {
+                                     <button type="button" onclick="window.location = '/Account/Edit'" class="btn btn-primary btn-large book-now pull-right groupbtn">CHỈNH SỬA</button>
+                                 }
+                                <button type="button" onclick="window.location = '/Home'" class="btn btn-primary btn-large book-now pull-right groupbtn">QUAY VỀ</button>
+                                @*<button type="submit" class="btn btn-primary btn-large book-now pull-right groupbtn">CẬP NHẬT</button>*@
+                                <br />
+                                <br />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
-<table>
-    <tr>
-        <td>Tên tài khoản:
-        </td>
-        <td>
-            @Html.DisplayFor(model => Model.UserName)
-        </td>
-    </tr>
 
-    <tr>
-        <td>Họ và Tên:
-        </td>
-        <td>
-            @Html.DisplayFor(model => Model.FullName)
-        </td>
-    </tr>
 
-    <tr>
-        <td>Địa chỉ:
-        </td>
-        <td>
-            @Html.DisplayFor(model => Model.Address)
-        </td>
-    </tr>
 
-    <tr>
-            <td>Phone:
-            </td>
-            <td>
-                @Html.DisplayFor(model => Model.PhoneNumber)
-            </td>
-        </tr>
-
-    <tr>
-        <td>Email:
-        </td>
-        <td>
-            @Html.DisplayFor(model => Model.Email)
-        </td>
-    </tr>
-
-    <tr>
-        <td>Điểm thưởng:
-        </td>
-        <td>
-            @Html.DisplayFor(model => Model.Point)
-        </td>
-    </tr>
-
-    <tr>
-        <td>Ngày tham gia:
-        </td>
-        <td>
-            @Html.DisplayFor(model => Model.JoinDate)
-        </td>
-    </tr>
+@*<table>
+    
     <tr>
         <td colspan="2">
             @if (User.Identity.Name.Equals(Model.UserName))
@@ -73,4 +105,4 @@
             <button type="button" onclick="window.location = '/Home'">Quay về</button>
         </td>
     </tr>
-</table>
+</table>*@

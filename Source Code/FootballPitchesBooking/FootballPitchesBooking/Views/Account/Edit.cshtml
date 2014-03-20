@@ -1,10 +1,11 @@
 ﻿@model FootballPitchesBooking.Models.User
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.USER = "active";
+    ViewBag.Title = "Cập Nhật Thông Tin Cá Nhân";
 }
 
-<h2>Chỉnh sửa thông tin</h2>
+@*<h2>Cập Nhật Thông Tin Cá Nhân</h2>*@
 
 <script type="text/ecmascript">
     function check() {
@@ -70,7 +71,124 @@
 
 <form action="Edit" method="post">
     @Html.HiddenFor(model => Model.Id)
-    <table>
+    
+    <div class="row Account-view-profiles">
+    <div class="span12">
+        <div class="row">
+            <div class="span9">
+                <form action="EditUser?Id=@Request.QueryString["id"]" method="post" class="form-horizontal" enctype="multipart/form-data">
+                    <fieldset>
+                        <br />
+                        <br />
+                        <h1>CẬP NHẬT THÔNG TIN CÁ NHÂN
+                        </h1>
+                        <br />
+                        @*@if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
+                        {
+                            <div class="alert alert-danger">
+                                @foreach (var error in Model.ErrorMessages)
+                                {
+                                    <p>- @error</p>
+                                }
+                            </div>
+                        }*@
+                        <div class="row">
+                            <div class="span3">
+                                <label>
+                                    TÊN ĐĂNG NHẬP
+                                    <input name="UserName" type="text" disabled="disabled" value="@Model.UserName">
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    MẬT KHẨU
+                                    <input name="Password" id="txtPass" type="text" placeholder="Nhập mật khẩu" required="required" value="">
+                                    <div class="alert alert-danger" id="ErrorPass" style="display: none"></div>
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    XÁC NHẬN MẬT KHẨU
+                                    <input name="ConfirmPassword" id="txtConfirmPass" type="text" placeholder="Nhập lại mật khẩu" required="required" value="">
+                                    <div class="alert alert-danger" id="ConfirmErrorPass" style="display: none"></div>
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    TÊN THÀNH VIÊN
+                                    <input name="FullName" id="txtFullN" type="text" placeholder="Nhập vào Họ và Tên" required="required" value="@Model.FullName">
+                                    <div class="alert alert-danger" id="FullName_Error" style="display: none"></div>
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    SỐ ĐIỆN THOẠI
+                                    <input name="PhoneNumber" id="txtPhone" type="text" placeholder="Nhập số điện thoại" required="required" value="@Model.PhoneNumber">
+                                    <script type="text/javascript">
+                                        $('#txtPhone').keyup(function (event) {
+                                            if (isNaN(String.fromCharCode(event.which))) {
+                                                var value = $(this).val();
+                                                $(this).val(value.substr(0, value.length - 1));
+                                            }
+                                        });
+                                    </script>
+                                    <div class="alert alert-danger" id="Phone_Error" style="display: none"></div>
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    E-MAIL
+                                    <input name="Email" type="text" placeholder="E-Mail" disabled="disabled" value="@Model.Email">
+                                </label>
+                            </div>
+                            <div class="span3" style="width: 100%;">
+                                <label>
+                                    ĐỊA CHỈ
+                                    <input style="width: 685px;" name="Address" type="text"  value="@Model.Address">
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    POINT
+                                    <input name="Point" type="text" placeholder="ĐIỂM" disabled="disabled" value="@Model.Point">
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    Ngày Tham Gia
+                                    <input name="JoinDate" type="text" placeholder="NGÀY THAM GIA" disabled="disabled" value="@Model.JoinDate">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span9">
+                                <br />
+                                <button type="submit" name="Save" onclick="return check()" class="btn btn-primary btn-large book-now pull-right groupbtn">LƯU</button>
+                                <button type="button" onclick="window.location = '/Account/Details/@Model.Id'" class="btn btn-primary btn-large book-now pull-right groupbtn">QUAY VỀ</button>                                
+                                <br />
+                                <br />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    </form>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   @* <table>
         <tr>
             <td>Tên tài khoản:
             </td>
@@ -81,7 +199,7 @@
 
         <tr>
             <td>Mật Khẩu:
-                @*<label for="Password"> Mật khẩu:</label>*@
+                <label for="Password"> Mật khẩu:</label>
             </td>
             <td>
                 <input type="password" id="txtPass" name="Password" placeholder="Nhập mật khẩu" required="required" />
@@ -162,5 +280,4 @@
                 <button type="button" onclick="window.location = '/Account/Details/@Model.Id'">Quay về</button>
             </td>
         </tr>
-    </table>
-</form>
+    </table>*@
