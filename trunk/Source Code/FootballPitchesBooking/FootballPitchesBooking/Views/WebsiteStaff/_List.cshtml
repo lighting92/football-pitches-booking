@@ -35,7 +35,7 @@
                             }
                         </td>
                         <td>
-                            <span style="word-wrap: break-word">@Html.ActionLink(user.FullName, "EditUser", "WebsiteStaff", new {id = @user.Id}, null)</span>
+                            <span style="word-wrap: break-word"><a href="/WebsiteStaff/EditUser?Id=@user.Id">@user.FullName</a></span>
                         </td>
                         <td>
                             <span style="word-wrap: break-word">@Html.DisplayFor(model => user.UserName)</span>

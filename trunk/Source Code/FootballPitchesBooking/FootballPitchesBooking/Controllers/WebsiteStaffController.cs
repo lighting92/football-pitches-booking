@@ -429,6 +429,7 @@ namespace FootballPitchesBooking.Controllers
             model.Password = form["Password"];
             model.ConfirmPassword = form["ConfirmPassword"];
             model.Email = form["Email"];
+            model.ErrorMessages = new List<string>();
 
             try
             {
@@ -445,6 +446,11 @@ namespace FootballPitchesBooking.Controllers
             {
                 model.ErrorMessages.Add(Resources.Form_EmptyFields);
             }
+            //cho nay sai business, neu ko cap nhat passworrd thi sao, anh phai de y trương hop nay
+            //neu ko cap nhat password thi ko de password vao duoi entity user khi cap nhat
+            //lam nhu vay khi nay a bam cap nhat ma password anh ko nhap thi no se cap nhat trong db password trong
+            //a quen a da lam dieu do trong BO chua, neu lam roi thi e sr
+            //um a lam roi nhung ma phai can than validate du lieu password email du thu, do dai, businesss khi cap nhat email nua, ko dc trung email
 
             if (!model.Password.Equals(model.ConfirmPassword))
             {
