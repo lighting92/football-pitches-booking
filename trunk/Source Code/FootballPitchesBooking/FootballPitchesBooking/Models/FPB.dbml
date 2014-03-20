@@ -34,6 +34,7 @@
       <Association Name="User_Reservation2" Member="Reservations2" ThisKey="Id" OtherKey="RivalId" Type="Reservation" />
       <Association Name="User_Reservation3" Member="Reservations3" ThisKey="Id" OtherKey="RivalFinder" Type="Reservation" />
       <Association Name="User_Stadium" Member="Stadiums" ThisKey="Id" OtherKey="MainOwner" Type="Stadium" />
+      <Association Name="User_StadiumDistance" Member="StadiumDistances" ThisKey="Id" OtherKey="UserId" Type="StadiumDistance" />
       <Association Name="User_StadiumRating" Member="StadiumRatings" ThisKey="Id" OtherKey="UserId" Type="StadiumRating" />
       <Association Name="User_StadiumReview" Member="StadiumReviews" ThisKey="Id" OtherKey="UserId" Type="StadiumReview" />
       <Association Name="User_StadiumReview1" Member="StadiumReviews1" ThisKey="Id" OtherKey="Approver" Type="StadiumReview" />
@@ -113,8 +114,8 @@
       <Column Name="PromotionFrom" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Column Name="PromotionTo" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Column Name="Discount" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Column Name="Creator" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="IsActive" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Creator" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="Promotion_Reservation" Member="Reservations" ThisKey="Id" OtherKey="PromotionId" Type="Reservation" />
       <Association Name="Field_Promotion" Member="Field" ThisKey="FieldId" OtherKey="Id" Type="Field" IsForeignKey="true" />
     </Type>
@@ -169,13 +170,26 @@
       <Column Name="Email" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
       <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="MainOwner" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="OpenTime" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="CloseTime" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Association Name="Stadium_Field" Member="Fields" ThisKey="Id" OtherKey="StadiumId" Type="Field" />
       <Association Name="Stadium_FieldPrice" Member="FieldPrices" ThisKey="Id" OtherKey="StadiumId" Type="FieldPrice" />
+      <Association Name="Stadium_StadiumDistance" Member="StadiumDistances" ThisKey="Id" OtherKey="StadiumId" Type="StadiumDistance" />
       <Association Name="Stadium_StadiumImage" Member="StadiumImages" ThisKey="Id" OtherKey="StadiumId" Type="StadiumImage" />
       <Association Name="Stadium_StadiumRating" Member="StadiumRatings" ThisKey="Id" OtherKey="StadiumId" Type="StadiumRating" />
       <Association Name="Stadium_StadiumReview" Member="StadiumReviews" ThisKey="Id" OtherKey="StadiumId" Type="StadiumReview" />
       <Association Name="Stadium_StadiumStaff" Member="StadiumStaffs" ThisKey="Id" OtherKey="StadiumId" Type="StadiumStaff" />
       <Association Name="User_Stadium" Member="User" ThisKey="MainOwner" OtherKey="Id" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.StadiumDistance" Member="StadiumDistances">
+    <Type Name="StadiumDistance">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StadiumId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Distance" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Association Name="Stadium_StadiumDistance" Member="Stadium" ThisKey="StadiumId" OtherKey="Id" Type="Stadium" IsForeignKey="true" />
+      <Association Name="User_StadiumDistance" Member="User" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.StadiumImage" Member="StadiumImages">
