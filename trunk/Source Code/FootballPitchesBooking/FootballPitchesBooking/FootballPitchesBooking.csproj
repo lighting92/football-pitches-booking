@@ -431,6 +431,7 @@
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\StadiumStaff\EditPromotion.cshtml" />
     <Content Include="Views\WebsiteStaff\EditUser.cshtml" />
+    <Content Include="Views\StadiumStaff\EditFieldPrices.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

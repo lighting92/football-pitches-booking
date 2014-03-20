@@ -130,7 +130,41 @@
                             </div>
                         </div>
                         <br />
-
+                        <div class="row">
+                            <div class="span9">
+                                <legend><span>Giờ hoạt động</span></legend>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    Từ
+                                    <input type="text" class="span2 timepicker" id="opentime" name="OpenTime" value="@Model.OpenTime" />
+                                    <span class="add-on"><i class="icon-time"></i></span>
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    Đến
+                                    <input type="text" class="span2 timepicker" id="closetime" name="CloseTime" value="@Model.CloseTime" />
+                                    <span class="add-on"><i class="icon-time"></i></span>
+                                </label>
+                            </div>
+                        </div>
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+                                $.each($(".timepicker"), function (index, object) {
+                                    $(object).timepicker({
+                                        showMeridian: false,
+                                        defaultTime: object.value,
+                                        minuteStep: 30,
+                                        showInputs: false
+                                    });
+                                    object.onkeydown = function () {
+                                        return false;
+                                    }
+                                });
+                            });
+                        </script>
+                        <br />
                         <div class="row">
                             <div class="span9">
                                 <legend><span>NGƯỜI QUẢN LÝ</span></legend>

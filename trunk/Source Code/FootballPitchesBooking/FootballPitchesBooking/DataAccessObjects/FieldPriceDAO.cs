@@ -29,10 +29,35 @@ namespace FootballPitchesBooking.DataAccessObjects
             }
         }
 
+        public int UpdateFieldPrice(FieldPrice fp)
+        {
+            FPBDataContext db = new FPBDataContext();
+            try
+            {
+                var fieldPrice = db.FieldPrices.Where(f => f.Id == fp.Id).FirstOrDefault();
+                fieldPrice.FieldPriceName = fp.FieldPriceName;
+                fieldPrice.FieldPriceDescription = fp.FieldPriceDescription;
+                db.PriceTables.DeleteAllOnSubmit(fieldPrice.PriceTables);
+                fieldPrice.PriceTables = fp.PriceTables;
+                db.SubmitChanges();
+                return fieldPrice.Id;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
         public List<PriceTable> GetAllPriceTableOfFieldPrice(int fieldPriceId)
         {
             FPBDataContext db = new FPBDataContext();
             return db.PriceTables.Where(p => p.FieldPriceId == fieldPriceId).ToList();
+        }
+
+        public FieldPrice GetFieldPriceById(int fieldPriceId)
+        {
+            FPBDataContext db = new FPBDataContext();
+            return db.FieldPrices.Where(f => f.Id == fieldPriceId).FirstOrDefault();
         }
     }
 }

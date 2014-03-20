@@ -21,5 +21,6 @@ namespace FootballPitchesBooking.Models.StadiumStaffModels
         public List<PriceTableModel> SaturdayPriceTables { get; set; }
         public List<PriceTableModel> SundayPriceTables { get; set; }
         public List<string> ErrorMessages { get; set; }
+        public string SuccessMessage { get; set; }
     }
 }

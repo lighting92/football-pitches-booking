@@ -198,6 +198,50 @@ namespace FootballPitchesBooking.BusinessObjects
             }
         }
 
+        public FieldPrice GetAuthorizeFieldPrice(int fieldPriceId, string userName)
+        {
+            StadiumDAO stadiumDAO = new StadiumDAO();
+            StadiumStaffDAO ssDAO = new StadiumStaffDAO();
+            UserDAO userDAO = new UserDAO();
+            FieldPriceDAO fpDAO = new FieldPriceDAO();
+
+            var fieldPrice = fpDAO.GetFieldPriceById(fieldPriceId);
+
+            if (fieldPrice == null)
+            {
+                return null;
+            }
+
+            var user = userDAO.GetUserByUserName(userName);
+
+            var stadium = stadiumDAO.GetStadiumById(fieldPrice.StadiumId);
+
+            bool isAuthorized = false;
+
+            if (stadium.MainOwner == user.Id)
+            {
+                isAuthorized = true;
+            }
+            else
+            {
+                StadiumStaff ss = ssDAO.GetStadiumStaffByUserAndStadium(user.Id, stadium.Id);
+                if (ss != null && ss.IsOwner)
+                {
+                    isAuthorized = true;
+                }
+            }
+
+            if (isAuthorized)
+            {
+
+                return fieldPrice;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public int CreateStadium(Stadium stadium, string owner, List<HttpPostedFileBase> images, string serverPath)
         {
             StadiumDAO stadiumDAO = new StadiumDAO();
@@ -539,6 +583,12 @@ namespace FootballPitchesBooking.BusinessObjects
             return fpDAO.GetAllFieldPriceOfStadium(stadiumId);
         }
 
+        public List<PriceTable> GetAllPriceTablesOfFieldPrice(int fieldPriceId)
+        {
+            FieldPriceDAO fpDAO = new FieldPriceDAO();
+            return fpDAO.GetAllPriceTableOfFieldPrice(fieldPriceId);
+        }
+
         /// <summary>
         /// Return 0 for database exception, positive integer for id of new field price
         /// Error:
@@ -804,6 +854,263 @@ namespace FootballPitchesBooking.BusinessObjects
             {
                 FieldPriceDAO fpDAO = new FieldPriceDAO();
                 result.Add(fpDAO.CreateFieldPrice(fp));
+            }
+
+            return result;
+        }
+
+        public List<int> UpdateStadiumFieldPrice(FieldPrice fp)
+        {
+
+            var result = new List<int>();
+
+            //default price            
+            var superDefault = fp.PriceTables.Where(p => p.Day == 0 && p.TimeFrom == 0 && p.TimeTo == 0).ToList();
+            if (superDefault.Count() > 1)
+            {
+                result.Add(-1);
+            }
+            if (superDefault == null || superDefault.Count() == 0)
+            {
+                result.Add(-2);
+            }
+            var defaultPB = fp.PriceTables.Where(p => p.Day == 0).ToList();
+            if (defaultPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0))
+            {
+                result.Add(-3);
+            }
+            if (superDefault != null)
+            {
+                foreach (var item in superDefault)
+                {
+                    defaultPB.Remove(item);
+                }
+            }
+            foreach (var item in defaultPB)
+            {
+                if (defaultPB.Any(p => p != item
+                    && ((p.TimeFrom > item.TimeFrom) && (p.TimeFrom < item.TimeTo))
+                    || (p.TimeTo > item.TimeFrom) && (p.TimeTo < item.TimeTo)))
+                {
+                    result.Add(-4);
+                    break;
+                }
+            }
+
+            //monday price
+
+            var mondayDefault = fp.PriceTables.Where(p => p.Day == 1 && p.TimeFrom == 0 && p.TimeTo == 0).ToList();
+            if (mondayDefault.Count() > 1)
+            {
+                result.Add(-5);
+            }
+            var mondayPB = fp.PriceTables.Where(p => p.Day == 1).ToList();
+            if (mondayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0))
+            {
+                result.Add(-6);
+            }
+            if (mondayDefault != null)
+            {
+                foreach (var item in mondayDefault)
+                {
+                    mondayPB.Remove(item);
+                }
+            }
+            foreach (var item in mondayPB)
+            {
+                if (mondayPB.Any(p => p != item
+                    && ((p.TimeFrom > item.TimeFrom) && (p.TimeFrom < item.TimeTo))
+                    || (p.TimeTo > item.TimeFrom) && (p.TimeTo < item.TimeTo)))
+                {
+                    result.Add(-7);
+                    break;
+                }
+            }
+
+            //tuesday price
+
+            var tuesdayDefault = fp.PriceTables.Where(p => p.Day == 2 && p.TimeFrom == 0 && p.TimeTo == 0).ToList();
+            if (tuesdayDefault.Count() > 1)
+            {
+                result.Add(-8);
+            }
+            var tuesdayPB = fp.PriceTables.Where(p => p.Day == 2).ToList();
+            if (tuesdayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0))
+            {
+                result.Add(-9);
+            }
+            if (tuesdayDefault != null)
+            {
+                foreach (var item in tuesdayDefault)
+                {
+                    tuesdayPB.Remove(item);
+                }
+            }
+            foreach (var item in tuesdayPB)
+            {
+                if (tuesdayPB.Any(p => p != item
+                    && ((p.TimeFrom > item.TimeFrom) && (p.TimeFrom < item.TimeTo))
+                    || (p.TimeTo > item.TimeFrom) && (p.TimeTo < item.TimeTo)))
+                {
+                    result.Add(-10);
+                    break;
+                }
+            }
+
+            //wednesday price
+
+            var wednesdayDefault = fp.PriceTables.Where(p => p.Day == 3 && p.TimeFrom == 0 && p.TimeTo == 0).ToList();
+            if (wednesdayDefault.Count() > 1)
+            {
+                result.Add(-11);
+            }
+            var wednesdayPB = fp.PriceTables.Where(p => p.Day == 3).ToList();
+            if (wednesdayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0))
+            {
+                result.Add(-12);
+            }
+            if (wednesdayDefault != null)
+            {
+                foreach (var item in wednesdayDefault)
+                {
+                    wednesdayPB.Remove(item);
+                }
+            }
+            foreach (var item in wednesdayPB)
+            {
+                if (wednesdayPB.Any(p => p != item
+                    && ((p.TimeFrom > item.TimeFrom) && (p.TimeFrom < item.TimeTo))
+                    || (p.TimeTo > item.TimeFrom) && (p.TimeTo < item.TimeTo)))
+                {
+                    result.Add(-13);
+                    break;
+                }
+            }
+
+            //thurday price
+
+            var thurdayDefault = fp.PriceTables.Where(p => p.Day == 4 && p.TimeFrom == 0 && p.TimeTo == 0).ToList();
+            if (thurdayDefault.Count() > 1)
+            {
+                result.Add(-14);
+            }
+            var thurdayPB = fp.PriceTables.Where(p => p.Day == 4).ToList();
+            if (thurdayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0))
+            {
+                result.Add(-15);
+            }
+            if (thurdayDefault != null)
+            {
+                foreach (var item in thurdayDefault)
+                {
+                    thurdayPB.Remove(item);
+                }
+            }
+            foreach (var item in thurdayPB)
+            {
+                if (thurdayPB.Any(p => p != item
+                    && ((p.TimeFrom > item.TimeFrom) && (p.TimeFrom < item.TimeTo))
+                    || (p.TimeTo > item.TimeFrom) && (p.TimeTo < item.TimeTo)))
+                {
+                    result.Add(-16);
+                    break;
+                }
+            }
+
+            //friday price
+
+            var fridayDefault = fp.PriceTables.Where(p => p.Day == 5 && p.TimeFrom == 0 && p.TimeTo == 0).ToList();
+            if (fridayDefault.Count() > 1)
+            {
+                result.Add(-17);
+            }
+            var fridayPB = fp.PriceTables.Where(p => p.Day == 5).ToList();
+            if (fridayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0))
+            {
+                result.Add(-18);
+            }
+            if (fridayDefault != null)
+            {
+                foreach (var item in fridayDefault)
+                {
+                    fridayPB.Remove(item);
+                }
+            }
+            foreach (var item in fridayPB)
+            {
+                if (fridayPB.Any(p => p != item
+                    && ((p.TimeFrom > item.TimeFrom) && (p.TimeFrom < item.TimeTo))
+                    || (p.TimeTo > item.TimeFrom) && (p.TimeTo < item.TimeTo)))
+                {
+                    result.Add(-19);
+                    break;
+                }
+            }
+
+            //saturday price
+
+            var saturadayDefault = fp.PriceTables.Where(p => p.Day == 6 && p.TimeFrom == 0 && p.TimeTo == 0).ToList();
+            if (saturadayDefault.Count() > 1)
+            {
+                result.Add(-20);
+            }
+            var saturdayPB = fp.PriceTables.Where(p => p.Day == 6).ToList();
+            if (saturdayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0))
+            {
+                result.Add(-21);
+            }
+            if (saturadayDefault != null)
+            {
+                foreach (var item in saturadayDefault)
+                {
+                    saturdayPB.Remove(item);
+                }
+            }
+            foreach (var item in saturdayPB)
+            {
+                if (saturdayPB.Any(p => p != item
+                    && ((p.TimeFrom > item.TimeFrom) && (p.TimeFrom < item.TimeTo))
+                    || (p.TimeTo > item.TimeFrom) && (p.TimeTo < item.TimeTo)))
+                {
+                    result.Add(-22);
+                    break;
+                }
+            }
+
+            //sunday price
+
+            var sundayDefault = fp.PriceTables.Where(p => p.Day == 7 && p.TimeFrom == 0 && p.TimeTo == 0).ToList();
+            if (sundayDefault.Count() > 1)
+            {
+                result.Add(-23);
+            }
+            var sundayPB = fp.PriceTables.Where(p => p.Day == 7).ToList();
+            if (sundayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0))
+            {
+                result.Add(-24);
+            }
+            if (sundayDefault != null)
+            {
+                foreach (var item in sundayDefault)
+                {
+                    sundayPB.Remove(item);
+                }
+            }
+            foreach (var item in sundayPB)
+            {
+                if (sundayPB.Any(p => p != item
+                    && ((p.TimeFrom > item.TimeFrom) && (p.TimeFrom < item.TimeTo))
+                    || (p.TimeTo > item.TimeFrom) && (p.TimeTo < item.TimeTo)))
+                {
+                    result.Add(-25);
+                    break;
+                }
+            }
+
+            if (result.Count == 0)
+            {
+                FieldPriceDAO fpDAO = new FieldPriceDAO();
+                result.Add(fpDAO.UpdateFieldPrice(fp));
             }
 
             return result;
