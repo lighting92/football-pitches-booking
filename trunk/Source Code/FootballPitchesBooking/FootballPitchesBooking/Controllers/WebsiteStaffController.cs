@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using FootballPitchesBooking.Models.WebsiteStaffModels;
+using System.Text.RegularExpressions;
 
 namespace FootballPitchesBooking.Controllers
 {
@@ -315,19 +316,105 @@ namespace FootballPitchesBooking.Controllers
             }
         }
 
-        public ActionResult AddUser()
+        public ActionResult EditUser(int? id)
         {
-            return View();
+            User user = new User();
+            try
+            {
+                user = userBO.GetUserById((int)id); //convert từ int? về int rồi mới gọi hàm
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Users", "WebsiteStaff");
+            }
+            if (user == null)
+            {
+                return RedirectToAction("Users", "WebsiteStaff");
+            }
+            UserModel model = new UserModel()
+            {
+                UserName = user.UserName,
+                Password = user.Password,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                FullName = user.FullName,
+                Address = user.Address,
+                RankName = user.MemberRank.RankName,
+                Point = user.Point,
+                IsActive = user.IsActive,
+                RoleId = (int)user.RoleId,
+                Roles = userBO.getAllRole(),
+                ErrorMessages = new List<string>()
+            };
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult AddUser(FormCollection form)
+        public ActionResult EditUser(FormCollection form, int id)
         {
             UserModel model = new UserModel();
 
-            model.ErrorMessages = new List<string>();
+            model.Password = form["Password"];
+            model.ConfirmPassword = form["ConfirmPassword"];
+            model.Email = form["Email"];
+
+            try
+            {
+                model.Point = Int32.Parse(form["Point"]);
+                model.IsActive = Boolean.Parse(form["IsActive"]);
+                model.RoleId = Int32.Parse(form["RoleId"]);
+            }
+            catch (Exception)
+            {
+                model.ErrorMessages.Add(Resources.Form_EmptyFields);
+            }
+
+            if (string.IsNullOrEmpty(model.Email))
+            {
+                model.ErrorMessages.Add(Resources.Form_EmptyFields);
+            }
+
+            if (!model.Password.Equals(model.ConfirmPassword))
+            {
+                model.ErrorMessages.Add(Resources.Password_NotMatchWithConfirm);
+            }
+
+            if (model.ErrorMessages.Count == 0)
+            {
+                User user = new User()
+                {
+                    Id = id,
+                    Password = model.Password,
+                    Email = model.Email,
+                    Point = model.Point,
+                    IsActive = model.IsActive,
+                    RoleId = model.RoleId
+                };
+
+
+                int result = userBO.UpdateUser(user);
+
+                if (result > 0)
+                {
+                    return RedirectToAction("Promotions", "StadiumStaff");
+                }
+                else if (result == 0)
+                {
+                    model.ErrorMessages.Add(Resources.DB_Exception);
+                }
+                else if (result == -1)
+                {
+                    model.ErrorMessages.Add(Resources.Promotion_TimeOver);
+                }
+                else if (result == -2)
+                {
+                    model.ErrorMessages.Add(Resources.Promotion_TimeFromOverTo);
+                }
+            }
+
             return View(model);
         }
+
 
         #endregion USER MANAGEMENT
 
@@ -594,7 +681,7 @@ namespace FootballPitchesBooking.Controllers
 
                 if (results.Count == 2 && results[0] > 0 && results[1] > 0) //nếu update ko có lỗi thì redirect qua cái này
                 {
-                    return RedirectToAction("Index", "Home"); //cai nay sau nay sua lai redirect den trang list rank hay gi day, khi nao add success thi no redirect, ko thi bao loi
+                    return RedirectToAction("MemberRanks", "WebsiteStaff"); //cai nay sau nay sua lai redirect den trang list rank hay gi day, khi nao add success thi no redirect, ko thi bao loi
                 }
                 else //nếu update lỗi thì báo lỗi ra ngoài rồi kiu ng ta update lại
                 {

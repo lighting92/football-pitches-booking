@@ -54,10 +54,23 @@ namespace FootballPitchesBooking.BusinessObjects
             return results;
         }
 
-        public int EditDetails(User newuser)
+        public int UpdateUserProfiles(User user)
         {
             UserDAO userDAO = new UserDAO();
-            return userDAO.UpdateUser(newuser);
+            return userDAO.UpdateUserProfiles(user);
+        }
+
+        public int UpdateUser(User user)
+        {
+            UserDAO userDAO = new UserDAO();
+            MemberRankDAO rankDAO = new MemberRankDAO();
+            if (string.IsNullOrEmpty(user.Password))
+            {
+                user.Password = userDAO.GetUserByUserId(user.Id).Password;
+            }
+            int rankId = rankDAO.GetMemberRankByUserPoint(user.Point).Id;
+            user.RankId = rankId;
+            return userDAO.UpdateUser(user);
         }
 
         /// <summary>
@@ -319,12 +332,12 @@ namespace FootballPitchesBooking.BusinessObjects
             MemberRank existedMemberRankName = rankDAO.GetMemberRankByName(rank.RankName);
             MemberRank existedMemberRankPoint = rankDAO.GetMemberRankByPoint((int)rank.Point);
 
-            if (existedMemberRankName != null) //check xem co trung ten voi rank nao ko
+            if (existedMemberRankName != null && existedMemberRankName.Id != rank.Id ) //check xem co trung ten voi rank nao ko
             {
                 results.Add(-1);
             }
 
-            if (existedMemberRankPoint != null) //check xem co cung point voi rank nao ko
+            if (existedMemberRankPoint != null && existedMemberRankPoint.Id != rank.Id ) //check xem co cung point voi rank nao ko
             {
                 results.Add(-2);
             }

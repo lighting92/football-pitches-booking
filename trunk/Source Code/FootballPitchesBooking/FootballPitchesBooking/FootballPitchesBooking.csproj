@@ -430,7 +430,7 @@
     <Content Include="Views\StadiumStaff\AddPromotion.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\StadiumStaff\EditPromotion.cshtml" />
-    <Content Include="Views\WebsiteStaff\AddUser.cshtml" />
+    <Content Include="Views\WebsiteStaff\EditUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
