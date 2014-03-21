@@ -134,9 +134,15 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="BusinessObjects\FPBRoleProvider.cs" />
+    <Compile Include="BusinessObjects\MapBO.cs" />
+    <Compile Include="BusinessObjects\RecommendationBO.cs" />
     <Compile Include="BusinessObjects\ReservationBO.cs" />
     <Compile Include="BusinessObjects\StadiumBO.cs" />
     <Compile Include="BusinessObjects\UserBO.cs" />
+    <Compile Include="Models\DistanceModels\Coordinate.cs" />
+    <Compile Include="Models\DistanceModels\DistanceMatrixResponse.cs" />
+    <Compile Include="Models\RecommendationModels\PriorityModel.cs" />
+    <Compile Include="Models\RecommendationModels\RecommendStadium.cs" />
     <Compile Include="Models\StadiumStaffModels\ReservationModel.cs" />
     <Compile Include="Models\WebsiteStaffModels\UserModel.cs" />
     <Compile Include="Utilities\Utils.cs" />
