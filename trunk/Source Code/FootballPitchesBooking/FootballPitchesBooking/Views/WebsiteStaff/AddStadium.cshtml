@@ -54,10 +54,49 @@
                                     });
                                 </script>
                             </div>
-                            <div class="span3" style="visibility: hidden;">
-                                <label>&nbsp</label>
-                                <input type="text">
-                            </div>
+                            <div class="span3">         
+                                <label>
+                                    Ngày hết hạn
+                                <input type="text" class="span3" id="expiredDate" name="ExpiredDate" value="@Model.ExpiredDate">
+                                <span id="expiredDatePicker" class="datepicker" style="display:none"></span>
+                                </label>                       
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        var close = false;
+                                        $("#expiredDatePicker").datepicker({
+                                            dateFormat: 'dd/mm/yy',
+                                            showOtherMonths: false,
+                                            numberOfMonths: 1,
+                                            altField: "#expiredDate",
+                                            altFormat: "dd/mm/yy",
+                                            minDate: null,
+                                            defaultDate: "@Model.ExpiredDate",
+                                            onSelect: function (date) {
+                                                close = false;
+                                                $("#expiredDate").focus();
+                                            },
+                                            onChangeMonthYear: function () {
+                                                close = false;
+                                                $("#expiredDate").focus();
+                                            }
+                                        });
+                                        $("#expiredDate").focus(function () {
+                                            document.getElementById("expiredDatePicker").style.display = "block";
+                                        });
+                                        $("#expiredDate").mousedown(function () {
+                                            document.getElementById("expiredDatePicker").style.display = "block";
+                                        });
+                                        $("#expiredDate").focusout(function () {
+                                            close = true;
+                                            setTimeout(function () {
+                                                if (close) {
+                                                    document.getElementById("expiredDatePicker").style.display = "none";
+                                                }
+                                            }, 200);
+                                        });
+                                    });
+                                </script>
+                            </div>               
                             <div class="span3">
                                 <label>
                                     Trạng thái hoạt động

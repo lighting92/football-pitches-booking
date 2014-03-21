@@ -10,13 +10,9 @@
         var flag = 0;
         var password = $("#txtPass").val();
         var confirmpassword = $("#txtConfirmPass").val();
-        var email = $("#txtMail").val();
-        var reg = /^\w+([-+.']\w+)*@@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+        var email = $("#email").val();
+        var reg = /^(\w+[\.])*\w+@@(\w+\.)+[a-zA-Z]+$/;
         var aln = /^[a-z|A-Z|0-9]*$/;
-
-                
-        
-
 
 
         if (!reg.test(email)) {
@@ -96,7 +92,7 @@
                             <div class="span3">
                                 <label>
                                     E-MAIL
-                                    <input name="Email" type="text" placeholder="E-Mail" required="required" value="@Model.Email">
+                                    <input id="email" name="Email" type="text" placeholder="E-Mail" required="required" value="@Model.Email">
                                     <div class="alert alert-danger" id="Email_Error" style="display: none"></div>
                                 </label>
                             </div>

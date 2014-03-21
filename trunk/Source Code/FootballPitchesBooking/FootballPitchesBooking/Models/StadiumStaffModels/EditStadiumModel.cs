@@ -23,5 +23,6 @@ namespace FootballPitchesBooking.Models.StadiumStaffModels
         public bool IsMainOwner { get; set; }
         public string OpenTime { get; set; }
         public string CloseTime { get; set; }
+        public string ExpiredDate { get; set; }
     }
 }

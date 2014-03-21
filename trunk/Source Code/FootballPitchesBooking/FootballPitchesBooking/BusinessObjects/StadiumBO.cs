@@ -394,7 +394,7 @@ namespace FootballPitchesBooking.BusinessObjects
             }
 
             var oldStadium = stadiumDAO.GetStadiumById(stadium.Id);
-
+            stadium.ExpiredDate = oldStadium.ExpiredDate;
             int result = stadiumDAO.UpdateStadium(stadium, false);
 
             if (result > 0)

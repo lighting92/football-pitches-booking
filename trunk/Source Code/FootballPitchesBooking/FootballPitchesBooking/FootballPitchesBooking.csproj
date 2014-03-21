@@ -362,6 +362,7 @@
     <Content Include="Scripts\slider\default.css" />
     <Content Include="Scripts\slider\loading.gif" />
     <Content Include="Scripts\socialcount.min.js" />
+    <Content Include="Scripts\websitestaff.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_WebsiteStaffLayout.cshtml";
 }
 
-<h1><span>QUẢN LÝ</span> YÊU CẦU THAM GIA HỆ THỐNG</h1>
+<h1><span>QUẢN LÝ</span> SÂN BÓNG</h1>
 <h4><a href="/WebsiteStaff/AddStadium">THÊM SÂN MỚI</a></h4>
 
 @if (TempData["DeleteError"] != null)
@@ -21,6 +21,7 @@
                 <th>Tên Sân Bóng</th>
                 <th>Địa Chỉ</th>
                 <th>Số Điện Thoại</th>
+                <th>Ngày Hết Hạn</th>
                 <th>Trạng Thái</th>
                 <th></th>
             </tr>
@@ -32,6 +33,7 @@
                     <td>@item.Name</td>
                     <td>@item.Street, @item.Ward, @item.District</td>
                     <td>@item.Phone</td>
+                    <td>@item.ExpiredDate.ToShortDateString()</td>
                     @if (item.IsActive)
                     {
                         <td>Đang Hoạt Động</td>
