@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using PagedList;
 using FootballPitchesBooking.Models.WebsiteStaffModels;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace FootballPitchesBooking.Controllers
 {
@@ -77,8 +78,9 @@ namespace FootballPitchesBooking.Controllers
             bool parseCH = int.TryParse(model.CloseTime.Substring(0, model.CloseTime.LastIndexOf(":")).Trim(), out closeHour);
             bool parseCM = int.TryParse(model.CloseTime.Substring(model.CloseTime.LastIndexOf(":") + 1, model.CloseTime.Length - model.CloseTime.LastIndexOf(":") - 1).Trim(), out closeMinute);
 
+            var ci = new CultureInfo("vi-VN");
             DateTime expiredDate;
-            bool parseED = DateTime.TryParse(model.ExpiredDate, out expiredDate);
+            bool parseED = DateTime.TryParse(model.ExpiredDate, ci, DateTimeStyles.AssumeLocal, out expiredDate);
 
             List<String> images = new List<string>();
             List<HttpPostedFileBase> listFiles = new List<HttpPostedFileBase>();
