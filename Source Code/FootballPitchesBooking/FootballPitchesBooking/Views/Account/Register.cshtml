@@ -16,7 +16,8 @@
         var phone = $("#txtPhone").val();
         var reg = /^(\w+[\.])*\w+@@(\w+\.)+[a-zA-Z]+$/;
         var aln = /^[a-z|A-Z|0-9]*$/;
-        var address = 
+        var address = $("#txtAddress").val();
+        var add = /^[a-zA-Z0-9-\/] ?([a-zA-Z0-9-\/]|[a-zA-Z0-9-\/] )*[a-zA-Z0-9-\/]$/;
 
 
         if (username == "" || username.length < 6 || username.length > 32) {
@@ -62,12 +63,34 @@
                 
         }
 
-
         else {
             $("#FullName_Error").text(" ");
             $("#FullName_Error").css("display", "none");
         }
 
+
+        if (address == "" || address.length < 2 || password.length > 32) {
+            $("#Address_Error").text("Yêu cầu địa chỉ từ 2 đến 32 kí tự");
+            $("#Address_Error").css("display", "block");
+            flag++;           
+        }
+
+        else if (!add.test(address)) {
+            $("#Address_Error").text("Sai định dạng địa chỉ")
+            $("#Address_Error").css("display", "block");
+            flag++;
+        }
+
+        else if (!aln.test(address)) {
+            $("#Address_Error").text("Địa chỉ chỉ phải có chữ và số");
+            $("#Address_Error").css("display", "block");
+            flag++;
+        }
+
+        else {
+            $("#Address_Error").text(" ");
+            $("#Address_Error").css("display", "none");
+        }
 
         if (!reg.test(email)){
             $("#Email_Error").text("Email không đúng");
@@ -153,7 +176,7 @@
             <div class="alert alert-danger" id="FullName_Error" style="display: none"></div>
         </p>
         <p>
-            <label for="Address">Địa chỉ:</label>            
+            <label for="Address">(*) Địa chỉ:</label>            
             Tỉnh Thành:
             <select name="Province">
                 <option>TP.Hồ Chí Minh</option>
@@ -166,7 +189,8 @@
                 <option>Quận 2</option>
                 <option>Quận 3</option>
             </select>
-            <input type="text" name="Street" value="@address" />
+            <input type="text" id="txtAddress" name="Street" placeholder="Nhập vào địa chỉ " required="required" value="@address" />
+            <div class="alert alert-danger" id="Address_Error" style="display: none"></div>
         </p>
         <p>
             <label for="PhoneNumber">(*) Số điện thoại:</label>
