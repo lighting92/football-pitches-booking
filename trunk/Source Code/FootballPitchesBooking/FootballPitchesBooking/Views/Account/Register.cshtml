@@ -1,4 +1,4 @@
-﻿@model FootballPitchesBooking.Models.AccountModels.RegisterModel
+﻿@model FootballPitchesBooking.Models.AccountModels.AccountModel
 @{
     ViewBag.Title = "Register";
 }
@@ -148,7 +148,7 @@
     </div>
 }
 
-<div style="text-align:right; width: 300px;">
+<div style=" width: 400px;">
     <form action="Register" method="post">
         <p>
             <label for="UserName">(*) Tên tài khoản:</label>
@@ -176,19 +176,24 @@
             <div class="alert alert-danger" id="FullName_Error" style="display: none"></div>
         </p>
         <p>
-            <label for="Address">(*) Địa chỉ:</label>            
+            <label for="Address">(*) Địa chỉ:</label>                      
             Tỉnh Thành:
+            <br />
             <select name="Province">
                 <option>TP.Hồ Chí Minh</option>
                 <option>Hà Nội</option>
                 <option>Đà Nẵng</option>
             </select>
+            <br />
             Quận/Huyện:
+            <br />
             <select name="District">
                 <option>Quận 1</option>
                 <option>Quận 2</option>
                 <option>Quận 3</option>
             </select>
+            <br />
+
             <input type="text" id="txtAddress" name="Street" placeholder="Nhập vào địa chỉ " required="required" value="@address" />
             <div class="alert alert-danger" id="Address_Error" style="display: none"></div>
         </p>
@@ -205,7 +210,7 @@
             </script>
             <div class="alert alert-danger" id="Phone_Error" style="display: none"></div>
         </p>
-        <button type="submit" name="Register" onclick="return check()">Đăng ký</button>
-        <button type="button" onclick="window.location = '/Home'">Hủy bỏ</button>
+        <button type="submit" name="Register" onclick="return check()" class="btn btn-primary btn-large book-now pull-right groupbtn" >Đăng ký</button>
+        <button type="button" onclick="window.location = '/Home'" class="btn btn-primary btn-large book-now pull-right groupbtn">Hủy bỏ</button>
     </form>
 </div>

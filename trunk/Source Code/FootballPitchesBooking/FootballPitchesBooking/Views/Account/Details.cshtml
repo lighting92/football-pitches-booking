@@ -1,4 +1,4 @@
-﻿@model FootballPitchesBooking.Models.User
+﻿@model FootballPitchesBooking.Models.AccountModels.AccountModel
 
 @{
     ViewBag.USER = "active";
@@ -18,7 +18,7 @@
                         <h1>CHI TIẾT THÔNG TIN THÀNH VIÊN
                         </h1>
                         <br />
-                        @*@if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
+                        @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
                         {
                             <div class="alert alert-danger">
                                 @foreach (var error in Model.ErrorMessages)
@@ -26,13 +26,21 @@
                                     <p>- @error</p>
                                 }
                             </div>
-                        }*@
+                        }
                         <div class="row">
                             <div class="span3">
                                 <label>
                                     TÊN ĐĂNG NHẬP
                                     <input name="UserName" type="text" disabled="disabled" value="@Model.UserName">
                                 </label>
+                            </div>
+                            <div class="span3" style="visibility: hidden;">
+                                <label>&nbsp</label>
+                                <input type="text">
+                            </div>
+                            <div class="span3" style="visibility: hidden;">
+                                <label>&nbsp</label>
+                                <input type="text">
                             </div>
                             <div class="span3">
                                 <label>
@@ -67,18 +75,24 @@
                             <div class="span3">
                                 <label>
                                     Ngày Tham Gia
-                                    <input name="JoinDate" type="text" placeholder="NGÀY THAM GIA" disabled="disabled" value="@Model.JoinDate">
+                                    <input name="JoinDate" type="text" placeholder="NGÀY THAM GIA" disabled="disabled" value="@Model.JoinDate.ToString("dd/MM/yyyy")">
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    Thứ Hạng
+                                    <input name="RankName" type="text" placeholder="THỨ HẠNG" disabled="disabled" value="@Model.RankName">
                                 </label>
                             </div>
                         </div>
                         <div class="row">
                             <div class="span9">
                                 <br />
+                                <button type="button" onclick="window.location = '/Home'" class="btn btn-primary btn-large book-now pull-right groupbtn">QUAY VỀ</button>
                                 @if (User.Identity.Name.Equals(Model.UserName))
                                  {
                                      <button type="button" onclick="window.location = '/Account/Edit'" class="btn btn-primary btn-large book-now pull-right groupbtn">CHỈNH SỬA</button>
                                  }
-                                <button type="button" onclick="window.location = '/Home'" class="btn btn-primary btn-large book-now pull-right groupbtn">QUAY VỀ</button>
                                 @*<button type="submit" class="btn btn-primary btn-large book-now pull-right groupbtn">CẬP NHẬT</button>*@
                                 <br />
                                 <br />

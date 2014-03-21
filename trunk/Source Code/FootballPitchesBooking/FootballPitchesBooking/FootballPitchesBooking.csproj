@@ -170,7 +170,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels\LoginModel.cs" />
-    <Compile Include="Models\AccountModels\RegisterModel.cs" />
+    <Compile Include="Models\AccountModels\AccountModel.cs" />
     <Compile Include="Models\FPB.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
