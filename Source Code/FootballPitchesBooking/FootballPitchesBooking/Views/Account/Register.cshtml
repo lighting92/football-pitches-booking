@@ -14,9 +14,9 @@
         var fullname = $("#txtFullN").val();
         var email = $("#txtMail").val();
         var phone = $("#txtPhone").val();
-        var reg = /^\w+([-+.']\w+)*@@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+        var reg = /^(\w+[\.])*\w+@@(\w+\.)+[a-zA-Z]+$/;
         var aln = /^[a-z|A-Z|0-9]*$/;
-       
+        var address = 
 
 
         if (username == "" || username.length < 6 || username.length > 32) {
@@ -61,6 +61,8 @@
             flag++;
                 
         }
+
+
         else {
             $("#FullName_Error").text(" ");
             $("#FullName_Error").css("display", "none");

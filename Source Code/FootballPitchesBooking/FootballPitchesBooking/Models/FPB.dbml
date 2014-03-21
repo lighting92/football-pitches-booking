@@ -172,6 +172,7 @@
       <Column Name="MainOwner" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="OpenTime" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Column Name="CloseTime" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="ExpiredDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Association Name="Stadium_Field" Member="Fields" ThisKey="Id" OtherKey="StadiumId" Type="Field" />
       <Association Name="Stadium_FieldPrice" Member="FieldPrices" ThisKey="Id" OtherKey="StadiumId" Type="FieldPrice" />
       <Association Name="Stadium_StadiumDistance" Member="StadiumDistances" ThisKey="Id" OtherKey="StadiumId" Type="StadiumDistance" />

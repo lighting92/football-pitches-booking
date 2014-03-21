@@ -111,7 +111,7 @@ namespace FootballPitchesBooking.Controllers
         {
             RegisterModel reg = new RegisterModel();
             Regex alphanumeric = new Regex(@"^[a-z|A-Z|0-9]*$");
-            Regex emailFormat = new Regex(@"^\w+([-+.']\w+)*@@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
+            Regex emailFormat = new Regex(@"^(\w+[\.])*\w+@@(\w+\.)+[a-zA-Z]+$");
             reg.UserName = form["UserName"];
             reg.Password = form["Password"];
             reg.ConfirmPassword = form["ConfirmPassword"];
@@ -159,7 +159,7 @@ namespace FootballPitchesBooking.Controllers
                 reg.ErrorMessages.Add(Resources.Reg_UserNamealphanumeric);
             }
 
-            if (!emailFormat.IsMatch(reg.Email))
+            if (emailFormat.IsMatch(reg.Email))
             {
                 reg.ErrorMessages.Add(Resources.Reg_EmailWrongFormat);
             }

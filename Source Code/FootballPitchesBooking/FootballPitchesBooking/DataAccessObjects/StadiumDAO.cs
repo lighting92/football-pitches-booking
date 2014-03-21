@@ -74,6 +74,7 @@ namespace FootballPitchesBooking.DataAccessObjects
             currentStadium.IsActive = stadium.IsActive;
             currentStadium.OpenTime = stadium.OpenTime;
             currentStadium.CloseTime = stadium.CloseTime;
+            currentStadium.ExpiredDate = stadium.ExpiredDate;
             if (updateOwner)
             {
                 currentStadium.MainOwner = stadium.MainOwner;

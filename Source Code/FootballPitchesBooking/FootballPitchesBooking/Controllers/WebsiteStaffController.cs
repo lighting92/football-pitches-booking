@@ -62,6 +62,7 @@ namespace FootballPitchesBooking.Controllers
             model.ErrorMessage = new List<string>();
             model.OpenTime = form["OpenTime"];
             model.CloseTime = form["CloseTime"];
+            model.ExpiredDate = form["ExpiredDate"];
 
             double openTime = 0;
             double closeTime = 0;
@@ -75,6 +76,9 @@ namespace FootballPitchesBooking.Controllers
             bool parseOM = int.TryParse(model.OpenTime.Substring(model.OpenTime.LastIndexOf(":") + 1, model.OpenTime.Length - model.OpenTime.LastIndexOf(":") - 1).Trim(), out openMinute);
             bool parseCH = int.TryParse(model.CloseTime.Substring(0, model.CloseTime.LastIndexOf(":")).Trim(), out closeHour);
             bool parseCM = int.TryParse(model.CloseTime.Substring(model.CloseTime.LastIndexOf(":") + 1, model.CloseTime.Length - model.CloseTime.LastIndexOf(":") - 1).Trim(), out closeMinute);
+
+            DateTime expiredDate;
+            bool parseED = DateTime.TryParse(model.ExpiredDate, out expiredDate);
 
             List<String> images = new List<string>();
             List<HttpPostedFileBase> listFiles = new List<HttpPostedFileBase>();
@@ -100,7 +104,7 @@ namespace FootballPitchesBooking.Controllers
                 model.ErrorMessage.Add(Resources.Form_EmptyFields);
             }
 
-            if (parseOH && parseOM && parseCH && parseCM)
+            if (parseOH && parseOM && parseCH && parseCM && parseED)
             {
                 openTime = openHour + (openMinute / 60.0);
                 closeTime = closeHour + (closeMinute / 60.0);
@@ -131,7 +135,9 @@ namespace FootballPitchesBooking.Controllers
                     District = model.District,
                     IsActive = model.IsActive,
                     OpenTime = openTime,
-                    CloseTime = closeTime
+                    CloseTime = closeTime,
+                    ExpiredDate = expiredDate
+
                 };
 
                 StadiumBO stadiumBO = new StadiumBO();
@@ -191,7 +197,8 @@ namespace FootballPitchesBooking.Controllers
                 Images = listImages,
                 ImageIds = imageIds,
                 OpenTime = openTime,
-                CloseTime = closeTime
+                CloseTime = closeTime,
+                ExpiredDate = stadium.ExpiredDate.ToShortDateString()
             };
             return View(model);
         }
@@ -214,6 +221,7 @@ namespace FootballPitchesBooking.Controllers
             model.ErrorMessage = new List<string>();
             model.OpenTime = form["OpenTime"];
             model.CloseTime = form["CloseTime"];
+            model.ExpiredDate = form["ExpiredDate"];
 
             double openTime = 0;
             double closeTime = 0;
@@ -228,6 +236,8 @@ namespace FootballPitchesBooking.Controllers
             bool parseCH = int.TryParse(model.CloseTime.Substring(0, model.CloseTime.LastIndexOf(":")).Trim(), out closeHour);
             bool parseCM = int.TryParse(model.CloseTime.Substring(model.CloseTime.LastIndexOf(":") + 1, model.CloseTime.Length - model.CloseTime.LastIndexOf(":") - 1).Trim(), out closeMinute);
 
+            DateTime expiredDate;
+            bool parseED = DateTime.TryParse(model.ExpiredDate, out expiredDate);
 
             List<String> images = new List<string>();
             List<HttpPostedFileBase> listFiles = new List<HttpPostedFileBase>();
@@ -262,7 +272,7 @@ namespace FootballPitchesBooking.Controllers
                 }
             }
 
-            if (parseOH && parseOM && parseCH && parseCM)
+            if (parseOH && parseOM && parseCH && parseCM && parseED)
             {
                 openTime = openHour + (openMinute / 60.0);
                 closeTime = closeHour + (closeMinute / 60.0);
@@ -285,7 +295,8 @@ namespace FootballPitchesBooking.Controllers
                     District = model.District,
                     IsActive = model.IsActive,
                     OpenTime = openTime,
-                    CloseTime = closeTime
+                    CloseTime = closeTime,
+                    ExpiredDate = expiredDate
                 };
 
                 string serverPath = Server.MapPath("~/Content/images/");

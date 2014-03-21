@@ -3855,6 +3855,8 @@ namespace FootballPitchesBooking.Models
 		
 		private double _CloseTime;
 		
+		private System.DateTime _ExpiredDate;
+		
 		private EntitySet<Field> _Fields;
 		
 		private EntitySet<FieldPrice> _FieldPrices;
@@ -3897,6 +3899,8 @@ namespace FootballPitchesBooking.Models
     partial void OnOpenTimeChanged();
     partial void OnCloseTimeChanging(double value);
     partial void OnCloseTimeChanged();
+    partial void OnExpiredDateChanging(System.DateTime value);
+    partial void OnExpiredDateChanged();
     #endregion
 		
 		public Stadium()
@@ -4132,6 +4136,26 @@ namespace FootballPitchesBooking.Models
 					this._CloseTime = value;
 					this.SendPropertyChanged("CloseTime");
 					this.OnCloseTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpiredDate", DbType="Date NOT NULL")]
+		public System.DateTime ExpiredDate
+		{
+			get
+			{
+				return this._ExpiredDate;
+			}
+			set
+			{
+				if ((this._ExpiredDate != value))
+				{
+					this.OnExpiredDateChanging(value);
+					this.SendPropertyChanging();
+					this._ExpiredDate = value;
+					this.SendPropertyChanged("ExpiredDate");
+					this.OnExpiredDateChanged();
 				}
 			}
 		}

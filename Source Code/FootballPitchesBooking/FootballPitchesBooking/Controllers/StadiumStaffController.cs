@@ -71,7 +71,8 @@ namespace FootballPitchesBooking.Controllers
                     ImageIds = imageIds,
                     Staffs = staffs,
                     OpenTime = openTime,
-                    CloseTime = closeTime
+                    CloseTime = closeTime,
+                    ExpiredDate = stadium.ExpiredDate.ToShortDateString()
                 };
 
                 model.IsMainOwner = staffs.Any(s => s.UserName.ToLower().Equals(User.Identity.Name.ToLower()) && s.Role.Equals("Main Owner"));
@@ -107,6 +108,7 @@ namespace FootballPitchesBooking.Controllers
             model.ErrorMessage = new List<string>();
             model.OpenTime = form["OpenTime"];
             model.CloseTime = form["CloseTime"];
+            model.ExpiredDate = form["ExpiredDate"];
 
             double openTime = 0;
             double closeTime = 0;
