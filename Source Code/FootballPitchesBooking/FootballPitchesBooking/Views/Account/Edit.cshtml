@@ -1,4 +1,4 @@
-﻿@model FootballPitchesBooking.Models.User
+﻿@model FootballPitchesBooking.Models.AccountModels.AccountModel
 
 @{
     ViewBag.USER = "active";
@@ -69,21 +69,19 @@
 
 
 
-<form action="Edit" method="post">
-    @Html.HiddenFor(model => Model.Id)
     
     <div class="row Account-view-profiles">
     <div class="span12">
         <div class="row">
             <div class="span9">
-                <form action="EditUser?Id=@Request.QueryString["id"]" method="post" class="form-horizontal" enctype="multipart/form-data">
-                    <fieldset>
+                <form action="Edit" method="post">
+                     <fieldset>
                         <br />
                         <br />
                         <h1>CẬP NHẬT THÔNG TIN CÁ NHÂN
                         </h1>
                         <br />
-                        @*@if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
+                        @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
                         {
                             <div class="alert alert-danger">
                                 @foreach (var error in Model.ErrorMessages)
@@ -91,7 +89,7 @@
                                     <p>- @error</p>
                                 }
                             </div>
-                        }*@
+                        }
                         <div class="row">
                             <div class="span3">
                                 <label>
@@ -138,7 +136,7 @@
                             <div class="span3">
                                 <label>
                                     E-MAIL
-                                    <input name="Email" type="text" placeholder="E-Mail" disabled="disabled" value="@Model.Email">
+                                    <input name="Email" type="text" placeholder="E-Mail" value="@Model.Email">
                                 </label>
                             </div>
                             <div class="span3" style="width: 100%;">
@@ -163,8 +161,8 @@
                         <div class="row">
                             <div class="span9">
                                 <br />
-                                <button type="submit" name="Save" onclick="return check()" class="btn btn-primary btn-large book-now pull-right groupbtn">LƯU</button>
-                                <button type="button" onclick="window.location = '/Account/Details/@Model.Id'" class="btn btn-primary btn-large book-now pull-right groupbtn">QUAY VỀ</button>                                
+                                <button type="button" onclick="window.location = '/Account/Details/@Model.Id'" class="btn btn-primary btn-large book-now pull-right groupbtn">QUAY VỀ</button> 
+                                <button type="submit" name="Save" onclick="return check()" class="btn btn-primary btn-large book-now pull-right groupbtn">LƯU</button>                                                               
                                 <br />
                                 <br />
                             </div>

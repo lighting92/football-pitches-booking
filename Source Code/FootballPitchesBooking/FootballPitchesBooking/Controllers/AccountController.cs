@@ -109,7 +109,7 @@ namespace FootballPitchesBooking.Controllers
         [HttpPost]
         public ActionResult Register(FormCollection form)
         {
-            RegisterModel reg = new RegisterModel();
+            AccountModel reg = new AccountModel();
             Regex alphanumeric = new Regex(@"^[a-z|A-Z|0-9]*$");
             Regex emailFormat = new Regex(@"^(\w+[\.])*\w+@@(\w+\.)+[a-zA-Z]+$");
             reg.UserName = form["UserName"];
@@ -159,7 +159,7 @@ namespace FootballPitchesBooking.Controllers
                 reg.ErrorMessages.Add(Resources.Reg_UserNamealphanumeric);
             }
 
-            if (emailFormat.IsMatch(reg.Email))
+            if (!emailFormat.IsMatch(reg.Email))
             {
                 reg.ErrorMessages.Add(Resources.Reg_EmailWrongFormat);
             }
@@ -246,68 +246,139 @@ namespace FootballPitchesBooking.Controllers
             return Json(userNames);
         }
 
-        public ActionResult Details(int? id)
+        public ActionResult Details()
         {
-            if (id == null)
+            UserBO userBO = new UserBO();
+            User user = new User();
+            try
             {
-                try
-                {
-                    UserBO userBO = new UserBO();
-                    var user = userBO.GetUserByUserName(User.Identity.Name);
-                    if (user == null)
-                    {
-                        return HttpNotFound();
-                    }
-                    else return View(user);
-                }
-                catch (Exception)
-                {
-                    return RedirectToAction("Index");
-                }
+                user = userBO.GetUserByUserName(User.Identity.Name); 
             }
-            else
+            catch (Exception)
             {
-                try
-                {
-                    UserBO userBO = new UserBO();
-                    var user = userBO.GetUserById((int)id);
-                    if (user == null)
-                    {
-                        return HttpNotFound();
-                    }
-                    else return View(user);
-                }
-                catch (Exception)
-                {
-                    return RedirectToAction("Index");
-                }
+                return RedirectToAction("Index", "Home");
             }
+            if (user == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            AccountModel model = new AccountModel()
+            {
+                UserName = user.UserName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                FullName = user.FullName,
+                Address = user.Address,
+                RankName = user.MemberRank.RankName,
+                Point = user.Point,
+                RoleName = user.Role.Role1,
+                JoinDate = user.JoinDate,
+                ErrorMessages = new List<string>()
+            };
+            return View(model);
         }
 
         public ActionResult Edit()
         {
             UserBO userBO = new UserBO();
-            var user = userBO.GetUserByUserName(User.Identity.Name);
+            User user = new User();
+            try
+            {
+                user = userBO.GetUserByUserName(User.Identity.Name);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (user == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", "Home");
             }
-            return View(user);
+            AccountModel model = new AccountModel()
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                FullName = user.FullName,
+                Address = user.Address,
+                RankName = user.MemberRank.RankName,
+                Point = user.Point,
+                RoleName = user.Role.Role1,
+                JoinDate = user.JoinDate,
+                ErrorMessages = new List<string>()
+            };
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult Edit(User user)
+        public ActionResult Edit(FormCollection form)
         {
             UserBO userBO = new UserBO();
-            var result = userBO.UpdateUserProfiles(user);
-            if (result == 1)
+            AccountModel model = new AccountModel();
+
+            model.UserName = User.Identity.Name;
+            model.Password = form["Password"];
+            model.ConfirmPassword = form["ConfirmPassword"];
+            model.Email = form["Email"];
+            model.FullName = form["FullName"];
+            model.Address = form["Address"];
+            model.PhoneNumber = form["PhoneNumber"];
+            model.ErrorMessages = new List<string>();
+
+            try
             {
-                return RedirectToAction("Index");
+                
             }
-            else
+            catch (Exception)
             {
-                return View(user);
+                model.ErrorMessages.Add(Resources.Form_EmptyFields);
             }
+
+            if (string.IsNullOrEmpty(model.Email))
+            {
+                model.ErrorMessages.Add(Resources.Form_EmptyFields);
+            }
+
+            if (!model.Password.Equals(model.ConfirmPassword))
+            {
+                model.ErrorMessages.Add(Resources.Password_NotMatchWithConfirm);
+            }
+
+            if (model.ErrorMessages.Count == 0)
+            {
+                User user = new User()
+                {
+                    Id = userBO.GetUserByUserName(model.UserName).Id,
+                    Password = model.Password,
+                    Email = model.Email,
+                    FullName = model.FullName,
+                    Address = model.Address,
+                    PhoneNumber = model.PhoneNumber
+                };
+
+
+                int result = userBO.UpdateUser(user);
+
+                if (result > 0)
+                {
+                    return RedirectToAction("Details", "Account");
+                }
+                else if (result == 0)
+                {
+                    model.ErrorMessages.Add(Resources.DB_Exception);
+                }
+                else if (result == -1)
+                {
+                    model.ErrorMessages.Add(Resources.Promotion_TimeOver);
+                }
+                else if (result == -2)
+                {
+                    model.ErrorMessages.Add(Resources.Promotion_TimeFromOverTo);
+                }
+            }
+
+            return View(model);
         }
 
 
