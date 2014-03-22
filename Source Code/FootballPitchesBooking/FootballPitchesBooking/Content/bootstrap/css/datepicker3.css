@@ -745,8 +745,9 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
 }
 .input-daterange .input-group-addon {
   width: auto;
-  min-width: 16px;
+  min-width: 36px;
   padding: 4px 5px;
+  padding-left: 15px;
   font-weight: normal;
   line-height: 1.428571429;
   text-align: center;
