@@ -13,17 +13,25 @@
         var discount = new Number($("input[name=Discount]").val());
 
         if (promotionfrom == "" || promotionto == "") {
-            $("#UserName_Error").append("Xin vui lòng chọn thời gian khuyến mãi");
-            $("#UserName_Error").css("display", "block");
+            $("#PromotionTime_Error").append("Xin vui lòng chọn thời gian khuyến mãi");
+            $("#PromotionTime_Error").css("display", "block");
             flag++;
             //return false;
         }
+        else {
+            $("#PromotionTime_Error").text(" ");
+            $("#PromotionTime_Error").css("display", "none");
+        }
 
         if (discount < 0 || discount > 100) {
-            $("#Password_Error").append("Yêu cầu giảm giá nằm trong khoảng từ 0 đến 100");
-            $("#Password_Error").css("display", "block");
+            $("#Discount_Error").append("Yêu cầu giảm giá nằm trong khoảng từ 0 đến 100");
+            $("#Discount_Error").css("display", "block");
             flag++;
             //return false;
+        }
+        else {
+            $("#Discount_Error").text(" ");
+            $("#Discount_Error").css("display", "none");
         }
 
         if (flag > 0) {
@@ -48,25 +56,33 @@
         </p>
         <p>
             <label for="Fields">(*) Số sân:</label>
-            <select id="Fields" name="Fields">
-                @foreach(var item in Model.Fields)
-                {
-                    if (item.IsActive)
-                    {
-                        <option value="@item.Id">@item.Number</option>
-                    }
-                }
+            <select id="Fields" name="Fields" data-cur="@Model.FieldId">
+                 @if (Model.Fields != null && Model.Fields.Count() > 0)
+                 {
+                     foreach (var item in Model.Fields)
+                     {
+                         if (item.IsActive)
+                         {
+                            <option value="@item.Id">@item.Number</option>
+                         }
+                     }
+                 }
             </select>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $("#Fields").val($("#Fields").data("cur"));
+                });
+            </script>
         </p>
         <p>
-            <label for="PromotionTime">(*) Thời gian khuyến mãi:</label><br />
+            <label for="PromotionTime">(*) Thời gian khuyến mãi:</label>
             <div class="input-daterange input-group" id="promotionTime">
                 <input type="text" class="input-sm form-control" name="PromotionFrom" required="required" value="@Model.PromotionFrom.ToString("dd/MM/yyyy")" />
-                <span class="input-group-addon">to</span>
+                <span class="input-group-addon">đến</span>
                 <input type="text" class="input-sm form-control" name="PromotionTo" required="required" value="@Model.PromotionTo.ToString("dd/MM/yyyy")" />
             </div>
             <script>
-                $('.promotionTime').datepicker({
+                $('#promotionTime').datepicker({
                     format: "dd/mm/yyyy",
                     language: "vi"
                 });
@@ -75,17 +91,14 @@
         </p>
         <p>
             <label for="Discount">(*) Giảm giá (%):</label>
-            <input name="Discount" type="text" placeholder="Giảm giá (%)" required="required" value="@Model.Discount">
+            <input name="Discount" id="txtDiscount" type="text" placeholder="Giảm giá (%)" required="required" value="@Model.Discount">
             <script type="text/javascript"> 
-                $("input[name=Discount]").keyup(function(){
-                    var val = $(this).val();
-                    if(isNaN(val)){
-                        val = val.replace(/[^0-9\.]/g,'');
-                        if(val.split('.').length>2) 
-                            val = val.replace(/\.+$/,"");
+                $('#txtDiscount').keyup(function (event) {
+                    if (isNaN(String.fromCharCode(event.which))) {
+                        var value = $(this).val();
+                        $(this).val(value.substr(0, value.length - 1));
                     }
-                    $(this).val(val); 
-                });​
+                });
             </script>
             <div class="alert alert-danger" id="Discount_Error" style="display: none"></div>
         </p>
@@ -101,7 +114,7 @@
                 });
             </script>
         </p>
-        <button class="btn btn-primary book-now groupbtn" type="submit" name="EditPromotion" onclick="return check()">Lưu</button>
+        <button class="btn btn-primary book-now groupbtn" type="submit" name="Save" onclick="return check()">Lưu</button>
         <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/Promotions'">Hủy bỏ</button>
     </form>
 </div>

@@ -10,8 +10,11 @@
     <h1>QUẢN LÝ KHUYẾN MÃI</h1>
     <h4>HỆ THỐNG SÂN <a href="/StadiumStaff/Fields?Stadium=@Model.StadiumId">@Model.StadiumName</a> : <i>@Model.StadiumAddress</i></h4>
     
-    <a href="/StadiumStaff/AddPromotion?Stadium=@Model.StadiumId"><button class="btn-default">THÊM KHUYẾN MÃI</button></a>
-
+    <br />
+    <a href="/StadiumStaff/AddPromotion?Stadium=@Model.StadiumId"><button class="btn btn-primary btn-large book-now groupbtn">THÊM KHUYẾN MÃI</button></a>
+    <br />
+    <br />
+    
     if (Model.Promotions != null && Model.Promotions.Count > 0)
     {
     <table class="table table-condensed table-bordered table-hover">
@@ -29,7 +32,7 @@
             {
                 <tr>
                     <td>@item.Field.Number</td>
-                    <td>@item.PromotionFrom.ToShortDateString() - @item.PromotionTo.ToShortDateString()</td>
+                    <td>@item.PromotionFrom.ToString("dd/MM/yyyy") - @item.PromotionTo.ToString("dd/MM/yyyy")</td>
                     <td>@item.Discount</td>
                     @if (item.IsActive)
                     {
@@ -44,6 +47,10 @@
             }
         </tbody>
     </table>
+    }
+    else
+    {
+        <h3>Hiện tại không có khuyến mãi nào cho sân bóng này.</h3>
     }
 }
 else

@@ -192,4 +192,19 @@
   <data name="Webstaff_MainOwnerNotFound" xml:space="preserve">
     <value>Không tìm thấy tài khoản chủ sân đã nhập</value>
   </data>
+  <data name="Resv_DurationTimeOutOfRange" xml:space="preserve">
+    <value>Thời lượng đặt sân phải lớn hơn 1 giờ và không quá 3 giờ</value>
+  </data>
+  <data name="Resv_FieldIsNotAvailable" xml:space="preserve">
+    <value>Sân đã được đặt, vui lòng chọn thời gian đặt sân khác</value>
+  </data>
+  <data name="Resv_HasRivalException" xml:space="preserve">
+    <value>Nếu có đối thủ, vui lòng nhập đầy đủ thông tin đối thủ</value>
+  </data>
+  <data name="Resv_NotInOpenTime" xml:space="preserve">
+    <value>Sân không phục vụ giờ này</value>
+  </data>
+  <data name="Resv_TimeOver" xml:space="preserve">
+    <value>Thời gian đặt sân phải muộn hơn thời gian hiện tại ít nhất 1 giờ</value>
+  </data>
 </root>

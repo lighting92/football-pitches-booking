@@ -1,0 +1,242 @@
+﻿@model FootballPitchesBooking.Models.StadiumStaffModels.ReservationModel
+@{
+    ViewBag.RESERVATION = "active";
+    ViewBag.Title = "Chỉnh sửa thông tin đơn đặt sân";
+    Layout = "~/Views/Shared/_StadiumStaffLayout.cshtml";
+}
+
+<script type="text/ecmascript">
+    function check() {
+        var flag = 0;
+        var promotionfrom = $("input[name=PromotionFrom]").val();
+        var promotionto = $("input[name=PromotionTo]").val();
+        var discount = new Number($("input[name=Discount]").val());
+
+        if (promotionfrom == "" || promotionto == "") {
+            $("#PromotionTime_Error").append("Xin vui lòng chọn thời gian khuyến mãi");
+            $("#PromotionTime_Error").css("display", "block");
+            flag++;
+            //return false;
+        }
+        else {
+            $("#PromotionTime_Error").text(" ");
+            $("#PromotionTime_Error").css("display", "none");
+        }
+
+        if (discount < 0 || discount > 100) {
+            $("#Discount_Error").append("Yêu cầu giảm giá nằm trong khoảng từ 0 đến 100");
+            $("#Discount_Error").css("display", "block");
+            flag++;
+            //return false;
+        }
+        else {
+            $("#Discount_Error").text(" ");
+            $("#Discount_Error").css("display", "none");
+        }
+
+        if (flag > 0) {
+            return false;
+        } else return true;
+    }
+</script>
+
+<div class="row stadiumstaff-create-promotion">
+    <h2>CHỈNH SỬA THÔNG TIN ĐƠN ĐẶT SÂN</h2>
+    <form action="EditReservation?id=@Request.QueryString["id"]" method="post" class="form-horizontal" enctype="multipart/form-data">
+        <p>
+             @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
+             {
+                 <div class="alert alert-danger">
+                     @foreach (var error in Model.ErrorMessages)
+                     {
+                         <p>- @error</p>
+                     }
+                 </div>
+             }
+        </p>
+        <p>
+            <label for="Fields">(*) Số sân:</label>
+            <select id="Fields" name="Fields" data-cur="@Model.FieldId">
+                @if(Model.Fields != null && Model.Fields.Count() > 0)
+                {
+                    foreach(var item in Model.Fields)
+                    {
+                        if (item.IsActive)
+                        {
+                            <option value="@item.Id">@item.Number</option>
+                        }
+                    }
+                }
+            </select>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $("#Fields").val($("#Fields").data("cur"));
+                });
+            </script>
+        </p>
+        <br />
+        <label>THÔNG TIN KHÁCH HÀNG</label>
+        <p>
+            <label for="Customer">Khách hàng:</label>
+            <input name="Customer" type="text" placeholder="Khách hàng" required="required" disabled="disabled" value="@Model.Customer">
+        </p>
+        <p>
+            <label for="FullName">(*) Tên đầy đủ:</label>
+            <input name="FullName" type="text" placeholder="Tên đầy đủ" required="required" value="@Model.FullName">
+            <div class="alert alert-danger" id="FullName_Error" style="display: none"></div>
+        </p>
+        <p>
+            <label for="PhoneNumber">(*) Điện thoại:</label>
+            <input name="PhoneNumber" id="phoneNumber" type="text" placeholder="Điện thoại" required="required" value="@Model.PhoneNumber">
+            <script type="text/javascript">
+                $('#phoneNumber').keyup(function (event) {
+                    if (isNaN(String.fromCharCode(event.which))) {
+                        var value = $(this).val();
+                        $(this).val(value.substr(0, value.length - 1));
+                    }
+                });
+            </script>
+            <div class="alert alert-danger" id="PhoneNumber_Error" style="display: none"></div>
+        </p>
+        <p>
+            <label for="Email">(*) E-mail:</label>
+            <input name="Email" type="text" placeholder="E-mail" required="required" value="@Model.Email">
+            <div class="alert alert-danger" id="Email_Error" style="display: none"></div>
+        </p>
+        <br />
+        <label>THÔNG TIN ĐẶT SÂN</label>
+        <p>
+            <label for="Date">(*) Ngày đặt sân:</label>
+            <input name="Date" id="Date" type="text" placeholder="Ngày đặt sân" required="required" value="@Model.Date.ToString("dd/MM/yyyy")">
+            <script>
+                $('#Date').datepicker({
+                    format: "dd/mm/yyyy",
+                    language: "vi"
+                });
+            </script>
+            <div class="alert alert-danger" id="Date_Error" style="display: none"></div>
+        </p>
+        <p>
+            <label for="StartTime">(*) Giờ đặt sân:</label>
+            <select id="StartHour" name="StartHour" style="width: 60px;" data-cur="@((int)Model.StartTime)">
+                @if(Model.Fields != null && Model.Fields.Count() > 0)
+                {
+                    for(int i = (int)Model.Fields[0].Stadium.OpenTime; i <= (int)Model.Fields[0].Stadium.CloseTime; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                }
+            </select> giờ 
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $("#StartHour").val($("#StartHour").data("cur"));
+                });
+            </script>
+            <select id="StartMinute" name="StartMinute" style="width: 60px;" data-cur="@((int)((Model.StartTime - (int)Model.StartTime) * 60))>
+                <option value="0">00</option>
+                <option value="0">30</option>
+            </select> phút
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $("#StartMinute").val($("#StartMinute").data("cur"));
+                });
+            </script>
+        </p>
+        <p>
+            <label for="Duration">(*) Thời lượng:</label>
+            <select id="DurationHour" name="DurationHour" style="width: 60px;" data-cur="@((int)Model.Duration)">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select> giờ 
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $("#DurationHour").val($("#DurationHour").data("cur"));
+                });
+            </script>
+            <select id="DurationMinute" name="DurationMinute" style="width: 60px;" data-cur="@((int)((Model.Duration - (int)Model.Duration) * 60))>
+                <option value="0">00</option>
+                <option value="30">30</option>
+            </select> phút
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $("#DurationMinute").val($("#DurationMinute").data("cur"));
+                });
+            </script>
+        </p>
+        <br />
+        <p>
+            (*) Đối thủ: 
+            <select id="HasRival" name="HasRival" style="width: 100px;" data-cur="@Model.HasRival">
+                <option value="True">Có</option>
+                <option value="False">Không</option>
+            </select>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $("#StartHour").val($("#StartHour").data("cur"));
+                });
+                $(document).ready(function(){
+                    if ($('#HasRival').val() == 'True') {
+                        $('.RivalInfo').show();
+                    }
+                    else {
+                        $('.RivalInfo').hide();
+                    }
+                    $('#HasRival').change(function () {
+                        if ($(this).val() == 'True') {
+                            $('.RivalInfo').show();
+                        }
+                        else {
+                            $('.RivalInfo').hide();
+                        }
+                    });
+                });
+            </script>
+        </p>
+        <br />
+        <div class="RivalInfo">
+        <label>THÔNG TIN ĐỐI THỦ</label>
+        <p>
+            <label for="RivalUser">Đối thủ:</label>
+            <input name="RivalUser" type="text" placeholder="Đối thủ" value="@Model.RivalUser">
+            <div class="alert alert-danger" id="RivalUser_Error" style="display: none"></div>
+        </p>
+        <p>
+            <label for="RivalName">(*) Tên đầy đủ:</label>
+            <input name="RivalName" type="text" placeholder="Tên đầy đủ" required="required" value="@Model.RivalName">
+            <div class="alert alert-danger" id="RivalName_Error" style="display: none"></div>
+        </p>
+        <p>
+            <label for="RivalPhone">(*) Điện thoại:</label>
+            <input name="RivalPhone" id="rivalPhone" type="text" placeholder="Điện thoại" required="required" value="@Model.RivalPhone">
+            <script type="text/javascript">
+                $('#rivalPhone').keyup(function (event) {
+                    if (isNaN(String.fromCharCode(event.which))) {
+                        var value = $(this).val();
+                        $(this).val(value.substr(0, value.length - 1));
+                    }
+                });
+            </script>
+            <div class="alert alert-danger" id="RivalPhone_Error" style="display: none"></div>
+        </p>
+        <p>
+            <label for="RivalEmail">(*) E-mail:</label>
+            <input name="RivalEmail" type="text" placeholder="E-mail" required="required" value="@Model.RivalEmail">
+            
+            <div class="alert alert-danger" id="RivalEmail_Error" style="display: none"></div>
+        </p>
+        <br />
+        </div>
+        <p>
+            <label for="Status">(*) Trạng thái:</label>
+            <select id="Status" name="Status">
+                <option value="Approved">Approved</option>
+                <option value="Denied">Denied</option>
+                <option value="Pending">Pending</option>
+                <option value="Canceled">Canceled</option>
+            </select>
+        </p>
+        <button class="btn btn-primary book-now groupbtn" type="submit" name="Save" onclick="return check()">Lưu</button>
+        <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/Promotions'">Hủy bỏ</button>
+    </form>
+</div>

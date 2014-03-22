@@ -12,9 +12,19 @@ namespace FootballPitchesBooking.Utilities
             return (int)(60 * min);
         }
 
-        public int MinuteToDouble(int min)
+        public double MinuteToDouble(int min)
         {
-            return (int)(min / 60);
+            return (min / 60);
+        }
+
+        public double MinuteToDouble(string minute)
+        {
+            int min;
+            if (Int32.TryParse(minute, out min))
+            {
+                return (min / 60);
+            }
+            return 0;
         }
     }
 }

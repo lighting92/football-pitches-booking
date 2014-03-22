@@ -9,7 +9,26 @@ namespace FootballPitchesBooking.Models.StadiumStaffModels
     {
         public int FieldId { get; set; }
         public List<Field> Fields { get; set; }
+        public int UserId { get; set; }
+        public string Customer { get; set; }
+        public string FullName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
+        public DateTime Date { get; set; }
+        public double StartTime { get; set; }
+        public double Duration { get; set; }
+        public double Price { get; set; }
         public double Discount { get; set; }
+        public Promotion Promotion { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string Approver { get; set; }
+        public string Status { get; set; }
+        public bool HasRival { get; set; }
+        public string RivalUser { get; set; }
+        public string RivalName { get; set; }
+        public string RivalPhone { get; set; }
+        public string RivalEmail { get; set; }
+        public string RivalFinder { get; set; }
         public List<string> ErrorMessages { get; set; }
         public string SuccessMessage { get; set; }
     }

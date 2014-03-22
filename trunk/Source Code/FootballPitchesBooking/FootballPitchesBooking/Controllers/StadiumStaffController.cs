@@ -2,8 +2,10 @@
 using FootballPitchesBooking.Models;
 using FootballPitchesBooking.Models.StadiumStaffModels;
 using FootballPitchesBooking.Properties;
+using FootballPitchesBooking.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -1842,33 +1844,327 @@ namespace FootballPitchesBooking.Controllers
 
         #region RESERVATION MANAGEMENT
 
-        public ActionResult Reservations()
-        {
-            return View();
-        }
-
-
-        public ActionResult AddReservation(int stadium)
+        public ActionResult Reservations(int? stadium)
         {
             StadiumBO stadiumBO = new StadiumBO();
-
-            ReservationModel model = new ReservationModel();
-
-            model.Fields = stadiumBO.GetFieldsByStadiumId(stadium);
-
-            if (model.Fields == null)
+            List<Stadium> stadiums = stadiumBO.GetStadiumsByStaff(User.Identity.Name);
+            Stadium std = new Stadium();
+            ReservationsModel model = new ReservationsModel();
+            try
             {
-                return RedirectToAction("Promotions", "StadiumStaff");
+                int stadiumId = Convert.ToInt32(stadium);
+                if (stadiums.Count > 0)
+                {
+                    std = stadiums[0];
+                    foreach (var item in stadiums)
+                    {
+                        if (item.Id == stadiumId)
+                        {
+                            std = item;
+                        }
+                    }
+
+                    ReservationBO resvBO = new ReservationBO();
+
+                    model.HavePermission = true;
+                    model.StadiumId = std.Id;
+                    model.StadiumName = std.Name;
+                    model.StadiumAddress = std.Street + ", " + std.Ward + ", " + std.District;
+                    model.Reservations = resvBO.GetReservationsOfStadium(std.Id);
+                }
+                else
+                {
+                    model.HavePermission = false;
+                    model.ErrorMessage = Resources.StadiumStaff_HaveNoPermissionTotAccessStadium;
+                }
+            }
+            catch (Exception)
+            {
+                model.HavePermission = false;
+                model.ErrorMessage = Resources.StadiumStaff_HaveNoPermissionTotAccessStadium;
             }
 
             return View(model);
         }
 
 
-        public ActionResult AddReservation(FormCollection form, int stadium)
+        public ActionResult AddReservation(int? stadium)
         {
+            StadiumBO stadiumBO = new StadiumBO();
+            try
+            {
+                ReservationModel model = new ReservationModel();
 
-            return View();
+                model.Fields = stadiumBO.GetFieldsByStadiumId((int)stadium);
+
+                if (model.Fields != null)
+                {
+                    return View(model);
+                }
+                else
+                {
+                    return RedirectToAction("Reservations", "StadiumStaff");
+                }
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Reservations", "StadiumStaff");
+            }
+
+        }
+
+
+        [HttpPost]
+        public ActionResult AddReservation(FormCollection form)
+        {
+            ReservationModel model = new ReservationModel();
+
+            model.ErrorMessages = new List<string>();
+            try
+            {
+                model.FieldId = Int32.Parse(form["Fields"]);
+                model.Customer = form["Customer"];
+                model.FullName = form["FullName"];
+                model.PhoneNumber = form["PhoneNumber"];
+                model.Email = form["Email"];
+                model.Date = DateTime.Parse(form["Date"], new CultureInfo("vi-VN"));
+                Utils utils = new Utils();
+                model.StartTime = Int32.Parse(form["StartHour"]) + utils.MinuteToDouble(form["StartMinute"]);
+                model.Duration = Int32.Parse(form["DurationHour"]) + utils.MinuteToDouble(form["DurationMinute"]);
+                model.Status = form["Status"];
+                model.HasRival = Boolean.Parse(form["HasRival"]);
+                if (model.HasRival)
+                {
+                    model.RivalUser = form["RivalUser"];
+                    model.RivalName = form["RivalName"];
+                    model.RivalPhone = form["RivalPhone"];
+                    model.RivalEmail = form["RivalEmail"];
+                }
+            }
+            catch (Exception)
+            {
+                model.ErrorMessages.Add(Resources.Form_EmptyFields);
+            }
+
+            if (model.ErrorMessages.Count == 0)
+            {
+                StadiumBO stadiumBO = new StadiumBO();
+                UserBO userBO = new UserBO();
+
+                User customer = userBO.GetUserByUserName(model.Customer);
+                User rival = userBO.GetUserByUserName(model.RivalUser);
+                User staff = userBO.GetUserByUserName(User.Identity.Name);
+                Promotion promotion = stadiumBO.GetPromotionByField(model.FieldId, model.Date);
+
+                Reservation reservation = new Reservation()
+                {
+                    FieldId = model.FieldId,
+                    UserId = customer != null ? customer.Id : new int?(),
+                    FullName = model.FullName,
+                    PhoneNumber = model.PhoneNumber,
+                    Email = model.Email,
+                    Date = model.Date,
+                    StartTime = model.StartTime,
+                    Duration = model.Duration,
+                    Price = stadiumBO.CalculatePrice(stadiumBO.GetFieldById(model.FieldId), model.Date, model.StartTime, model.Duration),
+                    Discount = promotion.Discount,
+                    PromotionId = promotion.Id,
+                    VerifyCode = "aaaaaaaaaaaa",
+                    CreatedDate = DateTime.Now.Date,
+                    Approver = staff.Id,
+                    Status = model.Status,
+                    HasRival = model.HasRival,
+                    RivalId = rival != null ? rival.Id : new int?(),
+                    RivalName = model.RivalName,
+                    RivalPhone = model.RivalPhone,
+                    RivalEmail = model.RivalEmail,
+                    RivalFinder = staff.Id
+                };
+
+                ReservationBO resvBO = new ReservationBO();
+
+                int result = resvBO.CreateReservation(reservation);
+
+                if (result > 0)
+                {
+                    return RedirectToAction("Reservation", "StadiumStaff");
+                }
+                else if (result == 0)
+                {
+                    model.ErrorMessages.Add(Resources.DB_Exception);
+                }
+                else if (result == -1)
+                {
+                    model.ErrorMessages.Add(Resources.Resv_TimeOver);
+                }
+                else if (result == -2)
+                {
+                    model.ErrorMessages.Add(Resources.Resv_DurationTimeOutOfRange);
+                }
+                else if (result == -3)
+                {
+                    model.ErrorMessages.Add(Resources.Resv_NotInOpenTime);
+                }
+                else if (result == -4)
+                {
+                    model.ErrorMessages.Add(Resources.Resv_HasRivalException);
+                }
+                else if (result == -5)
+                {
+                    model.ErrorMessages.Add(Resources.Resv_FieldIsNotAvailable);
+                }
+            }
+
+            return View(model);
+        }
+
+
+        public ActionResult EditReservation(int? id)
+        {
+            ReservationBO resvBO = new ReservationBO();
+
+            try
+            {
+                Reservation resv = resvBO.GetReservationById((int)id);
+
+                if (resv == null)
+                {
+                    return RedirectToAction("Reservations", "StadiumStaff");
+                }
+
+                ReservationModel model = new ReservationModel()
+                {
+                    FieldId = resv.FieldId,
+                    Fields = resv.Field.Stadium.Fields.ToList(),
+                    UserId = resv.UserId == null ? 0 : (int)resv.Discount,
+                    Customer = resv.UserId == null ? "" : resv.User.UserName,
+                    FullName = resv.FullName,
+                    PhoneNumber = resv.PhoneNumber,
+                    Email = resv.Email,
+                    Date = resv.Date,
+                    StartTime = resv.StartTime,
+                    Duration = resv.Duration,
+                    Price = resv.Price,
+                    Discount = resv.Discount == null ? 0 : (int)resv.Discount,
+                    Promotion = resv.Promotion,
+                    CreatedDate = DateTime.Now.Date,
+                    Approver = resv.User1.UserName,
+                    Status = resv.Status,
+                    HasRival = resv.HasRival,
+                    RivalUser = resv.RivalId == null ? "" : resv.User2.UserName,
+                    RivalName = resv.RivalName,
+                    RivalPhone = resv.RivalPhone,
+                    RivalEmail = resv.RivalEmail,
+                    RivalFinder = resv.RivalFinder == null ? "" : resv.User3.UserName,
+                };
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Reservations", "StadiumStaff");
+            }
+
+        }
+
+
+        [HttpPost]
+        public ActionResult EditReservation(FormCollection form, int id)
+        {
+            ReservationModel model = new ReservationModel();
+
+            model.ErrorMessages = new List<string>();
+            try
+            {
+                model.FieldId = Int32.Parse(form["Fields"]);
+                model.FullName = form["FullName"];
+                model.PhoneNumber = form["PhoneNumber"];
+                model.Email = form["Email"];
+                model.Date = DateTime.Parse(form["Date"], new CultureInfo("vi-VN"));
+                Utils utils = new Utils();
+                model.StartTime = Int32.Parse(form["StartHour"]) + utils.MinuteToDouble(form["StartMinute"]);
+                model.Duration = Int32.Parse(form["DurationHour"]) + utils.MinuteToDouble(form["DurationMinute"]);
+                model.Status = form["Status"];
+                model.HasRival = Boolean.Parse(form["HasRival"]);
+                if (model.HasRival)
+                {
+                    model.RivalUser = form["RivalUser"];
+                    model.RivalName = form["RivalName"];
+                    model.RivalPhone = form["RivalPhone"];
+                    model.RivalEmail = form["RivalEmail"];
+                }
+            }
+            catch (Exception)
+            {
+                model.ErrorMessages.Add(Resources.Form_EmptyFields);
+            }
+
+            if (model.ErrorMessages.Count == 0)
+            {
+                StadiumBO stadiumBO = new StadiumBO();
+                UserBO userBO = new UserBO();
+                User rival = userBO.GetUserByUserName(model.RivalUser);
+                User staff = userBO.GetUserByUserName(User.Identity.Name);
+                Promotion promotion = stadiumBO.GetPromotionByField(model.FieldId, model.Date);
+
+                Reservation reservation = new Reservation()
+                {
+                    Id = id,
+                    FieldId = model.FieldId,
+                    FullName = model.FullName,
+                    PhoneNumber = model.PhoneNumber,
+                    Email = model.Email,
+                    Date = model.Date,
+                    StartTime = model.StartTime,
+                    Duration = model.Duration,
+                    Price = stadiumBO.CalculatePrice(stadiumBO.GetFieldById(model.FieldId), model.Date, model.StartTime, model.Duration),
+                    Discount = promotion.Discount,
+                    PromotionId = promotion.Id,
+                    Approver = staff.Id,
+                    Status = model.Status,
+                    HasRival = model.HasRival,
+                    RivalId = rival != null ? rival.Id : new int?(),
+                    RivalName = model.RivalName,
+                    RivalPhone = model.RivalPhone,
+                    RivalEmail = model.RivalEmail,
+                    RivalFinder = staff.Id
+                };
+
+                ReservationBO resvBO = new ReservationBO();
+
+                int result = resvBO.UpdateReservation(reservation);
+
+                if (result > 0)
+                {
+                    return RedirectToAction("Reservation", "StadiumStaff");
+                }
+                else if (result == 0)
+                {
+                    model.ErrorMessages.Add(Resources.DB_Exception);
+                }
+                else if (result == -1)
+                {
+                    model.ErrorMessages.Add(Resources.Resv_TimeOver);
+                }
+                else if (result == -2)
+                {
+                    model.ErrorMessages.Add(Resources.Resv_DurationTimeOutOfRange);
+                }
+                else if (result == -3)
+                {
+                    model.ErrorMessages.Add(Resources.Resv_NotInOpenTime);
+                }
+                else if (result == -4)
+                {
+                    model.ErrorMessages.Add(Resources.Resv_HasRivalException);
+                }
+                else if (result == -5)
+                {
+                    model.ErrorMessages.Add(Resources.Resv_FieldIsNotAvailable);
+                }
+            }
+
+            return View(model);
         }
 
 
@@ -1877,57 +2173,83 @@ namespace FootballPitchesBooking.Controllers
         #region PROMOTION MANAGEMENT
 
 
-        public ActionResult Promotions(int stadium)
+        public ActionResult Promotions(int? stadium)
         {
             StadiumBO stadiumBO = new StadiumBO();
-            Stadium std = stadiumBO.GetAuthorizeStadium(stadium, User.Identity.Name);
+            List<Stadium> stadiums = stadiumBO.GetStadiumsByStaff(User.Identity.Name);
+            Stadium std = new Stadium();
             PromotionsModel model = new PromotionsModel();
+            try
+            {
+                int stadiumId = Convert.ToInt32(stadium);
+                if (stadiums.Count > 0)
+                {
+                    std = stadiums[0];
+                    foreach (var item in stadiums)
+                    {
+                        if (item.Id == stadiumId)
+                        {
+                            std = item;
+                        }
+                    }
 
-            if (std == null)
+                    model.HavePermission = true;
+                    model.StadiumId = std.Id;
+                    model.StadiumName = std.Name;
+                    model.StadiumAddress = std.Street + ", " + std.Ward + ", " + std.District;
+                    model.Promotions = stadiumBO.GetAllPromotionsByStadium(std.Id);
+                }
+                else
+                {
+                    model.HavePermission = false;
+                    model.ErrorMessage = Resources.StadiumStaff_HaveNoPermissionTotAccessStadium;
+                }
+            }
+            catch (Exception)
             {
                 model.HavePermission = false;
                 model.ErrorMessage = Resources.StadiumStaff_HaveNoPermissionTotAccessStadium;
             }
-            else
-            {
-                model.HavePermission = true;
-                model.StadiumId = std.Id;
-                model.StadiumName = std.Name;
-                model.StadiumAddress = std.Street + ", " + std.Ward + ", " + std.District;
-                model.Promotions = stadiumBO.GetAllPromotionsByStadium(stadium);
-            } 
+            
             return View(model);
         }
 
 
-        public ActionResult AddPromotion(int stadium)
+        public ActionResult AddPromotion(int? stadium)
         {
             StadiumBO stadiumBO = new StadiumBO();
-
-            PromotionModel model = new PromotionModel();
-
-            model.Fields = stadiumBO.GetFieldsByStadiumId(stadium);
-
-            if (model.Fields == null)
+            try
+            {
+                PromotionModel model = new PromotionModel();
+                model.Fields = stadiumBO.GetFieldsByStadiumId((int)stadium);
+                if (model.Fields != null)
+                {
+                    return View(model);
+                }
+                else
+                {
+                    return RedirectToAction("Promotions", "StadiumStaff");
+                }
+            }
+            catch (Exception) 
             {
                 return RedirectToAction("Promotions", "StadiumStaff");
             }
-
-            return View(model);
         }
 
 
         [HttpPost]
-        public ActionResult AddPromotion(FormCollection form, int stadium)
+        public ActionResult AddPromotion(FormCollection form)
         {
-
             PromotionModel model = new PromotionModel();
+
+            model.ErrorMessages = new List<string>();
             
             try
             {
-                model.FieldId = Int32.Parse(form["FieldId"]);
-                model.PromotionFrom = DateTime.Parse(form["PromotionFrom"]);
-                model.PromotionTo = DateTime.Parse(form["PromotionTo"]);
+                model.FieldId = Int32.Parse(form["Fields"]);
+                model.PromotionFrom = DateTime.Parse(form["PromotionFrom"], new CultureInfo("vi-VN"));
+                model.PromotionTo = DateTime.Parse(form["PromotionTo"], new CultureInfo("vi-VN"));
                 model.Discount = Double.Parse(form["Discount"]);
             } 
             catch (Exception)
@@ -1976,28 +2298,35 @@ namespace FootballPitchesBooking.Controllers
         }
 
 
-        public ActionResult EditPromotion(int id)
+        public ActionResult EditPromotion(int? id)
         {
             StadiumBO stadiumBO = new StadiumBO();
 
-            Promotion promotion = stadiumBO.GetPromotionById(id);
+            try
+            {
+                Promotion promotion = stadiumBO.GetPromotionById((int)id);
 
-            if (promotion == null)
+                if (promotion == null)
+                {
+                    return RedirectToAction("Promotions", "StadiumStaff");
+                }
+
+                PromotionModel model = new PromotionModel()
+                {
+                    FieldId = promotion.FieldId,
+                    Fields = promotion.Field.Stadium.Fields.ToList(),
+                    PromotionFrom = promotion.PromotionFrom,
+                    PromotionTo = promotion.PromotionTo,
+                    Discount = promotion.Discount,
+                    IsActive = promotion.IsActive
+                };
+
+                return View(model);
+            }
+            catch
             {
                 return RedirectToAction("Promotions", "StadiumStaff");
             }
-
-            PromotionModel model = new PromotionModel()
-            {
-                FieldId = promotion.FieldId,
-                Fields = promotion.Field.Stadium.Fields.ToList(),
-                PromotionFrom = promotion.PromotionFrom,
-                PromotionTo = promotion.PromotionTo,
-                Discount = promotion.Discount,
-                IsActive = promotion.IsActive
-            };
-
-            return View(model);
         }
 
 
@@ -2006,11 +2335,13 @@ namespace FootballPitchesBooking.Controllers
         {
             PromotionModel model = new PromotionModel();
 
+            model.ErrorMessages = new List<string>();
+
             try
             {
-                model.FieldId = Int32.Parse(form["FieldId"]);
-                model.PromotionFrom = DateTime.Parse(form["PromotionFrom"]);
-                model.PromotionTo = DateTime.Parse(form["PromotionTo"]);
+                model.FieldId = Int32.Parse(form["Fields"]);
+                model.PromotionFrom = DateTime.Parse(form["PromotionFrom"], new CultureInfo("vi-VN"));
+                model.PromotionTo = DateTime.Parse(form["PromotionTo"], new CultureInfo("vi-VN"));
                 model.Discount = Double.Parse(form["Discount"]);
                 model.IsActive = Boolean.Parse(form["IsActive"]);
             }

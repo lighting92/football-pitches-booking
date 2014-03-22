@@ -36,6 +36,13 @@ namespace FootballPitchesBooking.DataAccessObjects
         }
 
 
+        public Promotion GetPromotionByField(int fieldId, DateTime date)
+        {
+            FPBDataContext db = new FPBDataContext();
+            return db.Promotions.Where(p => p.FieldId == fieldId && p.PromotionFrom <= date && p.PromotionTo >= date).FirstOrDefault();
+        }
+
+
         public int CreatePromotion(Promotion promotion)
         {
             FPBDataContext db = new FPBDataContext();

@@ -32,11 +32,11 @@ namespace FootballPitchesBooking.BusinessObjects
         }
 
 
-        public Stadium GetStadiumByStaffAndId(string staffName, int stadiumId)
+        public List<Stadium> GetStadiumsByStaff(string staffName)
         {
             StadiumDAO stadiumDAO = new StadiumDAO();
 
-            return stadiumDAO.GetStadiumByStaffAndId(staffName, stadiumId);
+            return stadiumDAO.GetStadiumsByStaff(staffName);
         }
 
 
@@ -1587,12 +1587,23 @@ namespace FootballPitchesBooking.BusinessObjects
             return 0;
         }
 
+        public Promotion GetPromotionByField(int fieldId, DateTime date)
+        {
+            PromotionDAO promotionDAO = new PromotionDAO();
+            return promotionDAO.GetPromotionByField(fieldId, date);
+        }
 
         public List<Field> GetFieldsByStadiumId(int stadiumId)
         {
             FieldDAO fieldDAO = new FieldDAO();
 
             return fieldDAO.GetFieldsByStadiumId(stadiumId);
+        }
+
+        public Field GetFieldById(int fieldId)
+        {
+            FieldDAO fieldDAO = new FieldDAO();
+            return fieldDAO.GetFieldById(fieldId);
         }
     }
 }

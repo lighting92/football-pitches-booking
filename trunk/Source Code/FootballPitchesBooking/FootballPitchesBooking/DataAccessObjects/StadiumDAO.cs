@@ -34,10 +34,10 @@ namespace FootballPitchesBooking.DataAccessObjects
             return result.Distinct().ToList();
         }
 
-        public Stadium GetStadiumByStaffAndId(string staffName, int stadiumId)
+        public List<Stadium> GetStadiumsByStaff(string staffName)
         {
             FPBDataContext db = new FPBDataContext();
-            return db.StadiumStaffs.Where(ss => ss.User.UserName.ToLower().Equals(staffName.ToLower())).Select(ss => ss.Stadium).Where(s => s.Id == stadiumId).FirstOrDefault();
+            return db.StadiumStaffs.Where(ss => ss.User.UserName.ToLower().Equals(staffName.ToLower())).Select(ss => ss.Stadium).ToList();
         }
 
         public List<Stadium> GetAllStadiums()
