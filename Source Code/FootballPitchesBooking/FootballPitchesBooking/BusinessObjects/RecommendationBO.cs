@@ -38,17 +38,10 @@ namespace FootballPitchesBooking.BusinessObjects
                     for (int i = 0; i < mostReservationStadiums.Count(); i++)
                     {
                         PriorityModel temp = new PriorityModel();
-                        temp.Id = mostReservationStadiums[i].StadiumId;
+                        temp.Id = mostReservationStadiums[i].StadiumId; //luu stadiumId vao PriorityId thi stadium nam trong priority do
                         temp.Priority = 10 - ((max - mostReservationStadiums[i].Count) * e);
                         reservationsPriority.Add(temp);
                     }
-
-                    // for (int i = 0; i < result.Count(); i++)
-                    //{
-                    //    if (result[i] <= 2) { 
-
-                    //    } else if () {}
-                    // }
                 }
 
                 // Most promotions
@@ -59,10 +52,10 @@ namespace FootballPitchesBooking.BusinessObjects
                 if (promotionStadiums != null && promotionStadiums.Count() != 0)
                 {
                     var difPro = promotionStadiums.First().Count - promotionStadiums.Last().Count;
-                    var f = 0;
+                    var e = 0;
                     if (difPro != 0)
                     {
-                        f = 10 / difPro;
+                        e = 10 / difPro;
                     }
                     var maxPro = promotionStadiums.First().Count;
 
@@ -71,7 +64,7 @@ namespace FootballPitchesBooking.BusinessObjects
                     {
                         PriorityModel temp = new PriorityModel();
                         temp.Id = promotionStadiums[i].StadiumId;
-                        temp.Priority = 10 - ((maxPro - promotionStadiums[i].Count) * f);
+                        temp.Priority = 10 - ((maxPro - promotionStadiums[i].Count) * e);
                         promotionsPriority.Add(temp);
                     }
                 }
@@ -148,10 +141,68 @@ namespace FootballPitchesBooking.BusinessObjects
                         distancePriority.Add(temp);
                     }
 
+
+
                 }
+                //có 3 list
+                // distancePriority * 0.3
+                //promotionsPriority 0.2
+                //reservationsPriority 0.5
+                //gom lai 1 list di
+
+
+                foreach (var resP in reservationsPriority)
+                {
+                    //trong list reservation thi point = priority * 0.5 het roi
+                    resP.Priority = resP.Priority * 0.5;
+
+                    //kiem tra xem co phan tu nao trung id voi resP ko
+                    foreach (var proP in promotionsPriority)
+                    {
+                        if (resP.Id == proP.Id)
+                        {
+                            resP.Priority = resP.Priority + proP.Priority * 0.2; //neu trung thi + diem vao
+                            promotionsPriority.Remove(proP); //+ xong remove de loai bo Id trung
+                        }
+                    }
+                }
+
+                //con cac id ko trung nhau thi add vao
+                foreach (var proP in promotionsPriority)
+                {
+                    reservationsPriority.Add(proP);
+                }
+
+                //lai kiem tra voi distance
+                foreach (var resP in reservationsPriority)
+                {
+                    //kiem tra xem co phan tu nao trung id voi resP ko
+                    foreach (var disP in distancePriority)
+                    {
+                        if (resP.Id == disP.Id)
+                        {
+                            resP.Priority = resP.Priority + disP.Priority * 0.3;
+                            promotionsPriority.Remove(disP);
+                        }
+                    }
+                }
+
+                //cung loai bo cac phan tu luon roi add them vao, dam bao list reservation moi co day du phan tu cua ca 3 list + lai
+                //ma tot nhat em nen copy ra list khac nen ko muon thay doi 3 list nay, con neu ko dung den 3 list nay nua
+                //xem 3 list do vo dung sau khi gom lai thi gom truc tiep luon cho do~ ton' bo. nho'
+                foreach (var disP in distancePriority)
+                {
+                    reservationsPriority.Add(disP);
+                }
+
+                var newList = reservationsPriority.OrderBy(p => p.Priority).ToList(); //em debug roi xem lai list sap xep dung chua
+            
             }
+            
 
             return null;
         }
+
+
     }
 }
