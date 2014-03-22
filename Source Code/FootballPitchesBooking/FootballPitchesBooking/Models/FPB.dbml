@@ -23,7 +23,6 @@
       <Column Name="Email" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="Point" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="RankId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="IsReceivedReward" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="JoinDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="RoleId" Type="System.Int32" DbType="Int" CanBeNull="true" />
@@ -109,7 +108,7 @@
   </Table>
   <Table Name="dbo.Promotion" Member="Promotions">
     <Type Name="Promotion">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="FieldId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="PromotionFrom" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Column Name="PromotionTo" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
@@ -156,6 +155,7 @@
     <Type Name="Role">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Role" Member="Role1" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DisplayName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Association Name="Role_User" Member="Users" ThisKey="Id" OtherKey="RoleId" Type="User" />
     </Type>
   </Table>

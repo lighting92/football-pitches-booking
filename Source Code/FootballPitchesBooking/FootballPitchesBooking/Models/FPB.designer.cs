@@ -510,8 +510,6 @@ namespace FootballPitchesBooking.Models
 		
 		private int _RankId;
 		
-		private bool _IsReceivedReward;
-		
 		private System.DateTime _JoinDate;
 		
 		private bool _IsActive;
@@ -568,8 +566,6 @@ namespace FootballPitchesBooking.Models
     partial void OnPointChanged();
     partial void OnRankIdChanging(int value);
     partial void OnRankIdChanged();
-    partial void OnIsReceivedRewardChanging(bool value);
-    partial void OnIsReceivedRewardChanged();
     partial void OnJoinDateChanging(System.DateTime value);
     partial void OnJoinDateChanged();
     partial void OnIsActiveChanging(bool value);
@@ -777,26 +773,6 @@ namespace FootballPitchesBooking.Models
 					this._RankId = value;
 					this.SendPropertyChanged("RankId");
 					this.OnRankIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsReceivedReward", DbType="Bit NOT NULL")]
-		public bool IsReceivedReward
-		{
-			get
-			{
-				return this._IsReceivedReward;
-			}
-			set
-			{
-				if ((this._IsReceivedReward != value))
-				{
-					this.OnIsReceivedRewardChanging(value);
-					this.SendPropertyChanging();
-					this._IsReceivedReward = value;
-					this.SendPropertyChanged("IsReceivedReward");
-					this.OnIsReceivedRewardChanged();
 				}
 			}
 		}
@@ -2677,7 +2653,7 @@ namespace FootballPitchesBooking.Models
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int Id
 		{
 			get
@@ -3723,6 +3699,8 @@ namespace FootballPitchesBooking.Models
 		
 		private string _Role1;
 		
+		private string _DisplayName;
+		
 		private EntitySet<User> _Users;
 		
     #region Extensibility Method Definitions
@@ -3733,6 +3711,8 @@ namespace FootballPitchesBooking.Models
     partial void OnIdChanged();
     partial void OnRole1Changing(string value);
     partial void OnRole1Changed();
+    partial void OnDisplayNameChanging(string value);
+    partial void OnDisplayNameChanged();
     #endregion
 		
 		public Role()
@@ -3777,6 +3757,26 @@ namespace FootballPitchesBooking.Models
 					this._Role1 = value;
 					this.SendPropertyChanged("Role1");
 					this.OnRole1Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DisplayName", DbType="NVarChar(50)")]
+		public string DisplayName
+		{
+			get
+			{
+				return this._DisplayName;
+			}
+			set
+			{
+				if ((this._DisplayName != value))
+				{
+					this.OnDisplayNameChanging(value);
+					this.SendPropertyChanging();
+					this._DisplayName = value;
+					this.SendPropertyChanged("DisplayName");
+					this.OnDisplayNameChanged();
 				}
 			}
 		}

@@ -44,7 +44,6 @@ namespace FootballPitchesBooking.BusinessObjects
                 Role r = roleDAO.GetRoleByRoleName("Member");
                 newUser.Point = 0;
                 newUser.RankId = mr.Id;
-                newUser.IsReceivedReward = true;
                 newUser.IsActive = true;
                 newUser.JoinDate = DateTime.Now;
                 newUser.RoleId = r.Id;
