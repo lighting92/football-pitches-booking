@@ -12,7 +12,6 @@
         var flag = 0;
         var fullname = $("#txtFullN").val();
         var password = $("#txtPass").val();
-        var confirmpassword = $("#txtConfirmPass").val();
         var phone = $("#txtPhone").val();
         var email = $("#txtMail").val();
         var reg = /^(\w+[\.])*\w+@@(\w+\.)+[a-zA-Z]+$/;
@@ -39,17 +38,6 @@
         else {
             $("#ErrorPass").text(" ");
             $("#ErrorPass").css("display", "none");
-        }
-
-        if (confirmpassword == "" || confirmpassword != password) {
-            $("#ConfirmErrorPass").text("Xác nhận mật khẩu phải giống với mật khẩu");
-            $("#ConfirmErrorPass").css("display", "block");
-            flag++;
-
-        }
-        else {
-            $("#ConfirmErrorPass").text(" ");
-            $("#ConfirmErrorPass").css("display", "none");
         }
         
         if (phone == "" || phone.length < 10 || phone.length > 15) {
@@ -138,16 +126,13 @@
                             <div class="span3">
                                 <label>
                                     MẬT KHẨU
-                                    <input name="Password" id="txtPass" type="text" placeholder="Nhập mật khẩu" required="required" value="">
+                                    <input name="Password" id="txtPass" type="password" placeholder="Nhập mật khẩu" required="required" value="">
                                     <div class="alert alert-danger" id="ErrorPass" style="display: none"></div>
                                 </label>
                             </div>
-                            <div class="span3">
-                                <label>
-                                    XÁC NHẬN MẬT KHẨU
-                                    <input name="ConfirmPassword" id="txtConfirmPass" type="text" placeholder="Nhập lại mật khẩu" required="required" value="">
-                                    <div class="alert alert-danger" id="ConfirmErrorPass" style="display: none"></div>
-                                </label>
+                            <div class="span3" style="visibility: hidden;">
+                                <label>&nbsp</label>
+                                <input type="text">
                             </div>
                             <div class="span3">
                                 <label>
@@ -174,7 +159,7 @@
                             <div class="span3">
                                 <label>
                                     E-MAIL
-                                    <input name="Email" id="txtEmail" type="text" placeholder="E-Mail" required="required" value="@Model.Email">
+                                    <input name="Email" id="txtMail" type="text" placeholder="E-Mail" required="required" value="@Model.Email">
                                     <div class="alert alert-danger" id="Email_Error" style="display: none"></div>
                                 </label>
                             </div>
@@ -194,7 +179,7 @@
                             <div class="span3">
                                 <label>
                                     Ngày Tham Gia
-                                    <input name="JoinDate" type="text" placeholder="NGÀY THAM GIA" disabled="disabled" value="@Model.JoinDate">
+                                    <input name="JoinDate" type="text" placeholder="NGÀY THAM GIA" disabled="disabled" value="@Model.JoinDate.ToString("dd/MM/yyyy")">
                                 </label>
                             </div>
                         </div>

@@ -65,14 +65,14 @@
                             <div class="span3">
                                 <label>
                                     MẬT KHẨU
-                                    <input name="Password" type="text" placeholder="MẬT KHẨU" required="required" value="">
+                                    <input name="Password" type="text" placeholder="MẬT KHẨU"  value="">
 
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
                                     XÁC NHẬN MẬT KHẨU
-                                    <input name="ConfirmPassword" type="text" placeholder="XÁC NHẬN MẬT KHẨU" required="required" value="">
+                                    <input name="ConfirmPassword" type="text" placeholder="XÁC NHẬN MẬT KHẨU"  value="">
                                 </label>
                             </div>
                             <div class="span3">
@@ -103,7 +103,16 @@
                             <div class="span3">
                                 <label>
                                     POINT
-                                    <input name="Point" type="text" placeholder="ĐIỂM" required="required"   value="@Model.Point">
+                                    <input name="Point"  type="text" placeholder="ĐIỂM" required="required"   value="@Model.Point">
+                                    <script type="text/javascript">
+                                        $('input[name=Point]').keyup(function (event) {
+                                            if (isNaN(String.fromCharCode(event.which))) {
+                                                var value = $(this).val();
+                                                $(this).val(value.substr(0, value.length - 1));
+                                            }
+                                        });
+            </script>
+            <div class="alert alert-danger" id="Phone_Error" style="display: none"></div>
                                 </label>
                             </div>
                             <div class="span3">

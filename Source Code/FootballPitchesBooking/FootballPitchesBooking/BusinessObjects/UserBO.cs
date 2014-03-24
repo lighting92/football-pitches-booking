@@ -56,7 +56,17 @@ namespace FootballPitchesBooking.BusinessObjects
         public int UpdateUserProfiles(User user)
         {
             UserDAO userDAO = new UserDAO();
+            if (user.Password != userDAO.GetUserByUserId(user.Id).Password)
+            {
+                return -1;
+            }
             return userDAO.UpdateUserProfiles(user);
+        }
+
+        public int ChangePassword(User user)
+        {
+            UserDAO userDAO = new UserDAO();
+            return userDAO.ChangePassword(user);
         }
 
         public int UpdateUser(User user)
