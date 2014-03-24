@@ -225,9 +225,9 @@
     <table class="table table-condensed table-bordered table-hover">
         <thead>
             <tr>
-                <th>TÊN SÂN</th>
-                <th>ĐỊA CHỈ</th>
-                <th>BẢNG GIÁ</th>
+                <th>Tên sân</th>
+                <th>Địa chỉ</th>
+                <th>Bảng giá</th>
                 <th></th>
             </tr>
         </thead>
@@ -244,9 +244,45 @@
                             <p>- Sân Số @item.Fields[i].Number : @item.Prices[i]</p>
                         }
                     </td>
-                    <td class="table-cell-action"></td>
+                    <td class="table-cell-action">
+                        <button onclick="book(@item.Stadium.Id)" class="btn btn-primary">Đặt</button>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
+    <script type="text/javascript">
+        function book(id) {
+            var bookForm = document.createElement("form");
+            bookForm.action = "/Stadium/Book";
+            bookForm.method = "get";
+            var stadiumId = document.createElement("input");
+            stadiumId.type = "text";
+            stadiumId.name = "Stadium";
+            stadiumId.value = id;
+            var date = document.createElement("input");
+            date.type = "text";
+            date.name = "Date";
+            date.value = "@Model.Date";
+            var startTime = document.createElement("input");
+            startTime.type = "text";
+            startTime.name = "StartTime";
+            startTime.value = "@Model.StartTime";
+            var duration = document.createElement("input");
+            duration.type = "text";
+            duration.name = "Duration";
+            duration.value = "@Model.Duration";
+            var fieldType = document.createElement("input");
+            fieldType.type = "text";
+            fieldType.name = "FieldType";
+            fieldType.value = "@Model.FieldType";
+            bookForm.appendChild(stadiumId);
+            bookForm.appendChild(date);
+            bookForm.appendChild(startTime);
+            bookForm.appendChild(duration);
+            bookForm.appendChild(fieldType);
+            document.body.appendChild(bookForm);
+            bookForm.submit();
+        }
+    </script>
 }

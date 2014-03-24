@@ -144,6 +144,7 @@
     <Compile Include="Models\DistanceModels\DistanceMatrixResponse.cs" />
     <Compile Include="Models\RecommendationModels\PriorityModel.cs" />
     <Compile Include="Models\RecommendationModels\RecommendStadium.cs" />
+    <Compile Include="Models\StadiumModels\BookModel.cs" />
     <Compile Include="Models\StadiumStaffModels\ReservationsModel.cs" />
     <Compile Include="Models\StadiumStaffModels\ReservationModel.cs" />
     <Compile Include="Models\WebsiteStaffModels\UserModel.cs" />
@@ -443,6 +444,7 @@
     <Content Include="Views\StadiumStaff\EditFieldPrices.cshtml" />
     <Content Include="Views\StadiumStaff\AddReservation.cshtml" />
     <Content Include="Views\StadiumStaff\EditReservation.cshtml" />
+    <Content Include="Views\Stadium\Book.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

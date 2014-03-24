@@ -37,7 +37,8 @@ namespace FootballPitchesBooking.DataAccessObjects
         public List<Stadium> GetStadiumsByStaff(string staffName)
         {
             FPBDataContext db = new FPBDataContext();
-            return db.StadiumStaffs.Where(ss => ss.User.UserName.ToLower().Equals(staffName.ToLower())).Select(ss => ss.Stadium).ToList();
+            return db.Stadiums.Where(s => s.User.UserName.ToLower().Equals(staffName.ToLower())
+                || s.StadiumStaffs.Any(ss => ss.User.UserName.ToLower().Equals(staffName.ToLower()))).ToList();
         }
 
         public List<Stadium> GetAllStadiums()

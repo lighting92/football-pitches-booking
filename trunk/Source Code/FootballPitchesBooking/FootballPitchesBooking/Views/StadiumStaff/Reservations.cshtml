@@ -5,14 +5,25 @@
     ViewBag.Title = "Quản lý đặt sân";
     Layout = "~/Views/Shared/_StadiumStaffLayout.cshtml";
 }
-
-@if (Model.HavePermission)
+<div class="row">
+    <div class="span12">
+        <div class="span3">
+            <table class="table table-condensed table-bordered table-hover">
+                <tbody>
+                    <tr><td><a href="#">Sân 1</a></td></tr>
+                    <tr><td><a href="#">Sân 2</a></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="span8">
+            @if (Model.HavePermission)
 {
     <h1>QUẢN LÝ ĐẶT SÂN</h1>
     <h4>HỆ THỐNG SÂN <a href="/StadiumStaff/Fields?Stadium=@Model.StadiumId">@Model.StadiumName</a> : <i>@Model.StadiumAddress</i></h4>
     
     <br />
-    <a href="/StadiumStaff/AddReservation?Stadium=@Model.StadiumId"><button class="btn btn-primary btn-large book-now groupbtn">THÊM ĐƠN ĐẶT SÂN</button></a>
+    <a href="/StadiumStaff/AddReservation?Stadium=@Model.StadiumId">
+        <button class="btn btn-primary btn-large book-now groupbtn">THÊM ĐƠN ĐẶT SÂN</button></a>
     <br />
     <br />
     
@@ -41,12 +52,12 @@
                     <td>@item.PhoneNumber</td>
                     <td>@item.Field.Number</td>
                     <td>
-                        @((int)item.StartTime):@(((int)((item.StartTime-(int)item.StartTime)*60)).ToString("00")) - @item.Date.ToString("dd/MM/yyyy")
+                        @((int)item.StartTime):@(((int)((item.StartTime - (int)item.StartTime) * 60)).ToString("00")) - @item.Date.ToString("dd/MM/yyyy")
                     </td>
                     <td>
-                        @((int)item.Duration) giờ @((int)(item.Duration-(int)item.Duration)*60) phút
+                        @((int)item.Duration) giờ @((int)(item.Duration - (int)item.Duration) * 60) phút
                     </td>
-                    <td>@(item.Price*(100-item.Discount)/100)</td>
+                    <td>@(item.Price * (100 - item.Discount) / 100)</td>
                     <td>@item.Status</td>
                     <td class="table-cell-action"><a href="/StadiumStaff/EditReservation?Id=@item.Id">Chỉnh Sửa</a></td>
                 </tr>
@@ -56,10 +67,13 @@
     }
     else
     {
-        <h3>Hiện tại không có đơn đặt sân nào cho sân bóng này.</h3>
+    <h3>Hiện tại không có đơn đặt sân nào cho sân bóng này.</h3>
     }
 }
 else
 {
     <h3>@Model.ErrorMessage</h3>
 }
+        </div>
+    </div>
+</div>
