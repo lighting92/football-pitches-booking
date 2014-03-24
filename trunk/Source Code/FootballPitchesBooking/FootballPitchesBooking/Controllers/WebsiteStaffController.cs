@@ -428,11 +428,31 @@ namespace FootballPitchesBooking.Controllers
         public ActionResult EditUser(FormCollection form, int id)
         {
             UserModel model = new UserModel();
-
+            Regex emailFormat = new Regex(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
             model.Password = form["Password"];
             model.ConfirmPassword = form["ConfirmPassword"];
             model.Email = form["Email"];
             model.ErrorMessages = new List<string>();
+
+            if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Password) || string.IsNullOrEmpty(model.ConfirmPassword))
+            {
+                model.ErrorMessages.Add(Resources.Form_EmptyFields);
+            }
+
+            if (!emailFormat.IsMatch(model.Email))
+            {
+                model.ErrorMessages.Add(Resources.Reg_EmailWrongFormat);
+            }
+
+            if (!model.Password.Equals(model.ConfirmPassword))
+            {
+                model.ErrorMessages.Add(Resources.Password_NotMatchWithConfirm);
+            }
+
+            if (model.Password.Length < 6 || model.Password.Length > 32)
+            {
+                model.ErrorMessages.Add(Resources.Reg_PasswordNotInLenght);
+            }
 
             try
             {
@@ -477,19 +497,11 @@ namespace FootballPitchesBooking.Controllers
 
                 if (result > 0)
                 {
-                    return RedirectToAction("Promotions", "StadiumStaff");
+                    return RedirectToAction("Users", "WebsiteStaff");
                 }
                 else if (result == 0)
                 {
                     model.ErrorMessages.Add(Resources.DB_Exception);
-                }
-                else if (result == -1)
-                {
-                    model.ErrorMessages.Add(Resources.Promotion_TimeOver);
-                }
-                else if (result == -2)
-                {
-                    model.ErrorMessages.Add(Resources.Promotion_TimeFromOverTo);
                 }
             }
 

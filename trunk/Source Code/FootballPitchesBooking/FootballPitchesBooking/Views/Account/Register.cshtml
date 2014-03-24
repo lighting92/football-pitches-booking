@@ -46,14 +46,14 @@
         }
 
         if (confirmpassword == "" || confirmpassword != password) {
-            $("#ConfirmErrorPass").text("Xác nhận mật khẩu phải giống với mật khẩu");
-            $("#ConfirmErrorPass").css("display", "block");
+            $("#ErrorConfirmPass").text("Xác nhận mật khẩu phải giống với mật khẩu");
+            $("#ErrorConfirmPass").css("display", "block");
             flag++;
                 
         }
         else {
-            $("#ConfirmErrorPass").text(" ");
-            $("#ConfirmErrorPass").css("display", "none");
+            $("#ErrorConfirmPass").text(" ");
+            $("#ErrorConfirmPass").css("display", "none");
         }
 
         if (fullname == "" || fullname.length > 30){
@@ -163,7 +163,7 @@
         <p>
             <label for="ConfirmPassword">(*) Xác nhận mật khẩu:</label>
             <input type="password" id="txtConfirmPass" name="ConfirmPassword" placeholder="Nhập lại mật khẩu" required="required" />
-            <div class="alert alert-danger" id="ConfirmErrorPass" style="display: none"></div>
+            <div class="alert alert-danger" id="ErrorConfirmPass" style="display: none"></div>
         </p>
         <p>
             <label for="Email">(*) Email:</label>

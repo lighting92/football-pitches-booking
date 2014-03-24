@@ -121,7 +121,7 @@ namespace FootballPitchesBooking.DataAccessObjects
             try
             {
                 var olduser = db.Users.Where(x => x.Id == user.Id).FirstOrDefault();
-                olduser.Password = user.Password;
+                olduser.Email = user.Email;
                 olduser.FullName = user.FullName;
                 olduser.Address = user.Address;
                 olduser.PhoneNumber = user.PhoneNumber;
@@ -132,6 +132,21 @@ namespace FootballPitchesBooking.DataAccessObjects
             {
                 return 0;
             }
+        }
+
+        public int ChangePassword(User user)
+        {
+            try
+            {
+                var olduser = db.Users.Where(u => u.Id == user.Id).FirstOrDefault();
+                olduser.Password = user.Password;
+                db.SubmitChanges();
+                return olduser.Id;
+            }
+            catch (Exception)
+            {
+                return 0;
+            } 
         }
 
 
@@ -146,7 +161,7 @@ namespace FootballPitchesBooking.DataAccessObjects
                 curUser.IsActive = user.IsActive;
                 curUser.RoleId = user.RoleId;
                 db.SubmitChanges();
-                return 1;
+                return user.Id;
             }
             catch (Exception)
             {

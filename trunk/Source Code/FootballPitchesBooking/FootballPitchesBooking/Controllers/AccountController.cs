@@ -316,15 +316,37 @@ namespace FootballPitchesBooking.Controllers
         {
             UserBO userBO = new UserBO();
             AccountModel model = new AccountModel();
-
+            Regex alphanumeric = new Regex(@"^[a-z|A-Z|0-9]*$");
+            Regex emailFormat = new Regex(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
+            
             model.UserName = User.Identity.Name;
-            model.Password = form["Password"];
-            model.ConfirmPassword = form["ConfirmPassword"];
             model.Email = form["Email"];
             model.FullName = form["FullName"];
             model.Address = form["Address"];
             model.PhoneNumber = form["PhoneNumber"];
             model.ErrorMessages = new List<string>();
+
+           
+            if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.FullName) || string.IsNullOrEmpty(model.Address)
+                || string.IsNullOrEmpty(model.PhoneNumber))
+            {
+                model.ErrorMessages.Add(Resources.Form_EmptyFields);
+            }
+
+            if (model.FullName.Length <= 0 || model.FullName.Length > 50)
+            {
+                model.ErrorMessages.Add(Resources.Reg_FullnameNotInLenght);
+            }
+
+            if (model.PhoneNumber.Length < 6 || model.PhoneNumber.Length > 20)
+            {
+                model.ErrorMessages.Add(Resources.Reg_PhoneNumberNotInLenght);
+            }
+
+            if (!emailFormat.IsMatch(model.Email))
+            {
+                model.ErrorMessages.Add(Resources.Reg_EmailWrongFormat);
+            }
 
             try
             {
@@ -340,11 +362,6 @@ namespace FootballPitchesBooking.Controllers
                 model.ErrorMessages.Add(Resources.Form_EmptyFields);
             }
 
-            if (!model.Password.Equals(model.ConfirmPassword))
-            {
-                model.ErrorMessages.Add(Resources.Password_NotMatchWithConfirm);
-            }
-
             if (model.ErrorMessages.Count == 0)
             {
                 User user = new User()
@@ -358,7 +375,7 @@ namespace FootballPitchesBooking.Controllers
                 };
 
 
-                int result = userBO.UpdateUser(user);
+                int result = userBO.UpdateUserProfiles(user);
 
                 if (result > 0)
                 {
@@ -370,17 +387,64 @@ namespace FootballPitchesBooking.Controllers
                 }
                 else if (result == -1)
                 {
-                    model.ErrorMessages.Add(Resources.Promotion_TimeOver);
-                }
-                else if (result == -2)
-                {
-                    model.ErrorMessages.Add(Resources.Promotion_TimeFromOverTo);
+                    model.ErrorMessages.Add(Resources.Login_IncorrectPassword);
                 }
             }
 
             return View(model);
         }
 
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
 
+        [HttpPost]
+        public ActionResult ChangePassword(FormCollection form)
+        {
+            UserBO userBO = new UserBO();
+            AccountModel model = new AccountModel();
+            model.Password = form["Password"];
+            model.ConfirmPassword = form["ConfirmPassword"];
+            model.ErrorMessages = new List<string>();
+            string oldPassword = form["OldPassword"];
+            User curUser = userBO.GetUserByUserName(User.Identity.Name);
+
+            if (!model.Password.Equals(model.ConfirmPassword))
+            {
+                model.ErrorMessages.Add(Resources.Password_NotMatchWithConfirm);
+            }
+
+            if (!oldPassword.Equals(curUser.Password))
+            {
+                model.ErrorMessages.Add(Resources.Login_IncorrectPassword);
+            }
+
+            if (model.ErrorMessages.Count == 0)
+                {
+                User user = new User()
+                    {
+                        Id = curUser.Id,
+                        Password = model.Password
+                    };
+
+                int result = userBO.ChangePassword(user);
+
+                if (result > 0)
+                    {
+                        return RedirectToAction("Details", "Account");
+                    }
+                else if (result == 0)
+                    {
+                        model.ErrorMessages.Add(Resources.DB_Exception);
+                    }
+                else if (result == -1)
+                    {
+                        model.ErrorMessages.Add(Resources.Login_IncorrectPassword);
+                    }
+                }
+                return View(model);
+            
+        }
     }
 }
