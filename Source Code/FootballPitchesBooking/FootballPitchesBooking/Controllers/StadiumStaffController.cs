@@ -1867,9 +1867,8 @@ namespace FootballPitchesBooking.Controllers
                     ReservationBO resvBO = new ReservationBO();
 
                     model.HavePermission = true;
-                    model.StadiumId = std.Id;
-                    model.StadiumName = std.Name;
-                    model.StadiumAddress = std.Street + ", " + std.Ward + ", " + std.District;
+                    model.Stadium = std;
+                    model.Stadiums = stadiums;
                     model.Reservations = resvBO.GetReservationsOfStadium(std.Id);
                 }
                 else
@@ -1929,8 +1928,8 @@ namespace FootballPitchesBooking.Controllers
                 model.Email = form["Email"];
                 model.Date = DateTime.Parse(form["Date"], new CultureInfo("vi-VN"));
                 Utils utils = new Utils();
-                model.StartTime = Int32.Parse(form["StartHour"]) + utils.MinuteToDouble(form["StartMinute"]);
-                model.Duration = Int32.Parse(form["DurationHour"]) + utils.MinuteToDouble(form["DurationMinute"]);
+                model.StartTime = utils.TimeStringToDouble(form["StartTime"]);
+                model.Duration = Double.Parse(form["Duration"]);
                 model.Status = form["Status"];
                 model.HasRival = Boolean.Parse(form["HasRival"]);
                 if (model.HasRival)
@@ -2019,6 +2018,55 @@ namespace FootballPitchesBooking.Controllers
         }
 
 
+        public ActionResult ViewReservation(int? id)
+        {
+            ReservationBO resvBO = new ReservationBO();
+
+            try
+            {
+                Reservation resv = resvBO.GetReservationById((int)id);
+
+                if (resv == null)
+                {
+                    return RedirectToAction("Reservations", "StadiumStaff");
+                }
+
+                ReservationModel model = new ReservationModel()
+                {
+                    FieldId = resv.FieldId,
+                    Fields = resv.Field.Stadium.Fields.ToList(),
+                    UserId = resv.UserId == null ? 0 : (int)resv.UserId,
+                    Customer = resv.UserId == null ? "" : resv.User.UserName,
+                    FullName = resv.FullName,
+                    PhoneNumber = resv.PhoneNumber,
+                    Email = resv.Email,
+                    Date = resv.Date,
+                    StartTime = resv.StartTime,
+                    Duration = resv.Duration,
+                    Price = resv.Price,
+                    Discount = resv.Discount == null ? 0 : (int)resv.Discount,
+                    Promotion = resv.Promotion,
+                    CreatedDate = DateTime.Now.Date,
+                    Approver = resv.User1.UserName,
+                    Status = resv.Status,
+                    HasRival = resv.HasRival,
+                    RivalUser = resv.RivalId == null ? "" : resv.User2.UserName,
+                    RivalName = resv.RivalName,
+                    RivalPhone = resv.RivalPhone,
+                    RivalEmail = resv.RivalEmail,
+                    RivalFinder = resv.RivalFinder == null ? "" : resv.User3.UserName,
+                };
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Reservations", "StadiumStaff");
+            }
+
+        }
+
+
         public ActionResult EditReservation(int? id)
         {
             ReservationBO resvBO = new ReservationBO();
@@ -2036,7 +2084,7 @@ namespace FootballPitchesBooking.Controllers
                 {
                     FieldId = resv.FieldId,
                     Fields = resv.Field.Stadium.Fields.ToList(),
-                    UserId = resv.UserId == null ? 0 : (int)resv.Discount,
+                    UserId = resv.UserId == null ? 0 : (int)resv.UserId,
                     Customer = resv.UserId == null ? "" : resv.User.UserName,
                     FullName = resv.FullName,
                     PhoneNumber = resv.PhoneNumber,
@@ -2082,8 +2130,8 @@ namespace FootballPitchesBooking.Controllers
                 model.Email = form["Email"];
                 model.Date = DateTime.Parse(form["Date"], new CultureInfo("vi-VN"));
                 Utils utils = new Utils();
-                model.StartTime = Int32.Parse(form["StartHour"]) + utils.MinuteToDouble(form["StartMinute"]);
-                model.Duration = Int32.Parse(form["DurationHour"]) + utils.MinuteToDouble(form["DurationMinute"]);
+                model.StartTime = utils.TimeStringToDouble(form["StartTime"]);
+                model.Duration = Double.Parse(form["Duration"]);
                 model.Status = form["Status"];
                 model.HasRival = Boolean.Parse(form["HasRival"]);
                 if (model.HasRival)
@@ -2165,6 +2213,26 @@ namespace FootballPitchesBooking.Controllers
             }
 
             return View(model);
+        }
+
+
+        public ActionResult ApproveReservation(int id)
+        {
+            ReservationBO resvBO = new ReservationBO();
+            UserBO userBO = new UserBO();
+            User staff = userBO.GetUserByUserName(User.Identity.Name);
+            int result = resvBO.UpdateReservationStatus(id, "Approved", staff.Id); 
+            return RedirectToAction("Reservation", "StadiumStaff");
+        }
+
+
+        public ActionResult DenyReservation(int id)
+        {
+            ReservationBO resvBO = new ReservationBO();
+            UserBO userBO = new UserBO();
+            User staff = userBO.GetUserByUserName(User.Identity.Name);
+            int result = resvBO.UpdateReservationStatus(id, "Denied", staff.Id);
+            return RedirectToAction("Reservation", "StadiumStaff");
         }
 
 

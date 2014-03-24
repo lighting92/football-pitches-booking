@@ -446,6 +446,7 @@
     <Content Include="Views\StadiumStaff\EditReservation.cshtml" />
     <Content Include="Views\Stadium\Book.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\StadiumStaff\ViewReservation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

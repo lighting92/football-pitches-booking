@@ -35,7 +35,7 @@ namespace FootballPitchesBooking.BusinessObjects
         {
             Utils utils = new Utils();
 
-            double curTime = DateTime.Now.Hour + utils.MinuteToDouble(DateTime.Now.Minute);
+            double curTime = utils.TimeToDouble(DateTime.Now);
 
             //Validate ngày đặt sân trước ngày hiện tại, hoặc đặt sân ngày hiện tại nhung giờ đặt đã qua hoặc quá sát với thời gian đặt (khoảng cách 1 tiếng)
             if (reservation.Date < DateTime.Now.Date || (reservation.Date == DateTime.Now.Date && reservation.StartTime < (curTime + 1)))
@@ -82,7 +82,7 @@ namespace FootballPitchesBooking.BusinessObjects
         {
             Utils utils = new Utils();
 
-            double curTime = DateTime.Now.Hour + utils.MinuteToDouble(DateTime.Now.Minute);
+            double curTime = utils.TimeToDouble(DateTime.Now);
 
             //Validate ngày đặt sân trước ngày hiện tại, hoặc đặt sân ngày hiện tại nhung giờ đặt đã qua hoặc quá sát với thời gian đặt (khoảng cách 1 tiếng)
             if (reservation.Date < DateTime.Now.Date || (reservation.Date == DateTime.Now.Date && reservation.StartTime < (curTime + 1)))
@@ -135,6 +135,13 @@ namespace FootballPitchesBooking.BusinessObjects
             int result = resvDAO.UpdateReservation(reservation);
 
             return result;
+        }
+
+
+        public int UpdateReservationStatus(int reservationId, string status, int approver)
+        {
+            ReservationDAO resvDAO = new ReservationDAO();
+            return resvDAO.UpdateReservationStatus(reservationId, status, approver);
         }
     }
 }
