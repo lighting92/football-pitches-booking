@@ -7,24 +7,39 @@ namespace FootballPitchesBooking.Utilities
 {
     public class Utils
     {
-        public int DoubleToMinute(double min)
+        public DateTime DoubleToTime(double time)
         {
-            return (int)(60 * min);
+            DateTime dt = new DateTime(0,0,0,0,0,0);
+            dt.AddHours((int)time);
+            dt.AddMinutes((int)((time - (int)time) * 60));
+            return dt;
         }
 
-        public double MinuteToDouble(int min)
+        public double TimeToDouble(DateTime time)
         {
-            return (min / 60);
+            double dt = 0;
+            dt = time.Hour + (time.Minute / 60);
+            return dt;
         }
 
-        public double MinuteToDouble(string minute)
+        public string DoubleToTimeString(double time)
         {
-            int min;
-            if (Int32.TryParse(minute, out min))
+            string dt = "";
+            dt = string.Concat(((int)time).ToString(), ":", ((int)((time - (int)time) * 60)).ToString()); 
+            return dt;
+        }
+
+        public double TimeStringToDouble(string time)
+        {
+            double dt = 0;
+            for(int i = 0; i < time.Length; i++)
             {
-                return (min / 60);
+                if (time[i] == ':')
+                {
+                    dt = Int32.Parse(time.Substring(0, i)) + (Int32.Parse(time.Substring(i + 1, time.Length - i + 1)) / 60); ;
+                }
             }
-            return 0;
+            return dt;
         }
     }
 }
