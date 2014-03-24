@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using FootballPitchesBooking.Properties;
+using System.Globalization;
 
 namespace FootballPitchesBooking.Controllers
 {
@@ -18,6 +19,30 @@ namespace FootballPitchesBooking.Controllers
 
         public ActionResult Index()
         {
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult Book()
+        {
+            string strStadium = Request.QueryString["Stadium"];
+            string strDate = Request.QueryString["Date"];
+            string strTime = Request.QueryString["StartTime"];
+            string strDuration = Request.QueryString["Duration"];
+            string strType = Request.QueryString["FieldType"];
+            int stadium ;
+            DateTime startDate;
+            double starttime;
+            double duration;
+            int fieldtype;
+            var ci = new CultureInfo("vi-VN");
+            if (int.TryParse(strStadium, out stadium) && DateTime.TryParse(strDate, ci, DateTimeStyles.AssumeLocal, out startDate)
+                && double.TryParse(strTime, out starttime) && double.TryParse(strDuration, out duration) && int.TryParse(strType, out fieldtype))
+            {
+            }
+            else
+            {
+            }
             return View();
         }
 
