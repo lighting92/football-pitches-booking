@@ -9,9 +9,8 @@ namespace FootballPitchesBooking.Models.StadiumStaffModels
     {
         public bool HavePermission { get; set; }
         public string ErrorMessage { get; set; }
-        public int StadiumId { get; set; }
-        public string StadiumName { get; set; }
-        public string StadiumAddress { get; set; }
+        public Stadium Stadium { get; set; }
+        public List<Stadium> Stadiums { get; set; }
         public List<Promotion> Promotions { get; set; }   
     }
 }

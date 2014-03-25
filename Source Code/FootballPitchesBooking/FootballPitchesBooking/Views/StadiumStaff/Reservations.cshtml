@@ -57,10 +57,34 @@
                                     <td>
                                         @((int)item.StartTime):@(((int)((item.StartTime - (int)item.StartTime) * 60)).ToString("00")) - @item.Date.ToString("dd/MM/yyyy")
                                     </td>
-                                    <td>
-                                        @((int)item.Duration) giờ @((int)(item.Duration - (int)item.Duration) * 60) phút
-                                    </td>
-                                    <td>@item.Status</td>
+                                    @if (item.Duration - (int)item.Duration != 0)
+                                    {
+                                        <td>
+                                            @((int)item.Duration) giờ @((int)(item.Duration - (int)item.Duration) * 60) phút
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            @((int)item.Duration) giờ
+                                        </td>
+                                    }
+                                    @if(item.Status == "Approved")
+                                    {
+                                        <td>Đã xác nhận</td>
+                                    }
+                                    else if(item.Status == "Denied")
+                                    {
+                                        <td>Bị từ chối</td>
+                                    }
+                                    else if(item.Status == "Pending")
+                                    {
+                                        <td>Đang chờ xét</td>
+                                    }
+                                    else if(item.Status == "Canceled")
+                                    {
+                                        <td>Đã bị huỷ</td>
+                                    } 
                                     <td class="table-cell-action"><a href="/StadiumStaff/ViewReservation?Id=@item.Id">Chi tiết</a></td>
                                 </tr>
                             }

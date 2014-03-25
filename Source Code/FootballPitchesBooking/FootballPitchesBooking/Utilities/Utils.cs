@@ -36,7 +36,7 @@ namespace FootballPitchesBooking.Utilities
             {
                 if (time[i] == ':')
                 {
-                    dt = Int32.Parse(time.Substring(0, i)) + (Int32.Parse(time.Substring(i + 1, time.Length - i + 1)) / 60); ;
+                    dt = Int32.Parse(time.Substring(0, i)) + (Int32.Parse(time.Substring(i + 1, time.Length - (i + 1))) / 60); ;
                 }
             }
             return dt;

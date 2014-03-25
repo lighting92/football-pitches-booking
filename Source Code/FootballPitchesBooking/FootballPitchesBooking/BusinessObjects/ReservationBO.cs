@@ -49,8 +49,13 @@ namespace FootballPitchesBooking.BusinessObjects
                 return -2;
             }
 
+            FieldDAO fieldDAO = new FieldDAO();
+
+            Stadium std = fieldDAO.GetFieldById(reservation.FieldId).Stadium;
             //Đặt thời gian đá sớm hơn hoặc kéo dài quá thời gian phục vụ
-            if (reservation.StartTime < reservation.Field.Stadium.OpenTime || reservation.StartTime + reservation.Duration > reservation.Field.Stadium.CloseTime)
+            if (std.OpenTime < std.CloseTime && (reservation.StartTime < std.OpenTime || reservation.StartTime + reservation.Duration > std.CloseTime) ||
+                std.OpenTime > std.CloseTime && (!(reservation.StartTime + reservation.Duration < std.CloseTime + 24 && reservation.StartTime > std.OpenTime) ||
+                                                 !(reservation.StartTime < std.OpenTime && reservation.StartTime + reservation.Duration < std.CloseTime)))
             {
                 return -3;
             }
@@ -62,12 +67,20 @@ namespace FootballPitchesBooking.BusinessObjects
                 return -4;
             }
 
-            FieldDAO fieldDAO = new FieldDAO();
-
             //Kiểm tra xem field có trống vào giờ đặt sân không
-            if (!fieldDAO.CheckAvailableField(reservation.FieldId, reservation.Date, reservation.StartTime, reservation.Duration))
+            if (!fieldDAO.CheckAvailableField(reservation.FieldId, reservation.Date, reservation.StartTime, reservation.Duration, reservation.Id))
             {
                 return -5;
+            }
+
+            //xoá thông tin đối thủ nếu không có
+            if (!reservation.HasRival)
+            {
+                reservation.RivalId = null;
+                reservation.RivalName = null;
+                reservation.RivalPhone = null;
+                reservation.RivalEmail = null;
+                reservation.RivalFinder = null;
             }
 
             ReservationDAO resvDAO = new ReservationDAO();
@@ -96,8 +109,13 @@ namespace FootballPitchesBooking.BusinessObjects
                 return -2;
             }
 
+            FieldDAO fieldDAO = new FieldDAO();
+
+            Stadium std = fieldDAO.GetFieldById(reservation.FieldId).Stadium;
             //Đặt thời gian đá sớm hơn hoặc kéo dài quá thời gian phục vụ
-            if (reservation.StartTime < reservation.Field.Stadium.OpenTime || reservation.StartTime + reservation.Duration > reservation.Field.Stadium.CloseTime)
+            if (std.OpenTime < std.CloseTime && (reservation.StartTime < std.OpenTime || reservation.StartTime + reservation.Duration > std.CloseTime) ||
+                std.OpenTime > std.CloseTime && (!(reservation.StartTime + reservation.Duration < std.CloseTime + 24 && reservation.StartTime > std.OpenTime) ||
+                                                 !(reservation.StartTime < std.OpenTime && reservation.StartTime + reservation.Duration < std.CloseTime)))
             {
                 return -3;
             }
@@ -109,10 +127,8 @@ namespace FootballPitchesBooking.BusinessObjects
                 return -4;
             }
 
-            FieldDAO fieldDAO = new FieldDAO();
-
             //Kiểm tra xem field có trống vào giờ đặt sân không
-            if (!fieldDAO.CheckAvailableField(reservation.FieldId, reservation.Date, reservation.StartTime, reservation.Duration))
+            if (!fieldDAO.CheckAvailableField(reservation.FieldId, reservation.Date, reservation.StartTime, reservation.Duration, reservation.Id))
             {
                 return -5;
             }
@@ -127,7 +143,12 @@ namespace FootballPitchesBooking.BusinessObjects
 
             if (resv.HasRival == true && reservation.HasRival == true)
             {
-                reservation.RivalFinder = resv.RivalId;
+                reservation.RivalFinder = resv.RivalFinder;
+            }
+
+            if (resv.Status == reservation.Status)
+            {
+                reservation.Approver = resv.Approver;
             }
 
             ReservationDAO resvDAO = new ReservationDAO();

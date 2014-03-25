@@ -74,7 +74,7 @@
                             <label>
                                 GIỜ ĐẶT
                                     <div class="input-append bootstrap-timepicker">
-                                        <input name="StartTime" id="startTime" type="text" class="span2 input-time-collapse" value="@string.Concat(((int)Model.StartTime).ToString(), ":", ((int)((Model.StartTime - (int)Model.StartTime) * 60)).ToString())" disabled="disabled"/>
+                                        <input name="StartTime" id="startTime" type="text" class="span2 input-time-collapse" value="@string.Concat(((int)Model.StartTime).ToString(), ":", ((int)((Model.StartTime - (int)Model.StartTime) * 60)).ToString("00"))" disabled="disabled"/>
                                     </div>
                             </label>
                         </div>
@@ -216,16 +216,18 @@
                     </div>
                     <div class="row">
                         <div class="span9">
-                            @if (!Model.Status.Equals("Approved"))
-                            {
-                                <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/ApproveReservation?id=@Request.QueryString["id"]'">Xác nhận</button>
-                            }
-                            @if (!Model.Status.Equals("Denied"))
-                            {
-                                <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/DenyReservation?id=@Request.QueryString["id"]'">Từ chối</button>
-                            }
-                            <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/EditReservation?id=@Request.QueryString["id"]'">Chỉnh sửa</button>
-                            <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/Reservations'">Quay lại</button>
+                            <p>
+                                @if (!Model.Status.Equals("Approved"))
+                                {
+                                    <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/ApproveReservation?id=@Request.QueryString["id"]'">Xác nhận</button>
+                                }
+                                @if (!Model.Status.Equals("Denied"))
+                                {
+                                    <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/DenyReservation?id=@Request.QueryString["id"]'">Từ chối</button>
+                                }
+                                <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/EditReservation?id=@Request.QueryString["id"]'">Chỉnh sửa</button>
+                                <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/Reservations'">Quay lại</button>
+                            </p>
                         </div>
                     </div>
                 </fieldset>
