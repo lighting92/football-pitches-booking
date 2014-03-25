@@ -26,24 +26,343 @@ namespace FootballPitchesBooking.Controllers
         public ActionResult Book()
         {
             string strStadium = Request.QueryString["Stadium"];
-            string strDate = Request.QueryString["Date"];
+            string strDate = Request.QueryString["StartDate"];
             string strTime = Request.QueryString["StartTime"];
             string strDuration = Request.QueryString["Duration"];
             string strType = Request.QueryString["FieldType"];
-            int stadium ;
-            DateTime startDate;
-            double starttime;
-            double duration;
-            int fieldtype;
-            var ci = new CultureInfo("vi-VN");
-            if (int.TryParse(strStadium, out stadium) && DateTime.TryParse(strDate, ci, DateTimeStyles.AssumeLocal, out startDate)
-                && double.TryParse(strTime, out starttime) && double.TryParse(strDuration, out duration) && int.TryParse(strType, out fieldtype))
+            int stadiumId;
+            BookModel model = new BookModel();
+            if (int.TryParse(strStadium, out stadiumId))
             {
+                StadiumBO stadiumBO = new StadiumBO();
+                model.Stadium = stadiumBO.GetStadiumById(stadiumId);
+                if (model.Stadium != null)
+                {
+                    if (model.Stadium.IsActive)
+                    {
+                        model.UserInfo = new BookingUserInfo();
+                        model.Options = new BookingOptions();
+
+                        UserBO userBO = new UserBO();
+                        var user = userBO.GetUserByUserName(User.Identity.Name);
+
+                        model.UserInfo.FullName = user.FullName;
+                        model.UserInfo.Address = user.Address;
+                        model.UserInfo.Phone = user.PhoneNumber;
+                        model.UserInfo.Email = user.Email;
+
+                        if (!string.IsNullOrEmpty(strDate) && !string.IsNullOrEmpty(strTime) && !string.IsNullOrEmpty(strDuration)
+                            && !string.IsNullOrEmpty(strType))
+                        {
+                            CultureInfo ci = new CultureInfo("vi-VN");
+                            DateTime startDate;
+                            double startTime = 0;
+                            double duration;
+                            int fieldType;
+                            bool parseTime = false;
+                            string[] times = strTime.Split(':');
+                            if (times.Count() == 2)
+                            {
+                                int startHour;
+                                int startMin;
+                                if (int.TryParse(times[0].Trim(), out startHour) && int.TryParse(times[1].Trim(), out startMin))
+                                {
+                                    startTime = startHour + (startMin / 60.0);
+                                    if (startTime >= 0 && startTime < 24)
+                                    {
+                                        parseTime = true;
+                                    }
+                                }
+                            }
+                            if (DateTime.TryParse(strDate, ci, DateTimeStyles.AssumeLocal, out startDate)
+                                && parseTime && double.TryParse(strDuration, out duration)
+                                && int.TryParse(strType, out fieldType))
+                            {
+                                var avails = stadiumBO.GetAvailableFieldsOfStadium(stadiumId, fieldType, startDate, startTime, duration);
+                                model.Fields = avails.Fields;
+                                model.Prices = avails.Prices;
+
+                                model.Options.StartDate = strDate;
+                                model.Options.StartTime = strTime;
+                                model.Options.Duration = strDuration;
+                                model.Options.FieldType = strType;
+                            }
+                            else
+                            {
+                                return Redirect("/Stadium/Book?Stadium=" + stadiumId);
+                            }
+                        }
+                        else
+                        {
+                            model.Options.Duration = "1";
+                            var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now.AddHours(2), "SE Asia Standard Time");
+                            model.Options.StartTime = now.Hour.ToString() + ":0";
+                            model.Options.StartDate = now.ToShortDateString();
+                            model.Options.FieldType = "5";
+                            model.Options.ChosenField = "0";
+                        }
+                        return View(model);
+                    }
+                    else
+                    {
+                        model.ErrorMessage = "Sân này đang không hoạt động. Xin chọn sân khác.";
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
             else
             {
+                return RedirectToAction("Index", "Home");
             }
             return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Book(FormCollection form)
+        {
+
+            string strStadium = form["StadiumId"];
+            string strDate = form["StartDate"];
+            string strTime = form["StartTime"];
+            string strDuration = form["Duration"];
+            string strType = form["FieldType"];
+            string strField = form["Field"];
+            string strNeedRival = form["NeedRival"];
+            int stadiumId;
+            BookModel model = new BookModel();
+            if (int.TryParse(strStadium, out stadiumId))
+            {
+                StadiumBO stadiumBO = new StadiumBO();
+                model.Stadium = stadiumBO.GetStadiumById(stadiumId);
+                if (model.Stadium != null)
+                {
+                    if (model.Stadium.IsActive)
+                    {
+                        model.UserInfo = new BookingUserInfo();
+                        model.Options = new BookingOptions();
+
+                        UserBO userBO = new UserBO();
+                        var user = userBO.GetUserByUserName(User.Identity.Name);
+
+                        model.UserInfo.FullName = form["FullName"];
+                        model.UserInfo.Address = form["Address"];
+                        model.UserInfo.Phone = form["PhoneNumber"];
+                        model.UserInfo.Email = form["Email"];
+
+                        if (!string.IsNullOrEmpty(strDate) && !string.IsNullOrEmpty(strTime) && !string.IsNullOrEmpty(strDuration)
+                            && !string.IsNullOrEmpty(strType))
+                        {
+                            CultureInfo ci = new CultureInfo("vi-VN");
+                            DateTime startDate;
+                            double startTime = 0;
+                            double duration;
+                            int fieldType;
+                            int field;
+                            bool parseTime = false;
+                            string[] times = strTime.Split(':');
+                            if (times.Count() == 2)
+                            {
+                                int startHour;
+                                int startMin;
+                                if (int.TryParse(times[0].Trim(), out startHour) && int.TryParse(times[1].Trim(), out startMin))
+                                {
+                                    startTime = startHour + (startMin / 60.0);
+                                    if (startTime >= 0 && startTime < 24)
+                                    {
+                                        parseTime = true;
+                                    }
+                                }
+                            }
+                            if (DateTime.TryParse(strDate, ci, DateTimeStyles.AssumeLocal, out startDate)
+                                && parseTime && double.TryParse(strDuration, out duration)
+                                && int.TryParse(strType, out fieldType) && int.TryParse(strField, out field))
+                            {
+                                model.Options.StartDate = strDate;
+                                model.Options.StartTime = strTime;
+                                model.Options.Duration = strDuration;
+                                model.Options.FieldType = strType;
+                                model.Options.ChosenField = field + "";
+                                var avails = stadiumBO.GetAvailableFieldsOfStadium(stadiumId, fieldType, startDate, startTime, duration);
+                                if (avails != null && avails.Fields.Count() != 0)
+                                {
+                                    model.Fields = avails.Fields;
+                                    model.Prices = avails.Prices;
+
+                                    double price = 0;
+                                    Field fa = null;
+                                    for (int i = 0; i < avails.Fields.Count(); i++)
+                                    {
+                                        if (avails.Fields[i].Id == field)
+                                        {
+                                            fa = avails.Fields[i];
+                                            price = avails.Prices[i];
+                                        }
+                                    }
+                                    if (fa != null)
+                                    {
+                                        bool needRival = !string.IsNullOrEmpty(strNeedRival);
+                                        ReservationBO resBO = new ReservationBO();
+                                        Reservation res = new Reservation();
+                                        res.FieldId = field;
+                                        res.UserId = user.Id;
+                                        res.FullName = model.UserInfo.FullName;
+                                        res.PhoneNumber = model.UserInfo.Phone;
+                                        res.Email = model.UserInfo.Email;
+                                        res.Date = startDate.Date;
+                                        res.StartTime = startTime;
+                                        res.Duration = duration;
+                                        res.Price = price;
+                                        res.VerifyCode = user.Id + "" + DateTime.Now.Ticks;
+                                        res.CreatedDate = DateTime.Now;
+                                        res.Status = "Pending";
+                                        res.HasRival = needRival;
+
+                                        int result = resBO.UserBooking(res);
+                                        if (result == 0)
+                                        {
+                                            model.ErrorMessage = Resources.DB_Exception;
+                                        }
+                                        else if (result == -1)
+                                        {
+                                            model.ErrorMessage = "Không thể đặt sân ở thời điểm sớm hơn thời điểm hiện tại";
+                                        }
+                                        else if (result > 0)
+                                        {
+                                            model.SuccessMessage = "Bạn đã đặt sân thành công. Mã số xác nhận của bạn là: " + res.VerifyCode;
+                                            return View("BookSuccess", model);
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        model.ErrorMessage = "Sân bóng bạn chọn hiện không còn trống. Xin chọn sân khác.";
+                                    }
+                                }
+                                else
+                                {
+                                    model.ErrorMessage = "Sân bóng bạn chọn hiện không còn trống. Xin chọn sân khác.";
+                                }
+                            }
+                            else
+                            {
+                                model.Options.Duration = "1";
+                                var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now.AddHours(2), "SE Asia Standard Time");
+                                model.Options.StartTime = now.Hour.ToString() + ":0";
+                                model.Options.StartDate = now.ToShortDateString();
+                                model.Options.FieldType = "5";
+                                model.Options.ChosenField = "0";
+                                model.ErrorMessage = "Bạn phải dùng mẫu bên dưới để đặt sân.";
+                            }
+                        }
+                        else
+                        {
+                            model.Options.Duration = "1";
+                            var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now.AddHours(2), "SE Asia Standard Time");
+                            model.Options.StartTime = now.Hour.ToString() + ":0";
+                            model.Options.StartDate = now.ToShortDateString();
+                            model.Options.FieldType = "5";
+                            model.Options.ChosenField = "0";
+                            model.ErrorMessage = "Bạn phải dùng mẫu bên dưới để đặt sân.";
+                        }
+                        return View(model);
+                    }
+                    else
+                    {
+                        model.ErrorMessage = "Sân này đang không hoạt động. Xin chọn sân khác.";
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult FindAvailableOfStadium(FormCollection form, int stadium)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                string strType = form["FieldType"];
+                string strDate = form["StartDate"];
+                string strTime = form["StartTime"];
+                string strDuration = form["Duration"];
+
+                if (!string.IsNullOrEmpty(strDate) && !string.IsNullOrEmpty(strTime) && !string.IsNullOrEmpty(strDuration)
+                            && !string.IsNullOrEmpty(strType))
+                {
+                    StadiumBO stadiumBO = new StadiumBO();
+                    CultureInfo ci = new CultureInfo("vi-VN");
+                    DateTime startDate;
+                    double startTime = 0;
+                    double duration;
+                    int fieldType;
+                    bool parseTime = false;
+                    string[] times = strTime.Split(':');
+                    if (times.Count() == 2)
+                    {
+                        int startHour;
+                        int startMin;
+                        if (int.TryParse(times[0].Trim(), out startHour) && int.TryParse(times[1].Trim(), out startMin))
+                        {
+                            startTime = startHour + (startMin / 60.0);
+                            if (startTime >= 0 && startTime < 24)
+                            {
+                                parseTime = true;
+                            }
+                        }
+                    }
+                    if (DateTime.TryParse(strDate, ci, DateTimeStyles.AssumeLocal, out startDate)
+                        && parseTime && double.TryParse(strDuration, out duration)
+                        && int.TryParse(strType, out fieldType))
+                    {
+                        var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now.AddMinutes(2), "SE Asia Standard Time");
+                        double time = now.Hour + (now.Minute / 60.0);
+                        if (startDate.Date.CompareTo(now.Date) >= 0 && startTime > time)
+                        {
+                            var avails = stadiumBO.GetAvailableFieldsOfStadium(stadium, fieldType, startDate, startTime, duration);
+                            if (avails != null && avails.Fields.Count() != 0)
+                            {
+                                var result = new
+                                {
+                                    Fields = avails.Fields.Select(f => new { Id = f.Id, Number = f.Number }),
+                                    Prices = avails.Prices
+                                };
+                                return Json(result);
+                            }
+                            else
+                            {
+                                return Json("NOTFOUND::Không tìm thấy sân trống");
+                            }
+                        }
+                        else
+                        {
+                            return Json("ERROR::Không thể tìm sân trống ở thời điểm sớm hơn thời điểm hiện tại");
+                        }
+                    }
+                    else
+                    {
+                        return Json("ERROR::Bạn phải dùng mẫu trong trang đặt sân để sử dụng chức năng này");
+                    }
+                }
+                else
+                {
+                    return Json("ERROR::Bạn phải dùng mẫu trong trang đặt sân để sử dụng chức năng này");
+                }
+            }
+            else
+            {
+                return Json("ERROR::Bạn phải đăng nhập để sử dụng chức năng này");
+            }
         }
 
         /// <summary>

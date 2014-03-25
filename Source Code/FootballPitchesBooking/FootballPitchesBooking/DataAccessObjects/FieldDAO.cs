@@ -81,6 +81,25 @@ namespace FootballPitchesBooking.DataAccessObjects
             return availableFields;
         }
 
+        public List<Field> GetAvailableFieldsOfStadium(int stadiumId, int fieldType, DateTime startDate, double startTime, double duration)
+        {
+            FPBDataContext db = new FPBDataContext();
+            var fields = db.Fields.Where(f => f.StadiumId == stadiumId && f.Stadium.IsActive
+                && f.FieldType == fieldType && f.IsActive 
+                && ((f.Stadium.OpenTime == f.Stadium.CloseTime)
+                  || (f.Stadium.OpenTime < f.Stadium.CloseTime && f.Stadium.OpenTime <= startTime && f.Stadium.CloseTime >= startTime + duration)
+                  || (f.Stadium.OpenTime > f.Stadium.CloseTime && f.Stadium.OpenTime <= startTime && f.Stadium.CloseTime + 24 >= startTime + duration)
+                  || (f.Stadium.OpenTime > f.Stadium.CloseTime && f.Stadium.OpenTime > startTime && f.Stadium.CloseTime >= startTime + duration)
+                  )).ToList();
+
+            var availableFields = fields.Where(f => f.Reservations.Where(r => !r.Status.Equals("Canceled") && (r.Date.Date.CompareTo(startDate.Date) == 0)
+                && ((r.StartTime == startTime)
+                || (r.StartTime < startTime && (r.StartTime + r.Duration) > startTime)
+                || (startTime < r.StartTime) && (startTime + duration) > r.StartTime)).Count() == 0).ToList();
+
+            return availableFields;
+        }
+
         public bool CheckAvailableField(int fieldId, DateTime date, double startTime, double duration, int reservationId)
         {
             FPBDataContext db = new FPBDataContext();

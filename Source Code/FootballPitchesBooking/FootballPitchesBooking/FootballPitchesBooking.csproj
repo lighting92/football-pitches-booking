@@ -144,6 +144,8 @@
     <Compile Include="Models\DistanceModels\DistanceMatrixResponse.cs" />
     <Compile Include="Models\RecommendationModels\PriorityModel.cs" />
     <Compile Include="Models\RecommendationModels\RecommendStadium.cs" />
+    <Compile Include="Models\StadiumModels\BookingUserInfo.cs" />
+    <Compile Include="Models\StadiumModels\BookingOptions.cs" />
     <Compile Include="Models\StadiumModels\BookModel.cs" />
     <Compile Include="Models\StadiumStaffModels\ReservationsModel.cs" />
     <Compile Include="Models\StadiumStaffModels\ReservationModel.cs" />
@@ -414,6 +416,9 @@
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\css\OpenSans-Bold.woff" />
+    <Content Include="Content\css\OpenSans-Light.woff" />
+    <Content Include="Content\css\OpenSans.woff" />
     <None Include="Models\FPB.dbml.layout">
       <DependentUpon>FPB.dbml</DependentUpon>
     </None>
@@ -446,6 +451,7 @@
     <Content Include="Views\StadiumStaff\EditReservation.cshtml" />
     <Content Include="Views\Stadium\Book.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Stadium\BookSuccess.cshtml" />
     <Content Include="Views\StadiumStaff\ViewReservation.cshtml" />
   </ItemGroup>
   <ItemGroup>

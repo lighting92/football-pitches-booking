@@ -1,5 +1,297 @@
-﻿@{
+﻿@model FootballPitchesBooking.Models.StadiumModels.BookModel
+@{
+    ViewBag.STADIUM = "active";
     ViewBag.Title = "Book";
 }
 
-<h2>Book</h2>
+
+<div class="row book-page">
+    <div class="span12">
+        <div class="row">
+            <div class="span9">
+                @if (Model.Stadium.IsActive)
+                {
+                    
+                    <form action="/Stadium/Book" method="post" class="form-horizontal">
+                        <fieldset>
+                            <br />
+                            <br />
+                            <h1>Đặt Sân
+                            <br />
+                                <small>Chọn và điền đầy đủ vào mẫu bên dưới.</small>
+                            </h1>
+                            <br />
+                            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                            {
+                                <div class="alert alert-danger">@Model.ErrorMessage</div>
+                            }
+                            <div class="row">
+                                <div class="span8">
+                                    <legend>Thông Tin Sân Bóng</legend>
+                                </div>
+                                <div class="span3">
+                                    <label>
+                                        Tên sân bóng
+                                    <input type="text" value="@Model.Stadium.Name" readonly />
+                                        <input type="hidden" name="StadiumId" value="@Model.Stadium.Id" readonly />
+                                    </label>
+                                </div>
+                                <div class="span3">
+                                    <label>
+                                        E-Mail
+                                    <input type="text" value="@Model.Stadium.Email" readonly />
+                                    </label>
+                                </div>
+                                <div class="span3">
+                                    <label>
+                                        Số điện thoại
+                                    <input type="text" value="@Model.Stadium.Phone" readonly />
+                                    </label>
+                                </div>
+                                <div class="span9">
+                                    <label>
+                                        Địa chỉ sân
+                                    <input class="span9" type="text" value="@Model.Stadium.Street, @Model.Stadium.Ward, @Model.Stadium.District" readonly/>
+                                    </label>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="span8">
+                                    <legend>Tùy Chọn Đặt Sân</legend>
+                                </div>
+                                <div class="span3">
+                                    <label>
+                                        Loại sân
+									<select id="fieldType" name="FieldType" data-cur="@Model.Options.FieldType">
+                                        <option value="5">5 người</option>
+                                        <option value="7">7 người</option>
+                                        <option value="11">11 người</option>
+                                    </select>
+                                    </label>
+                                </div>
+                                <div class="span3">
+                                    <label>
+                                        Ngày đá
+                                <input type="text" class="span3" id="startDate" name="StartDate" value="@Model.Options.StartDate">
+                                        <span id="startDatePicker" class="datepicker" style="display: none"></span>
+                                    </label>
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            var close = false;
+                                            $("#startDatePicker").datepicker({
+                                                dateFormat: 'dd/mm/yy',
+                                                showOtherMonths: false,
+                                                numberOfMonths: 1,
+                                                altField: "#startDate",
+                                                altFormat: "dd/mm/yy",
+                                                minDate: null,
+                                                defaultDate: "@Model.Options.StartDate",
+                                                onSelect: function (date) {
+                                                    close = false;
+                                                    $("#startDate").focus();
+                                                },
+                                                onChangeMonthYear: function () {
+                                                    close = false;
+                                                    $("#startDate").focus();
+                                                }
+                                            });
+                                            $("#startDate").focus(function () {
+                                                document.getElementById("startDatePicker").style.display = "block";
+                                            });
+                                            $("#startDate").mousedown(function () {
+                                                document.getElementById("startDatePicker").style.display = "block";
+                                            });
+                                            $("#startDate").focusout(function () {
+                                                close = true;
+                                                setTimeout(function () {
+                                                    if (close) {
+                                                        document.getElementById("startDatePicker").style.display = "none";
+                                                    }
+                                                }, 200);
+                                            });
+                                        });
+                                    </script>
+                                </div>
+                                <div class="span3">
+                                    <label>
+                                        Giờ bắt đầu
+                                        <br />
+                                        <input id="startTime" name="StartTime" class="timepicker span2" type="text" value="@Model.Options.StartTime">
+                                        <span class="add-on"><i class="icon-time"></i></span>
+                                    </label>
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $.each($(".timepicker"), function (index, object) {
+                                                $(object).timepicker({
+                                                    showMeridian: false,
+                                                    defaultTime: object.value,
+                                                    minuteStep: 30,
+                                                    showInputs: false
+                                                });
+                                                object.onkeydown = function () {
+                                                    return false;
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                </div>
+                                <div class="span3">
+                                    <label>
+                                        Thời lượng
+                                        <select id="duration" name="Duration" data-cur="@Model.Options.Duration">
+                                            <option value="1">60 phút</option>
+                                            <option value="1.5">90 phút</option>
+                                            <option value="2">120 phút</option>
+                                            <option value="2.5">150 phút</option>
+                                            <option value="3">180 phút</option>
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="span3">
+                                    <label>
+                                        Sân Trống
+                                        <select id="fieldPrices" name="Field" data-cur="@Model.Options.ChosenField">
+                                            @if (Model.Fields != null && Model.Fields.Count != 0)
+                                            {
+                                                for (var i = 0; i < Model.Fields.Count(); i++)
+                                                {
+                                                    var field = Model.Fields[i];
+                                                    var price = Model.Prices[i];
+                                                <option value="@field.Id">Sân @field.Number: @price VNĐ</option>                                                    
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <option value="null">Bấm Vào Tìm Sân Trống</option>
+                                            }
+                                        </select>
+                                    </label>
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $.each($("#fieldPrices option"), function (index, opt) {
+                                                var strPrice = opt.innerHTML;
+                                                var regex = / \d+ /;
+                                                var el = document.createElement("price");
+                                                var price = strPrice.match(regex);
+                                                el.innerHTML = price;
+                                                $(el).priceFormat({
+                                                    prefix: '',
+                                                    centsLimit: 0
+                                                })
+                                                opt.innerHTML = opt.innerHTML.replace(regex, " " + el.innerHTML + " ");
+                                            });
+                                        });
+                                    </script>
+                                </div>
+                                <div class="span3" style="text-align: right">
+                                    <label>
+                                        <span class="span1">&nbsp</span>
+                                        <button type="button" id="btncheckavailable" class="btn-medium btn-success">Tìm Sân Trống</button>
+                                    </label>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="span8">
+                                    <legend>Thông Tin Của Bạn</legend>
+                                </div>
+                                <div class="span3">
+                                    <label>
+                                        Họ và tên
+									<input name="FullName" type="text" value="@Model.UserInfo.FullName">
+                                    </label>
+                                </div>
+                                <div class="span3">
+                                    <label>
+                                        Số điện thoại
+									<input name="PhoneNumber" type="text" value="@Model.UserInfo.Phone">
+                                    </label>
+                                </div>
+                                <div class="span3">
+                                    <label>
+                                        E-Mail
+									<input name="Email" type="text" value="@Model.UserInfo.Email">
+                                    </label>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="span9 center">
+                                <label>
+                                    <input type="checkbox" name="NeedRival" />
+                                    Yêu cầu tìm đội giao hữu
+                                        
+                                </label>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="span9">
+                                    <br />
+                                    <button type="submit" class="groupbtn2 btn-medium btn-success pull-right">Đặt Sân</button>
+                                    <button type="button" class="groupbtn2 btn-medium btn-danger pull-right" onclick="window.location='/Home'">Hủy Bỏ</button>
+                                    <br />
+                                    <br />
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $.each($("select"), function (index, obj) {
+                                $(obj).val($(obj).data("cur"));
+                            });
+                            $("#btncheckavailable").click(function () {
+                                var fieldType = $("#fieldType").val();
+                                var startDate = $("#startDate").val();
+                                var startTime = $("#startTime").val();
+                                var duration = $("#duration").val();
+                                $.ajax({
+                                    url: "/Stadium/FindAvailableOfStadium?Stadium=" + "@Model.Stadium.Id",
+                                    data: { "FieldType": fieldType, "StartDate": startDate, "StartTime": startTime, "Duration": duration },
+                                    type: 'post',
+                                    success: function (results) {
+                                        var ddlFieldPrices = document.getElementById("fieldPrices");
+                                        ddlFieldPrices.innerHTML = "";
+                                        if (typeof results === "string" && results.lastIndexOf("NOTFOUND::") > -1) {
+                                            var msg = results.replace("NOTFOUND::", "");
+                                            alert(msg);
+                                            ddlFieldPrices.innerHTML = '<option value="null">Bấm Vào Tìm Sân Trống</option>';
+                                        } else if (typeof results === "string" && results.lastIndexOf("ERROR::") > -1) {
+                                            alert(results.replace("ERROR::", ""));
+                                            ddlFieldPrices.innerHTML = '<option value="null">Bấm Vào Tìm Sân Trống</option>';
+                                        }
+                                        else {
+                                            for (var i = 0; i < results.Fields.length; i++) {
+                                                var opt = document.createElement("option");
+                                                opt.value = results.Fields[i].Id;
+                                                opt.innerHTML = "Sân " + results.Fields[i].Number + ": " + results.Prices[i] + " VNĐ";
+                                                ddlFieldPrices.appendChild(opt);
+                                            }
+
+                                            $.each($("#fieldPrices option"), function (index, opt) {
+                                                var strPrice = opt.innerHTML;
+                                                var regex = / \d+ /;
+                                                var el = document.createElement("price");
+                                                var price = strPrice.match(regex);
+                                                el.innerHTML = price;
+                                                $(el).priceFormat({
+                                                    prefix: '',
+                                                    centsLimit: 0
+                                                })
+                                                opt.innerHTML = opt.innerHTML.replace(regex, " " + el.innerHTML + " ");
+                                            });
+                                        }
+                                    }
+                                });
+                            });
+                        });
+                    </script>
+                }
+                else
+                {
+                    <div class="alert alert-danger">@Model.ErrorMessage</div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
