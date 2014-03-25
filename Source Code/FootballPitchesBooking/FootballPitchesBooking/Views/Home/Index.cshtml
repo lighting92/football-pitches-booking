@@ -1,4 +1,5 @@
-﻿@{
+﻿@model FootballPitchesBooking.Models.RecommendationModels.RecommendationModel
+@{
     ViewBag.HOME = "active";
     ViewBag.Title = "TRANG CHỦ";
     var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now.AddHours(2), "SE Asia Standard Time");
@@ -217,21 +218,42 @@
 <div class="row-fluid">
     <div class="span4">
         <h3><span>S</span>ân Bóng</h3>
-        <div class="stadium-item">
-            <div class="stadium-image">
-                <img src="~/Content/images/stadium.jpg" />
-                <span class="promotion">Sân Bạn Thường Đá</span>
-            </div>
-            <div class="stadium-detail">
-                <p class="stadium-name">Sân FTOWN</p>
-                <p class="stadium-address">Quận 12, HCM</p>
-                <p class="field-type">
-                    Kiểu Sân: 5, 7, 11
+        @if (Model.Stadiums != null)
+        {
+            for (int i = 0; i < Model.Stadiums.Count(); i++)
+            {
+                var item = Model.Stadiums[i];
+                var img = Model.StadiumImages[i];
+            <div class="stadium-item">
+                <div class="stadium-image">
+                    @if (img != null)
+                    {
+                        <img src="~/Content/images/@img.Path" />
+                    }
+                    else
+                    {
+                        <img src="~/Content/images/stadium.jpg" />
+                    }
+                </div>
+                <div class="stadium-detail">
+                    <p class="stadium-name">@item.Stadium.Name</p>
+                    <p class="stadium-address">@item.Stadium.District</p>
+                    <p class="field-type">
+                        Kiểu Sân: 5, 7, 11
                     <button class="btn btn-primary home-btn-book pull-right">Chi tiết</button>
-                </p>
+                    </p>
+                </div>
             </div>
-        </div>
-        <hr />
+            <hr />
+            }
+        }
+        else
+        {
+            <p>nen login</p>
+        }
+
+
+        <!-- 
         <div class="stadium-item">
             <div class="stadium-image">
                 <img src="~/Content/images/stadium.jpg" />
@@ -246,6 +268,7 @@
                 </p>
             </div>
         </div>
+            -->
     </div>
     <div class="span4" style="padding-left: 10px; padding-right: 10px; padding-bottom: 10px; background-color: rgba(128, 128, 128, 0.17);">
         <h3><span>C</span>áp Kèo</h3>
@@ -256,9 +279,10 @@
             <p class="r-saddr">1 Tô Ký, Phường 1, Quận 9, HCM</p>
             <p class="r-stype">Đá 5 người</p>
             <p class="r-contact">
-                Liên hệ: Nguyễn Duy Phương | 01662194419 | phuongnd6592@live.com <button class="btn btn-primary home-btn-book pull-right">Tham Gia</button>
+                Liên hệ: Nguyễn Duy Phương | 01662194419 | phuongnd6592@live.com
+                <button class="btn btn-primary home-btn-book pull-right">Tham Gia</button>
             </p>
-            
+
         </div>
         <hr />
         <div class="rival-item">
@@ -268,9 +292,10 @@
             <p class="r-saddr">1 Tô Ký, Phường 1, Quận 9, HCM</p>
             <p class="r-stype">Đá 5 người</p>
             <p class="r-contact">
-                Liên hệ: Nguyễn Duy Phương | 01662194419 | phuongnd6592@live.com          <button class="btn btn-primary home-btn-book pull-right">Tham Gia</button>      
+                Liên hệ: Nguyễn Duy Phương | 01662194419 | phuongnd6592@live.com         
+                <button class="btn btn-primary home-btn-book pull-right">Tham Gia</button>
             </p>
-            
+
         </div>
     </div>
     <div class="span4">
