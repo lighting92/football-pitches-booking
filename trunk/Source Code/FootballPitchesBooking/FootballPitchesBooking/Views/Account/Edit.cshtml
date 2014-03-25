@@ -39,7 +39,7 @@
             $("#ErrorPass").text(" ");
             $("#ErrorPass").css("display", "none");
         }
-        
+
         if (phone == "" || phone.length < 10 || phone.length > 15) {
             $("#Phone_Error").text("Yêu cầu phải nhập đúng số điện thoại");
             $("#Phone_Error").css("display", "block");
@@ -86,8 +86,8 @@
 
 
         if (flag > 0) {
-                return false;
-            } else return true;
+            return false;
+        } else return true;
     }
 </script>
 
@@ -95,13 +95,13 @@
 
 
 
-    
-    <div class="row Account-view-profiles">
+
+<div class="row Account-view-profiles">
     <div class="span12">
         <div class="row">
             <div class="span9">
                 <form action="Edit" method="post">
-                     <fieldset>
+                    <fieldset>
                         <br />
                         <br />
                         <h1>CẬP NHẬT THÔNG TIN CÁ NHÂN
@@ -135,6 +135,8 @@
                                 <input type="text">
                                 <div class="alert alert-danger" style="display: none"></div>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="span3">
                                 <label>
                                     TÊN THÀNH VIÊN
@@ -187,8 +189,8 @@
                         <div class="row">
                             <div class="span9">
                                 <br />
-                                <button type="button" onclick="window.location = '/Account/Details/@Model.Id'" class="btn btn-primary btn-large book-now pull-right groupbtn">QUAY VỀ</button> 
-                                <button type="submit" name="Save" onclick="return check()" class="btn btn-primary btn-large book-now pull-right groupbtn">LƯU</button>                                                               
+                                <button type="button" onclick="window.location = '/Account/Details/@Model.Id'" class="btn btn-primary btn-large book-now pull-right groupbtn">QUAY VỀ</button>
+                                <button type="submit" name="Save" onclick="return check()" class="btn btn-primary btn-large book-now pull-right groupbtn">LƯU</button>
                                 <br />
                                 <br />
                             </div>
@@ -199,19 +201,19 @@
         </div>
     </div>
 </div>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-   @* <table>
+
+
+
+
+
+
+
+
+
+
+
+
+@* <table>
         <tr>
             <td>Tên tài khoản:
             </td>

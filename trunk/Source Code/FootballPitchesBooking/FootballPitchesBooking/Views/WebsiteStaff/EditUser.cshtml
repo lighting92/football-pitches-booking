@@ -14,6 +14,27 @@
         var reg = /^(\w+[\.])*\w+@@(\w+\.)+[a-zA-Z]+$/;
         var aln = /^[a-z|A-Z|0-9]*$/;
 
+        if (password != "") {
+            if (password.length < 6 || password.length > 32) {
+                $("#ErrorPass").text("Yêu cầu mật khầu từ 6 đến 32 kí tự");
+                $("#ErrorPass").css("display", "block");
+                flag++;
+            }
+            else {
+                $("#ErrorPass").text(" ");
+                $("#ErrorPass").css("display", "none");
+            }
+        }
+
+        if (confirmpassword != password) {
+            $("#ErrorConfirmPass").text("Xác nhận mật khẩu phải giống với mật khẩu");
+            $("#ErrorConfirmPass").css("display", "block");
+            flag++;
+        }
+        else {
+            $("#ErrorConfirmPass").text(" ");
+            $("#ErrorConfirmPass").css("display", "none");
+        }
 
         if (!reg.test(email)) {
             $("#Email_Error").text("Email không đúng");
@@ -24,8 +45,8 @@
             $("#Email_Error").text(" ");
             $("#Email_Error").css("display", "none");
         }
-        
-        
+
+
         if (flag > 0) {
             return false;
         } else return true;
@@ -65,14 +86,13 @@
                             <div class="span3">
                                 <label>
                                     MẬT KHẨU
-                                    <input name="Password" type="text" placeholder="MẬT KHẨU"  value="">
-
+                                    <input name="Password" type="text" placeholder="MẬT KHẨU" value="">
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
                                     XÁC NHẬN MẬT KHẨU
-                                    <input name="ConfirmPassword" type="text" placeholder="XÁC NHẬN MẬT KHẨU"  value="">
+                                    <input name="ConfirmPassword" type="text" placeholder="XÁC NHẬN MẬT KHẨU" value="">
                                 </label>
                             </div>
                             <div class="span3">
@@ -111,8 +131,8 @@
                                                 $(this).val(value.substr(0, value.length - 1));
                                             }
                                         });
-            </script>
-            <div class="alert alert-danger" id="Phone_Error" style="display: none"></div>
+                                    </script>
+                                    <div class="alert alert-danger" id="Phone_Error" style="display: none"></div>
                                 </label>
                             </div>
                             <div class="span3">
@@ -143,9 +163,12 @@
                                 <label>
                                     QUYỀN HẠN
                                     <select id="roleId" name="RoleId" data-cur="@Model.RoleId">
-                                        @foreach (var item in Model.Roles)
+                                        @if (Model.Roles != null && Model.Roles.Count() > 0)
                                         {
-                                        <option value="@item.Id">@item.Role1</option>
+                                            foreach (var item in Model.Roles)
+                                            {
+                                            <option value="@item.Id">@item.DisplayName</option>
+                                            }
                                         }
                                     </select>
                                     <script type="text/javascript">

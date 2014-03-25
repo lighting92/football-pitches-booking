@@ -77,8 +77,7 @@ namespace FootballPitchesBooking.BusinessObjects
             {
                 user.Password = userDAO.GetUserByUserId(user.Id).Password;
             }
-            int rankId = rankDAO.GetMemberRankByUserPoint(user.Point).Id;
-            user.RankId = rankId;
+            user.RankId = rankDAO.GetMemberRankByUserPoint(user.Point).Id;
             return userDAO.UpdateUser(user);
         }
 

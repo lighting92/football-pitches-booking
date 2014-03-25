@@ -420,6 +420,11 @@ namespace FootballPitchesBooking.Controllers
                 model.ErrorMessages.Add(Resources.Login_IncorrectPassword);
             }
 
+            if (oldPassword.Equals(model.Password))
+            {
+                model.ErrorMessages.Add(""); //add Resources Password moi trung password cu
+            }
+
             if (model.ErrorMessages.Count == 0)
                 {
                 User user = new User()
