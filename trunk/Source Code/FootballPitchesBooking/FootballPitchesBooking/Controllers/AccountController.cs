@@ -336,6 +336,7 @@ namespace FootballPitchesBooking.Controllers
             Regex emailFormat = new Regex(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
             
             model.UserName = User.Identity.Name;
+            model.Password = form["Password"];
             model.Email = form["Email"];
             model.FullName = form["FullName"];
             model.Address = form["Address"];
