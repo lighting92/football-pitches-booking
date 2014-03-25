@@ -434,9 +434,17 @@ namespace FootballPitchesBooking.Controllers
             model.Email = form["Email"];
             model.ErrorMessages = new List<string>();
 
-            if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Password) || string.IsNullOrEmpty(model.ConfirmPassword))
+            if (string.IsNullOrEmpty(model.Email))
             {
                 model.ErrorMessages.Add(Resources.Form_EmptyFields);
+            }
+
+            if (!string.IsNullOrEmpty(model.Password))
+            {
+                if (model.Password.Length < 6 || model.Password.Length > 32)
+                {
+                    model.ErrorMessages.Add(Resources.Reg_PasswordNotInLenght);
+                }
             }
 
             if (!emailFormat.IsMatch(model.Email))
@@ -449,20 +457,48 @@ namespace FootballPitchesBooking.Controllers
                 model.ErrorMessages.Add(Resources.Password_NotMatchWithConfirm);
             }
 
-            if (model.Password.Length < 6 || model.Password.Length > 32)
+            User usr = null;
+            try
             {
-                model.ErrorMessages.Add(Resources.Reg_PasswordNotInLenght);
+                usr = userBO.GetUserById((int)id); //convert từ int? về int rồi mới gọi hàm
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Users", "WebsiteStaff");
+            }
+            if (usr == null)
+            {
+                return RedirectToAction("Users", "WebsiteStaff");
             }
 
             try
             {
                 model.Point = Int32.Parse(form["Point"]);
+            }
+            catch (Exception)
+            {
+                model.ErrorMessages.Add(Resources.Form_EmptyFields);
+                model.Point = usr.Point;
+            }
+
+            try
+            {
                 model.IsActive = Boolean.Parse(form["IsActive"]);
+            }
+            catch (Exception)
+            {
+                model.ErrorMessages.Add(Resources.Form_EmptyFields);
+                model.IsActive = usr.IsActive;
+            }
+
+            try
+            {
                 model.RoleId = Int32.Parse(form["RoleId"]);
             }
             catch (Exception)
             {
                 model.ErrorMessages.Add(Resources.Form_EmptyFields);
+                model.RoleId = (int)usr.RoleId;
             }
 
             if (string.IsNullOrEmpty(model.Email))
@@ -505,6 +541,13 @@ namespace FootballPitchesBooking.Controllers
                 }
             }
 
+            model.UserName = usr.UserName;
+            model.PhoneNumber = usr.PhoneNumber;
+            model.FullName = usr.FullName;
+            model.Address = usr.Address;
+            model.RankName = usr.MemberRank.RankName;
+            model.Roles = userBO.getAllRole();
+            
             return View(model);
         }
 

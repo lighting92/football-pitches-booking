@@ -41,7 +41,7 @@
                             <span style="word-wrap: break-word">@Html.DisplayFor(model => user.UserName)</span>
                         </td>
                         <td>
-                            @Html.DisplayFor(item => user.Role.Role1)
+                            @Html.DisplayFor(item => user.Role.DisplayName)
                         </td>
                         
                         @if (!user.IsActive)
