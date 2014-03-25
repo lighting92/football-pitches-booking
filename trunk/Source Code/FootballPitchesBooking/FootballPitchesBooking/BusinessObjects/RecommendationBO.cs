@@ -10,7 +10,7 @@ namespace FootballPitchesBooking.BusinessObjects
 {
     public class RecommendationBO
     {
-        public List<RecommendStadium> FindAppropriateStadium(string userName, double mostReserve, double near, double promotion)
+        public List<RecommendStadium> FindAppropriateStadium(string userName, double mostReserv, double nearest, double mostPromote)
         {
             if (!string.IsNullOrEmpty(userName))
             {
@@ -43,7 +43,7 @@ namespace FootballPitchesBooking.BusinessObjects
                         reservationsPriority.Add(temp);
                     }
                 }
-
+                
                 // Most promotions
                 PromotionDAO proDAO = new PromotionDAO();
                 var promotions = proDAO.GetAllPromotions();
@@ -70,6 +70,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 }
 
 
+
                 // Nearest stadium
 
                 UserDAO userDAO = new UserDAO();
@@ -93,114 +94,125 @@ namespace FootballPitchesBooking.BusinessObjects
                         temp.Id = stadiumAddresses[i].StadiumId;
                         if (distanceList[i] != null)
                         {
-                            if (distanceList[i] <= 2)
+                            if (distanceList[i] <= 2000)
                             {
                                 temp.Priority = 10;
                             }
-                            else if (distanceList[i] <= 4)
+                            else if (distanceList[i] <= 4000)
                             {
                                 temp.Priority = 9;
                             }
-                            else if (distanceList[i] <= 6)
+                            else if (distanceList[i] <= 6000)
                             {
                                 temp.Priority = 8;
                             }
-                            else if (distanceList[i] <= 8)
+                            else if (distanceList[i] <= 8000)
                             {
                                 temp.Priority = 7;
                             }
-                            else if (distanceList[i] <= 10)
+                            else if (distanceList[i] <= 10000)
                             {
                                 temp.Priority = 6;
                             }
-                            else if (distanceList[i] <= 12)
+                            else if (distanceList[i] <= 12000)
                             {
                                 temp.Priority = 5;
                             }
-                            else if (distanceList[i] <= 14)
+                            else if (distanceList[i] <= 14000)
                             {
                                 temp.Priority = 4;
                             }
-                            else if (distanceList[i] <= 16)
+                            else if (distanceList[i] <= 16000)
                             {
                                 temp.Priority = 3;
                             }
-                            else if (distanceList[i] <= 18)
+                            else if (distanceList[i] <= 18000)
                             {
                                 temp.Priority = 2;
                             }
-                            else if (distanceList[i] <= 20)
+                            else if (distanceList[i] <= 20000)
                             {
                                 temp.Priority = 1;
                             }
-                        }
-                        else
-                        {
-                            temp.Priority = 0;
+                            else
+                            {
+                                temp.Priority = 0;
+                            }
                         }
                         distancePriority.Add(temp);
                     }
-
-
-
                 }
                 //có 3 list
                 // distancePriority * 0.3
                 //promotionsPriority 0.2
                 //reservationsPriority 0.5
                 //gom lai 1 list di
-
+                List<PriorityModel> result = new List<PriorityModel>();
+                
 
                 foreach (var resP in reservationsPriority)
                 {
-                    //trong list reservation thi point = priority * 0.5 het roi
-                    resP.Priority = resP.Priority * 0.5;
-
-                    //kiem tra xem co phan tu nao trung id voi resP ko
-                    foreach (var proP in promotionsPriority)
-                    {
-                        if (resP.Id == proP.Id)
-                        {
-                            resP.Priority = resP.Priority + proP.Priority * 0.2; //neu trung thi + diem vao
-                            promotionsPriority.Remove(proP); //+ xong remove de loai bo Id trung
-                        }
-                    }
+                    result.Add(new PriorityModel {
+                        Id = resP.Id, 
+                        Priority = resP.Priority * mostReserv
+                    });                    
+                    
                 }
 
-                //con cac id ko trung nhau thi add vao
                 foreach (var proP in promotionsPriority)
                 {
-                    reservationsPriority.Add(proP);
-                }
-
-                //lai kiem tra voi distance
-                foreach (var resP in reservationsPriority)
-                {
-                    //kiem tra xem co phan tu nao trung id voi resP ko
-                    foreach (var disP in distancePriority)
+                    var exist = result.Where(p => p.Id == proP.Id).FirstOrDefault();
+                    if (exist != null)
                     {
-                        if (resP.Id == disP.Id)
+                        exist.Priority += proP.Priority * mostPromote;
+                    }
+                    else
+                    {
+                        result.Add(new PriorityModel
                         {
-                            resP.Priority = resP.Priority + disP.Priority * 0.3;
-                            promotionsPriority.Remove(disP);
-                        }
+                            Id = proP.Id,
+                            Priority = proP.Priority * mostPromote
+                        });
+
+                    }
+                }
+                foreach (var proP in distancePriority)
+                {
+                    var exist = result.Where(p => p.Id == proP.Id).FirstOrDefault();
+                    if (exist != null)
+                    {
+                        exist.Priority += proP.Priority * nearest;
+                    }
+                    else
+                    {
+                        result.Add(new PriorityModel
+                        {
+                            Id = proP.Id,
+                            Priority = proP.Priority * nearest
+                        });
+
                     }
                 }
 
-                //cung loai bo cac phan tu luon roi add them vao, dam bao list reservation moi co day du phan tu cua ca 3 list + lai
-                //ma tot nhat em nen copy ra list khac nen ko muon thay doi 3 list nay, con neu ko dung den 3 list nay nua
-                //xem 3 list do vo dung sau khi gom lai thi gom truc tiep luon cho do~ ton' bo. nho'
-                foreach (var disP in distancePriority)
+                result = result.OrderByDescending(p => p.Priority).ToList();
+
+                var recommendStadiums = new List<RecommendStadium>();
+
+                foreach (var item in result)
                 {
-                    reservationsPriority.Add(disP);
+                    var temp = new RecommendStadium();
+                    temp.Stadium = stadiumDAO.GetStadiumById(item.Id);
+                    recommendStadiums.Add(temp);
                 }
 
-                var newList = reservationsPriority.OrderBy(p => p.Priority).ToList(); //em debug roi xem lai list sap xep dung chua
-            
+                return recommendStadiums;
             }
-            
+            else
+            {
+                return null;
+            }           
 
-            return null;
+            
         }
 
 

@@ -8,6 +8,6 @@ namespace FootballPitchesBooking.Models.RecommendationModels
     public class PriorityModel
     {
         public int Id { get; set; }
-        public double Priority { get; set; } //cai nay la point a? dung roi a
+        public double Priority { get; set; } 
     }
 }
