@@ -16,8 +16,8 @@
         var email = $("#txtMail").val();
         var reg = /^(\w+[\.])*\w+@@(\w+\.)+[a-zA-Z]+$/;
         var aln = /^[a-z|A-Z|0-9]*$/;
-        var address = $("#txtAddress").val();
-        var add = /^[a-zA-Z0-9-\/] ?([a-zA-Z0-9-\/]|[a-zA-Z0-9-\/] )*[a-zA-Z0-9-\/]$/;
+        //var address = $("#txtAddress").val();
+        //var add = /^[a-zA-Z0-9-\/] ?([a-zA-Z0-9-\/]|[a-zA-Z0-9-\/] )*[a-zA-Z0-9-\/]$/;
 
         if (fullname == "" || fullname.length > 30) {
             $("#FullName_Error").text("Yêu cầu phải từ 1 đến 30 kí tự");
@@ -51,28 +51,28 @@
             $("#Phone_Error").css("display", "none");
         }
 
-        if (address == "" || address.length < 2 || password.length > 32) {
-            $("#Address_Error").text("Yêu cầu địa chỉ từ 2 đến 32 kí tự");
-            $("#Address_Error").css("display", "block");
-            flag++;
-        }
+        //if (address == "" || address.length < 2 || password.length > 32) {
+        //    $("#Address_Error").text("Yêu cầu địa chỉ từ 2 đến 32 kí tự");
+        //    $("#Address_Error").css("display", "block");
+        //    flag++;
+        //}
 
-        else if (!add.test(address)) {
-            $("#Address_Error").text("Sai định dạng địa chỉ")
-            $("#Address_Error").css("display", "block");
-            flag++;
-        }
+        //else if (!add.test(address)) {
+        //    $("#Address_Error").text("Sai định dạng địa chỉ")
+        //    $("#Address_Error").css("display", "block");
+        //    flag++;
+        //}
 
-        else if (!aln.test(address)) {
-            $("#Address_Error").text("Địa chỉ chỉ phải có chữ và số");
-            $("#Address_Error").css("display", "block");
-            flag++;
-        }
+        //else if (!aln.test(address)) {
+        //    $("#Address_Error").text("Địa chỉ chỉ phải có chữ và số");
+        //    $("#Address_Error").css("display", "block");
+        //    flag++;
+        //}
 
-        else {
-            $("#Address_Error").text(" ");
-            $("#Address_Error").css("display", "none");
-        }
+        //else {
+        //    $("#Address_Error").text(" ");
+        //    $("#Address_Error").css("display", "none");
+        //}
 
         if (!reg.test(email)) {
             $("#Email_Error").text("Email không đúng");
@@ -201,108 +201,3 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-@* <table>
-        <tr>
-            <td>Tên tài khoản:
-            </td>
-            <td >
-                @Html.DisplayFor(model => Model.UserName)
-            </td>
-        </tr>
-
-        <tr>
-            <td>Mật Khẩu:
-                <label for="Password"> Mật khẩu:</label>
-            </td>
-            <td>
-                <input type="password" id="txtPass" name="Password" placeholder="Nhập mật khẩu" required="required" />
-                <div class="alert alert-danger" id="ErrorPass" style="display: none"></div>
-            </td>
-        </tr>
-
-        <tr>
-            <td>Xác nhận mật khẩu: 
-            </td>
-            <td>
-                <input type="password" id="txtConfirmPass" name="ConfirmPassword" placeholder="Nhập lại mật khẩu" required="required" />
-                <div class="alert alert-danger" id="ConfirmErrorPass" style="display: none"></div>
-            </td>
-        </tr>
-
-        <tr>
-            <td>Họ và Tên:
-            </td>
-            <td>
-                <input type="text" id="txtFullN" name="FullName" placeholder="Nhập vào Họ và Tên" required="required" value="@Model.FullName" />
-                <div class="alert alert-danger" id="FullName_Error" style="display: none"></div>
-            </td>
-        </tr>
-
-        
-
-        <tr>
-            <td>Địa chỉ:
-            </td>
-            <td>
-                @Html.TextBoxFor(model => Model.Address)
-            </td>
-        </tr>
-        <tr>
-            <td>Phone:
-            </td>
-            <td>
-                <input type="text" id="txtPhone" name="PhoneNumber" placeholder="Nhập số điện thoại" required="required" value="@Model.PhoneNumber" />
-            <script type="text/javascript">
-                $('#txtPhone').keyup(function (event) {
-                    if (isNaN(String.fromCharCode(event.which))) {
-                        var value = $(this).val();
-                        $(this).val(value.substr(0, value.length - 1));
-                    }
-                });
-            </script>
-            <div class="alert alert-danger" id="Phone_Error" style="display: none"></div>
-            </td>
-        </tr>
-        <tr>
-            <td>Email:
-            </td>
-            <td>
-                @Html.DisplayFor(model => Model.Email)
-            </td>
-        </tr>
-        <tr>
-            <td>Điểm thưởng:
-            </td>
-            <td>
-                @Html.DisplayFor(model => Model.Point)
-            </td>
-        </tr>
-
-        <tr>
-            <td>Ngày tham gia:
-            </td>
-            <td>
-                @Html.DisplayFor(model => Model.JoinDate)
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <button type="submit" name="Save" onclick="return check()">Lưu</button>
-            </td>
-            <td>
-                <button type="button" onclick="window.location = '/Account/Details/@Model.Id'">Quay về</button>
-            </td>
-        </tr>
-    </table>*@

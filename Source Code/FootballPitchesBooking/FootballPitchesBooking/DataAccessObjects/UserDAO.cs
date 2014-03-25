@@ -94,7 +94,7 @@ namespace FootballPitchesBooking.DataAccessObjects
             try
             {
                 List<User> users = db.Users.Where(u => u.RankId == rank.Id).ToList();
-                if (users != null)
+                if (users != null && users.Count > 0)
                 {
                     users.ForEach(u => u.RankId = db.MemberRanks.Where(m => m.Point <= u.Point).OrderByDescending(m => m.Point).FirstOrDefault().Id);
                 }
@@ -106,6 +106,10 @@ namespace FootballPitchesBooking.DataAccessObjects
                 if (nextRank != null)
                 {
                     db.Users.Where(u => u.Point >= rank.Point && u.Point < nextRank.Point).ToList().ForEach(u => u.RankId = rank.Id);
+                }
+                else
+                {
+                    db.Users.Where(u => u.Point >= rank.Point).ToList().ForEach(u => u.RankId = rank.Id);
                 }
                 db.SubmitChanges();
                 return 1;
@@ -158,6 +162,7 @@ namespace FootballPitchesBooking.DataAccessObjects
                 curUser.Password = user.Password;
                 curUser.Email = user.Email;
                 curUser.Point = user.Point;
+                curUser.RankId = user.RankId;
                 curUser.IsActive = user.IsActive;
                 curUser.RoleId = user.RoleId;
                 db.SubmitChanges();

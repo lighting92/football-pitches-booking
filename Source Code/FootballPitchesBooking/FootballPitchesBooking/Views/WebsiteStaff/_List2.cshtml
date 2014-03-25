@@ -2,117 +2,6 @@
 @using PagedList;
 @using FootballPitchesBooking.Models;
 
-<script>
-    $(document).ready(function () {
-        // Select all.
-        $("#select_all").click(function () {
-            $(".is_selected").attr('checked', true);
-            $(':disabled').attr('checked', false);
-        });
-
-        // Unselect all.
-        $("#unselect_all").click(function () {
-            $(".is_selected").attr('checked', false);
-        });
-
-        @*$("#deactivate").click(function () {
-            var val = "";
-            $(':checkbox:checked').each(function (i) {
-                val += $(this).val() + "-";
-            });
-
-            if (val == "") {
-                alert("You must select at least one rank!");
-            } else {
-                var con = confirm("Are you sure you want to deactivate this user(s)?");
-                if (con == true) {
-                    // Deactivate.
-                    $.ajax({
-                        url: "@Url.Content("~/User/Deactivate")?ids=" + val,
-                        type: 'GET',
-                        success: function (result) {
-                            if (result != null) {
-                                alert(result);
-                                // Reload page.
-                                $.ajax({
-                                    url: "@Url.Content("~/Rank/Index")?page=@ViewBag.Page&keyWord=@ViewBag.KeyWord&column=@ViewBag.Column&sort=@ViewBag.Sort",
-                                    type: 'GET',
-                                    success: function (data) {
-                                        $("#unobtrusive").html(data);
-                                    }
-                                });
-                            }
-                        }
-                    });
-                }
-            }
-        });
-
-        $("#activate").click(function () {
-            var val = "";
-            $(':checkbox:checked').each(function () {
-                val += $(this).val() + "-";
-            });
-            if (val == "") {
-                alert("You must select at least one user!");
-            } else {
-                var con = confirm("Are you sure you want to activate this user(s)?");
-                if (con == true) {
-                    // Activate.
-                    $.ajax({
-                        url: "@Url.Content("~/User/Activate")?ids=" + val,
-                        type: 'GET',
-                        success: function (result) {
-                            if (result != null) {
-                                alert(result);
-                                // Reload page.
-                                $.ajax({
-                                    url: "@Url.Content("~/User/Index")?page=@ViewBag.Page&keyWord=@ViewBag.KeyWord&column=@ViewBag.Column&sort=@ViewBag.Sort",
-                                    type: 'GET',
-                                    success: function (data) {
-                                        $("#unobtrusive").html(data);
-                                    }
-                                });
-                            }
-                        }
-                    });
-                }
-            }
-        });*@
-
-        $("#delete").click(function () {
-            var val = "";
-            $(':checkbox:checked').each(function () {
-                val += $(this).val() + "-";
-            });
-            if (val == "") {
-                alert("You must select at least one rank!");
-            } else {
-                var con = confirm("Are you sure you want to delete this rank(s)?");
-                if (con == true) {
-                    // Delete.
-                    $.ajax({
-                        url: "@Url.Content("~/User/Delete")?ids=" + val,
-                        type: 'GET',
-                        success: function (result) {
-                            if (result != null) {
-                                alert(result);
-                                // Reload page.
-                                $.ajax({
-                                    url: "@Url.Content("~/User/Index")?page=@ViewBag.Page&keyWord=@ViewBag.KeyWord&column=@ViewBag.Column&sort=@ViewBag.Sort",
-                                    type: 'GET',
-                                    success: function (data) {
-                                        $("#unobtrusive").html(data);
-                                    }
-                                });
-                            }
-                        }
-                    });
-                }
-            }
-        });
-    });
-</script>
 <div id="list">
     <div>
         <table class="table table-condensed table-bordered table-hover">
@@ -138,7 +27,7 @@
                     row++;
                     <tr id="row_@row">
                         <td>
-                            <span style="word-wrap: break-word">@Html.ActionLink(rank.RankName, "Details", "Rank", new {id = @rank.Id}, null)</span>
+                            <span style="word-wrap: break-word">@Html.ActionLink(rank.RankName, "EditMemberRank", "WebsiteStaff", new {id = @rank.Id}, null)</span>
                         </td>
                         <td>
                             <span style="word-wrap: break-word">@Html.DisplayFor(model => rank.Point)</span>
