@@ -1914,7 +1914,7 @@ namespace FootballPitchesBooking.Controllers
 
 
         [HttpPost]
-        public ActionResult AddReservation(FormCollection form)
+        public ActionResult AddReservation(FormCollection form, int stadium)
         {
             ReservationModel model = new ReservationModel();
 
@@ -1950,15 +1950,22 @@ namespace FootballPitchesBooking.Controllers
                 StadiumBO stadiumBO = new StadiumBO();
                 UserBO userBO = new UserBO();
 
-                User customer = userBO.GetUserByUserName(model.Customer);
-                User rival = userBO.GetUserByUserName(model.RivalUser);
+                User customer = null;
+                if (model.Customer != "")
+                {
+                    userBO.GetUserByUserName(model.Customer);
+                }
+                User rival = null;
+                if (model.HasRival && model.RivalUser != "")
+                {
+                    rival = userBO.GetUserByUserName(model.RivalUser);
+                }
                 User staff = userBO.GetUserByUserName(User.Identity.Name);
                 Promotion promotion = stadiumBO.GetPromotionByField(model.FieldId, model.Date);
 
                 Reservation reservation = new Reservation()
                 {
                     FieldId = model.FieldId,
-                    UserId = customer != null ? customer.Id : new int?(),
                     FullName = model.FullName,
                     PhoneNumber = model.PhoneNumber,
                     Email = model.Email,
@@ -1972,13 +1979,25 @@ namespace FootballPitchesBooking.Controllers
                     CreatedDate = DateTime.Now.Date,
                     Approver = staff.Id,
                     Status = model.Status,
-                    HasRival = model.HasRival,
-                    RivalId = rival != null ? rival.Id : new int?(),
-                    RivalName = model.RivalName,
-                    RivalPhone = model.RivalPhone,
-                    RivalEmail = model.RivalEmail,
-                    RivalFinder = staff.Id
+                    HasRival = model.HasRival
                 };
+
+                if (customer != null)
+                {
+                    reservation.UserId = customer.Id;
+                }
+
+                if (reservation.HasRival)
+                {
+                    if(rival != null)
+                    {
+                        reservation.RivalId = rival.Id;
+                    }
+                    reservation.RivalName = model.RivalName;
+                    reservation.RivalPhone = model.RivalPhone;
+                    reservation.RivalEmail = model.RivalEmail;
+                    reservation.RivalFinder = staff.Id;
+                }
 
                 ReservationBO resvBO = new ReservationBO();
 
@@ -1986,7 +2005,7 @@ namespace FootballPitchesBooking.Controllers
 
                 if (result > 0)
                 {
-                    return RedirectToAction("Reservation", "StadiumStaff");
+                    return RedirectToAction("Reservations", "StadiumStaff");
                 }
                 else if (result == 0)
                 {
@@ -2151,7 +2170,12 @@ namespace FootballPitchesBooking.Controllers
             {
                 StadiumBO stadiumBO = new StadiumBO();
                 UserBO userBO = new UserBO();
-                User rival = userBO.GetUserByUserName(model.RivalUser);
+
+                User rival = null;
+                if (model.HasRival && model.RivalUser != "")
+                {
+                    rival = userBO.GetUserByUserName(model.RivalUser);
+                }
                 User staff = userBO.GetUserByUserName(User.Identity.Name);
                 Promotion promotion = stadiumBO.GetPromotionByField(model.FieldId, model.Date);
 
@@ -2166,17 +2190,22 @@ namespace FootballPitchesBooking.Controllers
                     StartTime = model.StartTime,
                     Duration = model.Duration,
                     Price = stadiumBO.CalculatePrice(stadiumBO.GetFieldById(model.FieldId), model.Date, model.StartTime, model.Duration),
-                    Discount = promotion.Discount,
-                    PromotionId = promotion.Id,
                     Approver = staff.Id,
                     Status = model.Status,
-                    HasRival = model.HasRival,
-                    RivalId = rival != null ? rival.Id : new int?(),
-                    RivalName = model.RivalName,
-                    RivalPhone = model.RivalPhone,
-                    RivalEmail = model.RivalEmail,
-                    RivalFinder = staff.Id
+                    HasRival = model.HasRival
                 };
+                
+                if (reservation.HasRival)
+                {
+                    if (rival != null)
+                    {
+                        reservation.RivalId = rival.Id;
+                    }
+                    reservation.RivalName = model.RivalName;
+                    reservation.RivalPhone = model.RivalPhone;
+                    reservation.RivalEmail = model.RivalEmail;
+                    reservation.RivalFinder = staff.Id;
+                }
 
                 ReservationBO resvBO = new ReservationBO();
 
@@ -2184,7 +2213,7 @@ namespace FootballPitchesBooking.Controllers
 
                 if (result > 0)
                 {
-                    return RedirectToAction("Reservation", "StadiumStaff");
+                    return RedirectToAction("Reservations", "StadiumStaff");
                 }
                 else if (result == 0)
                 {
@@ -2222,7 +2251,7 @@ namespace FootballPitchesBooking.Controllers
             UserBO userBO = new UserBO();
             User staff = userBO.GetUserByUserName(User.Identity.Name);
             int result = resvBO.UpdateReservationStatus(id, "Approved", staff.Id); 
-            return RedirectToAction("Reservation", "StadiumStaff");
+            return RedirectToAction("Reservations", "StadiumStaff");
         }
 
 
@@ -2232,7 +2261,7 @@ namespace FootballPitchesBooking.Controllers
             UserBO userBO = new UserBO();
             User staff = userBO.GetUserByUserName(User.Identity.Name);
             int result = resvBO.UpdateReservationStatus(id, "Denied", staff.Id);
-            return RedirectToAction("Reservation", "StadiumStaff");
+            return RedirectToAction("Reservations", "StadiumStaff");
         }
 
 
@@ -2262,9 +2291,8 @@ namespace FootballPitchesBooking.Controllers
                     }
 
                     model.HavePermission = true;
-                    model.StadiumId = std.Id;
-                    model.StadiumName = std.Name;
-                    model.StadiumAddress = std.Street + ", " + std.Ward + ", " + std.District;
+                    model.Stadium = std;
+                    model.Stadiums = stadiums;
                     model.Promotions = stadiumBO.GetAllPromotionsByStadium(std.Id);
                 }
                 else
@@ -2278,7 +2306,7 @@ namespace FootballPitchesBooking.Controllers
                 model.HavePermission = false;
                 model.ErrorMessage = Resources.StadiumStaff_HaveNoPermissionTotAccessStadium;
             }
-            
+
             return View(model);
         }
 

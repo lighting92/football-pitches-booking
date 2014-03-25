@@ -63,7 +63,6 @@ namespace FootballPitchesBooking.DataAccessObjects
         {
             FPBDataContext db = new FPBDataContext();
             Reservation curRev = db.Reservations.Where(r => r.Id == reservation.Id).FirstOrDefault();
-            curRev.FieldId = reservation.FieldId;
             curRev.FullName = reservation.FullName;
             curRev.PhoneNumber = reservation.PhoneNumber;
             curRev.Email = reservation.Email;
@@ -71,7 +70,6 @@ namespace FootballPitchesBooking.DataAccessObjects
             curRev.StartTime = reservation.StartTime;
             curRev.Duration = reservation.Duration;
             curRev.Price = reservation.Price;
-            curRev.Discount = reservation.Discount;
             curRev.Status = reservation.Status;
             curRev.HasRival = reservation.HasRival;
             curRev.RivalId = reservation.RivalId;
