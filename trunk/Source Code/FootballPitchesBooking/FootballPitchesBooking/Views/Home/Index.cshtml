@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.HOME = "active";
     ViewBag.Title = "TRANG CHỦ";
+    var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now.AddHours(2), "SE Asia Standard Time");
 }
 <div class="row">
     <div class="span12 what_people_say">
@@ -26,11 +27,8 @@
 
 <hr />
 <!--collapse search -->
-<div class="row-fluid home" id="findavailablesection">
-
-
+<div class="row-fluid" id="findavailablesection">
     <div class="span12">
-
         <div class="panel-group" id="accordion">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -42,35 +40,45 @@
                 </div>
                 <div id="collapseTwo" class="panel-collapse collapse">
                     <div class="panel-body">
-                        <h5><span class="special-font" style="font-weight:bold">chọn kiểu sân, ngày giờ và địa điểm</span></h5>
-                        <form class="form-inline">
+                        <h5><span class="special-font" style="font-weight: bold">chọn kiểu sân, ngày giờ và địa điểm</span></h5>
+                        <form method="post" action="/Stadium/QuickSearch" class="form-inline">
                             <div class="row-fluid home">
-                                <div class="span3">
-                                    <div class="room_selector" data-price="34" data-adults="1" data-kids="1">
-                                        <h5 style="text-transform:none"><a href="#" class="pull-left"><i class="icon-chevron-left"></i></a>Sân 5 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
+                                <div id="fieldtypeselector" class="span3">
+                                    <div class="room_selector" data-ftype="5" style="display: block">
+                                        <h5 style="text-transform: none"><a href="#" class="pull-left"><i class="icon-chevron-left"></i></a>sân 5 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
                                         <a href="/Content/css/images/stadiums/san5nguoi.jpg">
                                             <img src="/Content/css/images/stadiums/san5nguoi.jpg" alt="" /></a>
                                         <p>Sân hình chữ nhật, chiều dài tối đa 42m và tối thiểu 25m, chiều rộng tối đa 25m và tối thiểu 15m.</p>
                                     </div>
-                                    <div class="room_selector" data-price="48" data-adults="2" data-kids="1" style="display: none;">
-                                        <h5 style="text-transform:none"><a href="#" class="pull-left "><i class="icon-chevron-left"></i></a>Sân 7 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
+                                    <div class="room_selector" data-ftype="7" style="display: none">
+                                        <h5 style="text-transform: none"><a href="#" class="pull-left "><i class="icon-chevron-left"></i></a>sân 7 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
                                         <a href="/Content/css/images/stadiums/san7nguoi.jpg">
                                             <img src="/Content/css/images/stadiums/san7nguoi.jpg" alt="" /></a>
                                         <p>Sân hình chữ nhật, chiều dài tối đa 75m và tối thiểu 50m, chiều rộng tối đa 40m và tối thiểu 55m.</p>
                                     </div>
-                                    <div class="room_selector" data-price="62" data-adults="3" data-kids="2" style="display: none;">
-                                        <h5 style="text-transform:none"><a href="#" class="pull-left "><i class="icon-chevron-left"></i></a>Sân 11 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
+                                    <div class="room_selector" data-ftype="11" style="display: none">
+                                        <h5 style="text-transform: none"><a href="#" class="pull-left "><i class="icon-chevron-left"></i></a>sân 11 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
                                         <a href="/Content/css/images/stadiums/san7nguoi.jpg">
                                             <img src="/Content/css/images/stadiums/san11nguoi.png" alt="" /></a>
                                         <p>Sân hình chữ nhật, chiều dài tối đa 120m và tối thiểu 90m, chiều rộng tối đa 90m và tối thiểu 45m. </p>
                                     </div>
+                                    <input type="hidden" id="fieldType" name="FieldType" value="5" />
+                                    <script type="text/javascript">
+                                        $('#fieldtypeselector').bind('DOMSubtreeModified', function () {
+                                            $.each($(".room_selector"), function (index, obj) {
+                                                if (obj.style.display != "none") {
+                                                    $("#fieldType").val($(obj).data("ftype"));
+                                                }
+                                            });
+                                        });
+                                    </script>
                                 </div>
                                 <div class="span3 home_calendar">
                                     <div class="form-horizontal">
                                         <div class="control-group">
                                             <label class="control-label pull-left" for="startdate">Ngày</label>
                                             <div class="controls">
-                                                <input type="text" id="startdate" value="" class="span2 check-in-date" />
+                                                <input type="text" name="StartDate" id="startdate" class="span2 input-date-collapse" value="@now.ToShortDateString()" />
                                             </div>
                                         </div>
                                     </div>
@@ -82,7 +90,7 @@
                                             <label class="control-label pull-left" for="starttime">Giờ</label>
                                             <div class="controls">
                                                 <div class="input-append bootstrap-timepicker">
-                                                    <input id="starttime" type="text" value="" class="span2 home-start-time" />
+                                                    <input name="StartTime" id="starttime" type="text" class="span2 input-time-collapse" value="@now.Hour:0" />
                                                     <script type="text/javascript">
                                                         var timepicker = document.getElementById("starttime");
                                                         timepicker.onkeydown = function () {
@@ -96,8 +104,8 @@
                                         <div class="control-group">
                                             <label class="control-label pull-left" for="duration">Thời lượng</label>
                                             <div class="controls">
-                                                <select class="select_duration" id="duration">
-                                                    <option value="1" selected="selected">60 phút</option>
+                                                <select class="select_duration" id="duration" name="Duration" data-cur="1">
+                                                    <option value="1">60 phút</option>
                                                     <option value="1.5">90 phút</option>
                                                     <option value="2">120 phút</option>
                                                     <option value="2.5">150 phút</option>
@@ -106,21 +114,18 @@
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <label class="control-label pull-left" for="city">Tỉnh/TP</label>
+                                            <label class="control-label pull-left" for="city" data-cur="HCM">Tỉnh/TP</label>
                                             <div class="controls">
-                                                <select class="select_city" id="city">
-                                                    <option value="Hồ Chí Minh" selected="selected">Hồ Chí Minh</option>
-                                                    <option value="Đồng Nai">Đồng Nai</option>
-                                                    <option value="Biên Hòa">Biên Hòa</option>
-                                                    <option value="Bình Dương">Bình Dương</option>
+                                                <select name="City" class="select_city" id="city">
+                                                    <option value="HCM">Hồ Chí Minh</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label pull-left" for="district">Quận / Huyện</label>
                                             <div class="controls">
-                                                <select class="select_district" id="district">
-                                                    <option value="Q. 1" selected="selected">Q. 1</option>
+                                                <select name="District" class="select_district" id="district" data-cur="Q. 1">
+                                                    <option value="Q. 1">Q. 1</option>
                                                     <option value="Q. 2">Q. 2</option>
                                                     <option value="Q. 3">Q. 3</option>
                                                     <option value="Q. 4">Q. 4</option>
@@ -151,6 +156,31 @@
                                     </div>
                                 </div>
 
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        $('.datepicker_from').datepicker({
+                                            dateFormat: 'dd/mm/yy',
+                                            showOtherMonths: true,
+                                            numberOfMonths: 1,
+                                            altField: "#startdate",
+                                            altFormat: "dd/mm/yy",
+                                            minDate: 0,
+                                            onSelect: function (date) {
+                                            }
+                                        });
+                                        $(".datepicker_from").datepicker("setDate", "@now.ToShortDateString()");
+                                        $('#starttime').timepicker({
+                                            showMeridian: false,
+                                            defaultTime: $('#starttime').val(),
+                                            minuteStep: 30,
+                                            showInputs: false
+                                        });
+                                        $.each($("select"), function (index, obj) {
+                                            $(obj).val($(obj).data("cur"));
+                                        });
+                                    });
+                                </script>
+
                                 <div class="span3">
                                     <p>
                                         Bạn là chủ của 1 sân bóng?
@@ -175,19 +205,10 @@
                                 </div>
                             </div>
                         </form>
-
                     </div>
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-
-
     </div>
 </div>
 <!--end collapse search -->

@@ -158,6 +158,21 @@ namespace FootballPitchesBooking.BusinessObjects
             return result;
         }
 
+        public int UserBooking(Reservation res)
+        {
+            var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now.AddHours(2), "SE Asia Standard Time");
+            double time = now.Hour + (now.Minute / 60.0);
+            if (res.Date.CompareTo(now.Date) >= 0 && res.StartTime > time)
+            {
+                ReservationDAO resDAO = new ReservationDAO();
+                return resDAO.CreateReservation(res);
+            }
+            else
+            {
+                return -1;                
+            }
+        }
+
 
         public int UpdateReservationStatus(int reservationId, string status, int approver)
         {

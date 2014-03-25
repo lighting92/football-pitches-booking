@@ -12,6 +12,34 @@ namespace FootballPitchesBooking.BusinessObjects
 {
     public class StadiumBO
     {
+        public QuickSearchResultModel GetAvailableFieldsOfStadium(int stadiumId, int fieldType, DateTime startDate, double startTime, double duration)
+        {
+            FieldDAO fieldDAO = new FieldDAO();
+            var availableFields = fieldDAO.GetAvailableFieldsOfStadium(stadiumId, fieldType, startDate, startTime, duration);
+            if (availableFields != null && availableFields.Count != 0)
+            {
+                    QuickSearchResultModel result = new QuickSearchResultModel();
+                   
+                    result.Fields = availableFields;
+
+                    List<double> prices = new List<double>();
+
+                    foreach (var f in result.Fields)
+                    {
+                        var price = CalculatePrice(f, startDate, startTime, duration);
+                        prices.Add(price);
+                    }
+
+                    result.Prices = prices;
+
+                    return result;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public List<Stadium> GetAllStadiums()
         {
             StadiumDAO stadiumDAO = new StadiumDAO();

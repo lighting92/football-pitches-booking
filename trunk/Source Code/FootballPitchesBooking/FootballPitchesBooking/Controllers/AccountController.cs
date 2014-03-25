@@ -35,6 +35,22 @@ namespace FootballPitchesBooking.Controllers
         [HttpPost]
         public ActionResult Login(FormCollection form, string returnUrl)
         {
+            if (Request.QueryString.AllKeys.Count() != 1)
+            {
+                returnUrl = "";
+                for (int i = 0; i < Request.QueryString.AllKeys.Count(); i++)
+                {
+                    if (Request.QueryString.Keys[i].ToLower().Equals("returnurl"))
+                    {
+                        returnUrl += Request.QueryString[i];
+                    }
+                    else
+                    {
+                        returnUrl += "&" + Request.QueryString.Keys[i] + "=" + Request.QueryString[i];
+                    }
+                }
+            }
+
             LoginModel log = new LoginModel();
             log.UserName = form["UserName"];
             log.Password = form["Password"];
