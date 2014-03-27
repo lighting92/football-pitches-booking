@@ -1,0 +1,109 @@
+﻿@model FootballPitchesBooking.Models.WebsiteStaffModels.AdvertisementModel
+@{
+    ViewBag.ADVERTISEMENT = "active";
+    ViewBag.Title = "Chỉnh sửa thông tin quảng cáo";
+    Layout = "~/Views/Shared/_WebsiteStaffLayout.cshtml";
+}
+
+<script type="text/ecmascript">
+    function check() {
+        var flag = 0;
+        var detail = $("#AdvertiseDetail").val();
+        var expired = $("#ExpiredDate").val();
+
+        if (detail == "") {
+            $("#AdvertiseDetail_Error").append("Xin vui lòng chọn thời gian khuyến mãi");
+            $("#AdvertiseDetail_Error").css("display", "block");
+            flag++;
+        }
+        else {
+            $("#AdvertiseDetail_Error").text(" ");
+            $("#AdvertiseDetail_Error").css("display", "none");
+        }
+
+        if (expired == "") {
+            $("#ExpiredDate_Error").append("Xin vui lòng chọn thời gian khuyến mãi");
+            $("#ExpiredDate_Error").css("display", "block");
+            flag++;
+        }
+        else {
+            $("#ExpiredDate_Error").text(" ");
+            $("#ExpiredDate_Error").css("display", "none");
+        }
+
+        if (flag > 0) {
+            return false;
+        } else return true;
+    }
+</script>
+
+<div class="row websitestaff-create-advertisement">
+    <h1>CHỈNH SỬA THÔNG TIN QUẢNG CÁO</h1>
+    <form action="AddAdvertisement" method="post" class="form-horizontal" enctype="multipart/form-data">
+        <p>
+            @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
+            {
+                <div class="alert alert-danger">
+                    @foreach (var error in Model.ErrorMessages)
+                    {
+                        <p>- @error</p>
+                    }
+                </div>
+            }
+        </p>
+        <p>
+            <label for="Position">VỊ TRÍ</label>
+            <select id="Position" name="Position" data-cur="@Model.Position">
+                <option value="1" selected="selected">Vị trí 1</option>
+                <option value="2">Vị trí 2</option>
+                <option value="3">Vị trí 3</option>
+                <option value="4">Vị trí 4</option>
+            </select>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $("#Position").val($("#Position").data("cur"));
+                });
+            </script>
+        </p>
+        <p>
+            <label for="AdvertiseDetail">CHI TIẾT QUẢNG CÁO</label>
+            <textarea name="AdvertiseDetail" id="AdvertiseDetail">@Model.AdvertiseDetail</textarea>
+            <div class="alert alert-danger" id="AdvertiseDetail_Error" style="display: none"></div>
+        </p>
+        <p>
+            <label for="ExpiredDate">NGÀY HẾT HẠN</label>
+            <input name="ExpiredDate" id="ExpiredDate" type="text" placeholder="Ngày hết hạn" required="required" value="@Model.ExpiredDate.ToString("dd/MM/yyyy")">
+            <script>
+                $('#Date').datepicker({
+                    format: "dd/mm/yyyy",
+                    language: "vi"
+                });
+            </script>
+            <div class="alert alert-danger" id="ExpiredDate_Error" style="display: none"></div>
+        </p>
+        <p>
+            <label for="Status">TRẠNG THÁI</label>
+            <select id="Status" name="Status" data-cur="@Model.Status">
+                <option value="1" selected="selected">Trạng thái 1</option>
+                <option value="2">Trạng thái 2</option>
+                <option value="3">Trạng thái 3</option>
+                <option value="4">Trạng thái 4</option>
+            </select>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $("#Status").val($("#Status").data("cur"));
+                });
+            </script>
+        </p>
+        <p>
+            <label for="CreateDate">NGÀY TẠO</label>
+            <input name="CreateDate" type="text" disabled="disabled" value="@Model.CreateDate.ToString("dd/MM/yyyy")">
+        </p>
+        <p>
+            <label for="Creator">NGƯỜI TẠO</label>
+            <input name="Creator" type="text" disabled="disabled" value="@Model.Creator">
+        </p>
+        <button class="btn btn-primary book-now groupbtn" type="submit" name="Save" onclick="return check()">Lưu</button>
+        <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/Promotions'">Hủy bỏ</button>
+    </form>
+</div>

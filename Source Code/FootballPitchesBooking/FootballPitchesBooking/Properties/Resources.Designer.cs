@@ -61,6 +61,15 @@ namespace FootballPitchesBooking.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Thời gian quảng cáo đã kết thúc, xin vui lòng chọn thời gian quảng cáo khác.
+        /// </summary>
+        internal static string Ads_ExpiredTimeOver {
+            get {
+                return ResourceManager.GetString("Ads_ExpiredTimeOver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Máy chủ đang bận. Xin vui lòng thử lại sau.
         /// </summary>
         internal static string DB_Exception {

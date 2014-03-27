@@ -1,7 +1,7 @@
 ﻿@model FootballPitchesBooking.Models.StadiumStaffModels.PromotionModel
 @{
     ViewBag.PROMOTION = "active";
-    ViewBag.Title = "Sửa khuyến mãi";
+    ViewBag.Title = "Chỉnh sửa thông tin khuyến mãi";
     Layout = "~/Views/Shared/_StadiumStaffLayout.cshtml";
 }
 
@@ -55,7 +55,7 @@
              }
         </p>
         <p>
-            <label for="Fields">(*) Số sân:</label>
+            <label for="Fields">SỐ SÂN</label>
             <select id="Fields" name="Fields" data-cur="@Model.FieldId">
                  @if (Model.Fields != null && Model.Fields.Count() > 0)
                  {
@@ -75,7 +75,7 @@
             </script>
         </p>
         <p>
-            <label for="PromotionTime">(*) Thời gian khuyến mãi:</label>
+            <label for="PromotionTime">THỜI GIAN KHUYẾN MÃI</label>
             <div class="input-daterange input-group" id="promotionTime">
                 <input type="text" class="input-sm form-control" name="PromotionFrom" required="required" value="@Model.PromotionFrom.ToString("dd/MM/yyyy")" />
                 <span class="input-group-addon">đến</span>
@@ -90,7 +90,7 @@
             <div class="alert alert-danger" id="PromotionTime_Error" style="display: none"></div>
         </p>
         <p>
-            <label for="Discount">(*) Giảm giá (%):</label>
+            <label for="Discount">ƯU ĐÃI GIẢM GIÁ (%)</label>
             <input name="Discount" id="txtDiscount" type="text" placeholder="Giảm giá (%)" required="required" value="@Model.Discount">
             <script type="text/javascript"> 
                 $('#txtDiscount').keyup(function (event) {

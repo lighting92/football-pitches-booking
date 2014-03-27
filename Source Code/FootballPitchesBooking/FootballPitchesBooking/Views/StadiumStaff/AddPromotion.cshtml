@@ -55,7 +55,7 @@
              }
         </p>
         <p>
-            <label for="Fields">(*) Số sân:</label>
+            <label for="Fields">SỐ SÂN</label>
             <select id="Fields" name="Fields">
                 @if(Model.Fields != null && Model.Fields.Count() > 0)
                 {
@@ -70,7 +70,7 @@
             </select>
         </p>
         <p>
-            <label for="PromotionTime">(*) Thời gian khuyến mãi:</label>
+            <label for="PromotionTime">THỜI GIAN KHUYẾN MÃI</label>
             <div class="input-daterange input-group" id="promotionTime">
                 <input type="text" class="input-sm form-control" name="PromotionFrom" required="required" value="" />
                 <span class="input-group-addon">đến</span>
@@ -85,7 +85,7 @@
             <div class="alert alert-danger" id="PromotionTime_Error" style="display: none"></div>
         </p>
         <p>
-            <label for="Discount">(*) Giảm giá (%):</label>
+            <label for="Discount">ƯU ĐÃI GIẢM GIÁ (%)</label>
             <input name="Discount" id="txtDiscount" type="text" placeholder="Giảm giá (%)" required="required" value="">
             <script type="text/javascript">
                 $('#txtDiscount').keyup(function (event) {

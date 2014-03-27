@@ -71,7 +71,7 @@ namespace FootballPitchesBooking.DataAccessObjects
             try
             {
                 db.SubmitChanges();
-                return currentPromotion.Id;
+                return promotion.Id;
             }
             catch (Exception)
             {
