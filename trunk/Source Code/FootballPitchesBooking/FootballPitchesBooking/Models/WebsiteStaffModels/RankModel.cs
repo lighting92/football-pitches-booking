@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace FootballPitchesBooking.Models.RankModels
+namespace FootballPitchesBooking.Models.WebsiteStaffModels
 {
     public class RankModel
     {

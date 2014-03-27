@@ -150,6 +150,7 @@
     <Compile Include="Models\StadiumModels\BookModel.cs" />
     <Compile Include="Models\StadiumStaffModels\ReservationsModel.cs" />
     <Compile Include="Models\StadiumStaffModels\ReservationModel.cs" />
+    <Compile Include="Models\WebsiteStaffModels\AdvertisementModel.cs" />
     <Compile Include="Models\WebsiteStaffModels\UserModel.cs" />
     <Compile Include="Utilities\Utils.cs" />
     <Compile Include="BusinessObjects\WebsiteBO.cs" />
@@ -182,7 +183,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FPB.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Models\RankModels\RankModel.cs" />
+    <Compile Include="Models\WebsiteStaffModels\RankModel.cs" />
     <Compile Include="Models\StadiumModels\JoinUsModel.cs" />
     <Compile Include="Models\NoModel.cs" />
     <Compile Include="Models\StadiumModels\QuickSearchModel.cs" />
@@ -454,6 +455,9 @@
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Stadium\BookSuccess.cshtml" />
     <Content Include="Views\StadiumStaff\ViewReservation.cshtml" />
+    <Content Include="Views\WebsiteStaff\Ads.cshtml" />
+    <Content Include="Views\WebsiteStaff\AddAdvertisement.cshtml" />
+    <Content Include="Views\WebsiteStaff\EditAdvertisement.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

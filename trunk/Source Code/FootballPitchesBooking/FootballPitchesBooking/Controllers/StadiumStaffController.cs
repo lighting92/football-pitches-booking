@@ -1919,6 +1919,9 @@ namespace FootballPitchesBooking.Controllers
             ReservationModel model = new ReservationModel();
 
             model.ErrorMessages = new List<string>();
+
+            bool checkParseError = false;
+
             try
             {
                 model.FieldId = Int32.Parse(form["Fields"]);
@@ -2141,6 +2144,9 @@ namespace FootballPitchesBooking.Controllers
             ReservationModel model = new ReservationModel();
 
             model.ErrorMessages = new List<string>();
+
+            bool checkParseError = false;
+
             try
             {
                 model.FieldId = Int32.Parse(form["Fields"]);

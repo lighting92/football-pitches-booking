@@ -1,6 +1,5 @@
 ﻿using FootballPitchesBooking.BusinessObjects;
 using FootballPitchesBooking.Models;
-using FootballPitchesBooking.Models.RankModels;
 using FootballPitchesBooking.Properties;
 using System;
 using System.Collections.Generic;
@@ -547,7 +546,7 @@ namespace FootballPitchesBooking.Controllers
             model.Address = usr.Address;
             model.RankName = usr.MemberRank.RankName;
             model.Roles = userBO.getAllRole();
-            
+
             return View(model);
         }
 
@@ -775,7 +774,7 @@ namespace FootballPitchesBooking.Controllers
         {
             MemberRank memberRank = new MemberRank();
             memberRank = userBO.GetRankById((int)id); //convert từ int? về int rồi mới gọi hàm
-            RankModel rank = new RankModel 
+            RankModel rank = new RankModel
             {
                 Id = memberRank.Id,
                 RankName = memberRank.RankName,
@@ -844,5 +843,183 @@ namespace FootballPitchesBooking.Controllers
 
 
         #endregion MEMBER RANK MANAGEMENT
+
+
+        #region ADVERTISEMENT MANAGEMENT
+
+
+        [Authorize(Roles = "WebsiteMaster")]
+        public ActionResult Ads(int? stadium)
+        {
+            WebsiteBO webBO = new WebsiteBO();
+            List<Advertisement> adsList = webBO.GetAllAds();
+            return View(adsList);
+        }
+
+
+        public ActionResult AddAdvertisement()
+        {
+            return View();
+        }
+
+
+        [Authorize(Roles = "WebsiteMaster")]
+        [HttpPost]
+        public ActionResult AddAdvertisement(FormCollection form)
+        {
+            AdvertisementModel model = new AdvertisementModel();
+
+            model.ErrorMessages = new List<string>();
+            model.Position = form["Position"];
+            model.AdvertiseDetail = form["AdvertiseDetail"];
+            model.Status = form["Status"];
+
+            bool checkParseError = false;
+
+            try
+            {
+                model.ExpiredDate = DateTime.Parse(form["ExpiredDate"], new CultureInfo("vi-VN"));
+            }
+            catch (Exception)
+            {
+                checkParseError = true;
+            }
+
+            if (checkParseError || string.IsNullOrEmpty(model.Position) || string.IsNullOrEmpty(model.AdvertiseDetail) || string.IsNullOrEmpty(model.Status))
+            {
+                model.ErrorMessages.Add(Resources.Form_EmptyFields);
+            }
+
+            if (model.ErrorMessages.Count == 0)
+            {
+                UserBO userBO = new UserBO();
+
+                User creator = userBO.GetUserByUserName(User.Identity.Name);
+
+                Advertisement ads = new Advertisement()
+                {
+                    Position = model.Position,
+                    AdvertiseDetail = model.AdvertiseDetail,
+                    CreateDate = DateTime.Now.Date,
+                    ExpiredDate = model.ExpiredDate,
+                    Status = model.Status,
+                    Creator = creator.Id
+                };
+
+                WebsiteBO webBO = new WebsiteBO();
+
+                int result = webBO.CreateAdvertisement(ads);
+
+                if (result > 0)
+                {
+                    return RedirectToAction("Ads", "WebsiteStaff");
+                }
+                else if (result == 0)
+                {
+                    model.ErrorMessages.Add(Resources.DB_Exception);
+                }
+                else if (result == -1)
+                {
+                    model.ErrorMessages.Add(Resources.Ads_ExpiredTimeOver);
+                }
+            }
+
+            return View(model);
+        }
+
+
+        [Authorize(Roles = "WebsiteMaster")]
+        public ActionResult EditAdvertisement(int? id)
+        {
+            WebsiteBO webBO = new WebsiteBO();
+
+            try
+            {
+                Advertisement ads = webBO.GetAdvertisementById((int)id);
+
+                if (ads == null)
+                {
+                    return RedirectToAction("Ads", "WebsiteStaff");
+                }
+
+                AdvertisementModel model = new AdvertisementModel()
+                {
+                    Position = ads.Position,
+                    AdvertiseDetail = ads.AdvertiseDetail,
+                    CreateDate = ads.CreateDate,
+                    ExpiredDate = ads.ExpiredDate,
+                    Status = ads.Status,
+                    Creator = ads.User.UserName
+                };
+
+                return View(model);
+            }
+            catch
+            {
+                return RedirectToAction("Ads", "WebsiteStaff");
+            }
+        }
+
+
+        [Authorize(Roles = "WebsiteMaster")]
+        [HttpPost]
+        public ActionResult EditAdvertisement(FormCollection form, int id)
+        {
+            AdvertisementModel model = new AdvertisementModel();
+
+            model.ErrorMessages = new List<string>();
+            model.Position = form["Position"];
+            model.AdvertiseDetail = form["AdvertiseDetail"];
+            model.Status = form["Status"];
+
+            bool checkParseError = false;
+
+            try
+            {
+                model.ExpiredDate = DateTime.Parse(form["ExpiredDate"], new CultureInfo("vi-VN"));
+            }
+            catch (Exception)
+            {
+                checkParseError = true;
+            }
+
+            if (checkParseError || string.IsNullOrEmpty(model.Position) || string.IsNullOrEmpty(model.AdvertiseDetail) || string.IsNullOrEmpty(model.Status))
+            {
+                model.ErrorMessages.Add(Resources.Form_EmptyFields);
+            }
+
+            if (model.ErrorMessages.Count == 0)
+            {
+                Advertisement ads = new Advertisement()
+                {
+                    Id = id,
+                    Position = model.Position,
+                    AdvertiseDetail = model.AdvertiseDetail,
+                    ExpiredDate = model.ExpiredDate,
+                    Status = model.Status,
+                };
+
+                WebsiteBO webBO = new WebsiteBO();
+
+                int result = webBO.UpdateAdvertisement(ads);
+
+                if (result > 0)
+                {
+                    return RedirectToAction("Ads", "WebsiteStaff");
+                }
+                else if (result == 0)
+                {
+                    model.ErrorMessages.Add(Resources.DB_Exception);
+                }
+                else if (result == -1)
+                {
+                    model.ErrorMessages.Add(Resources.Ads_ExpiredTimeOver);
+                }
+            }
+
+            return View(model);
+        }
+
+        #endregion ADVERTISEMENT MANAGEMENT
     }
 }

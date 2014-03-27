@@ -1,0 +1,53 @@
+﻿@model List<FootballPitchesBooking.Models.Advertisement>
+@{
+    ViewBag.ADVERTISEMENT = "active";
+    ViewBag.Title = "Quản lý quảng cáo";
+    Layout = "~/Views/Shared/_WebsiteStaffLayout.cshtml";
+}
+
+<div class="row">
+    <div class="span12">
+        <h1>QUẢN LÝ QUẢNG CÁO</h1>
+        <br />
+
+        <a href="/WebsiteStaff/AddAdvertisement">
+            <button class="btn btn-primary btn-large book-now groupbtn no-margin">THÊM KHUYẾN MÃI</button>
+
+        </a>
+        <br />
+        <br />
+
+
+        @if (Model != null && Model.Count > 0)
+        {
+            <table class="table table-condensed table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>VỊ TRÍ</th>
+                        <th>THÔNG TIN QUẢNG CÁO</th>
+                        <th>NGÀY HẾT HẠN</th>
+                        <th>TRẠNG THÁI</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Position</td>
+                            <td>@item.AdvertiseDetail</td>
+                            <td>@item.ExpiredDate.ToString("dd/MM/yyyy")</td>
+                            <td>@item.Status</td>
+                            <td class="table-cell-action"><a href="/WebsiteStaff/EditAdvertisement?Id=@item.Id">Chỉnh sửa</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h3>Hiện tại không có quảng cáo nào.</h3>
+        }
+    </div>
+</div>
+</div>

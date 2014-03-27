@@ -257,7 +257,7 @@ namespace FootballPitchesBooking.Models
 		
 		private string _Status;
 		
-		private System.Nullable<int> _Creator;
+		private int _Creator;
 		
 		private EntityRef<User> _User;
 		
@@ -408,7 +408,7 @@ namespace FootballPitchesBooking.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Creator", DbType="Int")]
-		public System.Nullable<int> Creator
+		public int Creator
 		{
 			get
 			{
@@ -458,7 +458,7 @@ namespace FootballPitchesBooking.Models
 					}
 					else
 					{
-						this._Creator = default(Nullable<int>);
+						this._Creator = default(int);
 					}
 					this.SendPropertyChanged("User");
 				}
