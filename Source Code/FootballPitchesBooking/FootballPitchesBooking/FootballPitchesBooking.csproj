@@ -148,6 +148,8 @@
     <Compile Include="Models\StadiumModels\BookingUserInfo.cs" />
     <Compile Include="Models\StadiumModels\BookingOptions.cs" />
     <Compile Include="Models\StadiumModels\BookModel.cs" />
+    <Compile Include="Models\StadiumModels\StadiumModel.cs" />
+    <Compile Include="Models\StadiumModels\StadiumsModel.cs" />
     <Compile Include="Models\StadiumStaffModels\ReservationsModel.cs" />
     <Compile Include="Models\StadiumStaffModels\ReservationModel.cs" />
     <Compile Include="Models\WebsiteStaffModels\AdvertisementModel.cs" />
@@ -458,6 +460,7 @@
     <Content Include="Views\WebsiteStaff\Ads.cshtml" />
     <Content Include="Views\WebsiteStaff\AddAdvertisement.cshtml" />
     <Content Include="Views\WebsiteStaff\EditAdvertisement.cshtml" />
+    <Content Include="Views\Stadium\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

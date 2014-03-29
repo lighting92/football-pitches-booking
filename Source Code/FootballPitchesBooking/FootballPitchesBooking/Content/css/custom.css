@@ -264,3 +264,182 @@ footer a
 {
     margin: 0px !important;    
 }
+
+.stadium-details h1
+{
+    margin: 0;
+    padding: 0;
+    color: #B81007;
+    font-weight: bold;
+}
+
+.stadium-side-panel 
+{
+    margin-top: 10px !important;
+    width: 378px;
+    border-right: 1px solid #E5E5E5;
+    border-bottom: 1px solid #E5E5E5;
+    box-shadow: 1px 1px 6px #E5E5E5;
+}
+
+.stadium-image-slide .image-show
+{
+    margin: 0 9px;
+    padding: 9px 0;
+    width: 360px;
+    height: 260px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 260px;
+    border-bottom: 1px solid #E5E5E5;
+}
+
+.stadium-image-slide .image-show img
+{
+    margin: auto;
+    padding: 0;
+    max-width: 360px;
+    width: auto;
+    max-height: 250px;
+    height: auto;
+}
+
+.stadium-image-slide .image-list ul
+{
+    margin: 9px;
+    padding: 0;
+    white-space: nowrap;
+    width: 360px;
+    overflow-x: auto;
+    list-style: none;
+}
+
+.stadium-image-slide .image-list ul li
+{
+    display: inline-block;
+    padding: 0 9px;
+}
+
+.stadium-image-slide .image-list ul li img
+{
+    margin: 0 auto;
+    padding: 0;
+    width: 50px;
+    height: 50px;
+}
+
+.rating-point label
+{
+    float: left;
+    margin-right: 10px;
+}
+
+.rating-point img
+{
+    margin-top: 1px;
+    float: left;
+}
+
+.stadium-info ul.details-menu
+{
+    margin: 0;
+    padding: 0;
+    height: 31px;
+    width: auto;
+    list-style: none;
+    border-left: 1px solid #E5E5E5;
+    border-bottom: 1px solid #E5E5E5;
+}
+
+.stadium-info ul.details-menu li
+{
+    background-color: #EEEEEE;
+    float: left;
+    padding: 0 20px;
+    margin: 0;
+    height: 30px;
+    line-height: 30px;
+    border-right: 1px solid #E5E5E5;
+    border-top: 1px solid #E5E5E5;
+    font-weight: bold;
+}
+
+.stadium-info ul.details-menu li:hover
+{
+    background-color: #EEEEEE;
+    float: left;
+    padding: 0 20px;
+    margin: 0;
+    height: 30px;
+    line-height: 30px;
+    border-right: 1px solid #E5E5E5;
+    border-top: 1px solid #E5E5E5;
+    font-weight: bold;
+}
+
+.stadium-info ul.details-menu li.active
+{
+    background-color: #FFFFFF;
+    float: left;
+    padding: 0 20px;
+    margin: 0;
+    height: 30px;
+    line-height: 30px;
+    border-right: 1px solid #E5E5E5;
+    border-top: 1px solid #E5E5E5;
+    border-bottom: 1px solid #FFFFFF;
+    font-weight: bold;
+}
+
+.stadium-info ul.details-menu li a
+{
+    text-decoration: none;
+}
+
+.stadium-details-info
+{
+    width: 538px;
+    border: 1px solid #E5E5E5;
+    border-top: none;
+}
+
+.stadium-details-info .details-info
+{
+    width: 510px;
+    margin: 14px;
+    padding: 0;
+}
+
+.stadium-reviews .user-review
+{
+    margin: 0;
+    padding: 0;
+    width: 510px;
+    height: auto;
+    border-top: 1px solid #E5E5E5;
+    clear: both;
+}
+
+.stadium-reviews .user-review .user_avatar
+{
+    margin: 0;
+    padding: 10px;
+    width: 48px;
+    height: 48px;
+    float: left;
+}
+
+.stadium-reviews .user-review .content
+{
+    margin: 0;
+    padding: 10px 10px 10px 2px;
+    width: 430px;
+    height: auto;
+    float: right;
+}
+
+
+.stadium-image-list p
+{
+    text-align: center !important;
+}
