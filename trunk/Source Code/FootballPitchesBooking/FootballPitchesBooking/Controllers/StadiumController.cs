@@ -19,7 +19,77 @@ namespace FootballPitchesBooking.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            StadiumBO stadiumBO = new StadiumBO();
+            StadiumsModel model = new StadiumsModel();
+            model.Stadiums = stadiumBO.GetAllStadiums();
+            model.Rate = new List<double>();
+            model.Image = new List<string>();
+            for (int i = 0; i < model.Stadiums.Count; i++)
+            {
+                if (model.Stadiums[i].StadiumRatings.Count > 0)
+                {
+                    model.Rate.Add(model.Stadiums[i].StadiumRatings.Select(sr => sr.Rate).Average());
+                }
+                else
+                {
+                    model.Rate.Add(0);
+                }
+
+                if (model.Stadiums[i].StadiumImages.Count > 0)
+                {
+                    model.Image.Add(model.Stadiums[i].StadiumImages.Select(si => si.Path).FirstOrDefault());
+                }
+                else
+                {
+                    model.Image.Add(null);
+                }
+            }
+            return View(model);
+        }
+
+
+        public ActionResult Details(int? id)
+        {
+            StadiumBO stadiumBO = new StadiumBO();
+            try
+            {
+                StadiumModel model = new StadiumModel();
+                model.Stadium = stadiumBO.GetStadiumById((int)id);
+
+                if (model.Stadium != null)
+                {
+                    if (model.Stadium.StadiumRatings.Count > 0)
+                    {
+                        model.Rate = model.Stadium.StadiumRatings.Select(sr => sr.Rate).Average();
+                        model.RateCount = model.Stadium.StadiumRatings.Count;
+                    }
+                    else
+                    {
+                        model.Rate = 0;
+                        model.RateCount = 0;
+                    }
+
+                    if (model.Stadium.StadiumImages.Count > 0)
+                    {
+                        model.Images = model.Stadium.StadiumImages.ToList();
+                    }
+
+                    if (model.Stadium.StadiumReviews.Count > 0)
+                    {
+                        model.Reviews = model.Stadium.StadiumReviews.OrderByDescending(sr => sr.CreateDate).ToList();
+                    }
+
+                    return View(model);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Stadium");
+                }
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index", "Stadium");
+            }
         }
 
         [Authorize]

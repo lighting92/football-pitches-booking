@@ -1,0 +1,142 @@
+﻿@model FootballPitchesBooking.Models.StadiumModels.StadiumModel
+@{
+    ViewBag.STADIUM = "active";
+    ViewBag.Title = "Sân Bóng";
+}
+
+<h2>CHI TIẾT THÔNG TIN SÂN BÓNG</h2>
+
+<div class="row stadium-details">
+    <div class="span12">
+        <div class="span5 no-margin stadium-side-panel">
+            <div class="stadium-image-slide">
+                <div class="image-show">
+                    @if (Model.Images != null && Model.Images.Count > 0)
+                    { 
+                        <img name="StadiumImage" src="~/Content/images/@Model.Images[0].Path" alt="@Model.Images[0].Title"/>
+                    }
+                    else
+                    {
+                        <img src="~/Content/images/no-image.jpg" style="width: 250px;" />
+                    }
+                </div>
+                <div class="image-list">
+                    @if (Model.Images != null && Model.Images.Count > 0)
+                    {
+                        <ul>
+                            @for (int i = 0; i < Model.Images.Count; i++)
+                            {
+                                <li>
+                                    <img id="@string.Concat("ImgThumbs", i)" src="~/Content/images/@Model.Images[i].Path" alt="@Model.Images[i].Title" onclick="clickImg(this)"/>
+                                </li>
+                            }
+                        </ul>
+                        <script type="text/javascript">
+                            function clickImg(img) {
+                                document.images.StadiumImage.src = img.src;
+                                document.images.StadiumImage.alt = img.alt;
+                            }
+                        </script>
+
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="span7 stadium-info">
+            <div class="span7 no-margin stadium-main-info">
+                <p>
+                    <h1>@Model.Stadium.Name</h1>
+                </p>
+                <p>ĐỊA CHỈ: <b>@Model.Stadium.Street, @Model.Stadium.Ward, @Model.Stadium.District</b></p>
+                <p>ĐIỆN THOẠI: <b>@Model.Stadium.Phone</b></p>
+                <p class="rating-point">
+                    <label>ĐÁNH GIÁ:</label>
+                    <label>
+                        @for (int p = 0; p < (int)Model.Rate; p++)
+                        {
+                            <img src="~/Content/images/rating-star/100.png" />
+                        }
+                        @if (Model.Rate - (int)Model.Rate >= 0.75)
+                        {
+                            <img src="~/Content/images/rating-star/75.png" />
+                        }
+                        else if (Model.Rate - (int)Model.Rate >= 0.50)
+                        {
+                            <img src="~/Content/images/rating-star/50.png" />
+                        }
+                        else if (Model.Rate - (int)Model.Rate >= 0.25)
+                        {
+                            <img src="~/Content/images/rating-star/25.png" />
+                        }
+                        else if (Model.Rate - (int)Model.Rate > 0.00)
+                        {
+                            <img src="~/Content/images/rating-star/00.png" />
+                        }
+                        @for (int i = 1; i <= (5 - Model.Rate); i++)
+                        {
+                            <img src="~/Content/images/rating-star/00.png" />
+                        }
+                    </label>
+                    <label><b style="color: red; font-size: 16px; line-height: 12px;">@Model.Rate.ToString("0.0")</b>/@Model.RateCount phiếu bầu</label>
+                </p>
+            </div>
+            <div class="span7 no-margin">
+                <ul class="details-menu">
+                    <li id="prices" class="active"><a href="#" onclick="clickPrices()">BẢNG GIÁ</a></li>
+                    <li id="reviews"><a href="#" onclick="clickReviews()">NHẬN XÉT</a></li>
+                    <li id="images"><a href="#" onclick="clickImages()">HÌNH ẢNH</a></li>
+                </ul>
+                <script type="text/javascript">
+                    function clickPrices() {
+                        $("li#reviews,li#images").removeClass("active");
+                        $("li#prices").addClass("active");
+                        $(".stadium-reviews,.stadium-image-list").css("display", "none");
+                        $(".stadium-prices").css("display", "block");
+                    }
+
+                    function clickReviews() {
+                        $("li#prices,li#images").removeClass("active");
+                        $("li#reviews").addClass("active");
+                        $(".stadium-prices,.stadium-image-list").css("display", "none");
+                        $(".stadium-reviews").css("display", "block");
+                    }
+
+                    function clickImages() {
+                        $("li#prices,li#reviews").removeClass("active");
+                        $("li#images").addClass("active");
+                        $(".stadium-prices,.stadium-reviews").css("display", "none");
+                        $(".stadium-image-list").css("display", "block");
+                    }
+                </script>
+                <div class="span7 no-margin stadium-details-info">
+                    <div class="details-info stadium-prices">aaaaaaa</div>
+                    <div class="details-info stadium-reviews" style="display: none;">
+                        @foreach (var item in Model.Reviews)
+                        {
+                            <div class="user-review">
+                                <div class="user_avatar">
+                                    <img src="~/Content/images/user_avatar.gif" />
+                                </div>
+                                <div class="content">
+                                    <p>
+                                        <a href="~/Account/Details?id=@item.User.Id"><b>@item.User.UserName</b></a>
+                                        <label style="display: inline; margin-left: 20px; font-size: 10px; color: #888888;">@item.CreateDate.ToString("dd/MM/yyyy HH:mm")</label>
+                                    </p>
+                                    <p>@item.ReviewContent</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="details-info stadium-image-list" style="display: none;">
+                        @foreach (var item in Model.Images)
+                        {
+                            <p><img src="~/Content/images/@item.Path" alt="@item.Title" style="max-width: 510px; height: auto;" />
+                               <label>@item.Caption</label>
+                            </p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
