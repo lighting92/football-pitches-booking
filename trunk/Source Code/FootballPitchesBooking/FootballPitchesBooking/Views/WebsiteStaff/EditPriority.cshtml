@@ -1,0 +1,127 @@
+﻿@model List<FootballPitchesBooking.Models.RecommendationModels.RecommendationTypeModel>
+@{
+    ViewBag.Title = "EditPriority";
+    ViewBag.Title = "QUẢN LÝ GỢI Ý SÂN BÓNG";
+    Layout = "~/Views/Shared/_WebsiteStaffLayout.cshtml";
+}
+
+
+<script src="~/Content/bootstrap/js/jquery-ui-1.9.2.custom.js"></script>
+
+<h2>QUẢN LÝ GỢI Ý SÂN BÓNG</h2>
+<h3>Sân tốt nhất cho bạn</h3>
+<p>
+  <label for="amount">Price range:</label>
+  <input type="text" id="best-stadium-amount" style="border:0; color:#f6931f; font-weight:bold;">
+  <input type="hidden" id="best-stadium-amount1" />
+  <input type="hidden" id="best-stadium-amount2" />
+  <input type="hidden" id="best-stadium-amount3" />
+</p>
+ 
+<div id="best-stadium"></div>
+<button>Lưu thay đổi</button>
+<button>Hủy</button>
+<hr />
+<h3>Sân có thể bạn biết</h3>
+<p>
+  <label for="amount">Price range:</label>
+  <input type="text" id="appropriated-stadium-amount" style="border:0; color:#f6931f; font-weight:bold;">
+    @{
+        var MostBooked = Model.Where(s => s.PriorityId == 1 && s.PriorityType == "MostBooked").Select(s => s.PriorityPercent);
+        var MostNearest = Model.Where(s => s.PriorityId == 1 && s.PriorityType == "MostNearest").Select(s => s.PriorityPercent);
+        var MostDiscount = Model.Where(s => s.PriorityId == 1 && s.PriorityType == "MostDiscount").Select(s => s.PriorityPercent);
+        }
+
+    
+  <input type="hidden" id="appropriated-stadium-amount1" value="@MostBooked" />
+  <input type="hidden" id="appropriated-stadium-amount2" value="@MostNearest"/>
+  <input type="hidden" id="appropriated-stadium-amount3" value="@MostDiscount"/>
+</p>
+ 
+<div id="appropriated-stadium"></div>
+<button>Lưu thay đổi</button>
+<button>Hủy</button>
+
+<hr />
+<h3>Sân khuyến mãi</h3>
+<p>
+  <label for="amount">Price range:</label>
+  <input type="text" id="promoted-stadium-amount" style="border:0; color:#f6931f; font-weight:bold;">
+  <input type="hidden" id="promoted-stadium-amount1" />
+  <input type="hidden" id="promoted-stadium-amount2" />
+  <input type="hidden" id="promoted-stadium-amount3" />
+</p>
+ 
+<div id="promoted-stadium"></div>
+<button>Lưu thay đổi</button>
+<button>Hủy</button>
+<hr />
+
+  <script>
+      $(function () {
+          $("#best-stadium").slider({
+              range: true,
+              min: 0,
+              max: 100,
+              values: [30, 60],
+              slide: function (event, ui) {
+                  $("#best-stadium-amount").val(ui.values[0] + "% - " + (ui.values[1] - ui.values[0]) + "% - " + (100 - ui.values[1]) + "%");
+                  $("#best-stadium-amount1").val(ui.values[0]);
+                  $("#best-stadium-amount2").val(ui.values[1] - ui.values[0]);
+                  $("#best-stadium-amount3").val(100 - ui.values[1]);
+              }
+          });
+          $("#best-stadium-amount").val($("#best-stadium").slider("values", 0)
+            + "% - " + ($("#best-stadium").slider("values", 1) - $("#best-stadium").slider("values", 0)) + "% - "
+            + (100 - $("#best-stadium").slider("values", 1)) + "%");
+          $("#best-stadium-amount1").val($("#best-stadium").slider("values", 0));
+          $("#best-stadium-amount2").val($("#best-stadium").slider("values", 1) - $("#best-stadium").slider("values", 0));
+          $("#best-stadium-amount3").val(100 - $("#best-stadium").slider("values", 1));
+      });
+  </script>
+
+<script>
+    $(function () {
+        $("#appropriated-stadium").slider({
+            range: true,
+            min: 0,
+            max: 100,
+            values: [30, 60],
+            slide: function (event, ui) {
+                $("#appropriated-stadium-amount").val(ui.values[0] + "% - " + (ui.values[1] - ui.values[0]) + "% - " + (100 - ui.values[1]) + "%");
+                $("#appropriated-stadium-amount1").val(ui.values[0]);
+                $("#appropriated-stadium-amount2").val(ui.values[1] - ui.values[0]);
+                $("#appropriated-stadium-amount3").val(100 - ui.values[1]);
+            }
+        });
+        $("#amount").val($("#appropriated-stadium").slider("values", 0)
+          + "% - " + ($("#appropriated-stadium").slider("values", 1) - $("#appropriated-stadium").slider("values", 0)) + "% - "
+          + (100 - $("#appropriated-stadium").slider("values", 1)) + "%");
+        $("#appropriated-stadium-amount1").val($("#appropriated-stadium").slider("values", 0));
+        $("#appropriated-stadium-amount2").val($("#appropriated-stadium").slider("values", 1) - $("#appropriated-stadium").slider("values", 0));
+        $("#appropriated-stadium-amount3").val(100 - $("#appropriated-stadium").slider("values", 1));
+    });
+  </script>
+
+<script>
+    $(function () {
+        $("#promoted-stadium").slider({
+            range: true,
+            min: 0,
+            max: 100,
+            values: [30, 60],
+            slide: function (event, ui) {
+                $("#promoted-stadium-amount").val(ui.values[0] + "% - " + (ui.values[1] - ui.values[0]) + "% - " + (100 - ui.values[1]) + "%");
+                $("#promoted-stadium-amount1").val(ui.values[0]);
+                $("#promoted-stadium-amount2").val(ui.values[1] - ui.values[0]);
+                $("#promoted-stadium-amount3").val(100 - ui.values[1]);
+            }
+        });
+        $("#amount").val($("#promoted-stadium").slider("values", 0)
+          + "% - " + ($("#promoted-stadium").slider("values", 1) - $("#promoted-stadium").slider("values", 0)) + "% - "
+          + (100 - $("#promoted-stadium").slider("values", 1)) + "%");
+        $("#promoted-stadium-amount1").val($("#promoted-stadium").slider("values", 0));
+        $("#promoted-stadium-amount2").val($("#promoted-stadium").slider("values", 1) - $("#promoted-stadium").slider("values", 0));
+        $("#promoted-stadium-amount3").val(100 - $("#promoted-stadium").slider("values", 1));
+    });
+  </script>

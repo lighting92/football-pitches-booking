@@ -140,10 +140,12 @@
     <Compile Include="BusinessObjects\StadiumBO.cs" />
     <Compile Include="BusinessObjects\UserBO.cs" />
     <Compile Include="DataAccessObjects\PriceTableDAO.cs" />
+    <Compile Include="DataAccessObjects\RecommendationDAO.cs" />
     <Compile Include="Models\DistanceModels\Coordinate.cs" />
     <Compile Include="Models\DistanceModels\DistanceMatrixResponse.cs" />
     <Compile Include="Models\RecommendationModels\PriorityModel.cs" />
     <Compile Include="Models\RecommendationModels\RecommendationModel.cs" />
+    <Compile Include="Models\RecommendationModels\RecommendationTypeModel.cs" />
     <Compile Include="Models\RecommendationModels\RecommendStadium.cs" />
     <Compile Include="Models\StadiumModels\BookingUserInfo.cs" />
     <Compile Include="Models\StadiumModels\BookingOptions.cs" />
@@ -228,6 +230,7 @@
     <Content Include="Content\bootstrap\js\bootstrap2.js" />
     <Content Include="Content\bootstrap\js\bootstrap3.js" />
     <Content Include="Content\bootstrap\js\collapse.js" />
+    <Content Include="Content\bootstrap\js\jquery-ui-1.9.2.custom.js" />
     <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.ar.js" />
     <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.az.js" />
     <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.bg.js" />
@@ -300,6 +303,7 @@
     <Content Include="Content\css\images\ui-bg_glass_75_ffffff_1x400.png" />
     <Content Include="Content\css\images\ui-icons_222222_256x240.png" />
     <Content Include="Content\css\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\css\jquery-ui-1.9.2.custom.css" />
     <Content Include="Content\css\nivo-slider.css" />
     <Content Include="Content\css\socialcount-with-icons.css" />
     <Content Include="Content\images\stadium.jpg" />
@@ -416,7 +420,6 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap\config.json" />
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.woff" />
@@ -461,6 +464,7 @@
     <Content Include="Views\WebsiteStaff\AddAdvertisement.cshtml" />
     <Content Include="Views\WebsiteStaff\EditAdvertisement.cshtml" />
     <Content Include="Views\Stadium\Details.cshtml" />
+    <Content Include="Views\WebsiteStaff\EditPriority.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
