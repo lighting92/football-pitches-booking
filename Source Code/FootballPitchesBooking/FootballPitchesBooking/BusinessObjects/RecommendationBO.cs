@@ -1,4 +1,5 @@
 ﻿using FootballPitchesBooking.DataAccessObjects;
+using FootballPitchesBooking.Models;
 using FootballPitchesBooking.Models.DistanceModels;
 using FootballPitchesBooking.Models.RecommendationModels;
 using System;
@@ -210,11 +211,23 @@ namespace FootballPitchesBooking.BusinessObjects
             else
             {
                 return null;
-            }           
+            }                   
+        }
 
+        public List<RecommendationTypeModel> ViewPriority()
+        {
+            RecommendationDAO recDAO = new RecommendationDAO();
+            return recDAO.ViewPriority();
             
         }
 
-
+        public int EditPriority(int PriorityID, int MostBooked, int MostNearest, int MostDiscount)
+        {
+            RecommendationDAO recDAO = new RecommendationDAO();
+            
+            return 1;
+        }
     }
+
+    
 }

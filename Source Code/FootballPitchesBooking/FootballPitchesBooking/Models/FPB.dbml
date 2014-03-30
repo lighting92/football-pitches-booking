@@ -106,6 +106,22 @@
       <Association Name="FieldPrice_PriceTable" Member="FieldPrice" ThisKey="FieldPriceId" OtherKey="Id" Type="FieldPrice" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.Priority" Member="Priorities">
+    <Type Name="Priority">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PriorityName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Priority_PriorityDetail" Member="PriorityDetails" ThisKey="Id" OtherKey="PriorityId" Type="PriorityDetail" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PriorityDetail" Member="PriorityDetails">
+    <Type Name="PriorityDetail">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PriorityId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PriorityType" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="PriorityPercent" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Priority_PriorityDetail" Member="Priority" ThisKey="PriorityId" OtherKey="Id" Type="Priority" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.Promotion" Member="Promotions">
     <Type Name="Promotion">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />

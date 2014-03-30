@@ -1021,5 +1021,19 @@ namespace FootballPitchesBooking.Controllers
         }
 
         #endregion ADVERTISEMENT MANAGEMENT
+
+
+        #region PRIORITY MANAGEMENT
+        [Authorize(Roles = "WebsiteMaster")]
+        public ActionResult EditPriority()
+        {
+            RecommendationBO recBO = new RecommendationBO();
+            var a = recBO.ViewPriority();
+            return View(recBO.ViewPriority());
+        }
+
+        #endregion
+
     }
+
 }

@@ -7,7 +7,6 @@ namespace FootballPitchesBooking.Models.RecommendationModels
 {
     public class RecommendationModel
     {
-
         public List<RecommendStadium> Stadiums { get; set; }
         public List<StadiumImage> StadiumImages { get; set; }
         public List<RecommendStadium> PromotionStadiums {get;set;}
