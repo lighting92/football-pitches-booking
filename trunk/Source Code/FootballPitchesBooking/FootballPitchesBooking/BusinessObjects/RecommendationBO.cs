@@ -19,7 +19,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 ReservationDAO resDAO = new ReservationDAO();
                 var reservations = resDAO.GetAllReservationsOfUser(userName);
                 var notCancelReservations = reservations.Where(r => !r.Status.ToLower().Equals("canceled")).ToList();
-                var nearestReservations = notCancelReservations.Where(r => r.Date.CompareTo(DateTime.Now.AddMonths(-3)) >= 0).ToList();
+                var nearestReservations = notCancelReservations.Where(r => r.StartTime.CompareTo(DateTime.Now.AddMonths(-3)) >= 0).ToList();
                 var mostReservationStadiums = nearestReservations.GroupBy(r => r.Field.StadiumId).Select(r => new { StadiumId = r.Key, Count = r.Count() }).OrderByDescending(r => r.Count).ToList();
                 var reservationsPriority = new List<PriorityModel>();
                 if (mostReservationStadiums != null && mostReservationStadiums.Count() != 0)

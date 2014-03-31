@@ -78,7 +78,7 @@
         }
 
         if (hasRival == 'True') {
-            if (rivalName == "" || rivalName.length > 30) {
+            if (rivalName.length > 30) {
                 $("#RivalName_Error").text("Yêu cầu phải từ 1 đến 30 kí tự");
                 $("#RivalName_Error").css("display", "block");
                 flag++;
@@ -89,7 +89,7 @@
                 $("#RivalName_Error").css("display", "none");
             }
 
-            if (!reg.test(rivalemail)) {
+            if (rivalemail.length > 0 && !reg.test(rivalemail)) {
                 $("#RivalEmail_Error").text("Email không đúng");
                 $("#RivalEmail_Error").css("display", "block");
                 flag++;
@@ -99,7 +99,7 @@
                 $("#RivalEmail_Error").css("display", "none");
             }
 
-            if (rivalphone == "" || rivalphone.length < 10 || rivalphone.length > 11) {
+            if (rivalphone.length > 0 && (rivalphone.length < 10 || rivalphone.length > 11)) {
                 $("#RivalPhone_Error").text("Yêu cầu phải nhập đúng số điện thoại");
                 $("#RivalPhone_Error").css("display", "block");
                 flag++;
@@ -156,15 +156,11 @@
                                     </select>
                                 </label>
                             </div>
-                            <div class="span3" style="visibility: hidden;">
-                                <label>&nbsp</label>
-                                <input type="text">
-                                <div class="alert alert-danger" style="display: none"></div>
-                            </div>
-                            <div class="span3" style="visibility: hidden;">
-                                <label>&nbsp</label>
-                                <input type="text">
-                                <div class="alert alert-danger" style="display: none"></div>
+                            <div class="span6">
+                                <label>
+                                    HỆ THỐNG SÂN <b>@Model.StadiumName.ToUpper()</b>
+                                    <input style="width: 450px;" name="Stadium" id="Stadium" type="text" value="@Model.StadiumAddress" disabled="disabled">
+                                </label>
                             </div>
                             <div class="span3">
                                 <label>
