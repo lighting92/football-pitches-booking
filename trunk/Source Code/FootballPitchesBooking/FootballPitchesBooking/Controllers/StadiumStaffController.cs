@@ -886,8 +886,8 @@ namespace FootballPitchesBooking.Controllers
         {
             StadiumBO stadiumBO = new StadiumBO();
             FieldPrice fieldPrice = stadiumBO.GetAuthorizeFieldPrice(id, User.Identity.Name);
-            
-            
+
+
             AddFieldPricesModel model = new AddFieldPricesModel();
             if (fieldPrice != null)
             {
@@ -999,7 +999,7 @@ namespace FootballPitchesBooking.Controllers
         public ActionResult EditFieldPrices(FormCollection form, int id)
         {
             StadiumBO stadiumBO = new StadiumBO();
-            FieldPrice fieldPrice = stadiumBO.GetAuthorizeFieldPrice(id, User.Identity.Name);            
+            FieldPrice fieldPrice = stadiumBO.GetAuthorizeFieldPrice(id, User.Identity.Name);
             AddFieldPricesModel model = new AddFieldPricesModel();
             if (fieldPrice != null)
             {
@@ -1898,6 +1898,9 @@ namespace FootballPitchesBooking.Controllers
 
                 if (model.Fields != null && model.Fields.Count > 0)
                 {
+                    Stadium std = stadiumBO.GetStadiumById((int)stadium);
+                    model.StadiumName = std.Name;
+                    model.StadiumAddress = string.Concat(std.Street, ", ", std.Ward, ", ", std.District);
                     return View(model);
                 }
                 else
@@ -1917,7 +1920,7 @@ namespace FootballPitchesBooking.Controllers
         public ActionResult AddReservation(FormCollection form, int stadium)
         {
             ReservationModel model = new ReservationModel();
-
+            StadiumBO stadiumBO = new StadiumBO();
             model.ErrorMessages = new List<string>();
 
             bool checkParseError = false;
@@ -1925,6 +1928,7 @@ namespace FootballPitchesBooking.Controllers
             try
             {
                 model.FieldId = Int32.Parse(form["Fields"]);
+                model.Fields = stadiumBO.GetFieldsByStadiumId(stadium);
                 model.Customer = form["Customer"];
                 model.FullName = form["FullName"];
                 model.PhoneNumber = form["PhoneNumber"];
@@ -1945,21 +1949,26 @@ namespace FootballPitchesBooking.Controllers
             }
             catch (Exception)
             {
+                checkParseError = true;
+            }
+
+            if (checkParseError || string.IsNullOrEmpty(model.FullName) || string.IsNullOrEmpty(model.PhoneNumber)
+                                || string.IsNullOrEmpty(model.Email))
+            {
                 model.ErrorMessages.Add(Resources.Form_EmptyFields);
             }
 
             if (model.ErrorMessages.Count == 0)
             {
-                StadiumBO stadiumBO = new StadiumBO();
                 UserBO userBO = new UserBO();
 
                 User customer = null;
-                if (model.Customer != "")
+                if (!string.IsNullOrEmpty(model.Customer))
                 {
-                    userBO.GetUserByUserName(model.Customer);
+                    customer = userBO.GetUserByUserName(model.Customer);
                 }
                 User rival = null;
-                if (model.HasRival && model.RivalUser != "")
+                if (model.HasRival && !string.IsNullOrEmpty(model.RivalUser))
                 {
                     rival = userBO.GetUserByUserName(model.RivalUser);
                 }
@@ -1990,9 +1999,10 @@ namespace FootballPitchesBooking.Controllers
                     reservation.UserId = customer.Id;
                 }
 
-                if (reservation.HasRival)
+                if (reservation.HasRival && !string.IsNullOrEmpty(model.RivalName)
+                    && !string.IsNullOrEmpty(model.RivalPhone) && !string.IsNullOrEmpty(model.RivalEmail))
                 {
-                    if(rival != null)
+                    if (rival != null)
                     {
                         reservation.RivalId = rival.Id;
                     }
@@ -2035,7 +2045,9 @@ namespace FootballPitchesBooking.Controllers
                     model.ErrorMessages.Add(Resources.Resv_FieldIsNotAvailable);
                 }
             }
-
+            Stadium std = stadiumBO.GetStadiumById(stadium);
+            model.StadiumName = std.Name;
+            model.StadiumAddress = string.Concat(std.Street, ", ", std.Ward, ", ", std.District);
             return View(model);
         }
 
@@ -2053,6 +2065,7 @@ namespace FootballPitchesBooking.Controllers
                     return RedirectToAction("Reservations", "StadiumStaff");
                 }
 
+                Stadium std = resv.Field.Stadium;
                 ReservationModel model = new ReservationModel()
                 {
                     FieldId = resv.FieldId,
@@ -2077,6 +2090,8 @@ namespace FootballPitchesBooking.Controllers
                     RivalPhone = resv.RivalPhone,
                     RivalEmail = resv.RivalEmail,
                     RivalFinder = resv.RivalFinder == null ? "" : resv.User3.UserName,
+                    StadiumName = std.Name,
+                    StadiumAddress = string.Concat(std.Street, ", ", std.Ward, ", ", std.District)
                 };
 
                 return View(model);
@@ -2102,6 +2117,7 @@ namespace FootballPitchesBooking.Controllers
                     return RedirectToAction("Reservations", "StadiumStaff");
                 }
 
+                Stadium std = resv.Field.Stadium;
                 ReservationModel model = new ReservationModel()
                 {
                     FieldId = resv.FieldId,
@@ -2126,6 +2142,8 @@ namespace FootballPitchesBooking.Controllers
                     RivalPhone = resv.RivalPhone,
                     RivalEmail = resv.RivalEmail,
                     RivalFinder = resv.RivalFinder == null ? "" : resv.User3.UserName,
+                    StadiumName = std.Name,
+                    StadiumAddress = string.Concat(std.Street, ", ", std.Ward, ", ", std.District)
                 };
 
                 return View(model);
@@ -2146,7 +2164,8 @@ namespace FootballPitchesBooking.Controllers
             model.ErrorMessages = new List<string>();
 
             bool checkParseError = false;
-
+            ReservationBO resvBO = new ReservationBO();
+            Reservation resv = resvBO.GetReservationById(id);
             try
             {
                 model.FieldId = Int32.Parse(form["Fields"]);
@@ -2169,6 +2188,12 @@ namespace FootballPitchesBooking.Controllers
             }
             catch (Exception)
             {
+                checkParseError = true;
+            }
+
+            if (checkParseError || string.IsNullOrEmpty(model.FullName) || string.IsNullOrEmpty(model.PhoneNumber)
+            || string.IsNullOrEmpty(model.Email))
+            {
                 model.ErrorMessages.Add(Resources.Form_EmptyFields);
             }
 
@@ -2178,7 +2203,7 @@ namespace FootballPitchesBooking.Controllers
                 UserBO userBO = new UserBO();
 
                 User rival = null;
-                if (model.HasRival && model.RivalUser != "")
+                if (model.HasRival && !string.IsNullOrEmpty(model.RivalUser))
                 {
                     rival = userBO.GetUserByUserName(model.RivalUser);
                 }
@@ -2200,8 +2225,9 @@ namespace FootballPitchesBooking.Controllers
                     Status = model.Status,
                     HasRival = model.HasRival
                 };
-                
-                if (reservation.HasRival)
+
+                if (reservation.HasRival && !string.IsNullOrEmpty(model.RivalName)
+                    && !string.IsNullOrEmpty(model.RivalPhone) && !string.IsNullOrEmpty(model.RivalEmail))
                 {
                     if (rival != null)
                     {
@@ -2213,7 +2239,6 @@ namespace FootballPitchesBooking.Controllers
                     reservation.RivalFinder = staff.Id;
                 }
 
-                ReservationBO resvBO = new ReservationBO();
 
                 int result = resvBO.UpdateReservation(reservation);
 
@@ -2246,7 +2271,9 @@ namespace FootballPitchesBooking.Controllers
                     model.ErrorMessages.Add(Resources.Resv_FieldIsNotAvailable);
                 }
             }
-
+            Stadium std = resv.Field.Stadium;
+		 	model.StadiumName = std.Name;
+		 	model.StadiumAddress = string.Concat(std.Street, ", ", std.Ward, ", ", std.District);
             return View(model);
         }
 
@@ -2256,7 +2283,7 @@ namespace FootballPitchesBooking.Controllers
             ReservationBO resvBO = new ReservationBO();
             UserBO userBO = new UserBO();
             User staff = userBO.GetUserByUserName(User.Identity.Name);
-            int result = resvBO.UpdateReservationStatus(id, "Approved", staff.Id); 
+            int result = resvBO.UpdateReservationStatus(id, "Approved", staff.Id);
             return RedirectToAction("Reservations", "StadiumStaff");
         }
 
@@ -2333,7 +2360,7 @@ namespace FootballPitchesBooking.Controllers
                     return RedirectToAction("Promotions", "StadiumStaff");
                 }
             }
-            catch (Exception) 
+            catch (Exception)
             {
                 return RedirectToAction("Promotions", "StadiumStaff");
             }
@@ -2346,14 +2373,14 @@ namespace FootballPitchesBooking.Controllers
             PromotionModel model = new PromotionModel();
 
             model.ErrorMessages = new List<string>();
-            
+
             try
             {
                 model.FieldId = Int32.Parse(form["Fields"]);
                 model.PromotionFrom = DateTime.Parse(form["PromotionFrom"], new CultureInfo("vi-VN"));
                 model.PromotionTo = DateTime.Parse(form["PromotionTo"], new CultureInfo("vi-VN"));
                 model.Discount = Double.Parse(form["Discount"]);
-            } 
+            }
             catch (Exception)
             {
                 model.ErrorMessages.Add(Resources.Form_EmptyFields);

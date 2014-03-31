@@ -20,6 +20,54 @@ namespace FootballPitchesBooking.DataAccessObjects
             return db.Reservations.ToList();
         }
 
+		
+        public List<Reservation> GetReservationsNeedRival()
+        {
+            FPBDataContext db = new FPBDataContext();
+            return db.Reservations.Where(r => r.HasRival == true && r.RivalId == null && r.RivalName.Equals(null) &&
+                   r.RivalPhone.Equals(null) && r.RivalEmail.Equals(null) && r.Date.AddHours(r.StartTime) > DateTime.Now.AddHours(1)
+                   ).OrderByDescending(r => r.Date.AddHours(r.StartTime)).ToList();
+        }
+
+
+        public Reservation GetReservationNeedRivalById(int id)
+        {
+            FPBDataContext db = new FPBDataContext();
+            return db.Reservations.Where(r => r.Id == id && r.HasRival == true && r.RivalId == null && r.RivalName.Equals(null) &&
+                   r.RivalPhone.Equals(null) && r.RivalEmail.Equals(null) && r.Date.AddHours(r.StartTime) > DateTime.Now.AddHours(1)
+                   ).OrderByDescending(r => r.Date.AddHours(r.StartTime)).FirstOrDefault();
+        }
+
+
+        public List<Reservation> GetReservationsNeedRival(string user, DateTime date, int type)
+        {
+            FPBDataContext db = new FPBDataContext();
+            List<Reservation> allRivals = db.Reservations.Where(r => r.HasRival == true && r.RivalId == null && r.RivalName.Equals(null) &&
+                   r.RivalPhone.Equals(null) && r.RivalEmail.Equals(null) && r.Date.AddHours(r.StartTime) > DateTime.Now.AddHours(1)
+                   ).OrderByDescending(r => r.Date.AddHours(r.StartTime)).ToList();
+
+            if (allRivals.Count == 0)
+            {
+                return allRivals;
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(user))
+                {
+                    allRivals = allRivals.Where(r => r.FullName == user || r.User.UserName == user).ToList();
+                }
+                if (date > DateTime.Now)
+                {
+                    allRivals = allRivals.Where(r => r.Date.Date == date.Date).ToList();
+                }
+                if (type != 0)
+                {
+                    allRivals = allRivals.Where(r => r.Field.FieldType == type).ToList();
+                }
+                return allRivals;
+            }
+        }
+
 
         public List<Reservation> GetReservationsOfStadium(int stadiumId)
         {

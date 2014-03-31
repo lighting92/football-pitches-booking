@@ -179,5 +179,31 @@ namespace FootballPitchesBooking.BusinessObjects
             ReservationDAO resvDAO = new ReservationDAO();
             return resvDAO.UpdateReservationStatus(reservationId, status, approver);
         }
+		
+		
+		public int UpdateReservationRival(Reservation reservation)
+        {
+            ReservationDAO resvDAO = new ReservationDAO();
+            return resvDAO.UpdateReservationRival(reservation);
+        }
+		
+		
+		public List<Reservation> GetReservationsNeedRival()
+        {
+            ReservationDAO resvDAO = new ReservationDAO();
+            return resvDAO.GetReservationsNeedRival();
+        }
+
+        public List<Reservation> GetReservationsNeedRival(string user, DateTime date, int type)
+        {
+            ReservationDAO resvDAO = new ReservationDAO();
+            return resvDAO.GetReservationsNeedRival(user, date, type);
+        }
+
+        public Reservation GetReservationNeedRivalById(int id)
+        {
+            ReservationDAO resvDAO = new ReservationDAO();
+            return resvDAO.GetReservationNeedRivalById(id);
+        }
     }
 }

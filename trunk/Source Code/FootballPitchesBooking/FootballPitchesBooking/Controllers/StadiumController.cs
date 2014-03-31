@@ -436,7 +436,7 @@ namespace FootballPitchesBooking.Controllers
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <returns></returns>
         public ActionResult QuickSearch()
@@ -593,17 +593,17 @@ namespace FootballPitchesBooking.Controllers
         public ActionResult JoinUs(FormCollection form)
         {
             JoinUsModel jsm = new JoinUsModel
-             {
-                 FullName = form["FullName"],
-                 Address = form["Address"],
-                 Phone = form["PhoneNumber"],
-                 Email = form["Email"],
-                 StadiumName = form["StadiumName"],
-                 StadiumStreet = form["StadiumStreet"],
-                 StadiumWard = form["StadiumWard"],
-                 StadiumDistrict = form["StadiumDistrict"],
-                 Note = form["Note"]
-             };
+            {
+                FullName = form["FullName"],
+                Address = form["Address"],
+                Phone = form["PhoneNumber"],
+                Email = form["Email"],
+                StadiumName = form["StadiumName"],
+                StadiumStreet = form["StadiumStreet"],
+                StadiumWard = form["StadiumWard"],
+                StadiumDistrict = form["StadiumDistrict"],
+                Note = form["Note"]
+            };
 
             if (string.IsNullOrEmpty(jsm.FullName) || string.IsNullOrEmpty(jsm.Address) || string.IsNullOrEmpty(jsm.Phone) ||
                 string.IsNullOrEmpty(jsm.Email) || string.IsNullOrEmpty(jsm.StadiumName) || string.IsNullOrEmpty(jsm.StadiumStreet) ||

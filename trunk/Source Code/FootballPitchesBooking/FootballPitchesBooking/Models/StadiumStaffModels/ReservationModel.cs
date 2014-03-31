@@ -29,7 +29,10 @@ namespace FootballPitchesBooking.Models.StadiumStaffModels
         public string RivalPhone { get; set; }
         public string RivalEmail { get; set; }
         public string RivalFinder { get; set; }
+        public string RivalStatus { get; set; }
         public List<string> ErrorMessages { get; set; }
         public string SuccessMessage { get; set; }
+        public string StadiumName { get; set; }
+        public string StadiumAddress { get; set; }
     }
 }

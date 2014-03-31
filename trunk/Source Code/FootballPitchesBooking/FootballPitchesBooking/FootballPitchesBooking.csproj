@@ -150,6 +150,7 @@
     <Compile Include="Models\StadiumModels\BookingUserInfo.cs" />
     <Compile Include="Models\StadiumModels\BookingOptions.cs" />
     <Compile Include="Models\StadiumModels\BookModel.cs" />
+    <Compile Include="Models\StadiumModels\JoinRivalModel.cs" />
     <Compile Include="Models\StadiumModels\StadiumModel.cs" />
     <Compile Include="Models\StadiumModels\StadiumsModel.cs" />
     <Compile Include="Models\StadiumStaffModels\ReservationsModel.cs" />
@@ -448,7 +449,6 @@
     <Content Include="Views\StadiumStaff\EditField.cshtml" />
     <Content Include="Views\Stadium\QuickSearch.cshtml" />
     <Content Include="Views\WebsiteStaff\EditMemberRank.cshtml" />
-    <Content Include="Views\Account\Details.cshtml" />
     <Content Include="Views\StadiumStaff\AddPromotion.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\StadiumStaff\EditPromotion.cshtml" />
@@ -465,6 +465,9 @@
     <Content Include="Views\WebsiteStaff\EditAdvertisement.cshtml" />
     <Content Include="Views\Stadium\Details.cshtml" />
     <Content Include="Views\WebsiteStaff\EditPriority.cshtml" />
+    <Content Include="Views\Account\Profiles.cshtml" />
+    <Content Include="Views\Stadium\Rivals.cshtml" />
+    <Content Include="Views\Stadium\JoinRival.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
