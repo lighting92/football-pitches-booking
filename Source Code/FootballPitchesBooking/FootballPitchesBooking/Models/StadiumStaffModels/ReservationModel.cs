@@ -14,7 +14,8 @@ namespace FootballPitchesBooking.Models.StadiumStaffModels
         public string FullName { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public DateTime StartTime { get; set; }
+        public DateTime Date { get; set; }
+        public double StartTime { get; set; }
         public double Duration { get; set; }
         public double Price { get; set; }
         public double Discount { get; set; }
@@ -30,7 +31,5 @@ namespace FootballPitchesBooking.Models.StadiumStaffModels
         public string RivalFinder { get; set; }
         public List<string> ErrorMessages { get; set; }
         public string SuccessMessage { get; set; }
-        public string StadiumName { get; set; }
-        public string StadiumAddress { get; set; }
     }
 }
