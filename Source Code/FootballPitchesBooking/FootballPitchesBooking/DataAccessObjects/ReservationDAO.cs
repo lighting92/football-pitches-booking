@@ -141,7 +141,7 @@ namespace FootballPitchesBooking.DataAccessObjects
             curRev.RivalId = resveration.RivalId;
             curRev.RivalName = resveration.RivalName;
             curRev.RivalPhone = resveration.RivalPhone;
-            curRev.RivalEmail = resveration.Email;
+            curRev.RivalEmail = resveration.RivalEmail;
 
             try
             {
