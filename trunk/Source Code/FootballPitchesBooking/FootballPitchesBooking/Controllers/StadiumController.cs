@@ -735,12 +735,21 @@ namespace FootballPitchesBooking.Controllers
 
                 if (model.ErrorMessages.Count == 0)
                 {
+                    Reservation reservartion = new Reservation() 
+                    {
+                        Id = id,
+                        RivalId = userId,
+                        RivalName = fullName,
+                        RivalPhone = phone,
+                        RivalEmail = email
+                    };
+
+                    int result = resvBO.UpdateReservationRival(reservartion);
+
                     model.Resv.RivalId = userId;
                     model.Resv.RivalName = fullName;
                     model.Resv.RivalPhone = phone;
                     model.Resv.RivalEmail = email;
-
-                    int result = resvBO.UpdateReservationRival(model.Resv);
 
                     if (result > 0)
                     {
