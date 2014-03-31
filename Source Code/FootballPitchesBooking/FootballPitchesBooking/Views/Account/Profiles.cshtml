@@ -74,14 +74,14 @@
                             </div>
                             <div class="span3">
                                 <label>
-                                    Ngày Tham Gia
-                                    <input name="JoinDate" type="text" placeholder="NGÀY THAM GIA" disabled="disabled" value="@Model.JoinDate.ToString("dd/MM/yyyy")">
+                                    THỨ HẠNG
+                                    <input name="RankName" type="text" placeholder="THỨ HẠNG" disabled="disabled" value="@Model.RankName">
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    Thứ Hạng
-                                    <input name="RankName" type="text" placeholder="THỨ HẠNG" disabled="disabled" value="@Model.RankName">
+                                    NGÀY THAM GIA
+                                    <input name="JoinDate" type="text" placeholder="NGÀY THAM GIA" disabled="disabled" value="@Model.JoinDate.ToString("dd/MM/yyyy")">
                                 </label>
                             </div>
                         </div>
@@ -94,7 +94,6 @@
                                      <button type="button" onclick="window.location = '/Account/Edit'" class="btn btn-primary btn-large book-now pull-right groupbtn">CHỈNH SỬA</button>
                                      <button type="button" onclick="window.location = '/Account/ChangePassword'" class="btn btn-primary btn-large book-now pull-right groupbtn">ĐỔI MẬT KHẨU</button>
                                  }
-                                @*<button type="submit" class="btn btn-primary btn-large book-now pull-right groupbtn">CẬP NHẬT</button>*@
                                 <br />
                                 <br />
                             </div>
@@ -105,19 +104,3 @@
         </div>
     </div>
 </div>
-
-
-
-
-@*<table>
-    
-    <tr>
-        <td colspan="2">
-            @if (User.Identity.Name.Equals(Model.UserName))
-            {
-                <button type="button" onclick="window.location = '/Account/Edit'">Chỉnh sửa</button>
-            }
-            <button type="button" onclick="window.location = '/Home'">Quay về</button>
-        </td>
-    </tr>
-</table>*@

@@ -115,6 +115,15 @@ namespace FootballPitchesBooking.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mật khẩu mới không được trùng với mật khẩu cũ.
+        /// </summary>
+        internal static string Password_DuplicatePassword {
+            get {
+                return ResourceManager.GetString("Password_DuplicatePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mật khẩu không giống với xác nhận. Xin vui lòng nhập lại.
         /// </summary>
         internal static string Password_NotMatchWithConfirm {

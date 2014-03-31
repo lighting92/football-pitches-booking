@@ -3206,9 +3206,7 @@ namespace FootballPitchesBooking.Models
 		
 		private string _Email;
 		
-		private System.DateTime _Date;
-		
-		private double _StartTime;
+		private System.DateTime _StartTime;
 		
 		private double _Duration;
 		
@@ -3439,42 +3437,22 @@ namespace FootballPitchesBooking.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="Date NOT NULL")]
-		public System.DateTime Date
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartTime", DbType="Date NOT NULL")]
+		public System.DateTime StartTime
 		{
 			get
 			{
-				return this._Date;
-			}
-			set
-			{
-				if ((this._Date != value))
-				{
-					this.OnDateChanging(value);
-					this.SendPropertyChanging();
-					this._Date = value;
-					this.SendPropertyChanged("Date");
-					this.OnDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartTime", DbType="Float NOT NULL")]
-		public double StartTime
-		{
-			get
-			{
-				return this._StartTime;
+                return this._StartTime;
 			}
 			set
 			{
 				if ((this._StartTime != value))
 				{
-					this.OnStartTimeChanging(value);
+					this.OnDateChanging(value);
 					this.SendPropertyChanging();
 					this._StartTime = value;
-					this.SendPropertyChanged("StartTime");
-					this.OnStartTimeChanged();
+                    this.SendPropertyChanged("StartTime");
+					this.OnDateChanged();
 				}
 			}
 		}

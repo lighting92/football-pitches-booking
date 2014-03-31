@@ -1,0 +1,254 @@
+﻿@model FootballPitchesBooking.Models.StadiumModels.JoinRivalModel
+@{
+    ViewBag.RIVAL = "active";
+    ViewBag.Title = "Thông tin chi tiết của kèo";
+}
+
+<script type="text/ecmascript">
+    function check() {
+        var flag = 0;
+        var rivalName = $("input[name=RivalName]").val();
+        var rivalemail = $("input[name=RivalEmail]").val();
+        var rivalphone = $("input[name=RivalPhone]").val();
+        var reg = /^(\w+[\.])*\w+@@(\w+\.)+[a-zA-Z]+$/;
+        var aln = /^[a-z|A-Z|0-9]*$/;
+
+        if (hasRival == 'True') {
+            if (rivalName.length < 1 || rivalName.length > 30) {
+                $("#RivalName_Error").text("Yêu cầu phải từ 1 đến 30 kí tự");
+                $("#RivalName_Error").css("display", "block");
+                flag++;
+
+            }
+            else {
+                $("#RivalName_Error").text(" ");
+                $("#RivalName_Error").css("display", "none");
+            }
+
+            if (!reg.test(rivalemail)) {
+                $("#RivalEmail_Error").text("Email không đúng");
+                $("#RivalEmail_Error").css("display", "block");
+                flag++;
+            }
+            else {
+                $("#RivalEmail_Error").text(" ");
+                $("#RivalEmail_Error").css("display", "none");
+            }
+
+            if (rivalphone.length > 0 && (rivalphone.length < 10 || rivalphone.length > 11)) {
+                $("#RivalPhone_Error").text("Yêu cầu phải nhập đúng số điện thoại");
+                $("#RivalPhone_Error").css("display", "block");
+                flag++;
+
+            }
+            else {
+                $("#RivalPhone_Error").text(" ");
+                $("#RivalPhone_Error").css("display", "none");
+            }
+        }
+
+        if (flag > 0) {
+            return false;
+        } else return true;
+    }
+</script>
+
+<div class="row join-rival">
+    <div class="span12">
+        <div class="row">
+            <div class="span9">
+                <form action="JoinRival?Id=@Request.QueryString["id"]" method="post">
+                    <fieldset>
+                        <br />
+                        <h1>THÔNG TIN CHI TIẾT CỦA KÈO</h1>
+                        <br />
+                        @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
+                        {
+                            <div class="alert alert-danger">
+                                @foreach (var error in Model.ErrorMessages)
+                                {
+                                    <p>- @error</p>
+                                }
+                            </div>
+                        }
+                        <div class="row">
+                            <div class="span9">
+                                <h4>THÔNG TIN ĐẶT SÂN</h4>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    SỐ SÂN
+                                    <input name="Field" id="Field" type="text" value="@Model.Resv.Field.Number" disabled="disabled">
+                                </label>
+                            </div>
+                            <div class="span6">
+                                <label>
+                                    HỆ THỐNG SÂN <b>@Model.Resv.Field.Stadium.Name.ToUpper()</b>
+                                    <input style="width: 450px;" name="Stadium" id="Stadium" type="text" value="@string.Concat(Model.Resv.Field.Stadium.Street, ", ", Model.Resv.Field.Stadium.Ward, ", ", Model.Resv.Field.Stadium.District)" disabled="disabled">
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    NGÀY ĐẶT
+                                    <input name="Date" id="Date" type="text" placeholder="Ngày đặt sân" required="required" value="@Model.Resv.StartTime.ToString("dd/MM/yyyy")" disabled="disabled">
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    GIỜ ĐẶT
+                                    <div class="input-append bootstrap-timepicker">
+                                        <input name="StartTime" id="startTime" type="text" class="span2 input-time-collapse" value="@Model.Resv.StartTime.Hour:@Model.Resv.StartTime.Minute.ToString("00")" disabled="disabled"/>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    THỜI LƯỢNG
+                                    <select id="duration" name="Duration" data-cur="@Model.Resv.Duration" disabled="disabled">
+                                        <option value="1">60 phút</option>
+                                        <option value="1.5">90 phút</option>
+                                        <option value="2">120 phút</option>
+                                        <option value="2.5">150 phút</option>
+                                        <option value="3">180 phút</option>
+                                    </select>
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $("#duration").val($("#duration").data("cur"));
+                                        });
+                                    </script>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span9">
+                                <h4>THÔNG TIN KHÁCH HÀNG</h4>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    TÊN KHÁCH HÀNG
+                                    <input name="Customer" type="text" placeholder="Tên khách hàng" required="required" value="@Model.Resv.User.UserName" disabled="disabled">
+                                </label>
+                            </div>
+                            <div class="span3" style="visibility: hidden;">
+                                <label>&nbsp</label>
+                                <input type="text">
+                                <div class="alert alert-danger" style="display: none"></div>
+                            </div>
+                            <div class="span3" style="visibility: hidden;">
+                                <label>&nbsp</label>
+                                <input type="text">
+                                <div class="alert alert-danger" style="display: none"></div>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    TÊN ĐẦY ĐỦ
+                                    <input name="FullName" type="text" placeholder="Tên đầy đủ" required="required" value="@Model.Resv.FullName" disabled="disabled">
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    SỐ ĐIỆN THOẠI
+                                    <input name="PhoneNumber" id="phoneNumber" type="text" placeholder="Số điện thoại" required="required" value="@Model.Resv.PhoneNumber" disabled="disabled">
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    E-MAIL
+                                    <input name="Email" type="text" placeholder="E-mail" required="required" value="@Model.Resv.Email" disabled="disabled">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span3">
+                                <label>
+                                    BẠN MUỐN CÁP KÈO NÀY?
+                                    <select id="AcceptRival" name="AcceptRival">
+                                        <option value="False">Không</option>
+                                        <option value="True">Có</option>
+                                    </select>
+
+                                </label>
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        if ($('#AcceptRival').val() == 'True') {
+                                            $('#RivalInfo,#joinRival').show();
+                                        }
+                                        else {
+                                            $('#RivalInfo,#joinRival').hide();
+                                        }
+                                        $('#AcceptRival').change(function () {
+                                            if ($(this).val() == 'True') {
+                                                $('#RivalInfo,#joinRival').show();
+                                            }
+                                            else {
+                                                $('#RivalInfo,#joinRival').hide();
+                                            }
+                                        });
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                        <div id="RivalInfo" class="row">
+                            <div class="span9">
+                                <h4>THÔNG TIN CÁP KÈO</h4>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    NGƯỜI CÁP
+                                    <input name="RivalUser" type="text" placeholder="Người cáp" required="required" value="@User.Identity.Name" disabled="disabled">
+                                </label>
+                            </div>
+                            <div class="span3" style="visibility: hidden;">
+                                <label>&nbsp</label>
+                                <input type="text">
+                                <div class="alert alert-danger" style="display: none"></div>
+                            </div>
+                            <div class="span3" style="visibility: hidden;">
+                                <label>&nbsp</label>
+                                <input type="text">
+                                <div class="alert alert-danger" style="display: none"></div>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    TÊN ĐẦY ĐỦ
+                                    <input name="RivalName" type="text" placeholder="Tên đầy đủ" required="required" value="@Model.UserInfo.FullName">
+                                    <div class="alert alert-danger" id="RivalName_Error" style="display: none"></div>
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    SỐ ĐIỆN THOẠI
+                                    <input name="RivalPhone" id="rivalPhone" type="text" placeholder="Điện thoại" required="required" value="@Model.UserInfo.PhoneNumber">
+                                    <div class="alert alert-danger" id="RivalPhone_Error" style="display: none"></div>
+                                </label>
+                                <script type="text/javascript">
+                                    $('#rivalPhone').keyup(function (event) {
+                                        if (isNaN(String.fromCharCode(event.which))) {
+                                            var value = $(this).val();
+                                            $(this).val(value.substr(0, value.length - 1));
+                                        }
+                                    });
+                                </script>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    E-MAIL
+                                    <input name="RivalEmail" type="text" placeholder="E-mail" required="required" value="@Model.UserInfo.Email">
+                                    <div class="alert alert-danger" id="RivalEmail_Error" style="display: none"></div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span9 pull-right">
+                                <p>
+                                    <button class="btn btn-primary book-now pull-right groupbtn" type="button" onclick="window.location = '/StadiumStaff/Reservations'">Quay lại</button>
+                                    <button class="btn btn-primary book-now pull-right groupbtn" type="submit" id="joinRival" name="JoinRival">Cáp kèo</button>
+                                </p>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

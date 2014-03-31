@@ -76,36 +76,38 @@
             $("#PhoneNumber_Error").css("display", "none");
         }
 
-        if (rivalName == "" || rivalName.length > 30) {
-            $("#RivalName_Error").text("Yêu cầu phải từ 1 đến 30 kí tự");
-            $("#RivalName_Error").css("display", "block");
-            flag++;
+        if (hasRival == 'True') {
+            if (rivalName.length > 30) {
+                $("#RivalName_Error").text("Yêu cầu phải từ 1 đến 30 kí tự");
+                $("#RivalName_Error").css("display", "block");
+                flag++;
 
-        }
-        else {
-            $("#RivalName_Error").text(" ");
-            $("#RivalName_Error").css("display", "none");
-        }
+            }
+            else {
+                $("#RivalName_Error").text(" ");
+                $("#RivalName_Error").css("display", "none");
+            }
 
-        if (!reg.test(rivalemail)) {
-            $("#RivalEmail_Error").text("Email không đúng");
-            $("#RivalEmail_Error").css("display", "block");
-            flag++;
-        }
-        else {
-            $("#RivalEmail_Error").text(" ");
-            $("#RivalEmail_Error").css("display", "none");
-        }
+            if (rivalemail.length > 0 && !reg.test(rivalemail)) {
+                $("#RivalEmail_Error").text("Email không đúng");
+                $("#RivalEmail_Error").css("display", "block");
+                flag++;
+            }
+            else {
+                $("#RivalEmail_Error").text(" ");
+                $("#RivalEmail_Error").css("display", "none");
+            }
 
-        if (rivalphone == "" || rivalphone.length < 10 || rivalphone.length > 11) {
-            $("#RivalPhone_Error").text("Yêu cầu phải nhập đúng số điện thoại");
-            $("#RivalPhone_Error").css("display", "block");
-            flag++;
+            if (rivalphone.length > 0 && (rivalphone.length < 10 || rivalphone.length > 11)) {
+                $("#RivalPhone_Error").text("Yêu cầu phải nhập đúng số điện thoại");
+                $("#RivalPhone_Error").css("display", "block");
+                flag++;
 
-        }
-        else {
-            $("#RivalPhone_Error").text(" ");
-            $("#RivalPhone_Error").css("display", "none");
+            }
+            else {
+                $("#RivalPhone_Error").text(" ");
+                $("#RivalPhone_Error").css("display", "none");
+            }
         }
 
         if (flag > 0) {
@@ -158,20 +160,16 @@
                                     </script>
                                 </label>
                             </div>
-                            <div class="span3" style="visibility: hidden;">
-                                <label>&nbsp</label>
-                                <input type="text">
-                                <div class="alert alert-danger" style="display: none"></div>
-                            </div>
-                            <div class="span3" style="visibility: hidden;">
-                                <label>&nbsp</label>
-                                <input type="text">
-                                <div class="alert alert-danger" style="display: none"></div>
+                            <div class="span6">
+                                <label>
+                                    HỆ THỐNG SÂN <b>@Model.StadiumName.ToUpper()</b>
+                                    <input style="width: 450px;" name="Stadium" id="Stadium" type="text" value="@Model.StadiumAddress" disabled="disabled">
+                                </label>
                             </div>
                             <div class="span3">
                                 <label>
                                     NGÀY ĐẶT
-                                    <input name="Date" id="Date" type="text" placeholder="Ngày đặt sân" required="required" value="@Model.Date.ToString("dd/MM/yyyy")">
+                                    <input name="Date" id="Date" type="text" placeholder="Ngày đặt sân" required="required" value="@Model.StartTime.ToString("dd/MM/yyyy")">
                                     <script>
                                         $('#Date').datepicker({
                                             format: "dd/mm/yyyy",
@@ -185,7 +183,7 @@
                                 <label>
                                     GIỜ ĐẶT
                                     <div class="input-append bootstrap-timepicker">
-                                        <input name="StartTime" id="startTime" type="text" class="span2 input-time-collapse" value="@string.Concat(((int)Model.StartTime).ToString(), ":", ((int)((Model.StartTime - (int)Model.StartTime) * 60)).ToString("00"))" />
+                                        <input name="StartTime" id="startTime" type="text" class="span2 input-time-collapse" value="@Model.StartTime.Hour:@Model.StartTime.Minute.ToString("00")" />
                                         <script type="text/javascript">
                                             $(document).ready(function () {
                                                 $('#startTime').timepicker({
@@ -209,7 +207,7 @@
                                 <label>
                                     THỜI LƯỢNG
                                     <select id="duration" name="Duration" data-cur="@Model.Duration">
-                                        <option value="1" selected="selected">60 phút</option>
+                                        <option value="1">60 phút</option>
                                         <option value="1.5">90 phút</option>
                                         <option value="2">120 phút</option>
                                         <option value="2.5">150 phút</option>

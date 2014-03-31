@@ -1,4 +1,5 @@
 ﻿using FootballPitchesBooking.Models;
+using FootballPitchesBooking.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,50 +63,52 @@ namespace FootballPitchesBooking.DataAccessObjects
             }
         }
 
-        public List<Field> GetAllAvailableFields(int fieldType, DateTime startDate, double startTime, double duration, string city, string district)
+        public List<Field> GetAllAvailableFields(int fieldType, DateTime startTime, double duration, string city, string district)
         {
             FPBDataContext db = new FPBDataContext();
+            Utils utils = new Utils();
+            double startHour = utils.TimeToDouble(startTime);
             var fields = db.Fields.Where(f => f.FieldType == fieldType && f.IsActive && f.Stadium.IsActive
                 && f.Stadium.District.ToLower().Equals(district.ToLower().Trim())
                 && ((f.Stadium.OpenTime == f.Stadium.CloseTime)
-                  || (f.Stadium.OpenTime < f.Stadium.CloseTime && f.Stadium.OpenTime <= startTime && f.Stadium.CloseTime >= startTime + duration)
-                  || (f.Stadium.OpenTime > f.Stadium.CloseTime && f.Stadium.OpenTime <= startTime && f.Stadium.CloseTime + 24 >= startTime + duration)
-                  || (f.Stadium.OpenTime > f.Stadium.CloseTime && f.Stadium.OpenTime > startTime && f.Stadium.CloseTime >= startTime + duration)
+                  || (f.Stadium.OpenTime < f.Stadium.CloseTime && f.Stadium.OpenTime <= startHour && f.Stadium.CloseTime >= startHour + duration)
+                  || (f.Stadium.OpenTime > f.Stadium.CloseTime && f.Stadium.OpenTime <= startHour && f.Stadium.CloseTime + 24 >= startHour + duration)
+                  || (f.Stadium.OpenTime > f.Stadium.CloseTime && f.Stadium.OpenTime > startHour && f.Stadium.CloseTime >= startHour + duration)
                   )).ToList();
 
-            var availableFields = fields.Where(f => f.Reservations.Where(r => !r.Status.Equals("Canceled") && (r.Date.Date.CompareTo(startDate.Date) == 0)
-                && ((r.StartTime == startTime)
-                || (r.StartTime < startTime && (r.StartTime + r.Duration) > startTime)
-                || (startTime < r.StartTime) && (startTime + duration) > r.StartTime)).Count() == 0).ToList();
+            var availableFields = fields.Where(f => f.Reservations.Where(r => !r.Status.Equals("Canceled") && (r.StartTime.CompareTo(startTime) == 0)
+                || (r.StartTime.TimeOfDay < startTime.TimeOfDay && (r.StartTime.AddHours(r.Duration).TimeOfDay > startTime.TimeOfDay)
+                || (startTime.TimeOfDay < r.StartTime.TimeOfDay) && startTime.AddHours(duration).TimeOfDay > r.StartTime.TimeOfDay)).Count() == 0).ToList();
 
             return availableFields;
         }
 
-        public List<Field> GetAvailableFieldsOfStadium(int stadiumId, int fieldType, DateTime startDate, double startTime, double duration)
+        public List<Field> GetAvailableFieldsOfStadium(int stadiumId, int fieldType, DateTime startTime, double duration)
         {
             FPBDataContext db = new FPBDataContext();
+            Utils utils = new Utils();
+            double startHour = utils.TimeToDouble(startTime);
             var fields = db.Fields.Where(f => f.StadiumId == stadiumId && f.Stadium.IsActive
                 && f.FieldType == fieldType && f.IsActive 
                 && ((f.Stadium.OpenTime == f.Stadium.CloseTime)
-                  || (f.Stadium.OpenTime < f.Stadium.CloseTime && f.Stadium.OpenTime <= startTime && f.Stadium.CloseTime >= startTime + duration)
-                  || (f.Stadium.OpenTime > f.Stadium.CloseTime && f.Stadium.OpenTime <= startTime && f.Stadium.CloseTime + 24 >= startTime + duration)
-                  || (f.Stadium.OpenTime > f.Stadium.CloseTime && f.Stadium.OpenTime > startTime && f.Stadium.CloseTime >= startTime + duration)
+                  || (f.Stadium.OpenTime < f.Stadium.CloseTime && f.Stadium.OpenTime <= startHour && f.Stadium.CloseTime >= startHour + duration)
+                  || (f.Stadium.OpenTime > f.Stadium.CloseTime && f.Stadium.OpenTime <= startHour && f.Stadium.CloseTime + 24 >= startHour + duration)
+                  || (f.Stadium.OpenTime > f.Stadium.CloseTime && f.Stadium.OpenTime > startHour && f.Stadium.CloseTime >= startHour + duration)
                   )).ToList();
 
-            var availableFields = fields.Where(f => f.Reservations.Where(r => !r.Status.Equals("Canceled") && (r.Date.Date.CompareTo(startDate.Date) == 0)
-                && ((r.StartTime == startTime)
-                || (r.StartTime < startTime && (r.StartTime + r.Duration) > startTime)
-                || (startTime < r.StartTime) && (startTime + duration) > r.StartTime)).Count() == 0).ToList();
+            var availableFields = fields.Where(f => f.Reservations.Where(r => !r.Status.Equals("Canceled") && (r.StartTime.CompareTo(startTime) == 0)
+                || (r.StartTime.TimeOfDay < startTime.TimeOfDay && (r.StartTime.AddHours(r.Duration).TimeOfDay > startTime.TimeOfDay)
+                || (startTime.TimeOfDay < r.StartTime.TimeOfDay) && startTime.AddHours(duration).TimeOfDay > r.StartTime.TimeOfDay)).Count() == 0).ToList();
 
             return availableFields;
         }
 
-        public bool CheckAvailableField(int fieldId, DateTime date, double startTime, double duration, int reservationId)
+        public bool CheckAvailableField(int fieldId, DateTime startTime, double duration, int reservationId)
         {
             FPBDataContext db = new FPBDataContext();
-            Field field = db.Reservations.Where(r => r.FieldId == fieldId && r.Id != reservationId && r.Date.Date == date.Date && 
-                ((r.StartTime <= startTime && (r.StartTime + duration) >= startTime) || //start time của order nằm giữa start time của reservation và end time (starttime + duration)
-                r.StartTime >= startTime && r.StartTime <= startTime + duration)).Select(r => r.Field).FirstOrDefault();
+            Field field = db.Reservations.Where(r => r.FieldId == fieldId && r.Id != reservationId && r.StartTime.Date == startTime.Date && 
+                ((r.StartTime.TimeOfDay <= startTime.TimeOfDay && (r.StartTime.AddHours(duration)) >= startTime) || //start time của order nằm giữa start time của reservation và end time (starttime + duration)
+                r.StartTime >= startTime && r.StartTime <= startTime.AddHours(duration))).Select(r => r.Field).FirstOrDefault();
             if (field == null)
             {
                 return true;
