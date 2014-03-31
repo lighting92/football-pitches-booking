@@ -1,0 +1,93 @@
+﻿@model List<FootballPitchesBooking.Models.Reservation>
+@{
+    ViewBag.RIVAL = "active";
+    ViewBag.Title = "Tìm kèo";
+}
+
+<h2>TÌM KÈO</h2>
+
+<div class="row">
+    <div class="span12">
+        @if (Model != null && Model.Count > 0)
+        {
+            <div class="row no-margin">
+                <form action="Rivals" method="post">
+                    <div class="span3 no-margin">
+                        <label>
+                            THỜI GIAN ĐÁ
+                            <input name="Date" id="Date" type="text" placeholder="Thời gian đá" value="">
+                            <script>
+                                $('#Date').datepicker({
+                                    format: "dd/mm/yyyy",
+                                    language: "vi"
+                                });
+                            </script>
+                        </label>
+                    </div>
+                    <div class="span3">
+                        <label>
+                            LOẠI SÂN
+                        <select id="FieldType" name="FieldType">
+                            <option value="5" selected="selected">Sân 5 người</option>
+                            <option value="7">Sân 7 người</option>
+                            <option value="11">Sân 11 người</option>
+                        </select>
+                        </label>
+                    </div>
+                    <div class="span3">
+                        <label>
+                            THÔNG TIN CHỦ KÈO
+                        <input name="UserInfo" type="text" placeholder="Chủ kèo" value="">
+                        </label>
+                    </div>
+                    <div class="span3 pull-right">
+                        <label>
+                            <br />
+                            <button type="submit" name="Search" class="btn btn-primary btn-large book-now pull-right groupbtn">TÌM KIẾM</button>
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="row no-margin">
+                <table class="table table-condensed table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>TÊN SÂN BÓNG</th>
+                            <th>ĐỊA CHỈ</th>
+                            <th>LOẠI SÂN</th>
+                            <th>CHỦ KÈO</th>
+                            <th>THỜI GIAN ĐÁ</th>
+                            <th>THỜI LƯỢNG</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Field.Stadium.Name</td>
+                                <td>@item.Field.Stadium.Street, @item.Field.Stadium.Ward, @item.Field.Stadium.District</td>
+                                <td>Sân @item.Field.FieldType người</td>
+                                @if (item.User != null)
+                                {
+                                    <td>@item.User.UserName</td>
+                                }
+                                else
+                                {
+                                    <td>@item.FullName</td> 
+                                }
+                                <td>
+                                    @((int)item.StartTime):@(((int)(item.StartTime - (int)item.StartTime) * 60).ToString("00")) - @item.Date.ToString("dd/MM/yyyy")
+                                </td>
+                                <td>
+                                    @(item.Duration * 60) phút
+                                </td>
+                                <td class="table-cell-action"><a href="/Stadium/JoinRival?Id=@item.Id">Chi tiết</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
