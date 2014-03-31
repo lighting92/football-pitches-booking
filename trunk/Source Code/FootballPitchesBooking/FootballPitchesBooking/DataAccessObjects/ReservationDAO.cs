@@ -1,5 +1,4 @@
 ﻿using FootballPitchesBooking.Models;
-using FootballPitchesBooking.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,51 +18,6 @@ namespace FootballPitchesBooking.DataAccessObjects
         {
             FPBDataContext db = new FPBDataContext();
             return db.Reservations.ToList();
-        }
-
-
-        public List<Reservation> GetReservationsNeedRival()
-        {
-            FPBDataContext db = new FPBDataContext();
-            return db.Reservations.Where(r => r.HasRival == true && r.RivalId == null && r.RivalName.Equals(null) &&
-                   r.RivalPhone.Equals(null) && r.RivalEmail.Equals(null) && (r.StartTime > DateTime.Now)).OrderByDescending(r => r.StartTime).ToList();
-        }
-
-
-        public Reservation GetReservationNeedRivalById(int id)
-        {
-            FPBDataContext db = new FPBDataContext();
-            return db.Reservations.Where(r => r.Id == id && r.HasRival == true && r.RivalId == null && r.RivalName.Equals(null) &&
-                   r.RivalPhone.Equals(null) && r.RivalEmail.Equals(null) && (r.StartTime > DateTime.Now)).OrderByDescending(r => r.StartTime).FirstOrDefault();
-        }
-
-
-        public List<Reservation> GetReservationsNeedRival(string user, DateTime date, int type)
-        {
-            FPBDataContext db = new FPBDataContext();
-            List<Reservation> allRivals = db.Reservations.Where(r => r.HasRival == true && r.RivalId == null && r.RivalName.Equals(null) &&
-                   r.RivalPhone.Equals(null) && r.RivalEmail.Equals(null) && (r.StartTime > DateTime.Now)).OrderByDescending(r => r.StartTime).ToList();
-
-            if (allRivals.Count == 0)
-            {
-                return allRivals;
-            }
-            else
-            {
-                if (!string.IsNullOrEmpty(user))
-                {
-                    allRivals = allRivals.Where(r => r.FullName == user || r.User.UserName == user).ToList();
-                }
-                if (date > DateTime.Now)
-                {
-                    allRivals = allRivals.Where(r => r.StartTime.Date == date.Date).ToList();
-                }
-                if (type != 0)
-                {
-                    allRivals = allRivals.Where(r => r.Field.FieldType == type).ToList();
-                }
-                return allRivals;
-            }
         }
 
 
@@ -112,6 +66,7 @@ namespace FootballPitchesBooking.DataAccessObjects
             curRev.FullName = reservation.FullName;
             curRev.PhoneNumber = reservation.PhoneNumber;
             curRev.Email = reservation.Email;
+            curRev.Date = reservation.Date;
             curRev.StartTime = reservation.StartTime;
             curRev.Duration = reservation.Duration;
             curRev.Price = reservation.Price;
@@ -134,19 +89,21 @@ namespace FootballPitchesBooking.DataAccessObjects
         }
 
 
-        public int UpdateReservationRival(Reservation resveration)
+        public int UpdateReservationRival(Reservation reservation)
         {
             FPBDataContext db = new FPBDataContext();
-            Reservation curRev = db.Reservations.Where(r => r.Id == resveration.Id).FirstOrDefault();
-            curRev.RivalId = resveration.RivalId;
-            curRev.RivalName = resveration.RivalName;
-            curRev.RivalPhone = resveration.RivalPhone;
-            curRev.RivalEmail = resveration.RivalEmail;
+            Reservation curRev = db.Reservations.Where(r => r.Id == reservation.Id).FirstOrDefault();
+            curRev.HasRival = reservation.HasRival;
+            curRev.RivalId = reservation.RivalId;
+            curRev.RivalName = reservation.RivalName;
+            curRev.RivalPhone = reservation.RivalPhone;
+            curRev.RivalEmail = reservation.RivalEmail;
+            curRev.RivalFinder = reservation.RivalFinder;
 
             try
             {
                 db.SubmitChanges();
-                return resveration.Id;
+                return reservation.Id;
             }
             catch (Exception)
             {
