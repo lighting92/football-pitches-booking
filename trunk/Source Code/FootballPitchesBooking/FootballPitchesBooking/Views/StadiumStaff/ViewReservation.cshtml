@@ -48,15 +48,20 @@
                                 </script>
                             </label>
                         </div>
-                        <div class="span6">
-                            <label>HỆ THỐNG SÂN <b>@Model.StadiumName.ToUpper()</b>
-                                <input style="width: 450px;" name="Stadium" id="Stadium" type="text" value="@Model.StadiumAddress" disabled="disabled">
-                            </label>
+                        <div class="span3" style="visibility: hidden;">
+                            <label>&nbsp</label>
+                            <input type="text">
+                            <div class="alert alert-danger" style="display: none"></div>
+                        </div>
+                        <div class="span3" style="visibility: hidden;">
+                            <label>&nbsp</label>
+                            <input type="text">
+                            <div class="alert alert-danger" style="display: none"></div>
                         </div>
                         <div class="span3">
                             <label>
                                 NGÀY ĐẶT
-                                    <input name="Date" id="Date" type="text" placeholder="Ngày đặt sân" required="required" value="@Model.StartTime.ToString("dd/MM/yyyy")" disabled="disabled">
+                                    <input name="Date" id="Date" type="text" placeholder="Ngày đặt sân" required="required" value="@Model.Date.ToString("dd/MM/yyyy")" disabled="disabled">
                                 <script>
                                     $('#Date').datepicker({
                                         format: "dd/mm/yyyy",
@@ -69,7 +74,7 @@
                             <label>
                                 GIỜ ĐẶT
                                     <div class="input-append bootstrap-timepicker">
-                                        <input name="StartTime" id="startTime" type="text" class="span2 input-time-collapse" value="@Model.StartTime.Hour:@Model.StartTime.Minute.ToString("00")" disabled="disabled"/>
+                                        <input name="StartTime" id="startTime" type="text" class="span2 input-time-collapse" value="@string.Concat(((int)Model.StartTime).ToString(), ":", ((int)((Model.StartTime - (int)Model.StartTime) * 60)).ToString("00"))" disabled="disabled"/>
                                     </div>
                             </label>
                         </div>
@@ -77,7 +82,7 @@
                             <label>
                                 THỜI LƯỢNG
                                     <select id="duration" name="Duration" data-cur="@Model.Duration" disabled="disabled">
-                                        <option value="1">60 phút</option>
+                                        <option value="1" selected="selected">60 phút</option>
                                         <option value="1.5">90 phút</option>
                                         <option value="2">120 phút</option>
                                         <option value="2.5">150 phút</option>

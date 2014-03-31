@@ -2,7 +2,6 @@
 using FootballPitchesBooking.Models;
 using FootballPitchesBooking.Models.StadiumModels;
 using FootballPitchesBooking.Models.StadiumStaffModels;
-using FootballPitchesBooking.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,10 +12,10 @@ namespace FootballPitchesBooking.BusinessObjects
 {
     public class StadiumBO
     {
-        public QuickSearchResultModel GetAvailableFieldsOfStadium(int stadiumId, int fieldType, DateTime startTime, double duration)
+        public QuickSearchResultModel GetAvailableFieldsOfStadium(int stadiumId, int fieldType, DateTime startDate, double startTime, double duration)
         {
             FieldDAO fieldDAO = new FieldDAO();
-            var availableFields = fieldDAO.GetAvailableFieldsOfStadium(stadiumId, fieldType, startTime, duration);
+            var availableFields = fieldDAO.GetAvailableFieldsOfStadium(stadiumId, fieldType, startDate, startTime, duration);
             if (availableFields != null && availableFields.Count != 0)
             {
                     QuickSearchResultModel result = new QuickSearchResultModel();
@@ -27,7 +26,7 @@ namespace FootballPitchesBooking.BusinessObjects
 
                     foreach (var f in result.Fields)
                     {
-                        var price = CalculatePrice(f, startTime, duration);
+                        var price = CalculatePrice(f, startDate, startTime, duration);
                         prices.Add(price);
                     }
 
@@ -60,11 +59,6 @@ namespace FootballPitchesBooking.BusinessObjects
             return stadiumDAO.GetStadiumById(id);
         }
 
-        public List<Stadium> GetStadiums(string search)
-        {
-            StadiumDAO stadiumDAO = new StadiumDAO();
-            return stadiumDAO.GetStadiums(search);
-        }
 
         public List<Stadium> GetStadiumsByStaff(string staffName)
         {
@@ -1281,10 +1275,10 @@ namespace FootballPitchesBooking.BusinessObjects
             return fieldDAO.UpdateField(field);
         }
 
-        public List<QuickSearchResultModel> FindAvailableStadium(int fieldType, DateTime startTime, double duration, string city, string district)
+        public List<QuickSearchResultModel> FindAvailableStadium(int fieldType, DateTime startDate, double startTime, double duration, string city, string district)
         {
             FieldDAO fieldDAO = new FieldDAO();
-            var availableFields = fieldDAO.GetAllAvailableFields(fieldType, startTime, duration, city, district);
+            var availableFields = fieldDAO.GetAllAvailableFields(fieldType, startDate, startTime, duration, city, district);
             if (availableFields != null && availableFields.Count != 0)
             {
                 List<QuickSearchResultModel> results = new List<QuickSearchResultModel>();
@@ -1302,7 +1296,7 @@ namespace FootballPitchesBooking.BusinessObjects
                     List<double> prices = new List<double>();
                     foreach (var f in fs)
                     {
-                        var price = CalculatePrice(f, startTime, duration);
+                        var price = CalculatePrice(f, startDate, startTime, duration);
                         prices.Add(price);
                     }
                     temp.Prices = prices;
@@ -1317,15 +1311,13 @@ namespace FootballPitchesBooking.BusinessObjects
             }
         }
 
-        public double CalculatePrice(Field field, DateTime startTime, double duration)
+        public double CalculatePrice(Field field, DateTime startDate, double startTime, double duration)
         {
             FieldPriceDAO fpDAO = new FieldPriceDAO();
-            Utils utils = new Utils();
-            double startHour = utils.TimeToDouble(startTime);
             double price = 0;
             var priceTables = fpDAO.GetAllPriceTableOfFieldPrice(field.PriceId);
             int day = 0;
-            switch (startTime.DayOfWeek)
+            switch (startDate.DayOfWeek)
             {
                 case DayOfWeek.Friday:
                     day = 5;
@@ -1353,10 +1345,10 @@ namespace FootballPitchesBooking.BusinessObjects
             }
             var superDefault = priceTables.Where(p => p.Day == 0 && p.TimeFrom == 0 && p.TimeTo == 0).FirstOrDefault();
             var pricesDefault = priceTables.Where(p => p.Day == 0 && p.TimeFrom != p.TimeTo &&
-                ((p.TimeFrom >= startHour && p.TimeFrom < startHour + duration) ||
-                 (p.TimeTo != 0 && p.TimeTo > startHour && p.TimeTo <= startHour + duration) ||
-                 (p.TimeTo == 0 && 24 > startHour && 24 <= startHour + duration) ||
-                 (p.TimeFrom <= startHour && p.TimeTo >= startHour + duration)))
+                ((p.TimeFrom >= startTime && p.TimeFrom < startTime + duration) ||
+                 (p.TimeTo != 0 && p.TimeTo > startTime && p.TimeTo <= startTime + duration) ||
+                 (p.TimeTo == 0 && 24 > startTime && 24 <= startTime + duration) ||
+                 (p.TimeFrom <= startTime && p.TimeTo >= startTime + duration)))
                  .OrderBy(p => p.TimeFrom).ToList();
             var dayDefault = priceTables.Where(p => p.Day == day && p.TimeFrom == 0 && p.TimeTo == 0).FirstOrDefault();
             priceTables.Remove(superDefault);
@@ -1365,10 +1357,10 @@ namespace FootballPitchesBooking.BusinessObjects
                 priceTables.Remove(dayDefault);
             }
             var dayPrices = priceTables.Where(p => p.Day == day &&
-                ((p.TimeFrom >= startHour && p.TimeFrom < startHour + duration) ||
-                 (p.TimeTo != 0 && p.TimeTo > startHour && p.TimeTo <= startHour + duration) ||
-                 (p.TimeTo == 0 && 24 > startHour && 24 <= startHour + duration) ||
-                 (p.TimeFrom <= startHour && p.TimeTo >= startHour + duration)))
+                ((p.TimeFrom >= startTime && p.TimeFrom < startTime + duration) ||
+                 (p.TimeTo != 0 && p.TimeTo > startTime && p.TimeTo <= startTime + duration) ||
+                 (p.TimeTo == 0 && 24 > startTime && 24 <= startTime + duration) ||
+                 (p.TimeFrom <= startTime && p.TimeTo >= startTime + duration)))
                  .OrderBy(p => p.TimeFrom).ToList();
             var finalPrices = new List<PriceTable>();
             bool complete = false;
@@ -1391,7 +1383,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 }
             }
             int count = 0;
-            double goToTime = startHour;
+            double goToTime = startTime;
             while (!complete)
             {
                 if (count < dayPrices.Count())
@@ -1400,13 +1392,13 @@ namespace FootballPitchesBooking.BusinessObjects
                     {
                         PriceTable temp = new PriceTable();
                         temp.TimeFrom = goToTime;
-                        if (temp.TimeTo > startHour + duration)
+                        if (temp.TimeTo > startTime + duration)
                         {
                             temp.TimeTo = dayPrices[count].TimeTo;                            
                         }
                         else
                         {
-                            temp.TimeTo = startHour + duration;
+                            temp.TimeTo = startTime + duration;
                         }
                         temp.Price = dayPrices[count].Price;
                         finalPrices.Add(temp);
@@ -1478,13 +1470,13 @@ namespace FootballPitchesBooking.BusinessObjects
 
                     if (dayDefault != null)
                     {
-                        if (startHour + duration > 24)
+                        if (startTime + duration > 24)
                         {
                             temp.TimeTo = 24;
                         }
                         else
                         {
-                            temp.TimeTo = startHour + duration;
+                            temp.TimeTo = startTime + duration;
                         }
                         temp.Price = dayDefault.Price;
                     }
@@ -1506,33 +1498,33 @@ namespace FootballPitchesBooking.BusinessObjects
                             }
                             else
                             {
-                                if (startHour + duration > 24)
+                                if (startTime + duration > 24)
                                 {
                                     temp.TimeTo = 24;
                                 }
                                 else
                                 {
-                                    temp.TimeTo = startHour + duration;
+                                    temp.TimeTo = startTime + duration;
                                 }
                             }
                         }
                     }
                     else
                     {
-                        if (startHour + duration > 24)
+                        if (startTime + duration > 24)
                         {
                             temp.TimeTo = 24;
                         }
                         else
                         {
-                            temp.TimeTo = startHour + duration;
+                            temp.TimeTo = startTime + duration;
                         }
                         temp.Price = superDefault.Price;
                     }
                     goToTime = temp.TimeTo;
                     finalPrices.Add(temp);
                 }
-                if (goToTime == 24 || goToTime == startHour + duration)
+                if (goToTime == 24 || goToTime == startTime + duration)
                 {
                     complete = true;
                 }
@@ -1541,9 +1533,9 @@ namespace FootballPitchesBooking.BusinessObjects
             {
                 price += (item.Price * (item.TimeTo - item.TimeFrom));
             }
-            if (goToTime < startHour + duration)
+            if (goToTime < startTime + duration)
             {
-                price += CalculatePrice(field, startTime.AddDays(1).Date, startHour + duration - goToTime);
+                price += CalculatePrice(field, startDate.AddDays(1).Date, 0, startTime + duration - goToTime);
             }
             return price;
         }

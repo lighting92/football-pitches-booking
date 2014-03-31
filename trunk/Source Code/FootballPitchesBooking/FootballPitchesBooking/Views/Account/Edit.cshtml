@@ -96,12 +96,13 @@
 
 
 
-<div class="row account-view-profiles">
+<div class="row Account-view-profiles">
     <div class="span12">
         <div class="row">
             <div class="span9">
                 <form action="Edit" method="post">
                     <fieldset>
+                        <br />
                         <br />
                         <h1>CẬP NHẬT THÔNG TIN CÁ NHÂN
                         </h1>
@@ -180,13 +181,7 @@
                             </div>
                             <div class="span3">
                                 <label>
-                                    THỨ HẠNG
-                                    <input name="RankName" type="text" placeholder="THỨ HẠNG" disabled="disabled" value="@Model.RankName">
-                                </label>
-                            </div>
-                            <div class="span3">
-                                <label>
-                                    NGÀY THAM GIA
+                                    Ngày Tham Gia
                                     <input name="JoinDate" type="text" placeholder="NGÀY THAM GIA" disabled="disabled" value="@Model.JoinDate.ToString("dd/MM/yyyy")">
                                 </label>
                             </div>
@@ -194,7 +189,7 @@
                         <div class="row">
                             <div class="span9">
                                 <br />
-                                <button type="button" onclick="window.location = '/Account/Profiles'" class="btn btn-primary btn-large book-now pull-right groupbtn">QUAY VỀ</button>
+                                <button type="button" onclick="window.location = '/Account/Details/@Model.Id'" class="btn btn-primary btn-large book-now pull-right groupbtn">QUAY VỀ</button>
                                 <button type="submit" name="Save" onclick="return check()" class="btn btn-primary btn-large book-now pull-right groupbtn">LƯU</button>
                                 <br />
                                 <br />
