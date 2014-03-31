@@ -117,7 +117,7 @@
     <Type Name="PriorityDetail">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="PriorityId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="PriorityType" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="PriorityType" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="PriorityPercent" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Priority_PriorityDetail" Member="Priority" ThisKey="PriorityId" OtherKey="Id" Type="Priority" IsForeignKey="true" />
     </Type>
@@ -159,6 +159,7 @@
       <Column Name="RivalPhone" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
       <Column Name="RivalEmail" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="RivalFinder" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RivalStatus" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Association Name="Field_Reservation" Member="Field" ThisKey="FieldId" OtherKey="Id" Type="Field" IsForeignKey="true" />
       <Association Name="Promotion_Reservation" Member="Promotion" ThisKey="PromotionId" OtherKey="Id" Type="Promotion" IsForeignKey="true" />
       <Association Name="User_Reservation" Member="User" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
