@@ -125,8 +125,8 @@ namespace FootballPitchesBooking.Controllers
                             && !string.IsNullOrEmpty(strType))
                         {
                             CultureInfo ci = new CultureInfo("vi-VN");
-                            DateTime startTime;
-                            double stTime = 0;
+                            DateTime startDate;
+                            double startTime = 0;
                             double duration;
                             int fieldType;
                             bool parseTime = false;
@@ -137,19 +137,18 @@ namespace FootballPitchesBooking.Controllers
                                 int startMin;
                                 if (int.TryParse(times[0].Trim(), out startHour) && int.TryParse(times[1].Trim(), out startMin))
                                 {
-                                    stTime = startHour + (startMin / 60.0);
-                                    if (stTime >= 0 && stTime < 24)
+                                    startTime = startHour + (startMin / 60.0);
+                                    if (startTime >= 0 && startTime < 24)
                                     {
                                         parseTime = true;
                                     }
                                 }
                             }
-                            if (DateTime.TryParse(strDate, ci, DateTimeStyles.AssumeLocal, out startTime)
+                            if (DateTime.TryParse(strDate, ci, DateTimeStyles.AssumeLocal, out startDate)
                                 && parseTime && double.TryParse(strDuration, out duration)
                                 && int.TryParse(strType, out fieldType))
                             {
-                                startTime = startTime.AddHours(stTime);
-                                var avails = stadiumBO.GetAvailableFieldsOfStadium(stadiumId, fieldType, startTime, duration);
+                                var avails = stadiumBO.GetAvailableFieldsOfStadium(stadiumId, fieldType, startDate, startTime, duration);
                                 model.Fields = avails.Fields;
                                 model.Prices = avails.Prices;
 
@@ -228,8 +227,8 @@ namespace FootballPitchesBooking.Controllers
                             && !string.IsNullOrEmpty(strType))
                         {
                             CultureInfo ci = new CultureInfo("vi-VN");
-                            DateTime startTime;
-                            double stTime = 0;
+                            DateTime startDate;
+                            double startTime = 0;
                             double duration;
                             int fieldType;
                             int field;
@@ -241,14 +240,14 @@ namespace FootballPitchesBooking.Controllers
                                 int startMin;
                                 if (int.TryParse(times[0].Trim(), out startHour) && int.TryParse(times[1].Trim(), out startMin))
                                 {
-                                    stTime = startHour + (startMin / 60.0);
-                                    if (stTime >= 0 && stTime < 24)
+                                    startTime = startHour + (startMin / 60.0);
+                                    if (startTime >= 0 && startTime < 24)
                                     {
                                         parseTime = true;
                                     }
                                 }
                             }
-                            if (DateTime.TryParse(strDate, ci, DateTimeStyles.AssumeLocal, out startTime)
+                            if (DateTime.TryParse(strDate, ci, DateTimeStyles.AssumeLocal, out startDate)
                                 && parseTime && double.TryParse(strDuration, out duration)
                                 && int.TryParse(strType, out fieldType) && int.TryParse(strField, out field))
                             {
@@ -257,8 +256,7 @@ namespace FootballPitchesBooking.Controllers
                                 model.Options.Duration = strDuration;
                                 model.Options.FieldType = strType;
                                 model.Options.ChosenField = field + "";
-                                startTime = startTime.AddHours(stTime);
-                                var avails = stadiumBO.GetAvailableFieldsOfStadium(stadiumId, fieldType, startTime, duration);
+                                var avails = stadiumBO.GetAvailableFieldsOfStadium(stadiumId, fieldType, startDate, startTime, duration);
                                 if (avails != null && avails.Fields.Count() != 0)
                                 {
                                     model.Fields = avails.Fields;
@@ -284,6 +282,7 @@ namespace FootballPitchesBooking.Controllers
                                         res.FullName = model.UserInfo.FullName;
                                         res.PhoneNumber = model.UserInfo.Phone;
                                         res.Email = model.UserInfo.Email;
+                                        res.Date = startDate.Date;
                                         res.StartTime = startTime;
                                         res.Duration = duration;
                                         res.Price = price;
@@ -373,8 +372,8 @@ namespace FootballPitchesBooking.Controllers
                 {
                     StadiumBO stadiumBO = new StadiumBO();
                     CultureInfo ci = new CultureInfo("vi-VN");
-                    DateTime startTime;
-                    double stTime = 0;
+                    DateTime startDate;
+                    double startTime = 0;
                     double duration;
                     int fieldType;
                     bool parseTime = false;
@@ -385,23 +384,22 @@ namespace FootballPitchesBooking.Controllers
                         int startMin;
                         if (int.TryParse(times[0].Trim(), out startHour) && int.TryParse(times[1].Trim(), out startMin))
                         {
-                            stTime = startHour + (startMin / 60.0);
-                            if (stTime >= 0 && stTime < 24)
+                            startTime = startHour + (startMin / 60.0);
+                            if (startTime >= 0 && startTime < 24)
                             {
                                 parseTime = true;
                             }
                         }
                     }
-                    if (DateTime.TryParse(strDate, ci, DateTimeStyles.AssumeLocal, out startTime)
+                    if (DateTime.TryParse(strDate, ci, DateTimeStyles.AssumeLocal, out startDate)
                         && parseTime && double.TryParse(strDuration, out duration)
                         && int.TryParse(strType, out fieldType))
                     {
                         var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now.AddMinutes(2), "SE Asia Standard Time");
                         double time = now.Hour + (now.Minute / 60.0);
-                        if (startTime.Date.CompareTo(now.Date) >= 0 && stTime > time)
+                        if (startDate.Date.CompareTo(now.Date) >= 0 && startTime > time)
                         {
-                            startTime = startTime.AddHours(stTime);
-                            var avails = stadiumBO.GetAvailableFieldsOfStadium(stadium, fieldType, startTime, duration);
+                            var avails = stadiumBO.GetAvailableFieldsOfStadium(stadium, fieldType, startDate, startTime, duration);
                             if (avails != null && avails.Fields.Count() != 0)
                             {
                                 var result = new
@@ -489,7 +487,7 @@ namespace FootballPitchesBooking.Controllers
                 }
 
                 bool isPast = false;
-                double stTime = 0;
+                double startTime = 0;
                 bool trueStartTime = false;
                 bool trueStartHour;
                 int startHour;
@@ -510,8 +508,8 @@ namespace FootballPitchesBooking.Controllers
                             isPast = true;
                         }
                     }
-                    stTime = startHour + (startMinute / 60.0);
-                    if (stTime >= 0 && stTime < 24)
+                    startTime = startHour + (startMinute / 60.0);
+                    if (startTime >= 0 && startTime < 24)
                     {
                         if ((startMinute / 60.0) != 0 && (startMinute / 60.0) != 0.5)
                         {
@@ -553,8 +551,7 @@ namespace FootballPitchesBooking.Controllers
                 if (trueFieldType && trueStartTime && trueDate && trueDuration && !isPast)
                 {
                     StadiumBO stadiumBO = new StadiumBO();
-                    startDate = startDate.AddHours(stTime);
-                    model.Results = stadiumBO.FindAvailableStadium(fieldType, startDate, duration, model.City, model.District);
+                    model.Results = stadiumBO.FindAvailableStadium(fieldType, startDate, startTime, duration, model.City, model.District);
                     if (model.Results == null || model.Results.Count == 0)
                     {
                         model.SearchResultString = "Không tìm thấy sân bóng còn trống theo thông tin bạn yêu cầu";
@@ -646,92 +643,92 @@ namespace FootballPitchesBooking.Controllers
         }
 
 
-        public ActionResult Rivals()
-        {
-            ReservationBO resvBO = new ReservationBO();
+        //public ActionResult Rivals()
+        //{
+        //    ReservationBO resvBO = new ReservationBO();
 
-            List<Reservation> rivalList = resvBO.GetReservationsNeedRival();
+        //    List<Reservation> rivalList = resvBO.GetReservationsNeedRival();
 
-            return View(rivalList);
-        }
+        //    return View(rivalList);
+        //}
 
-        [HttpPost]
-        public ActionResult Rivals(FormCollection form)
-        {
-            DateTime date = new DateTime(0, 0, 0, 0, 0, 0, 0);
-            try
-            {
-                DateTime.Parse(form["Date"], new CultureInfo("vi-VN"));
-            }
-            catch (Exception)
-            {
-            }
+        //[HttpPost]
+        //public ActionResult Rivals(FormCollection form)
+        //{
+        //    DateTime date = new DateTime(0, 0, 0, 0, 0, 0, 0);
+        //    try
+        //    {
+        //        DateTime.Parse(form["Date"], new CultureInfo("vi-VN"));
+        //    }
+        //    catch (Exception)
+        //    {
+        //    }
 
-            string userInfo = form["UserInfo"];
-            int fieldType;
-            try
-            {
-                fieldType = Int32.Parse(form["FieldType"]);
-            }
-            catch (Exception)
-            {
-                fieldType = 0;
-            }
+        //    string userInfo = form["UserInfo"];
+        //    int fieldType;
+        //    try
+        //    {
+        //        fieldType = Int32.Parse(form["FieldType"]);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        fieldType = 0;
+        //    }
 
-            ReservationBO resvBO = new ReservationBO();
+        //    ReservationBO resvBO = new ReservationBO();
 
-            List<Reservation> rivalList = resvBO.GetReservationsNeedRival(userInfo, date, fieldType);
+        //    List<Reservation> rivalList = resvBO.GetReservationsNeedRival(userInfo, date, fieldType);
 
-            return View(rivalList);
-        }
+        //    return View(rivalList);
+        //}
 
-        public ActionResult JoinRival(int? id)
-        {
-            try
-            {
-                ReservationBO resvBO = new ReservationBO();
-                UserBO userBO = new UserBO();
+        //public ActionResult JoinRival(int? id)
+        //{
+        //    try
+        //    {
+        //        ReservationBO resvBO = new ReservationBO();
+        //        UserBO userBO = new UserBO();
 
-                JoinRivalModel model = new JoinRivalModel();
-                model.Resv = resvBO.GetReservationNeedRivalById((int)id);
-                model.UserInfo = userBO.GetUserByUserName(User.Identity.Name);
-                if (model.Resv != null)
-                {
-                    return View(model);
-                }
-                else
-                {
-                    return RedirectToAction("Rivals", "Stadium");
-                }
-            }
-            catch (Exception)
-            {
-                return RedirectToAction("Rivals", "Stadium");
-            }
+        //        JoinRivalModel model = new JoinRivalModel();
+        //        model.Resv = resvBO.GetReservationNeedRivalById((int)id);
+        //        model.UserInfo = userBO.GetUserByUserName(User.Identity.Name);
+        //        if (model.Resv != null)
+        //        {
+        //            return View(model);
+        //        }
+        //        else
+        //        {
+        //            return RedirectToAction("Rivals", "Stadium");
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return RedirectToAction("Rivals", "Stadium");
+        //    }
 
-        }
+        //}
 
-        [HttpPost]
-        public ActionResult JoinRival(FormCollection form, int id)
-        {
-            try
-            {
-                ReservationBO resvBO = new ReservationBO();
-                JoinRivalModel model = new JoinRivalModel();
-                model.ErrorMessages = new List<string>();
-                model.Resv = resvBO.GetReservationNeedRivalById(id);
+        //[HttpPost]
+        //public ActionResult JoinRival(FormCollection form, int id)
+        //{
+        //    try
+        //    {
+        //        ReservationBO resvBO = new ReservationBO();
+        //        JoinRivalModel model = new JoinRivalModel();
+        //        model.ErrorMessages = new List<string>();
+        //        model.Resv = resvBO.GetReservationNeedRivalById(id);
 
-                UserBO userBO = new UserBO();
-                model.UserInfo = userBO.GetUserByUserName(User.Identity.Name);
-                int userId = model.UserInfo.Id;
-                string fullName = form["RivalName"];
-                string phone = form["RivalPhone"];
-                string email = form["RivalEmail"];
+        //        UserBO userBO = new UserBO();
+        //        model.UserInfo = userBO.GetUserByUserName(User.Identity.Name);
+        //        int userId = model.UserInfo.Id;
+        //        string fullName = form["RivalName"];
+        //        string phone = form["RivalPhone"];
+        //        string email = form["RivalEmail"];
 
-                if (string.IsNullOrEmpty(fullName) || string.IsNullOrEmpty(phone) || string.IsNullOrEmpty(email))
-                {
-                    model.ErrorMessages.Add(Resources.Form_EmptyFields);
-                }
+        //        if (string.IsNullOrEmpty(fullName) || string.IsNullOrEmpty(phone) || string.IsNullOrEmpty(email))
+        //        {
+        //            model.ErrorMessages.Add(Resources.Form_EmptyFields);
+        //        }
 
                 if (model.ErrorMessages.Count == 0)
                 {
@@ -750,23 +747,31 @@ namespace FootballPitchesBooking.Controllers
                     model.Resv.RivalName = fullName;
                     model.Resv.RivalPhone = phone;
                     model.Resv.RivalEmail = email;
+        //        if (model.ErrorMessages.Count == 0)
+        //        {
+        //            model.Resv.RivalId = userId;
+        //            model.Resv.RivalName = fullName;
+        //            model.Resv.RivalPhone = phone;
+        //            model.Resv.RivalEmail = email;
 
-                    if (result > 0)
-                    {
-                        return RedirectToAction("Rivals", "Stadium");
-                    }
-                    else if (result == 0)
-                    {
-                        model.ErrorMessages.Add(Resources.DB_Exception);
-                    }
-                }
+        //            int result = resvBO.UpdateReservationRival(model.Resv);
 
-                return View(model);
-            }
-            catch (Exception)
-            {
-                return RedirectToAction("Rivals", "Stadium");
-            }
-        }
+        //            if (result > 0)
+        //            {
+        //                return RedirectToAction("Rivals", "Stadium");
+        //            }
+        //            else if (result == 0)
+        //            {
+        //                model.ErrorMessages.Add(Resources.DB_Exception);
+        //            }
+        //        }
+
+        //        return View(model);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return RedirectToAction("Rivals", "Stadium");
+        //    }
+        //}
     }
 }
