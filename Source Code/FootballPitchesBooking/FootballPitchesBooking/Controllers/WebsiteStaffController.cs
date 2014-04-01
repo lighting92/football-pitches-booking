@@ -849,7 +849,7 @@ namespace FootballPitchesBooking.Controllers
 
 
         [Authorize(Roles = "WebsiteMaster")]
-        public ActionResult Ads(int? stadium)
+        public ActionResult Advertisements(int? stadium)
         {
             WebsiteBO webBO = new WebsiteBO();
             List<Advertisement> adsList = webBO.GetAllAds();
