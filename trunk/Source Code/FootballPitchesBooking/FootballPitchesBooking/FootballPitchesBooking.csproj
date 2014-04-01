@@ -460,7 +460,7 @@
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Stadium\BookSuccess.cshtml" />
     <Content Include="Views\StadiumStaff\ViewReservation.cshtml" />
-    <Content Include="Views\WebsiteStaff\Ads.cshtml" />
+    <Content Include="Views\WebsiteStaff\Advertisements.cshtml" />
     <Content Include="Views\WebsiteStaff\AddAdvertisement.cshtml" />
     <Content Include="Views\WebsiteStaff\EditAdvertisement.cshtml" />
     <Content Include="Views\Stadium\Details.cshtml" />

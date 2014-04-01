@@ -19,7 +19,7 @@ namespace FootballPitchesBooking.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            return RedirectToAction("Details", "Account");
+            return RedirectToAction("Profiles", "Account");
         }
 
         //
@@ -262,7 +262,7 @@ namespace FootballPitchesBooking.Controllers
             return Json(userNames);
         }
 
-        public ActionResult Details()
+        public ActionResult Profiles()
         {
             UserBO userBO = new UserBO();
             User user = new User();
@@ -396,7 +396,7 @@ namespace FootballPitchesBooking.Controllers
 
                 if (result > 0)
                 {
-                    return RedirectToAction("Details", "Account");
+                    return RedirectToAction("Profiles", "Account");
                 }
                 else if (result == 0)
                 {
@@ -454,7 +454,7 @@ namespace FootballPitchesBooking.Controllers
 
                 if (result > 0)
                     {
-                        return RedirectToAction("Details", "Account");
+                        return RedirectToAction("Profiles", "Account");
                     }
                 else if (result == 0)
                     {
