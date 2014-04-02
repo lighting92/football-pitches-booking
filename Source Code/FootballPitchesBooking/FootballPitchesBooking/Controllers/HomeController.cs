@@ -16,29 +16,38 @@ namespace FootballPitchesBooking.Controllers
 
         public ActionResult Index()
         {
-            
+            string xmlFolderPath = Server.MapPath("/XMLUserDistance/");
+            //var distanceList = MapBO.GetStadiumDistanceFromUser(User.Identity.Name, "xmlFolderPath");
             var model = new RecommendationModel();            
             
             if (User.Identity.IsAuthenticated)
             {
                 RecommendationBO recBO = new RecommendationBO();
-                var a = recBO.FindAppropriateStadium(User.Identity.Name, 0.5, 0.3, 0.2);
-                if (a.Count() > 2)
+                var bestStadiums = recBO.FindBestStadiums(User.Identity.Name);
+                if (bestStadiums.Count() > 3)
                 {
-                    a = a.Take(2).ToList();
-                }                
-                var b = recBO.FindAppropriateStadium(User.Identity.Name, 0.2, 0.3, 0.5);
-                if (b.Count() > 2)
-                {
-                    b = b.Take(2).ToList();
+                    bestStadiums = bestStadiums.Take(3).ToList();
                 }
-                model.Stadiums = a;
+
+                var nearestStadiums = recBO.FindAppropriateStadiums(User.Identity.Name);
+                if (nearestStadiums.Count() > 3)
+                {
+                    nearestStadiums = nearestStadiums.Take(3).ToList();
+                }
+
+                var promotionStadiums = recBO.FindPromotedStadiums(User.Identity.Name);
+                if (promotionStadiums != null && promotionStadiums.Count() > 3)
+                {
+                    nearestStadiums = promotionStadiums.Take(3).ToList();
+                }
+
+                model.Stadiums = bestStadiums;
                 model.StadiumImages = new List<Models.StadiumImage>();
                 foreach (var item in model.Stadiums)
                 {
                     model.StadiumImages.Add(item.Stadium.StadiumImages.FirstOrDefault());
                 }
-                model.PromotionStadiums = b;
+                model.PromotionStadiums = promotionStadiums;
                 model.PromotionStadiumImages = new List<StadiumImage>();
                 foreach (var item in model.PromotionStadiums)
                 {

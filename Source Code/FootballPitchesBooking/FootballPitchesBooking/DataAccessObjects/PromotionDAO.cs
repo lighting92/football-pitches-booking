@@ -8,6 +8,13 @@ namespace FootballPitchesBooking.DataAccessObjects
 {
     public class PromotionDAO
     {
+        public List<Promotion> GetAllActivePromotions()
+        {
+            FPBDataContext db = new FPBDataContext();
+            return db.Promotions.Where(p => p.IsActive && p.Field.IsActive && p.Field.Stadium.IsActive &&
+                p.PromotionFrom.Date.CompareTo(DateTime.Now) <= 0 && p.PromotionTo.Date.CompareTo(DateTime.Now) >= 0
+                ).ToList();
+        }
         public Promotion GetPromotionById(int promotionId)
         {
             FPBDataContext db = new FPBDataContext();
