@@ -1,2 +1,0 @@
-=Format: [dd-mm][tableName][action(add/update/delete)][fieldName][detail]=
---------------------------------------------------------------------------
