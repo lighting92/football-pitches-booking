@@ -19,8 +19,118 @@ namespace FootballPitchesBooking.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            return RedirectToAction("Profiles", "Account");
+            UserBO userBO = new UserBO();
+            User user = new User();
+            try
+            {
+                user = userBO.GetUserByUserName(User.Identity.Name);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            if (user == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            AccountModel model = new AccountModel()
+            {
+                UserName = user.UserName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                FullName = user.FullName,
+                Address = user.Address,
+                RankName = user.MemberRank.RankName,
+                Point = user.Point,
+                RoleName = user.Role.Role1,
+                JoinDate = user.JoinDate,
+                ErrorMessages = new List<string>()
+            };
+            return View("Profiles", model);
         }
+
+        //
+        // GET: /Account/BookingHistory
+
+        [Authorize]
+        public ActionResult BookingHistory()
+        {
+            ReservationBO resBO = new ReservationBO();
+            var res = resBO.GetReservationsOfUser(User.Identity.Name);
+            var model = new List<BookingHistoryModel>();
+            foreach (var item in res)
+            {
+                var temp = new BookingHistoryModel();
+                temp.Id = item.Id;
+                temp.StartDate = item.Date.ToShortDateString();
+                var hour = (int)item.StartTime + "";
+                var min = ((item.StartTime - (int)item.StartTime) * 60) + "";
+                hour = (hour.Length == 1) ? ("0" + hour) : hour;
+                min = (min.Length == 1) ? ("0" + min) : min;
+                temp.StartTime = hour + ":" + min;
+                temp.Duration = (item.Duration * 60).ToString();
+                temp.StadiumName = item.Field.Stadium.Name;
+                temp.StadiumAddress = item.Field.Stadium.Street + "," + item.Field.Stadium.Ward + "," + item.Field.Stadium.District;
+                temp.Price = item.Price.ToString();
+                temp.CreateDate = item.CreatedDate.ToShortDateString();
+                temp.Status = item.Status;
+                temp.RivalStatus = item.RivalStatus;
+                model.Add(temp);
+            }
+            
+            return View(model);
+        }
+
+        //
+        // GET: /Account/EditReservation
+
+        [Authorize]
+        public ActionResult EditReservation(int id)
+        {
+            ReservationBO resBO = new ReservationBO();
+            var res = resBO.GetReservationById(id);
+            var model = new EditReservationModel();
+            if (res.User.UserName.ToLower().Equals(User.Identity.Name.ToLower()))
+            {
+                model.HavePermission = true;
+                model.CanModify = true;
+                var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "SE Asia Standard Time");
+                bool expired = now.CompareTo(res.Date.Date.AddHours(res.StartTime)) >= 0;
+                if (res.Status.ToLower().Equals("canceled") || expired)
+                {
+                    model.CanModify = false;
+                }
+                model.Id = res.Id;
+                model.FullName = res.FullName;
+                model.PhoneNumber = res.PhoneNumber;
+                model.Email = res.Email;
+                model.StartDate = res.Date.ToShortDateString();
+                var hour = (int)res.StartTime + "";
+                var min = ((res.StartTime - (int)res.StartTime) * 60) + "";
+                hour = (hour.Length == 1) ? ("0" + hour) : hour;
+                min = (min.Length == 1) ? ("0" + min) : min;
+                model.StartTime = hour + ":" + min;
+                model.Duration = (res.Duration * 60).ToString();
+                model.StadiumName = res.Field.Stadium.Name;
+                model.StadiumAddress = res.Field.Stadium.Street + "," + res.Field.Stadium.Ward + "," + res.Field.Stadium.District;
+                model.FieldNumber = res.Field.Number;
+                model.FieldType = res.Field.FieldType.ToString();
+                model.Price = res.Price.ToString();
+                model.Discount = res.Discount.HasValue?res.Discount.ToString():"0";
+                model.VerifyCode = res.VerifyCode;
+                model.CreateDate = res.CreatedDate.ToShortDateString();
+                model.Status = res.Status;
+                model.HasRival = res.HasRival;
+                model.RivalStatus = res.RivalStatus;
+            }
+            else
+            {
+                model.HavePermission = false;
+                model.ErrorMessage = "Bạn không đủ quyền hạn để chỉnh sửa thông tin đặt sân này";
+            }
+            return View(model);
+        }
+
 
         //
         // GET: /Account/Login
@@ -261,7 +371,7 @@ namespace FootballPitchesBooking.Controllers
             var userNames = userBO.GetAllUserName();
             return Json(userNames);
         }
-
+        [Authorize]
         public ActionResult Profiles()
         {
             UserBO userBO = new UserBO();
@@ -293,7 +403,7 @@ namespace FootballPitchesBooking.Controllers
             };
             return View(model);
         }
-
+        [Authorize]
         public ActionResult Edit()
         {
             UserBO userBO = new UserBO();
@@ -327,6 +437,7 @@ namespace FootballPitchesBooking.Controllers
             return View(model);
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult Edit(FormCollection form)
         {
@@ -411,11 +522,13 @@ namespace FootballPitchesBooking.Controllers
             return View(model);
         }
 
+        [Authorize]
         public ActionResult ChangePassword()
         {
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult ChangePassword(FormCollection form)
         {
@@ -465,8 +578,7 @@ namespace FootballPitchesBooking.Controllers
                         model.ErrorMessages.Add(Resources.Login_IncorrectPassword);
                     }
                 }
-                return View(model);
-            
+                return View(model);            
         }
     }
 }

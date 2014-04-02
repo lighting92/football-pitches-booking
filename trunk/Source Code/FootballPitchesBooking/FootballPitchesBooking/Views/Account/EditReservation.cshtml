@@ -1,0 +1,221 @@
+﻿@model FootballPitchesBooking.Models.AccountModels.EditReservationModel
+@{
+    ViewBag.Title = "Chỉnh Sửa Thông Tin Đặt Sân";
+    ViewBag.USER = "active";
+    var canMod = Model.CanModify;
+        
+}
+
+<div class="row stadiumstaff-add-field">
+    <div class="span12">
+        <div class="row">
+            @if (Model.HavePermission)
+            {
+                <div class="span9">
+                    <form action="EditReservation?Id=@Model.Id" method="post" class="form-horizontal" enctype="multipart/form-data">
+                        <fieldset>
+                            <br />
+                            <br />
+                            <h1>Chỉnh Sửa Thông Tin Đặt Sân
+                            </h1>
+                            <br />
+                            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                            {
+                                <div class="alert alert-danger">
+                                    <p>@Model.ErrorMessage</p>
+                                </div>
+                            }
+                            else if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                            {
+                                <div class="alert alert-success">@Model.SuccessMessage</div>
+                            }
+                            <div class="row">
+                                <div class="span8">
+                                    <legend><span>Thông Tin Người Đặt</span></legend>
+                                </div>
+                                <div class="span3">
+                                    <label>
+                                        Tên người đặt
+                                     @if (!canMod)
+                                     {
+                                         <input name="FullName" type="text" placeholder="Tên người đặt" value="@Model.FullName" readonly>
+                                     }
+                                     else
+                                     {
+                                         <input name="FullName" type="text" placeholder="Tên người đặt" value="@Model.FullName">
+                                     }
+
+                                    </label>
+                                </div>
+                                <div class="span3">
+                                    <label>
+                                        Số điện thoại
+                                         @if (!canMod)
+                                         {
+                                             <input name="PhoneNumber" type="text" placeholder="Số điện thoại" value="@Model.PhoneNumber" readonly>
+                                         }
+                                         else
+                                         {
+                                             <input name="PhoneNumber" type="text" placeholder="Số điện thoại" value="@Model.PhoneNumber">
+                                         }
+
+                                    </label>
+                                </div>
+                                <div class="span3">
+                                    <label>
+                                        E-Mail
+                                         @if (!canMod)
+                                         {
+                                             <input name="Email" type="text" placeholder="E-Mail" value="@Model.Email" readonly>
+                                         }
+                                         else
+                                         {
+                                             <input name="Email" type="text" placeholder="E-Mail" value="@Model.Email">
+                                         }
+
+                                    </label>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="span8">
+                                    <legend><span>Thông Tin Sân</span></legend>
+                                </div>
+                                <div class="span3">
+                                    <label>
+                                        Tên sân
+                                        <input type="text" value="@Model.StadiumName" readonly />
+                                    </label>
+                                </div>
+                                <div class="span6">
+                                    <label>
+                                        Địa chỉ sân
+                                        <input class="span6" type="text" value="@Model.StadiumAddress" readonly />
+                                    </label>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="span8">
+                                    <legend><span>Thông Tin Đặt Sân</span></legend>
+                                </div>
+                                <div class="span3">
+                                    <label>
+                                        Sân số
+                                        <input type="text" value="@Model.FieldNumber" readonly />
+                                    </label>
+                                </div>
+                                <div class="span3">
+                                    <label>
+                                        Kiểu sân
+                                        <input type="text" value="@Model.FieldType người" readonly />
+                                    </label>
+                                </div>
+                                <div class="span3">
+                                    <label>
+                                        Ngày đặt
+                                        <input type="text" value="@Model.CreateDate" readonly />
+                                    </label>
+                                </div>
+                                <div class="span3">
+                                    <label>
+                                        Ngày đá
+                                        <input type="text" value="@Model.StartDate" readonly />
+                                    </label>
+                                </div>
+                                <div class="span3">
+                                    <label>
+                                        Giờ bắt đầu
+                                        <input type="text" value="@Model.StartTime" readonly />
+                                    </label>
+                                </div>
+                                <div class="span3">
+                                    <label>
+                                        Thời lượng
+                                        <input type="text" value="@Model.Duration" readonly />
+                                    </label>
+                                </div>
+                                <div class="span3">
+                                    <label>
+                                        Giá
+                                        <input class="format-price" type="text" value="@Model.Price" readonly />
+                                    </label>
+                                </div>
+                                <div class="span3">
+                                    <label>
+                                        Chiết khấu
+                                        <input class="format-price" type="text" value="@Model.Discount" readonly />
+                                    </label>
+                                </div>
+                                <script type="text/javascript">
+                                    $(".format-price").priceFormat({
+                                        prefix: '',
+                                        centsLimit: 0
+                                    });
+                                </script>
+                                <div class="span3">
+                                    <label>
+                                        Mã xác nhận
+                                        <input type="text" value="@Model.VerifyCode" readonly />
+                                    </label>
+                                </div>
+
+                                <div class="span3">
+                                    <label>
+                                        Trạng thái đặt sân
+                                        @if (Model.Status.ToLower().Equals("approved"))
+                                        {
+                                            <input type="text" value="Đã xác nhận" readonly />
+                                        }
+                                        else if (Model.Status.ToLower().Equals("denied"))
+                                        {
+                                            <input type="text" value="Bị từ chối" readonly />
+                                        }
+                                        else if (Model.Status.ToLower().Equals("pending"))
+                                        {
+                                            <input type="text" value="Đang chờ xét" readonly />
+                                        }
+                                        else if (Model.Status.ToLower().Equals("canceled"))
+                                        {
+                                            <input type="text" value="Đã bị hủy" readonly />
+                                        }
+                                    </label>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="span3">
+                                    @if (!canMod)
+                                    {
+                                        <button disabled="disabled" type="button" onclick="window.location='/Account/CancelReservation?Id=@Model.Id'" class="btn btn-primary book-now btn-medium btn-auto span3">Hủy Đặt Sân</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" onclick="window.location='/Account/CancelReservation?Id=@Model.Id'" class="btn btn-primary book-now btn-medium btn-auto span3">Hủy Đặt Sân</button>
+                                    }
+                                </div>
+                                <div class="span3">
+                                    @if (!canMod)
+                                    {
+                                        <button disabled="disabled" type="submit" class="btn btn-primary book-now btn-medium btn-auto span3">Cập Nhật</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="submit" class="btn btn-primary book-now btn-medium btn-auto span3">Cập Nhật</button>
+                                    }
+                                </div>
+                                <div class="span3">
+                                    <button type="button" onclick="window.location='/Account/BookingHistory'" class="btn btn-primary book-now btn-medium btn-auto span3">Quay Lại</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>               
+            }
+            else
+            {
+                <h3>@Model.ErrorMessage</h3>
+            }
+        </div>
+    </div>
+</div>

@@ -142,6 +142,8 @@
     <Compile Include="DataAccessObjects\ConfigurationDAO.cs" />
     <Compile Include="DataAccessObjects\PriceTableDAO.cs" />
     <Compile Include="DataAccessObjects\RecommendationDAO.cs" />
+    <Compile Include="Models\AccountModels\BookingHistoryModel.cs" />
+    <Compile Include="Models\AccountModels\EditReservationModel.cs" />
     <Compile Include="DataAccessObjects\UserDistanceDAO.cs" />
     <Compile Include="Models\DistanceModels\Coordinate.cs" />
     <Compile Include="Models\DistanceModels\DistanceMatrixResponse.cs" />
@@ -406,7 +408,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\WebsiteStaff\Index.cshtml" />
     <Content Include="Views\StadiumStaff\Index.cshtml" />
-    <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Stadium\JoinUs.cshtml" />
     <Content Include="Views\WebsiteStaff\JoinRequests.cshtml" />
     <Content Include="Views\Stadium\JoinUsSuccess.cshtml" />
@@ -469,6 +470,8 @@
     <Content Include="Views\WebsiteStaff\EditAdvertisement.cshtml" />
     <Content Include="Views\Stadium\Details.cshtml" />
     <Content Include="Views\WebsiteStaff\EditPriority.cshtml" />
+    <Content Include="Views\Account\BookingHistory.cshtml" />
+    <Content Include="Views\Account\EditReservation.cshtml" />
     <Content Include="Views\Account\Profiles.cshtml" />
     <Content Include="Views\Stadium\Rivals.cshtml" />
     <Content Include="Views\Stadium\JoinRival.cshtml" />

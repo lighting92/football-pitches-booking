@@ -31,6 +31,12 @@ namespace FootballPitchesBooking.BusinessObjects
         }
 
 
+        public List<Reservation> GetReservationsOfUser(string userName)
+        {
+            ReservationDAO resDAO = new ReservationDAO();
+            return resDAO.GetAllReservationsOfUser(userName);
+        }
+
         public int CreateReservation(Reservation reservation)
         {
             Utils utils = new Utils();

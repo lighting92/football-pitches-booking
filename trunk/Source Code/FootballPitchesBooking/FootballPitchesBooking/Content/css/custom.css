@@ -6,6 +6,11 @@
 {
     margin-left: 10px;
 }
+.btn-auto
+{
+    margin: 0;
+    width:auto;
+}
 .groupbtn2
 {
     margin-left: 20px;
