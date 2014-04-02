@@ -1,4 +1,4 @@
-﻿@model List<FootballPitchesBooking.Models.RecommendationModels.RecommendationTypeModel>
+﻿@model FootballPitchesBooking.Models.RecommendationModels.RecommendationPriorityModel
 @{
     ViewBag.Title = "EditPriority";
     ViewBag.Title = "QUẢN LÝ GỢI Ý SÂN BÓNG";
@@ -9,76 +9,146 @@
 <script src="~/Content/bootstrap/js/jquery-ui-1.9.2.custom.js"></script>
 
 <h2>QUẢN LÝ GỢI Ý SÂN BÓNG</h2>
-<h3>Sân tốt nhất cho bạn</h3>
-<p>
-  <label for="amount">Price range:</label>
-  <input type="text" id="best-stadium-amount" style="border:0; color:#f6931f; font-weight:bold;">
-  <input type="hidden" id="best-stadium-amount1" />
-  <input type="hidden" id="best-stadium-amount2" />
-  <input type="hidden" id="best-stadium-amount3" />
-</p>
- 
-<div id="best-stadium"></div>
-<button>Lưu thay đổi</button>
-<button>Hủy</button>
+<div>
+    <h3>Sân tốt nhất cho bạn</h3>
+    <div class="row">
+        <div class="span4">
+            <label>
+                Sân đặt nhiều
+            <input type="text" id="best-stadium-amount1" data-cname="Bs_MostBooked" value="@Model.BestStadiumsMostBooked.Value" readonly/>
+            </label>
+        </div>
+        <div class="span4">
+            <label>
+                Sân gần nhà
+            <input type="text" id="best-stadium-amount2" data-cname="Bs_Nearest" value="@Model.BestStadiumsNearest.Value" readonly/>
+            </label>
+        </div>
+        <div class="span4">
+            <label>
+                Sân khuyến mãi
+            <input type="text" id="best-stadium-amount3" data-cname="Bs_MostPromoted" value="@Model.BestStadiumsMostDiscount.Value" readonly/>
+            </label>
+        </div>
+    </div>
+    <div id="best-stadium"></div>
+    <br />
+    <button onclick="updatePriority(this)">Cập nhật</button>
+</div>
 <hr />
 <h3>Sân có thể bạn biết</h3>
-<p>
-  <label for="amount">Price range:</label>
-  <input type="text" id="appropriated-stadium-amount" style="border:0; color:#f6931f; font-weight:bold;">
-    @{
-        var MostBooked = Model.Where(s => s.PriorityId == 1 && s.PriorityType == "MostBooked").Select(s => s.PriorityPercent);
-        var MostNearest = Model.Where(s => s.PriorityId == 1 && s.PriorityType == "MostNearest").Select(s => s.PriorityPercent);
-        var MostDiscount = Model.Where(s => s.PriorityId == 1 && s.PriorityType == "MostDiscount").Select(s => s.PriorityPercent);
-        }
+<div>
+    <div class="row">
 
-    
-  <input type="hidden" id="appropriated-stadium-amount1" value="@MostBooked" />
-  <input type="hidden" id="appropriated-stadium-amount2" value="@MostNearest"/>
-  <input type="hidden" id="appropriated-stadium-amount3" value="@MostDiscount"/>
-</p>
- 
-<div id="appropriated-stadium"></div>
-<button>Lưu thay đổi</button>
-<button>Hủy</button>
+        <div class="span4">
+            <label>
+                Sân đặt nhiều
+            <input type="text" id="appropriated-stadium-amount1" data-cname="Ap_MostBooked" value="@Model.AppropriateStadiumsMostBooked.Value" readonly/>
+            </label>
+        </div>
 
+        <div class="span4">
+            <label>
+                Sân gần nhà
+           <input type="text" id="appropriated-stadium-amount2" data-cname="Ap_Nearest" value="@Model.AppropriateStadiumsNearest.Value" readonly/>
+            </label>
+        </div>
+
+        <div class="span4">
+            <label>
+                Sân khuyến mãi
+            <input type="text" id="appropriated-stadium-amount3" data-cname="Ap_MostPromoted" value="@Model.AppropriateStadiumsMostDiscount.Value" readonly/>
+            </label>
+        </div>
+
+
+
+
+    </div>
+
+    <div id="appropriated-stadium"></div>
+    <br />
+    <button onclick="updatePriority(this)">Cập nhật</button>
+</div>
 <hr />
-<h3>Sân khuyến mãi</h3>
-<p>
-  <label for="amount">Price range:</label>
-  <input type="text" id="promoted-stadium-amount" style="border:0; color:#f6931f; font-weight:bold;">
-  <input type="hidden" id="promoted-stadium-amount1" />
-  <input type="hidden" id="promoted-stadium-amount2" />
-  <input type="hidden" id="promoted-stadium-amount3" />
-</p>
- 
-<div id="promoted-stadium"></div>
-<button>Lưu thay đổi</button>
-<button>Hủy</button>
+<div>
+    <h3>Sân khuyến mãi</h3>
+
+    <div class="row">
+        <div class="span4">
+            <label>
+                Sân đặt nhiều
+            <input type="text" id="promoted-stadium-amount1" data-cname="Pr_MostBooked" value="@Model.PromotionStadiumsMostBooked.Value" readonly/>
+            </label>
+        </div>
+        <div class="span4">
+            <label>
+                Sân gần nhà
+            <input type="text" id="promoted-stadium-amount2" data-cname="Pr_Nearest" value="@Model.PromotionStadiumsNearest.Value" readonly/>
+            </label>
+        </div>
+        <div class="span4">
+            <label>
+                Sân khuyến mãi
+            <input type="text" id="promoted-stadium-amount3" data-cname="Pr_MostPromoted" value="@Model.PromotionStadiumsMostDiscount.Value" readonly/>
+            </label>
+        </div>
+
+
+
+    </div>
+
+    <div id="promoted-stadium"></div>
+    <br />
+    <button onclick="updatePriority(this)">Cập nhật</button>
+</div>
 <hr />
 
-  <script>
-      $(function () {
-          $("#best-stadium").slider({
-              range: true,
-              min: 0,
-              max: 100,
-              values: [30, 60],
-              slide: function (event, ui) {
-                  $("#best-stadium-amount").val(ui.values[0] + "% - " + (ui.values[1] - ui.values[0]) + "% - " + (100 - ui.values[1]) + "%");
-                  $("#best-stadium-amount1").val(ui.values[0]);
-                  $("#best-stadium-amount2").val(ui.values[1] - ui.values[0]);
-                  $("#best-stadium-amount3").val(100 - ui.values[1]);
-              }
-          });
-          $("#best-stadium-amount").val($("#best-stadium").slider("values", 0)
-            + "% - " + ($("#best-stadium").slider("values", 1) - $("#best-stadium").slider("values", 0)) + "% - "
-            + (100 - $("#best-stadium").slider("values", 1)) + "%");
-          $("#best-stadium-amount1").val($("#best-stadium").slider("values", 0));
-          $("#best-stadium-amount2").val($("#best-stadium").slider("values", 1) - $("#best-stadium").slider("values", 0));
-          $("#best-stadium-amount3").val(100 - $("#best-stadium").slider("values", 1));
-      });
-  </script>
+<script type="text/javascript">
+
+    function updatePriority(control){
+        var postData = "{";
+        $.each($(control).parent().find("input"), function(index, input) {
+            postData+= '"' + $(input).data("cname") +  '":"' + $(input).val() + '"';
+            if ((index + 1) != $(control).parent().find("input").length){
+                postData += ", ";
+            }
+        });
+        postData += "}";
+        $.ajax({
+            url: "/WebsiteStaff/EditPriority",
+            type: 'post',
+            data: postData,
+            success: function(data){
+                alert(data);
+            }
+        });
+    }
+
+</script>
+
+<script>
+    $(function () {
+        $("#best-stadium").slider({
+            range: true,
+            min: 0,
+            max: 100,
+            values: [@Model.BestStadiumsMostBooked.Value, @Model.BestStadiumsMostBooked.Value + @Model.BestStadiumsNearest.Value],
+            slide: function (event, ui) {                  
+                $("#best-stadium-amount").val(ui.values[0] + "% - " + (ui.values[1] - ui.values[0]) + "% - " + (100 - ui.values[1]) + "%");
+                $("#best-stadium-amount1").val(ui.values[0]);
+                $("#best-stadium-amount2").val(ui.values[1] - ui.values[0]);
+                $("#best-stadium-amount3").val(100 - ui.values[1]);
+            }
+        });
+        $("#best-stadium-amount").val($("#best-stadium").slider("values", 0)
+          + "% - " + ($("#best-stadium").slider("values", 1) - $("#best-stadium").slider("values", 0)) + "% - "
+          + (100 - $("#best-stadium").slider("values", 1)) + "%");
+        $("#best-stadium-amount1").val($("#best-stadium").slider("values", 0));
+        $("#best-stadium-amount2").val($("#best-stadium").slider("values", 1) - $("#best-stadium").slider("values", 0));
+        $("#best-stadium-amount3").val(100 - $("#best-stadium").slider("values", 1));
+    });
+</script>
 
 <script>
     $(function () {
@@ -86,7 +156,7 @@
             range: true,
             min: 0,
             max: 100,
-            values: [30, 60],
+            values: [@Model.AppropriateStadiumsMostBooked.Value, @Model.AppropriateStadiumsMostBooked.Value+@Model.AppropriateStadiumsNearest.Value],
             slide: function (event, ui) {
                 $("#appropriated-stadium-amount").val(ui.values[0] + "% - " + (ui.values[1] - ui.values[0]) + "% - " + (100 - ui.values[1]) + "%");
                 $("#appropriated-stadium-amount1").val(ui.values[0]);
@@ -94,14 +164,14 @@
                 $("#appropriated-stadium-amount3").val(100 - ui.values[1]);
             }
         });
-        $("#amount").val($("#appropriated-stadium").slider("values", 0)
+        $("#appropriated-stadium-amount").val($("#appropriated-stadium").slider("values", 0)
           + "% - " + ($("#appropriated-stadium").slider("values", 1) - $("#appropriated-stadium").slider("values", 0)) + "% - "
           + (100 - $("#appropriated-stadium").slider("values", 1)) + "%");
         $("#appropriated-stadium-amount1").val($("#appropriated-stadium").slider("values", 0));
         $("#appropriated-stadium-amount2").val($("#appropriated-stadium").slider("values", 1) - $("#appropriated-stadium").slider("values", 0));
         $("#appropriated-stadium-amount3").val(100 - $("#appropriated-stadium").slider("values", 1));
     });
-  </script>
+</script>
 
 <script>
     $(function () {
@@ -109,7 +179,7 @@
             range: true,
             min: 0,
             max: 100,
-            values: [30, 60],
+            values: [@Model.PromotionStadiumsMostDiscount.Value, @Model.PromotionStadiumsMostDiscount.Value + @Model.PromotionStadiumsNearest.Value],
             slide: function (event, ui) {
                 $("#promoted-stadium-amount").val(ui.values[0] + "% - " + (ui.values[1] - ui.values[0]) + "% - " + (100 - ui.values[1]) + "%");
                 $("#promoted-stadium-amount1").val(ui.values[0]);
@@ -117,11 +187,11 @@
                 $("#promoted-stadium-amount3").val(100 - ui.values[1]);
             }
         });
-        $("#amount").val($("#promoted-stadium").slider("values", 0)
+        $("#promoted-stadium-amount").val($("#promoted-stadium").slider("values", 0)
           + "% - " + ($("#promoted-stadium").slider("values", 1) - $("#promoted-stadium").slider("values", 0)) + "% - "
           + (100 - $("#promoted-stadium").slider("values", 1)) + "%");
         $("#promoted-stadium-amount1").val($("#promoted-stadium").slider("values", 0));
         $("#promoted-stadium-amount2").val($("#promoted-stadium").slider("values", 1) - $("#promoted-stadium").slider("values", 0));
         $("#promoted-stadium-amount3").val(100 - $("#promoted-stadium").slider("values", 1));
     });
-  </script>
+</script>

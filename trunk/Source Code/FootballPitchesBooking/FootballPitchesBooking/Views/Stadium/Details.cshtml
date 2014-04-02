@@ -111,8 +111,10 @@
                 <div class="span7 no-margin stadium-details-info">
                     <div class="details-info stadium-prices">aaaaaaa</div>
                     <div class="details-info stadium-reviews" style="display: none;">
-                        @foreach (var item in Model.Reviews)
+                        @if (Model.Reviews != null && Model.Reviews.Count > 0)
                         {
+                            foreach (var item in Model.Reviews)
+                            {
                             <div class="user-review">
                                 <div class="user_avatar">
                                     <img src="~/Content/images/user_avatar.gif" />
@@ -125,14 +127,19 @@
                                     <p>@item.ReviewContent</p>
                                 </div>
                             </div>
+                            }
                         }
                     </div>
                     <div class="details-info stadium-image-list" style="display: none;">
-                        @foreach (var item in Model.Images)
+                        @if (Model.Images != null && Model.Images.Count > 0)
                         {
-                            <p><img src="~/Content/images/@item.Path" alt="@item.Title" style="max-width: 510px; height: auto;" />
-                               <label>@item.Caption</label>
+                            foreach (var item in Model.Images)
+                            {
+                            <p>
+                                <img src="~/Content/images/@item.Path" alt="@item.Title" style="max-width: 510px; height: auto;" />
+                                <label>@item.Caption</label>
                             </p>
+                            }
                         }
                     </div>
                 </div>
