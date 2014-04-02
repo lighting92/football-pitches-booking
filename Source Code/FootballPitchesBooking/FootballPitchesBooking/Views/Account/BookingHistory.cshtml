@@ -1,0 +1,70 @@
+﻿@model List<FootballPitchesBooking.Models.AccountModels.BookingHistoryModel>
+@{
+    ViewBag.USER = "active";
+    ViewBag.Title = "Lịch Sử Đặt Sân";
+}
+<h1>LỊCH SỬ ĐẶT SÂN</h1>
+
+
+<table class="table table-condensed table-bordered table-hover">
+    <thead>
+        <tr>
+            <th style="text-align:center">Ngày Đá</th>
+            <th style="text-align:center">Giờ Bắt Đầu</th>
+            <th style="text-align:center">Thời Lượng</th>
+            <th style="text-align:center; min-width:70px;">Sân Bóng</th>
+            <th style="text-align:center">Địa Chỉ</th>
+            <th style="text-align:center">Giao Hữu</th>
+            <th style="text-align:center">Trạng Thái</th>
+            <th style="text-align:center"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (var item in Model)
+            {
+            <tr>
+                <td style="width: 85px;">@item.StartDate</td>
+                <td style="width: 85px; text-align: right;">@item.StartTime</td>
+                <td style="width: 85px; text-align: right;">@item.Duration phút</td>
+                <td>@item.StadiumName</td>
+                <td>@item.StadiumAddress</td>
+                @if (string.IsNullOrEmpty(item.RivalStatus))
+                {
+                    <td style="width: 100px;">Không tìm</td>
+                }
+                else if (item.RivalStatus.Equals("Waiting"))
+                {
+                    <td style="width: 100px;">Đang tìm</td>
+                }
+                else if (item.RivalStatus.Equals("Pending"))
+                {
+                    <td style="width: 100px;">Có đội yêu cầu</td>
+                }
+                else
+                {
+                    <td style="width: 100px;">Đã có đội</td>
+                }
+                @if (item.Status.ToLower().Equals("approved"))
+                {
+                    <td style="width: 100px;">Đã xác nhận</td>
+                }
+                else if (item.Status.ToLower().Equals("denied"))
+                {
+                    <td style="width: 100px;">Bị từ chối</td>
+                }
+                else if (item.Status.ToLower().Equals("pending"))
+                {
+                    <td style="width: 100px;">Đang chờ xét</td>
+                }
+                else if (item.Status.ToLower().Equals("canceled"))
+                {
+                    <td style="width: 100px;">Đã bị hủy</td>
+                }
+                <td style="width:100px;" class="table-cell-action"><a href="/Account/EditReservation?Id=@item.Id">Chỉnh Sửa</a></td>
+            </tr>
+            }
+        }
+    </tbody>
+</table>
