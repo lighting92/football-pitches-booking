@@ -218,55 +218,41 @@
 <!--Best stadium -->
 <div class="row-fluid"">
     <h3><span>S</span>ân Tốt Nhất Cho Bạn</h3>
-        <div class="span4" style="margin-left:5px">
-        <div class="stadium-item">
-            <div class="stadium-image">
-                <img src="~/Content/images/stadium.jpg" />
-                <span class="promotion-date"><b class="pull-left">-50%</b> 10h - 16h Từ 1/1 đến 2/1/2014</span>
-            </div>
-            <div class="stadium-detail">
-                <p class="stadium-name">Sân FTOWN</p>
-                <p class="stadium-address">Quận 12, HCM</p>
-                <p class="field-type">
-                    Kiểu Sân Khuyến Mãi: 5, 7, 11
-                    <button class="btn btn-primary home-btn-book pull-right">Chi tiết</button>
-                </p>
-            </div>
-        </div>
-    </div>
 
-    <div class="span4" style="margin-left:5px">
-        <div class="stadium-item">
+     @if (Model.BestStadiums != null)
+     {
+         for (int i = 0; i < Model.BestStadiums.Count(); i++)
+         {
+             var item = Model.BestStadiums[i];
+             var img = Model.BestStadiumsImages[i];             
+             <div class="span4" style="margin-left:5px">
+            <div class="stadium-item">
             <div class="stadium-image">
-                <img src="~/Content/images/stadium.jpg" />
-                <span class="promotion-date"><b class="pull-left">-50%</b> 10h - 16h Từ 1/1 đến 2/1/2014</span>
+                @if (img != null)
+                {
+                        <img src="/Content/images/@img.Path" />
+                    <span class="promotion-date"><b class="pull-left">-50%</b> 10h - 16h Từ 1/1 đến 2/1/2014</span>
+                }
+                else
+                {
+                        <img src="/Content/images/stadium.jpg" />
+                    <span class="promotion-date"><b class="pull-left">-50%</b> 10h - 16h Từ 1/1 đến 2/1/2014</span>
+                }
+                
             </div>
             <div class="stadium-detail">
-                <p class="stadium-name">Sân FTOWN</p>
-                <p class="stadium-address">Quận 12, HCM</p>
+                <p class="stadium-name">@item.Stadium.Name</p>
+                <p class="stadium-address">@item.Stadium.District</p>
                 <p class="field-type">
                     Kiểu Sân Khuyến Mãi: 5, 7, 11
                     <button class="btn btn-primary home-btn-book pull-right">Chi tiết</button>
                 </p>
             </div>
-        </div>
-    </div>
-    <div class="span4" style="margin-left:5px">
-        <div class="stadium-item">
-            <div class="stadium-image">
-                <img src="~/Content/images/stadium.jpg" />
-                <span class="promotion-date"><b class="pull-left">-50%</b> 10h - 16h Từ 1/1 đến 2/1/2014</span>
             </div>
-            <div class="stadium-detail">
-                <p class="stadium-name">Sân FTOWN</p>
-                <p class="stadium-address">Quận 12, HCM</p>
-                <p class="field-type">
-                    Kiểu Sân Khuyến Mãi: 5, 7, 11
-                    <button class="btn btn-primary home-btn-book pull-right">Chi tiết</button>
-                </p>
             </div>
-        </div>
-    </div>
+         }
+     }
+
 
 </div>
 <hr />
@@ -274,25 +260,25 @@
 
 <div class="row-fluid">
     <div class="span4">
-        <h3><span>S</span>ân Bóng</h3>
-        @if (Model.Stadiums != null)
+        <h3><span>S</span>ân Gần Bạn Nhất</h3>
+        @if (Model.NearestStadiums != null)
         {
-            for (int i = 0; i < Model.Stadiums.Count(); i++)
+            for (int i = 0; i < Model.NearestStadiums.Count(); i++)
             {
-                var item = Model.Stadiums[i];
-                var img = Model.StadiumImages[i];
+                var item = Model.NearestStadiums[i];
+                var img = Model.NearestStadiumsImages[i];
             <div class="stadium-item">
                 <div class="stadium-image">
                     @if (img != null)
                     {
-                        <img src="~/Content/images/@img.Path" />
+                        <img src="/Content/images/@img.Path" />
                     }
                     else
                     {
-                        <img src="~/Content/images/stadium.jpg" />
+                        <img src="/Content/images/stadium.jpg" />
                     }
                 </div>
-                <div class="stadium-detail">
+                <div class="stadium-detail"></div>
                     <p class="stadium-name">@item.Stadium.Name</p>
                     <p class="stadium-address">@item.Stadium.District</p>
                     <p class="field-type">
@@ -300,8 +286,7 @@
                     <button class="btn btn-primary home-btn-book pull-right">Chi tiết</button>
                     </p>
                 </div>
-            </div>
-                    if (i != Model.Stadiums.Count() -1)
+                    if (i != Model.NearestStadiums.Count() - 1)
                     {
             <hr />
                     }
@@ -358,36 +343,50 @@
 
         </div>
     </div>
+
+    <!-- Promote stadium -->
+    
+
+<div class="row-fluid">
     <div class="span4">
-        <h3><span>S</span>ân Khuyến Mãi</h3>
-        <div class="stadium-item">
-            <div class="stadium-image">
-                <img src="~/Content/images/stadium.jpg" />
-                <span class="promotion-date"><b class="pull-left">-50%</b> 10h - 16h Từ 1/1 đến 2/1/2014</span>
-            </div>
-            <div class="stadium-detail">
-                <p class="stadium-name">Sân FTOWN</p>
-                <p class="stadium-address">Quận 12, HCM</p>
-                <p class="field-type">
-                    Kiểu Sân Khuyến Mãi: 5, 7, 11
+        <h3><span>S</span>ân Khuyến mãi</h3>
+        @if (Model.PromotionStadiums != null)
+        {
+            for (int i = 0; i < Model.PromotionStadiums.Count(); i++)
+            {
+                var item = Model.PromotionStadiums[i];
+                var img = Model.PromotionStadiumsImages[i];
+            <div class="stadium-item">
+                <div class="stadium-image">
+                    @if (img != null)
+                    {
+                        <img src="~/Content/images/@img.Path" />
+                        <span class="promotion-date"><b class="pull-left">-50%</b> 10h - 16h Từ 1/1 đến 2/1/2014</span>
+                    }
+                    else
+                    {
+                        <img src="~/Content/images/stadium.jpg" />
+                        <span class="promotion-date"><b class="pull-left">-50%</b> 10h - 16h Từ 1/1 đến 2/1/2014</span>
+                    }
+                </div>
+                <div class="stadium-detail">
+                    <p class="stadium-name">@item.Stadium.Name</p>
+                    <p class="stadium-address">@item.Stadium.District</p>
+                    <p class="field-type">
+                        Kiểu Sân: 5, 7, 11
                     <button class="btn btn-primary home-btn-book pull-right">Chi tiết</button>
-                </p>
+                    </p>
+                </div>
             </div>
-        </div>
-        <hr />
-        <div class="stadium-item">
-            <div class="stadium-image">
-                <img src="~/Content/images/stadium.jpg" />
-                <span class="promotion-date"><b class="pull-left">-50%</b> 10h - 16h Từ 1/1 đến 2/1/2014</span>
-            </div>
-            <div class="stadium-detail">
-                <p class="stadium-name">Sân FTOWN</p>
-                <p class="stadium-address">Quận 12, HCM</p>
-                <p class="field-type">
-                    Kiểu Sân Khuyến Mãi: 5, 7, 11
-                    <button class="btn btn-primary home-btn-book pull-right">Chi tiết</button>
-                </p>
-            </div>
-        </div>
+                    if (i != Model.PromotionStadiums.Count() - 1)
+                    {
+            <hr />
+                    }
+            }
+        }
+        else
+        {
+            <p>nen login</p>
+        } 
     </div>
 </div>
