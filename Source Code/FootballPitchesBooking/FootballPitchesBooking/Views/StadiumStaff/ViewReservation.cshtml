@@ -210,10 +210,11 @@
                         <div class="span3">
                             <label>
                                 TRẠNG THÁI
-                                    <select id="RivalStatus" name="RivalStatus" data-cur="@Model.RivalStatus" disabled="disabled">
-                                        <option value="Approved">Approved</option>
-                                        <option value="Denied">Pending</option>
-                                        <option value="Pending">Waiting</option>
+                                    <select id="Status" name="Status" data-cur="@Model.Status" disabled="disabled">
+                                        <option value="Approved">Đã xác nhận</option>
+                                        <option value="Denied">Bị từ chối</option>
+                                        <option value="Pending">Đang chờ xét</option>
+                                        <option value="Canceled">Đã bị huỷ</option>
                                     </select>
                             </label>
                             <script type="text/javascript">

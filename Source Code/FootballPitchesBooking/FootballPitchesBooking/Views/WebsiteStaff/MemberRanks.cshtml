@@ -1,10 +1,10 @@
 ﻿@{
     ViewBag.RANK = "active";
-    ViewBag.Title = "Ranks";
+    ViewBag.Title = "Hệ thống cấp bậc";
     Layout = "~/Views/Shared/_WebsiteStaffLayout.cshtml";
 }
 
-<h2>Quản Lý Rank</h2>
+<h2>Quản Lý Cấp Bậc</h2>
 
 <link href="@Url.Content("~/Content/Bootstrap/bootstrap.css")" rel="stylesheet" type="text/css" />
 <br />
@@ -25,7 +25,7 @@
     </div>
 </div>
 <br />
-<div> @Html.ActionLink("Thêm thứ hạng", "AddMemberRank", "WebsiteStaff", null, null)</div>
+<div> @Html.ActionLink("Thêm cấp bậc", "AddMemberRank", "WebsiteStaff", null, null)</div>
 <div>
     @*<span>@Html.ActionLink("Create Rank", "Create", null, new { @class = "btn" })</span>
     <span>@Html.ActionLink("Import Rank", "Import", null, new { @class = "btn" })</span>*@

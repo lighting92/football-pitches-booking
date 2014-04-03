@@ -1,11 +1,11 @@
 ﻿@model FootballPitchesBooking.Models.WebsiteStaffModels.RankModel
 @{
-    ViewBag.Title = "Thêm Hạng";
+    ViewBag.Title = "Thêm cấp bậc";
     ViewBag.RANK = "active";
     Layout = "~/Views/Shared/_WebsiteStaffLayout.cshtml";
 }
 
-<h2>Thêm Thứ Hạng</h2>
+<h2>Thêm Cấp Bậc</h2>
 @if (Model != null && Model.ErrorMessages.Count() > 0)
 {
     <div style="color:red">
@@ -33,8 +33,8 @@
         
         <tr>
             <td colspan="2">
-                <button type="submit">Lưu</button>
-                <button type="button" onclick="window.location = '/WebsiteStaff/MemberRanks'">Hủy bỏ</button>
+                <button type="submit">LƯU</button>
+                <button type="button" onclick="window.location = '/WebsiteStaff/MemberRanks'">QUAY LẠI</button>
             </td>
         </tr>
     </table>
