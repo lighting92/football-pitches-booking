@@ -238,6 +238,7 @@
     <Content Include="Content\bootstrap\js\bootstrap3.js" />
     <Content Include="Content\bootstrap\js\collapse.js" />
     <Content Include="Content\bootstrap\js\jquery-ui-1.9.2.custom.js" />
+    <Content Include="Scripts\jquery.autosize.min.js" />
     <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.ar.js" />
     <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.az.js" />
     <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.bg.js" />

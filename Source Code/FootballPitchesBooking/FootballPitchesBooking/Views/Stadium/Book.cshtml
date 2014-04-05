@@ -21,7 +21,7 @@
                                 <small>Chọn và điền đầy đủ vào mẫu bên dưới.</small>
                             </h1>
                             <br />
-                            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                            @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
                             {
                                 <div class="alert alert-danger">@Model.ErrorMessage</div>
                             }

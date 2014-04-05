@@ -19,13 +19,13 @@
                             <h1>Chỉnh Sửa Thông Tin Đặt Sân
                             </h1>
                             <br />
-                            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                            @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
                             {
                                 <div class="alert alert-danger">
                                     <p>@Model.ErrorMessage</p>
                                 </div>
                             }
-                            else if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                            else if (!string.IsNullOrWhiteSpace(Model.SuccessMessage))
                             {
                                 <div class="alert alert-success">@Model.SuccessMessage</div>
                             }

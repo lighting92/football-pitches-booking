@@ -14,7 +14,7 @@ if (Model != null)
     userName = Model.UserName;
     passWord = Model.Password;
     remember = Model.Remember?"checked":"";
-    if (!string.IsNullOrEmpty(Model.ErrorString))
+    if (!string.IsNullOrWhiteSpace(Model.ErrorString))
     {
         <p style="color:red">@Model.ErrorString</p>
     }

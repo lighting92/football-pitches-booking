@@ -167,7 +167,7 @@ namespace FootballPitchesBooking.Controllers
             string strRemember = form["Remember"];
             bool remember = (strRemember != null) ? true : false;
 
-            if (string.IsNullOrEmpty(log.UserName) || string.IsNullOrEmpty(log.Password))
+            if (string.IsNullOrWhiteSpace(log.UserName) || string.IsNullOrWhiteSpace(log.Password))
             {
                 log.ErrorString = Resources.Form_EmptyFields;
             }
@@ -248,9 +248,9 @@ namespace FootballPitchesBooking.Controllers
 
             reg.ErrorMessages = new List<string>();
 
-            if (string.IsNullOrEmpty(reg.UserName) || string.IsNullOrEmpty(reg.Password) || string.IsNullOrEmpty(reg.ConfirmPassword)
-                || string.IsNullOrEmpty(reg.Email) || string.IsNullOrEmpty(reg.FullName) || string.IsNullOrEmpty(reg.Address)
-                || string.IsNullOrEmpty(reg.PhoneNumber))
+            if (string.IsNullOrWhiteSpace(reg.UserName) || string.IsNullOrWhiteSpace(reg.Password) || string.IsNullOrWhiteSpace(reg.ConfirmPassword)
+                || string.IsNullOrWhiteSpace(reg.Email) || string.IsNullOrWhiteSpace(reg.FullName) || string.IsNullOrWhiteSpace(reg.Address)
+                || string.IsNullOrWhiteSpace(reg.PhoneNumber))
             {
                 reg.ErrorMessages.Add(Resources.Form_EmptyFields);
             }
@@ -455,8 +455,8 @@ namespace FootballPitchesBooking.Controllers
             model.ErrorMessages = new List<string>();
 
            
-            if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.FullName) || string.IsNullOrEmpty(model.Address)
-                || string.IsNullOrEmpty(model.PhoneNumber))
+            if (string.IsNullOrWhiteSpace(model.Email) || string.IsNullOrWhiteSpace(model.FullName) || string.IsNullOrWhiteSpace(model.Address)
+                || string.IsNullOrWhiteSpace(model.PhoneNumber))
             {
                 model.ErrorMessages.Add(Resources.Form_EmptyFields);
             }
@@ -485,7 +485,7 @@ namespace FootballPitchesBooking.Controllers
                 model.ErrorMessages.Add(Resources.Form_EmptyFields);
             }
 
-            if (string.IsNullOrEmpty(model.Email))
+            if (string.IsNullOrWhiteSpace(model.Email))
             {
                 model.ErrorMessages.Add(Resources.Form_EmptyFields);
             }

@@ -1633,5 +1633,23 @@ namespace FootballPitchesBooking.BusinessObjects
             FieldDAO fieldDAO = new FieldDAO();
             return fieldDAO.GetFieldById(fieldId);
         }
+
+        public bool UpdateStadiumRating(StadiumRating rating)
+        {
+            StadiumRatingDAO ratingDAO = new StadiumRatingDAO();
+            return ratingDAO.UpdateStadiumRating(rating);
+        }
+
+        public bool CreateStadiumReview(StadiumReview review)
+        {
+            StadiumReviewDAO reviewDAO = new StadiumReviewDAO();
+            return reviewDAO.CreateStadiumReview(review);
+        }
+
+        public bool ChangeReviewStatus(int reviewId, bool isApproved, int approver)
+        {
+            StadiumReviewDAO reviewDAO = new StadiumReviewDAO();
+            return reviewDAO.ChangeReviewStatus(reviewId, isApproved, approver);
+        }
     }
 }

@@ -16,11 +16,11 @@
                         <h1>SỬA THÔNG TIN YÊU CẦU GIA NHẬP
                         </h1>
                         <br />
-                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
                         {
                             <div class="alert alert-danger">@Model.ErrorMessage</div>
                         }
-                        else if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                        else if (!string.IsNullOrWhiteSpace(Model.SuccessMessage))
                         {
                             <div class="alert alert-success">@Model.SuccessMessage</div>
                         }

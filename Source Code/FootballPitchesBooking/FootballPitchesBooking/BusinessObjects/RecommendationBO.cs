@@ -16,7 +16,7 @@ namespace FootballPitchesBooking.BusinessObjects
 
         public List<RecommendStadium> FindBestStadiums(string userName)
         {
-            if (!string.IsNullOrEmpty(userName))
+            if (!string.IsNullOrWhiteSpace(userName))
             {
                 // Most reservations
                 ReservationDAO resDAO = new ReservationDAO();
@@ -223,7 +223,7 @@ namespace FootballPitchesBooking.BusinessObjects
         //find appropriate stadium
         public List<RecommendStadium> FindAppropriateStadiums(string userName)
         {
-            if (!string.IsNullOrEmpty(userName))
+            if (!string.IsNullOrWhiteSpace(userName))
             {
                 // Most reservations
                 ReservationDAO resDAO = new ReservationDAO();
@@ -433,7 +433,7 @@ namespace FootballPitchesBooking.BusinessObjects
         //find promoted stadium
         public List<RecommendStadium> FindPromotedStadiums(string userName)
         {
-            if (!string.IsNullOrEmpty(userName))
+            if (!string.IsNullOrWhiteSpace(userName))
             {
                 // Most promotions
                 PromotionDAO proDAO = new PromotionDAO();

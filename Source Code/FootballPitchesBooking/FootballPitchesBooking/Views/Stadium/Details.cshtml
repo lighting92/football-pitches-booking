@@ -52,29 +52,35 @@
                 <p class="rating-point">
                     <label>ĐÁNH GIÁ:</label>
                     <label>
-                        @for (int p = 0; p < (int)Model.Rate; p++)
+                        @for (int p = 1; p <= ((int)Model.Rate); p++)
                         {
-                            <img src="~/Content/images/rating-star/100.png" />
+                            <a href="~/Stadium/Rate?Stadium=@Model.Stadium.Id&Point=@p">
+                                <img src="~/Content/images/rating-star/100.png" /></a>
                         }
                         @if (Model.Rate - (int)Model.Rate >= 0.75)
                         {
-                            <img src="~/Content/images/rating-star/75.png" />
+                            <a href="~/Stadium/Rate?Stadium=@Model.Stadium.Id&Point=@((int)Model.Rate + 1)">
+                                <img src="~/Content/images/rating-star/75.png" /></a>
                         }
                         else if (Model.Rate - (int)Model.Rate >= 0.50)
                         {
-                            <img src="~/Content/images/rating-star/50.png" />
+                            <a href="~/Stadium/Rate?Stadium=@Model.Stadium.Id&Point=@((int)Model.Rate + 1)">
+                                <img src="~/Content/images/rating-star/50.png" /></a>
                         }
                         else if (Model.Rate - (int)Model.Rate >= 0.25)
                         {
-                            <img src="~/Content/images/rating-star/25.png" />
+                            <a href="~/Stadium/Rate?Stadium=@Model.Stadium.Id&Point=@((int)Model.Rate + 1)">
+                                <img src="~/Content/images/rating-star/25.png" /></a>
                         }
-                        else if (Model.Rate - (int)Model.Rate > 0.00)
+                        else if (Model.Rate - (int)Model.Rate >= 0.00)
                         {
-                            <img src="~/Content/images/rating-star/00.png" />
+                            <a href="~/Stadium/Rate?Stadium=@Model.Stadium.Id&Point=@((int)Model.Rate + 1)">
+                                <img src="~/Content/images/rating-star/00.png" /></a>
                         }
-                        @for (int i = 1; i <= (5 - Model.Rate); i++)
+                        @for (int p = ((int)Model.Rate + 2); p <= 5; p++)
                         {
-                            <img src="~/Content/images/rating-star/00.png" />
+                            <a href="~/Stadium/Rate?Stadium=@Model.Stadium.Id&Point=@p">
+                                <img src="~/Content/images/rating-star/00.png" /></a>
                         }
                     </label>
                     <label><b style="color: red; font-size: 16px; line-height: 12px;">@Model.Rate.ToString("0.0")</b>/@Model.RateCount phiếu bầu</label>
@@ -82,35 +88,87 @@
             </div>
             <div class="span7 no-margin">
                 <ul class="details-menu">
-                    <li id="prices" class="active"><a href="#" onclick="clickPrices()">BẢNG GIÁ</a></li>
-                    <li id="reviews"><a href="#" onclick="clickReviews()">NHẬN XÉT</a></li>
-                    <li id="images"><a href="#" onclick="clickImages()">HÌNH ẢNH</a></li>
+                    <li class="active"><a href="#prices" data-toggle="tab">BẢNG GIÁ</a></li>
+                    <li><a href="#reviews" data-toggle="tab">NHẬN XÉT</a></li>
+                    <li><a href="#images" data-toggle="tab">HÌNH ẢNH</a></li>
                 </ul>
                 <script type="text/javascript">
-                    function clickPrices() {
-                        $("li#reviews,li#images").removeClass("active");
-                        $("li#prices").addClass("active");
-                        $(".stadium-reviews,.stadium-image-list").css("display", "none");
-                        $(".stadium-prices").css("display", "block");
-                    }
+                    $(function () {
+                        $('a[data-toggle="tab"]').click(function (e) {
+                            var activeTab = $(e.target).attr('href');
+                            if (activeTab) {
+                                $('ul.details-menu').children().removeClass('active');
+                                $('a[href=' + activeTab + ']').parents('li:first').addClass('active');
+                                $('div.stadium-details-info').children().addClass('hide');
+                                $(activeTab).removeClass('hide');
+                            }
+                        });
 
-                    function clickReviews() {
-                        $("li#prices,li#images").removeClass("active");
-                        $("li#reviews").addClass("active");
-                        $(".stadium-prices,.stadium-image-list").css("display", "none");
-                        $(".stadium-reviews").css("display", "block");
-                    }
+                        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                            localStorage.setItem('lastTab', $(e.target).attr('href'));
+                        });
 
-                    function clickImages() {
-                        $("li#prices,li#reviews").removeClass("active");
-                        $("li#images").addClass("active");
-                        $(".stadium-prices,.stadium-reviews").css("display", "none");
-                        $(".stadium-image-list").css("display", "block");
-                    }
+                        var lastTab = localStorage.getItem('lastTab');
+                        if (lastTab) {
+                            $('ul.details-menu').children().removeClass('active');
+                            $('a[href=' + lastTab + ']').parents('li:first').addClass('active');
+                            $('div.stadium-details-info').children().addClass('hide');
+                            $(lastTab).removeClass('hide');
+                        }
+                    });
                 </script>
                 <div class="span7 no-margin stadium-details-info">
-                    <div class="details-info stadium-prices">aaaaaaa</div>
-                    <div class="details-info stadium-reviews" style="display: none;">
+                    <div class="details-info stadium-prices" id="prices">
+                        @if (Model.Prices != null && Model.Prices.Count > 0)
+                        {
+                            <table class="table table-condensed table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>TÊN BẢNG GIÁ</th>
+                                        <th>MÔ TẢ</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Prices)
+                                    {
+                                        <tr>
+                                            <td>@item.FieldPriceName</td>
+                                            <td>@item.FieldPriceDescription</td>
+                                            <td class="table-cell-action"></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <h5>Hệ thống sân này hiện tại chưa có bảng giá nào</h5>
+                        }
+                    </div>
+                    <div class="details-info stadium-reviews hide" id="reviews">
+                        <div class="user-review">
+                            <div class="user_avatar">
+                                <img src="~/Content/images/user_avatar.gif" />
+                            </div>
+                            <div class="content">
+                                <form action="~/Stadium/Review?stadium=@Model.Stadium.Id" method="post">
+                                    <p>
+                                        <a href="~/Account/Details"><b>@User.Identity.Name</b></a>
+                                    </p>
+                                    <p>
+                                        <textarea name="UserReviewContent" id="UserReviewContent" style="width: 420px; min-height: 50px;"></textarea>
+                                        <button type="submit" class="btn-small btn-success pull-right">Gửi đánh giá</button>
+                                    </p>
+
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $('#UserReviewContent').autosize();
+                                        });
+                                    </script>
+                                </form>
+                            </div>
+                        </div>
                         @if (Model.Reviews != null && Model.Reviews.Count > 0)
                         {
                             foreach (var item in Model.Reviews)
@@ -130,7 +188,7 @@
                             }
                         }
                     </div>
-                    <div class="details-info stadium-image-list" style="display: none;">
+                    <div class="details-info stadium-image-list hide" id="images">
                         @if (Model.Images != null && Model.Images.Count > 0)
                         {
                             foreach (var item in Model.Images)

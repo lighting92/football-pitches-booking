@@ -67,8 +67,8 @@ namespace FootballPitchesBooking.BusinessObjects
             }
 
             //Nếu có đối thủ thì phải điền thông tin
-            if (reservation.HasRival && (string.IsNullOrEmpty(reservation.RivalName) ||
-                string.IsNullOrEmpty(reservation.RivalPhone) || string.IsNullOrEmpty(reservation.RivalEmail)))
+            if (reservation.HasRival && (string.IsNullOrWhiteSpace(reservation.RivalName) ||
+                string.IsNullOrWhiteSpace(reservation.RivalPhone) || string.IsNullOrWhiteSpace(reservation.RivalEmail)))
             {
                 return -4;
             }
@@ -127,8 +127,8 @@ namespace FootballPitchesBooking.BusinessObjects
             }
 
             //Nếu có đối thủ thì phải điền thông tin
-            if (reservation.HasRival && (string.IsNullOrEmpty(reservation.RivalName) ||
-                string.IsNullOrEmpty(reservation.RivalPhone) || string.IsNullOrEmpty(reservation.RivalEmail)))
+            if (reservation.HasRival && (string.IsNullOrWhiteSpace(reservation.RivalName) ||
+                string.IsNullOrWhiteSpace(reservation.RivalPhone) || string.IsNullOrWhiteSpace(reservation.RivalEmail)))
             {
                 return -4;
             }

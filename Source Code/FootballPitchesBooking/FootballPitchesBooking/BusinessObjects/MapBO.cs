@@ -163,7 +163,7 @@ namespace FootballPitchesBooking.BusinessObjects
         //100 destination
         public static List<int?> SinglePointDistanceMatrix(DistanceMatrixResponse addresses)
         {
-            if (string.IsNullOrEmpty(addresses.origin) || addresses.destinations.Count() < 1)
+            if (string.IsNullOrWhiteSpace(addresses.origin) || addresses.destinations.Count() < 1)
             {
                 return null;
             }

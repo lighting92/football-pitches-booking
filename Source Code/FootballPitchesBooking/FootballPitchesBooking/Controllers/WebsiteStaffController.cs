@@ -98,9 +98,9 @@ namespace FootballPitchesBooking.Controllers
                 }
             }
 
-            if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.MainOwner) || string.IsNullOrEmpty(model.Phone) ||
-                string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Street) || string.IsNullOrEmpty(model.Ward) ||
-                string.IsNullOrEmpty(model.District))
+            if (string.IsNullOrWhiteSpace(model.Name) || string.IsNullOrWhiteSpace(model.MainOwner) || string.IsNullOrWhiteSpace(model.Phone) ||
+                string.IsNullOrWhiteSpace(model.Email) || string.IsNullOrWhiteSpace(model.Street) || string.IsNullOrWhiteSpace(model.Ward) ||
+                string.IsNullOrWhiteSpace(model.District))
             {
                 model.ErrorMessage.Add(Resources.Form_EmptyFields);
             }
@@ -257,9 +257,9 @@ namespace FootballPitchesBooking.Controllers
                 }
             }
 
-            if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.MainOwner) || string.IsNullOrEmpty(model.Phone) ||
-                string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Street) || string.IsNullOrEmpty(model.Ward) ||
-                string.IsNullOrEmpty(model.District))
+            if (string.IsNullOrWhiteSpace(model.Name) || string.IsNullOrWhiteSpace(model.MainOwner) || string.IsNullOrWhiteSpace(model.Phone) ||
+                string.IsNullOrWhiteSpace(model.Email) || string.IsNullOrWhiteSpace(model.Street) || string.IsNullOrWhiteSpace(model.Ward) ||
+                string.IsNullOrWhiteSpace(model.District))
             {
                 model.ErrorMessage.Add(Resources.Form_EmptyFields);
             }
@@ -433,12 +433,12 @@ namespace FootballPitchesBooking.Controllers
             model.Email = form["Email"];
             model.ErrorMessages = new List<string>();
 
-            if (string.IsNullOrEmpty(model.Email))
+            if (string.IsNullOrWhiteSpace(model.Email))
             {
                 model.ErrorMessages.Add(Resources.Form_EmptyFields);
             }
 
-            if (!string.IsNullOrEmpty(model.Password))
+            if (!string.IsNullOrWhiteSpace(model.Password))
             {
                 if (model.Password.Length < 6 || model.Password.Length > 32)
                 {
@@ -500,7 +500,7 @@ namespace FootballPitchesBooking.Controllers
                 model.RoleId = (int)usr.RoleId;
             }
 
-            if (string.IsNullOrEmpty(model.Email))
+            if (string.IsNullOrWhiteSpace(model.Email))
             {
                 model.ErrorMessages.Add(Resources.Form_EmptyFields);
             }
@@ -630,9 +630,9 @@ namespace FootballPitchesBooking.Controllers
                 CreateDate = form["CreateDate"]
             };
 
-            if (string.IsNullOrEmpty(ejm.FullName) || string.IsNullOrEmpty(ejm.Address) || string.IsNullOrEmpty(ejm.Phone) ||
-                string.IsNullOrEmpty(ejm.Email) || string.IsNullOrEmpty(ejm.StadiumName) || string.IsNullOrEmpty(ejm.StadiumStreet) ||
-                string.IsNullOrEmpty(ejm.StadiumWard) || string.IsNullOrEmpty(ejm.StadiumDistrict) || string.IsNullOrEmpty(ejm.Status))
+            if (string.IsNullOrWhiteSpace(ejm.FullName) || string.IsNullOrWhiteSpace(ejm.Address) || string.IsNullOrWhiteSpace(ejm.Phone) ||
+                string.IsNullOrWhiteSpace(ejm.Email) || string.IsNullOrWhiteSpace(ejm.StadiumName) || string.IsNullOrWhiteSpace(ejm.StadiumStreet) ||
+                string.IsNullOrWhiteSpace(ejm.StadiumWard) || string.IsNullOrWhiteSpace(ejm.StadiumDistrict) || string.IsNullOrWhiteSpace(ejm.Status))
             {
                 ejm.ErrorMessage = Resources.Form_EmptyFields;
                 return View(ejm);
@@ -722,7 +722,7 @@ namespace FootballPitchesBooking.Controllers
             rank.Promotion = form["Promotion"];
             rank.ErrorMessages = new List<string>();
 
-            if (string.IsNullOrEmpty(rank.RankName) || string.IsNullOrEmpty(rank.Promotion))
+            if (string.IsNullOrWhiteSpace(rank.RankName) || string.IsNullOrWhiteSpace(rank.Promotion))
             {
                 rank.ErrorMessages.Add(Resources.Form_EmptyFields);
             }
@@ -796,7 +796,7 @@ namespace FootballPitchesBooking.Controllers
             rank.Promotion = form["Promotion"];
             rank.ErrorMessages = new List<string>();
 
-            if (string.IsNullOrEmpty(rank.RankName) || string.IsNullOrEmpty(rank.Promotion)) //check null
+            if (string.IsNullOrWhiteSpace(rank.RankName) || string.IsNullOrWhiteSpace(rank.Promotion)) //check null
             {
                 rank.ErrorMessages.Add(Resources.Form_EmptyFields);
             }
@@ -885,7 +885,7 @@ namespace FootballPitchesBooking.Controllers
                 checkParseError = true;
             }
 
-            if (checkParseError || string.IsNullOrEmpty(model.Position) || string.IsNullOrEmpty(model.AdvertiseDetail) || string.IsNullOrEmpty(model.Status))
+            if (checkParseError || string.IsNullOrWhiteSpace(model.Position) || string.IsNullOrWhiteSpace(model.AdvertiseDetail) || string.IsNullOrWhiteSpace(model.Status))
             {
                 model.ErrorMessages.Add(Resources.Form_EmptyFields);
             }
@@ -983,7 +983,7 @@ namespace FootballPitchesBooking.Controllers
                 checkParseError = true;
             }
 
-            if (checkParseError || string.IsNullOrEmpty(model.Position) || string.IsNullOrEmpty(model.AdvertiseDetail) || string.IsNullOrEmpty(model.Status))
+            if (checkParseError || string.IsNullOrWhiteSpace(model.Position) || string.IsNullOrWhiteSpace(model.AdvertiseDetail) || string.IsNullOrWhiteSpace(model.Status))
             {
                 model.ErrorMessages.Add(Resources.Form_EmptyFields);
             }

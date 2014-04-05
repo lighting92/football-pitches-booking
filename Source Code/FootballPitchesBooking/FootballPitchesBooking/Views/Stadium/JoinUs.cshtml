@@ -17,7 +17,7 @@
                             <small>Điền đầy đủ thông tin vào mẫu bên dưới để gửi yêu cầu.</small>
                         </h1>
                         <br />
-                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
                         {
                             <div class="alert alert-danger">@Model.ErrorMessage</div>
                         }
