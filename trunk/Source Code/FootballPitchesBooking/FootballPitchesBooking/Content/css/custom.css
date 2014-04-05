@@ -448,3 +448,8 @@ footer a
 {
     text-align: center !important;
 }
+
+.hide 
+{
+    display: none !important;
+}

@@ -29,7 +29,7 @@
                 <tr>
                     <td>@item.Number</td>
                     <td>@item.FieldType</td>
-                    @if (!string.IsNullOrEmpty(item.Parent))
+                    @if (!string.IsNullOrWhiteSpace(item.Parent))
                     {
                         <td>@item.Parent</td>
                     }

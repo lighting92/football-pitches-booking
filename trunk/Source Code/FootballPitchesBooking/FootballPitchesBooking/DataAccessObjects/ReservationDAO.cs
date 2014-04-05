@@ -52,7 +52,7 @@ namespace FootballPitchesBooking.DataAccessObjects
             }
             else
             {
-                if (!string.IsNullOrEmpty(user))
+                if (!string.IsNullOrWhiteSpace(user))
                 {
                     allRivals = allRivals.Where(r => r.FullName == user || r.User.UserName == user).ToList();
                 }

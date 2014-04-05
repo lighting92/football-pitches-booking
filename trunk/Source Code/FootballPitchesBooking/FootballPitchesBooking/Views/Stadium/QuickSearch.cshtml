@@ -40,7 +40,7 @@
                 <div id="collapseTwo" class="panel-collapse collapse">
                     <div class="panel-body">
                         <h5><span class="special-font" style="font-weight: bold">chọn kiểu sân, ngày giờ và địa điểm</span></h5>
-                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
                         {
                             <div class="alert alert-danger">
                                 @Model.ErrorMessage
@@ -216,7 +216,7 @@
         </div>
     </div>
 </div>
-@if (!string.IsNullOrEmpty(Model.SearchResultString))
+@if (!string.IsNullOrWhiteSpace(Model.SearchResultString))
 {
     <h5 style="text-transform: none; font-size: 18px;" class="alert">@Model.SearchResultString</h5>
 }

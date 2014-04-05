@@ -14,11 +14,11 @@
                 <thead>
                     <tr>
                         <th style="width: 150px;"></th>
-                        <th>TÊN SÂN BÓNG</th>
-                        <th style="width: 300px;">ĐỊA CHỈ</th>
+                        <th style="width: 150px;">TÊN SÂN BÓNG</th>
+                        <th>ĐỊA CHỈ</th>
                         <th style="width: 120px;">SỐ ĐIỆN THOẠI</th>
                         <th style="width: 90px;">ĐÁNH GIÁ</th>
-                        <th style="width: 90px;"></th>
+                        <th style="width: 50px;"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,7 +35,7 @@
                                     <img src="~/Content/images/@Model.Image[i]" style="width: 150px; height: auto;" />
                                 }
                             </td>
-                            <td><a href="/Stadium/Details?id=@Model.Stadiums[i].Id">@Model.Stadiums[i].Name</a></td>
+                            <td><a href="/Stadium/Details/@Model.Stadiums[i].Id">@Model.Stadiums[i].Name</a></td>
                             <td>@Model.Stadiums[i].Street, @Model.Stadiums[i].Ward, @Model.Stadiums[i].District</td>
                             <td>@Model.Stadiums[i].Phone</td>
                             <td class="rating-point">
@@ -64,7 +64,7 @@
                                     <img src="~/Content/images/rating-star/00.png" />
                                 }
                             </td>
-                            <td><a href="~/Stadium/Book?Stadium=@Model.Stadiums[i].Id"</td>
+                            <td><a href="~/Stadium/Book?Stadium=@Model.Stadiums[i].Id">Đặt sân</a></td>
                         </tr>
                     }
                 </tbody>

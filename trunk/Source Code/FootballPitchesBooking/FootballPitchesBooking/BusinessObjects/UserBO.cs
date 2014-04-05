@@ -73,7 +73,7 @@ namespace FootballPitchesBooking.BusinessObjects
         {
             UserDAO userDAO = new UserDAO();
             MemberRankDAO rankDAO = new MemberRankDAO();
-            if (string.IsNullOrEmpty(user.Password))
+            if (string.IsNullOrWhiteSpace(user.Password))
             {
                 user.Password = userDAO.GetUserByUserId(user.Id).Password;
             }

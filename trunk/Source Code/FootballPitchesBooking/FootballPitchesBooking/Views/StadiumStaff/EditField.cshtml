@@ -30,7 +30,7 @@
                                     }
                                 </div>
                             }
-                            else if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                            else if (!string.IsNullOrWhiteSpace(Model.SuccessMessage))
                             {
                                 <div class="alert alert-success">@Model.SuccessMessage</div>
                             }

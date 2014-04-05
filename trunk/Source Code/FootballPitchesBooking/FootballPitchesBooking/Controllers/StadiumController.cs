@@ -74,6 +74,11 @@ namespace FootballPitchesBooking.Controllers
                         model.Images = model.Stadium.StadiumImages.ToList();
                     }
 
+                    if (model.Stadium.FieldPrices.Count > 0)
+                    {
+                        model.Prices = model.Stadium.FieldPrices.ToList();
+                    }
+
                     if (model.Stadium.StadiumReviews.Count > 0)
                     {
                         model.Reviews = model.Stadium.StadiumReviews.OrderByDescending(sr => sr.CreateDate).ToList();
@@ -91,6 +96,66 @@ namespace FootballPitchesBooking.Controllers
                 return RedirectToAction("Index", "Stadium");
             }
         }
+
+        [Authorize]
+        public ActionResult Rate()
+        {
+            try
+            {
+                UserBO userBO = new UserBO();
+
+                StadiumRating rating = new StadiumRating()
+                {
+                    UserId = userBO.GetUserByUserName(User.Identity.Name).Id,
+                    StadiumId = Int32.Parse(Request.QueryString["Stadium"]),
+                    Rate = Int32.Parse(Request.QueryString["Point"])
+                };
+
+                StadiumBO stadiumBO = new StadiumBO();
+
+                bool result = stadiumBO.UpdateStadiumRating(rating);
+
+                return RedirectToAction("Details/" + rating.StadiumId, "Stadium");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index", "Stadium");
+            }
+        }
+
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Review(FormCollection form, int stadium)
+        {
+            try
+            {
+                string content = form["UserReviewContent"];
+
+                if (!string.IsNullOrWhiteSpace(content))
+                {
+                    UserBO userBO = new UserBO();
+                    StadiumReview review = new StadiumReview()
+                    {
+                        UserId = userBO.GetUserByUserName(User.Identity.Name).Id,
+                        StadiumId = stadium,
+                        ReviewContent = content,
+                        IsApproved = false,
+                        CreateDate = DateTime.Now
+                    };
+
+                    StadiumBO stadiumBO = new StadiumBO();
+                    bool result = stadiumBO.CreateStadiumReview(review);
+                }
+
+                return RedirectToAction("Details/" + stadium, "Stadium");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index", "Stadium");
+            }
+        }
+
 
         [Authorize]
         public ActionResult Book()
@@ -121,8 +186,8 @@ namespace FootballPitchesBooking.Controllers
                         model.UserInfo.Phone = user.PhoneNumber;
                         model.UserInfo.Email = user.Email;
 
-                        if (!string.IsNullOrEmpty(strDate) && !string.IsNullOrEmpty(strTime) && !string.IsNullOrEmpty(strDuration)
-                            && !string.IsNullOrEmpty(strType))
+                        if (!string.IsNullOrWhiteSpace(strDate) && !string.IsNullOrWhiteSpace(strTime) && !string.IsNullOrWhiteSpace(strDuration)
+                            && !string.IsNullOrWhiteSpace(strType))
                         {
                             CultureInfo ci = new CultureInfo("vi-VN");
                             DateTime startDate;
@@ -223,8 +288,8 @@ namespace FootballPitchesBooking.Controllers
                         model.UserInfo.Phone = form["PhoneNumber"];
                         model.UserInfo.Email = form["Email"];
 
-                        if (!string.IsNullOrEmpty(strDate) && !string.IsNullOrEmpty(strTime) && !string.IsNullOrEmpty(strDuration)
-                            && !string.IsNullOrEmpty(strType))
+                        if (!string.IsNullOrWhiteSpace(strDate) && !string.IsNullOrWhiteSpace(strTime) && !string.IsNullOrWhiteSpace(strDuration)
+                            && !string.IsNullOrWhiteSpace(strType))
                         {
                             CultureInfo ci = new CultureInfo("vi-VN");
                             DateTime startDate;
@@ -274,7 +339,7 @@ namespace FootballPitchesBooking.Controllers
                                     }
                                     if (fa != null)
                                     {
-                                        bool needRival = !string.IsNullOrEmpty(strNeedRival);
+                                        bool needRival = !string.IsNullOrWhiteSpace(strNeedRival);
                                         ReservationBO resBO = new ReservationBO();
                                         Reservation res = new Reservation();
                                         res.FieldId = field;
@@ -367,8 +432,8 @@ namespace FootballPitchesBooking.Controllers
                 string strTime = form["StartTime"];
                 string strDuration = form["Duration"];
 
-                if (!string.IsNullOrEmpty(strDate) && !string.IsNullOrEmpty(strTime) && !string.IsNullOrEmpty(strDuration)
-                            && !string.IsNullOrEmpty(strType))
+                if (!string.IsNullOrWhiteSpace(strDate) && !string.IsNullOrWhiteSpace(strTime) && !string.IsNullOrWhiteSpace(strDuration)
+                            && !string.IsNullOrWhiteSpace(strType))
                 {
                     StadiumBO stadiumBO = new StadiumBO();
                     CultureInfo ci = new CultureInfo("vi-VN");
@@ -459,8 +524,8 @@ namespace FootballPitchesBooking.Controllers
             model.City = form["City"];
             model.District = form["District"];
 
-            if (string.IsNullOrEmpty(model.FieldType) || string.IsNullOrEmpty(model.StartTime) || string.IsNullOrEmpty(model.Date)
-                || string.IsNullOrEmpty(model.Duration) || string.IsNullOrEmpty(model.City) || string.IsNullOrEmpty(model.District))
+            if (string.IsNullOrWhiteSpace(model.FieldType) || string.IsNullOrWhiteSpace(model.StartTime) || string.IsNullOrWhiteSpace(model.Date)
+                || string.IsNullOrWhiteSpace(model.Duration) || string.IsNullOrWhiteSpace(model.City) || string.IsNullOrWhiteSpace(model.District))
             {
                 model.ErrorMessage = "Bạn hãy sử dụng mẫu bên dưới để tìm kiếm nhanh sân còn trống";
             }
@@ -605,9 +670,9 @@ namespace FootballPitchesBooking.Controllers
                 Note = form["Note"]
             };
 
-            if (string.IsNullOrEmpty(jsm.FullName) || string.IsNullOrEmpty(jsm.Address) || string.IsNullOrEmpty(jsm.Phone) ||
-                string.IsNullOrEmpty(jsm.Email) || string.IsNullOrEmpty(jsm.StadiumName) || string.IsNullOrEmpty(jsm.StadiumStreet) ||
-                string.IsNullOrEmpty(jsm.StadiumWard) || string.IsNullOrEmpty(jsm.StadiumDistrict))
+            if (string.IsNullOrWhiteSpace(jsm.FullName) || string.IsNullOrWhiteSpace(jsm.Address) || string.IsNullOrWhiteSpace(jsm.Phone) ||
+                string.IsNullOrWhiteSpace(jsm.Email) || string.IsNullOrWhiteSpace(jsm.StadiumName) || string.IsNullOrWhiteSpace(jsm.StadiumStreet) ||
+                string.IsNullOrWhiteSpace(jsm.StadiumWard) || string.IsNullOrWhiteSpace(jsm.StadiumDistrict))
             {
                 jsm.ErrorMessage = Resources.Form_EmptyFields;
                 return View(jsm);
@@ -725,7 +790,7 @@ namespace FootballPitchesBooking.Controllers
                 string phone = form["RivalPhone"];
                 string email = form["RivalEmail"];
 
-                if (string.IsNullOrEmpty(fullName) || string.IsNullOrEmpty(phone) || string.IsNullOrEmpty(email))
+                if (string.IsNullOrWhiteSpace(fullName) || string.IsNullOrWhiteSpace(phone) || string.IsNullOrWhiteSpace(email))
                 {
                     model.ErrorMessages.Add(Resources.Form_EmptyFields);
                 }

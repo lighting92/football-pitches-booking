@@ -173,9 +173,9 @@ namespace FootballPitchesBooking.Controllers
                 }
             }
 
-            if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.MainOwner) || string.IsNullOrEmpty(model.Phone) ||
-                string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Street) || string.IsNullOrEmpty(model.Ward) ||
-                string.IsNullOrEmpty(model.District))
+            if (string.IsNullOrWhiteSpace(model.Name) || string.IsNullOrWhiteSpace(model.MainOwner) || string.IsNullOrWhiteSpace(model.Phone) ||
+                string.IsNullOrWhiteSpace(model.Email) || string.IsNullOrWhiteSpace(model.Street) || string.IsNullOrWhiteSpace(model.Ward) ||
+                string.IsNullOrWhiteSpace(model.District))
             {
                 model.ErrorMessage.Add(Resources.Form_EmptyFields);
             }
@@ -384,7 +384,7 @@ namespace FootballPitchesBooking.Controllers
                 #region first validate data type
 
                 var fperror = false;
-                if (string.IsNullOrEmpty(model.FieldPrice.Name) || string.IsNullOrEmpty(model.FieldPrice.Description))
+                if (string.IsNullOrWhiteSpace(model.FieldPrice.Name) || string.IsNullOrWhiteSpace(model.FieldPrice.Description))
                 {
                     fperror = true;
                     model.ErrorMessages.Add(Resources.Form_EmptyFields);
@@ -403,7 +403,7 @@ namespace FootballPitchesBooking.Controllers
                         EndTime = tempEnd,
                         Price = tempPrice
                     });
-                    if (!derror && (string.IsNullOrEmpty(tempStart) || string.IsNullOrEmpty(tempEnd) || string.IsNullOrEmpty(tempPrice)))
+                    if (!derror && (string.IsNullOrWhiteSpace(tempStart) || string.IsNullOrWhiteSpace(tempEnd) || string.IsNullOrWhiteSpace(tempPrice)))
                     {
                         model.ErrorMessages.Add("Bảng giá mặc định không hợp lệ");
                         derror = true;
@@ -450,7 +450,7 @@ namespace FootballPitchesBooking.Controllers
                         EndTime = tempEnd,
                         Price = tempPrice
                     });
-                    if (!merror && (string.IsNullOrEmpty(tempStart) || string.IsNullOrEmpty(tempEnd) || string.IsNullOrEmpty(tempPrice)))
+                    if (!merror && (string.IsNullOrWhiteSpace(tempStart) || string.IsNullOrWhiteSpace(tempEnd) || string.IsNullOrWhiteSpace(tempPrice)))
                     {
                         model.ErrorMessages.Add("Bảng giá thứ 2 không hợp lệ");
                         merror = true;
@@ -497,7 +497,7 @@ namespace FootballPitchesBooking.Controllers
                         EndTime = tempEnd,
                         Price = tempPrice
                     });
-                    if (!tuerror && (string.IsNullOrEmpty(tempStart) || string.IsNullOrEmpty(tempEnd) || string.IsNullOrEmpty(tempPrice)))
+                    if (!tuerror && (string.IsNullOrWhiteSpace(tempStart) || string.IsNullOrWhiteSpace(tempEnd) || string.IsNullOrWhiteSpace(tempPrice)))
                     {
                         model.ErrorMessages.Add("Bảng giá thứ 3 không hợp lệ");
                         tuerror = true;
@@ -544,7 +544,7 @@ namespace FootballPitchesBooking.Controllers
                         EndTime = tempEnd,
                         Price = tempPrice
                     });
-                    if (!werror && (string.IsNullOrEmpty(tempStart) || string.IsNullOrEmpty(tempEnd) || string.IsNullOrEmpty(tempPrice)))
+                    if (!werror && (string.IsNullOrWhiteSpace(tempStart) || string.IsNullOrWhiteSpace(tempEnd) || string.IsNullOrWhiteSpace(tempPrice)))
                     {
                         model.ErrorMessages.Add("Bảng giá thứ 4 không hợp lệ");
                         werror = true;
@@ -591,7 +591,7 @@ namespace FootballPitchesBooking.Controllers
                         EndTime = tempEnd,
                         Price = tempPrice
                     });
-                    if (!therror && (string.IsNullOrEmpty(tempStart) || string.IsNullOrEmpty(tempEnd) || string.IsNullOrEmpty(tempPrice)))
+                    if (!therror && (string.IsNullOrWhiteSpace(tempStart) || string.IsNullOrWhiteSpace(tempEnd) || string.IsNullOrWhiteSpace(tempPrice)))
                     {
                         model.ErrorMessages.Add("Bảng giá thứ 5 không hợp lệ");
                         therror = true;
@@ -638,7 +638,7 @@ namespace FootballPitchesBooking.Controllers
                         EndTime = tempEnd,
                         Price = tempPrice
                     });
-                    if (!ferror && (string.IsNullOrEmpty(tempStart) || string.IsNullOrEmpty(tempEnd) || string.IsNullOrEmpty(tempPrice)))
+                    if (!ferror && (string.IsNullOrWhiteSpace(tempStart) || string.IsNullOrWhiteSpace(tempEnd) || string.IsNullOrWhiteSpace(tempPrice)))
                     {
                         model.ErrorMessages.Add("Bảng giá thứ 6 không hợp lệ");
                         ferror = true;
@@ -685,7 +685,7 @@ namespace FootballPitchesBooking.Controllers
                         EndTime = tempEnd,
                         Price = tempPrice
                     });
-                    if (!saerror && (string.IsNullOrEmpty(tempStart) || string.IsNullOrEmpty(tempEnd) || string.IsNullOrEmpty(tempPrice)))
+                    if (!saerror && (string.IsNullOrWhiteSpace(tempStart) || string.IsNullOrWhiteSpace(tempEnd) || string.IsNullOrWhiteSpace(tempPrice)))
                     {
                         model.ErrorMessages.Add("Bảng giá thứ 7 không hợp lệ");
                         saerror = true;
@@ -732,7 +732,7 @@ namespace FootballPitchesBooking.Controllers
                         EndTime = tempEnd,
                         Price = tempPrice
                     });
-                    if (!suerror && (string.IsNullOrEmpty(tempStart) || string.IsNullOrEmpty(tempEnd) || string.IsNullOrEmpty(tempPrice)))
+                    if (!suerror && (string.IsNullOrWhiteSpace(tempStart) || string.IsNullOrWhiteSpace(tempEnd) || string.IsNullOrWhiteSpace(tempPrice)))
                     {
                         model.ErrorMessages.Add("Bảng giá chủ nhật không hợp lệ");
                         suerror = true;
@@ -1041,7 +1041,7 @@ namespace FootballPitchesBooking.Controllers
                 #region first validate data type
 
                 var fperror = false;
-                if (string.IsNullOrEmpty(model.FieldPrice.Name) || string.IsNullOrEmpty(model.FieldPrice.Description))
+                if (string.IsNullOrWhiteSpace(model.FieldPrice.Name) || string.IsNullOrWhiteSpace(model.FieldPrice.Description))
                 {
                     fperror = true;
                     model.ErrorMessages.Add(Resources.Form_EmptyFields);
@@ -1060,7 +1060,7 @@ namespace FootballPitchesBooking.Controllers
                         EndTime = tempEnd,
                         Price = tempPrice
                     });
-                    if (!derror && (string.IsNullOrEmpty(tempStart) || string.IsNullOrEmpty(tempEnd) || string.IsNullOrEmpty(tempPrice)))
+                    if (!derror && (string.IsNullOrWhiteSpace(tempStart) || string.IsNullOrWhiteSpace(tempEnd) || string.IsNullOrWhiteSpace(tempPrice)))
                     {
                         model.ErrorMessages.Add("Bảng giá mặc định không hợp lệ");
                         derror = true;
@@ -1107,7 +1107,7 @@ namespace FootballPitchesBooking.Controllers
                         EndTime = tempEnd,
                         Price = tempPrice
                     });
-                    if (!merror && (string.IsNullOrEmpty(tempStart) || string.IsNullOrEmpty(tempEnd) || string.IsNullOrEmpty(tempPrice)))
+                    if (!merror && (string.IsNullOrWhiteSpace(tempStart) || string.IsNullOrWhiteSpace(tempEnd) || string.IsNullOrWhiteSpace(tempPrice)))
                     {
                         model.ErrorMessages.Add("Bảng giá thứ 2 không hợp lệ");
                         merror = true;
@@ -1154,7 +1154,7 @@ namespace FootballPitchesBooking.Controllers
                         EndTime = tempEnd,
                         Price = tempPrice
                     });
-                    if (!tuerror && (string.IsNullOrEmpty(tempStart) || string.IsNullOrEmpty(tempEnd) || string.IsNullOrEmpty(tempPrice)))
+                    if (!tuerror && (string.IsNullOrWhiteSpace(tempStart) || string.IsNullOrWhiteSpace(tempEnd) || string.IsNullOrWhiteSpace(tempPrice)))
                     {
                         model.ErrorMessages.Add("Bảng giá thứ 3 không hợp lệ");
                         tuerror = true;
@@ -1201,7 +1201,7 @@ namespace FootballPitchesBooking.Controllers
                         EndTime = tempEnd,
                         Price = tempPrice
                     });
-                    if (!werror && (string.IsNullOrEmpty(tempStart) || string.IsNullOrEmpty(tempEnd) || string.IsNullOrEmpty(tempPrice)))
+                    if (!werror && (string.IsNullOrWhiteSpace(tempStart) || string.IsNullOrWhiteSpace(tempEnd) || string.IsNullOrWhiteSpace(tempPrice)))
                     {
                         model.ErrorMessages.Add("Bảng giá thứ 4 không hợp lệ");
                         werror = true;
@@ -1248,7 +1248,7 @@ namespace FootballPitchesBooking.Controllers
                         EndTime = tempEnd,
                         Price = tempPrice
                     });
-                    if (!therror && (string.IsNullOrEmpty(tempStart) || string.IsNullOrEmpty(tempEnd) || string.IsNullOrEmpty(tempPrice)))
+                    if (!therror && (string.IsNullOrWhiteSpace(tempStart) || string.IsNullOrWhiteSpace(tempEnd) || string.IsNullOrWhiteSpace(tempPrice)))
                     {
                         model.ErrorMessages.Add("Bảng giá thứ 5 không hợp lệ");
                         therror = true;
@@ -1295,7 +1295,7 @@ namespace FootballPitchesBooking.Controllers
                         EndTime = tempEnd,
                         Price = tempPrice
                     });
-                    if (!ferror && (string.IsNullOrEmpty(tempStart) || string.IsNullOrEmpty(tempEnd) || string.IsNullOrEmpty(tempPrice)))
+                    if (!ferror && (string.IsNullOrWhiteSpace(tempStart) || string.IsNullOrWhiteSpace(tempEnd) || string.IsNullOrWhiteSpace(tempPrice)))
                     {
                         model.ErrorMessages.Add("Bảng giá thứ 6 không hợp lệ");
                         ferror = true;
@@ -1342,7 +1342,7 @@ namespace FootballPitchesBooking.Controllers
                         EndTime = tempEnd,
                         Price = tempPrice
                     });
-                    if (!saerror && (string.IsNullOrEmpty(tempStart) || string.IsNullOrEmpty(tempEnd) || string.IsNullOrEmpty(tempPrice)))
+                    if (!saerror && (string.IsNullOrWhiteSpace(tempStart) || string.IsNullOrWhiteSpace(tempEnd) || string.IsNullOrWhiteSpace(tempPrice)))
                     {
                         model.ErrorMessages.Add("Bảng giá thứ 7 không hợp lệ");
                         saerror = true;
@@ -1389,7 +1389,7 @@ namespace FootballPitchesBooking.Controllers
                         EndTime = tempEnd,
                         Price = tempPrice
                     });
-                    if (!suerror && (string.IsNullOrEmpty(tempStart) || string.IsNullOrEmpty(tempEnd) || string.IsNullOrEmpty(tempPrice)))
+                    if (!suerror && (string.IsNullOrWhiteSpace(tempStart) || string.IsNullOrWhiteSpace(tempEnd) || string.IsNullOrWhiteSpace(tempPrice)))
                     {
                         model.ErrorMessages.Add("Bảng giá chủ nhật không hợp lệ");
                         suerror = true;
@@ -1651,7 +1651,7 @@ namespace FootballPitchesBooking.Controllers
                 model.ChosenPrice = prices;
                 //save state - validate - create
 
-                if (string.IsNullOrEmpty(model.Number) || !parseStatus || !parseType || !parseParent || !parsePrices)
+                if (string.IsNullOrWhiteSpace(model.Number) || !parseStatus || !parseType || !parseParent || !parsePrices)
                 {
                     model.ErrorMessages.Add("Bạn cần sử dụng mẫu nhập bên dưới để thêm đầy đủ thông tin vào sân bóng");
                 }
@@ -1790,7 +1790,7 @@ namespace FootballPitchesBooking.Controllers
                 model.ChosenPrice = prices;
                 //save state - validate - create
 
-                if (string.IsNullOrEmpty(model.Number) || !parseStatus || !parseType || !parseParent || !parsePrices)
+                if (string.IsNullOrWhiteSpace(model.Number) || !parseStatus || !parseType || !parseParent || !parsePrices)
                 {
                     model.ErrorMessages.Add("Bạn cần sử dụng mẫu nhập bên dưới để cập nhật đầy đủ thông tin vào sân bóng");
                 }
@@ -1952,8 +1952,8 @@ namespace FootballPitchesBooking.Controllers
                 checkParseError = true;
             }
 
-            if (checkParseError || string.IsNullOrEmpty(model.FullName) || string.IsNullOrEmpty(model.PhoneNumber)
-                                || string.IsNullOrEmpty(model.Email))
+            if (checkParseError || string.IsNullOrWhiteSpace(model.FullName) || string.IsNullOrWhiteSpace(model.PhoneNumber)
+                                || string.IsNullOrWhiteSpace(model.Email))
             {
                 model.ErrorMessages.Add(Resources.Form_EmptyFields);
             }
@@ -1963,12 +1963,12 @@ namespace FootballPitchesBooking.Controllers
                 UserBO userBO = new UserBO();
 
                 User customer = null;
-                if (!string.IsNullOrEmpty(model.Customer))
+                if (!string.IsNullOrWhiteSpace(model.Customer))
                 {
                     customer = userBO.GetUserByUserName(model.Customer);
                 }
                 User rival = null;
-                if (model.HasRival && !string.IsNullOrEmpty(model.RivalUser))
+                if (model.HasRival && !string.IsNullOrWhiteSpace(model.RivalUser))
                 {
                     rival = userBO.GetUserByUserName(model.RivalUser);
                 }
@@ -1999,8 +1999,8 @@ namespace FootballPitchesBooking.Controllers
                     reservation.UserId = customer.Id;
                 }
 
-                if (reservation.HasRival && !string.IsNullOrEmpty(model.RivalName)
-                    && !string.IsNullOrEmpty(model.RivalPhone) && !string.IsNullOrEmpty(model.RivalEmail))
+                if (reservation.HasRival && !string.IsNullOrWhiteSpace(model.RivalName)
+                    && !string.IsNullOrWhiteSpace(model.RivalPhone) && !string.IsNullOrWhiteSpace(model.RivalEmail))
                 {
                     if (rival != null)
                     {
@@ -2191,8 +2191,8 @@ namespace FootballPitchesBooking.Controllers
                 checkParseError = true;
             }
 
-            if (checkParseError || string.IsNullOrEmpty(model.FullName) || string.IsNullOrEmpty(model.PhoneNumber)
-            || string.IsNullOrEmpty(model.Email))
+            if (checkParseError || string.IsNullOrWhiteSpace(model.FullName) || string.IsNullOrWhiteSpace(model.PhoneNumber)
+            || string.IsNullOrWhiteSpace(model.Email))
             {
                 model.ErrorMessages.Add(Resources.Form_EmptyFields);
             }
@@ -2203,7 +2203,7 @@ namespace FootballPitchesBooking.Controllers
                 UserBO userBO = new UserBO();
 
                 User rival = null;
-                if (model.HasRival && !string.IsNullOrEmpty(model.RivalUser))
+                if (model.HasRival && !string.IsNullOrWhiteSpace(model.RivalUser))
                 {
                     rival = userBO.GetUserByUserName(model.RivalUser);
                 }
@@ -2226,8 +2226,8 @@ namespace FootballPitchesBooking.Controllers
                     HasRival = model.HasRival
                 };
 
-                if (reservation.HasRival && !string.IsNullOrEmpty(model.RivalName)
-                    && !string.IsNullOrEmpty(model.RivalPhone) && !string.IsNullOrEmpty(model.RivalEmail))
+                if (reservation.HasRival && !string.IsNullOrWhiteSpace(model.RivalName)
+                    && !string.IsNullOrWhiteSpace(model.RivalPhone) && !string.IsNullOrWhiteSpace(model.RivalEmail))
                 {
                     if (rival != null)
                     {

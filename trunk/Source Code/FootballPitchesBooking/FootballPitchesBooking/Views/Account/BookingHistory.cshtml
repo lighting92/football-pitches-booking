@@ -30,7 +30,7 @@
                 <td style="width: 85px; text-align: right;">@item.Duration phút</td>
                 <td>@item.StadiumName</td>
                 <td>@item.StadiumAddress</td>
-                @if (string.IsNullOrEmpty(item.RivalStatus))
+                @if (string.IsNullOrWhiteSpace(item.RivalStatus))
                 {
                     <td style="width: 100px;">Không tìm</td>
                 }
