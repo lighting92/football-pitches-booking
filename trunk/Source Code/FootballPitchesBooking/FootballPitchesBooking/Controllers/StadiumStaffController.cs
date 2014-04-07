@@ -1938,8 +1938,8 @@ namespace FootballPitchesBooking.Controllers
                 model.StartTime = utils.TimeStringToDouble(form["StartTime"]);
                 model.Duration = Double.Parse(form["Duration"]);
                 model.Status = form["Status"];
-                model.HasRival = Boolean.Parse(form["HasRival"]);
-                if (model.HasRival)
+                model.NeedRival = Boolean.Parse(form["NeedRival"]);
+                if (model.NeedRival)
                 {
                     model.RivalUser = form["RivalUser"];
                     model.RivalName = form["RivalName"];
@@ -1968,7 +1968,7 @@ namespace FootballPitchesBooking.Controllers
                     customer = userBO.GetUserByUserName(model.Customer);
                 }
                 User rival = null;
-                if (model.HasRival && !string.IsNullOrWhiteSpace(model.RivalUser))
+                if (model.NeedRival && !string.IsNullOrEmpty(model.RivalUser))
                 {
                     rival = userBO.GetUserByUserName(model.RivalUser);
                 }
@@ -1991,7 +1991,7 @@ namespace FootballPitchesBooking.Controllers
                     CreatedDate = DateTime.Now.Date,
                     Approver = staff.Id,
                     Status = model.Status,
-                    HasRival = model.HasRival
+                    NeedRival = model.NeedRival
                 };
 
                 if (customer != null)
@@ -1999,8 +1999,8 @@ namespace FootballPitchesBooking.Controllers
                     reservation.UserId = customer.Id;
                 }
 
-                if (reservation.HasRival && !string.IsNullOrWhiteSpace(model.RivalName)
-                    && !string.IsNullOrWhiteSpace(model.RivalPhone) && !string.IsNullOrWhiteSpace(model.RivalEmail))
+                if (reservation.NeedRival && !string.IsNullOrEmpty(model.RivalName)
+                    && !string.IsNullOrEmpty(model.RivalPhone) && !string.IsNullOrEmpty(model.RivalEmail))
                 {
                     if (rival != null)
                     {
@@ -2038,7 +2038,7 @@ namespace FootballPitchesBooking.Controllers
                 }
                 else if (result == -4)
                 {
-                    model.ErrorMessages.Add(Resources.Resv_HasRivalException);
+                    model.ErrorMessages.Add(Resources.Resv_NeedRivalException);
                 }
                 else if (result == -5)
                 {
@@ -2084,7 +2084,7 @@ namespace FootballPitchesBooking.Controllers
                     CreatedDate = resv.CreatedDate.Date,
                     Approver = resv.User1 == null ? "" : resv.User1.UserName,
                     Status = resv.Status,
-                    HasRival = resv.HasRival,
+                    NeedRival = resv.NeedRival,
                     RivalUser = resv.RivalId == null ? "" : resv.User2.UserName,
                     RivalName = resv.RivalName,
                     RivalPhone = resv.RivalPhone,
@@ -2136,7 +2136,7 @@ namespace FootballPitchesBooking.Controllers
                     CreatedDate = resv.CreatedDate.Date,
                     Approver = resv.User1 == null ? "" : resv.User1.UserName,
                     Status = resv.Status,
-                    HasRival = resv.HasRival,
+                    NeedRival = resv.NeedRival,
                     RivalUser = resv.RivalId == null ? "" : resv.User2.UserName,
                     RivalName = resv.RivalName,
                     RivalPhone = resv.RivalPhone,
@@ -2177,8 +2177,8 @@ namespace FootballPitchesBooking.Controllers
                 model.StartTime = utils.TimeStringToDouble(form["StartTime"]);
                 model.Duration = Double.Parse(form["Duration"]);
                 model.Status = form["Status"];
-                model.HasRival = Boolean.Parse(form["HasRival"]);
-                if (model.HasRival)
+                model.NeedRival = Boolean.Parse(form["NeedRival"]);
+                if (model.NeedRival)
                 {
                     model.RivalUser = form["RivalUser"];
                     model.RivalName = form["RivalName"];
@@ -2203,7 +2203,7 @@ namespace FootballPitchesBooking.Controllers
                 UserBO userBO = new UserBO();
 
                 User rival = null;
-                if (model.HasRival && !string.IsNullOrWhiteSpace(model.RivalUser))
+                if (model.NeedRival && !string.IsNullOrEmpty(model.RivalUser))
                 {
                     rival = userBO.GetUserByUserName(model.RivalUser);
                 }
@@ -2223,11 +2223,11 @@ namespace FootballPitchesBooking.Controllers
                     Price = stadiumBO.CalculatePrice(stadiumBO.GetFieldById(model.FieldId), model.Date, model.StartTime, model.Duration),
                     Approver = staff.Id,
                     Status = model.Status,
-                    HasRival = model.HasRival
+                    NeedRival = model.NeedRival
                 };
 
-                if (reservation.HasRival && !string.IsNullOrWhiteSpace(model.RivalName)
-                    && !string.IsNullOrWhiteSpace(model.RivalPhone) && !string.IsNullOrWhiteSpace(model.RivalEmail))
+                if (reservation.NeedRival && !string.IsNullOrEmpty(model.RivalName)
+                    && !string.IsNullOrEmpty(model.RivalPhone) && !string.IsNullOrEmpty(model.RivalEmail))
                 {
                     if (rival != null)
                     {
@@ -2264,7 +2264,7 @@ namespace FootballPitchesBooking.Controllers
                 }
                 else if (result == -4)
                 {
-                    model.ErrorMessages.Add(Resources.Resv_HasRivalException);
+                    model.ErrorMessages.Add(Resources.Resv_NeedRivalException);
                 }
                 else if (result == -5)
                 {

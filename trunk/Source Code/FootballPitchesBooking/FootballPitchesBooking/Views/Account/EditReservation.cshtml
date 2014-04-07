@@ -182,6 +182,103 @@
                                     </label>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="span8">
+                                    <legend><span>Giao Hữu</span></legend>
+                                </div>
+                                <div class="span3">
+                                    <label>
+                                        Cần đội giao hữu                                        
+                                    @if (Model.NeedRival)
+                                    {
+                                        if (!canMod)
+                                        {
+                                        <input type="checkbox" name="NeedRival" checked="checked" disabled="disabled" />
+                                        }
+                                        else
+                                        {
+                                        <input type="checkbox" name="NeedRival" checked="checked" />
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (!canMod)
+                                        {
+                                        <input type="checkbox" name="NeedRival" disabled="disabled" />
+                                        }
+                                        else
+                                        {
+                                        <input type="checkbox" name="NeedRival" />
+                                        }
+                                    }
+                                    </label>
+                                </div>
+                                @if (!string.IsNullOrEmpty(@Model.RivalName))
+                                {
+                                    <div class="span3">
+                                        <label>
+                                            Trạng thái yêu cầu giao hữu
+                                        @if (!canMod)
+                                        {
+                                            <select name="RivalStatus" data-cur="@Model.RivalStatus" disabled="disabled">
+                                                <option value="Pending">Đang chờ duyệt</option>
+                                                <option value="Approve">Chấp nhận</option>
+                                                <option value="Deni">Từ chối</option>
+                                            </select>
+                                        }
+                                        else
+                                        {
+                                            if (!string.IsNullOrEmpty(Model.RivalStatus) && Model.RivalStatus.ToLower().Equals("approve"))
+                                            {
+                                            <select name="RivalStatus" data-cur="@Model.RivalStatus" disabled="disabled">
+                                                <option value="Pending">Đang chờ duyệt</option>
+                                                <option value="Approve">Chấp nhận</option>
+                                                <option value="Deni">Từ chối</option>
+                                            </select>
+                                            }
+                                            else
+                                            {
+                                             <select name="RivalStatus" data-cur="@Model.RivalStatus">
+                                                <option value="Pending">Đang chờ duyệt</option>
+                                                <option value="Approve">Chấp nhận</option>
+                                                <option value="Deni">Từ chối</option>
+                                            </select>
+                                            }
+                                        }
+                                        </label>
+                                    </div>
+                                    <div class="span3" style="visibility: hidden">
+                                        <label>
+                                            &nbsp
+                                        <input type="text" />
+                                        </label>
+                                    </div>
+                                    <div class="span3">
+                                        <label>
+                                            Tên đối thủ
+                                        <input type="text" value="@Model.RivalName" readonly />
+                                        </label>
+                                    </div>
+                                    <div class="span3">
+                                        <label>
+                                            Số điện thoại đối thủ
+                                        <input type="text" value="@Model.RivalPhone" readonly />
+                                        </label>
+                                    </div>
+                                    <div class="span3">
+                                        <label>
+                                            Email đối thủ
+                                        <input type="text" value="@Model.RivalEmail" readonly />
+                                        </label>
+                                    </div>
+                                }
+                                else if (Model.NeedRival)
+                                {
+                                    <div class="span9" style="text-align: center">
+                                        Hiện tại chưa có đội nào nhận lời mời giao hữu
+                                    </div>
+                                }
+                            </div>
                             <br />
                             <div class="row">
                                 <div class="span3">
@@ -219,3 +316,10 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.each($("select"), function (index, obj) {
+            $(obj).val($(obj).data("cur"));
+        });
+    });
+</script>

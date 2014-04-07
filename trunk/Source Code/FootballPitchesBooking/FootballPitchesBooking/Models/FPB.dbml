@@ -81,6 +81,18 @@
       <Association Name="MemberRank_User" Member="Users" ThisKey="Id" OtherKey="RankId" Type="User" />
     </Type>
   </Table>
+  <Table Name="dbo.Notification" Member="Notifications">
+    <Type Name="Notification">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="StadiumId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Message" Type="System.String" DbType="NVarChar(2000) NOT NULL" CanBeNull="false" />
+      <Column Name="CreateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Status" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Stadium_Notification" Member="Stadium" ThisKey="StadiumId" OtherKey="Id" Type="Stadium" IsForeignKey="true" />
+      <Association Name="User_Notification" Member="User" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.PriceTable" Member="PriceTables">
     <Type Name="PriceTable">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -123,7 +135,7 @@
       <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="Approver" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Status" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
-      <Column Name="HasRival" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="NeedRival" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="RivalId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="RivalName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="RivalPhone" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
@@ -162,6 +174,7 @@
       <Column Name="ExpiredDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Association Name="Stadium_Field" Member="Fields" ThisKey="Id" OtherKey="StadiumId" Type="Field" />
       <Association Name="Stadium_FieldPrice" Member="FieldPrices" ThisKey="Id" OtherKey="StadiumId" Type="FieldPrice" />
+      <Association Name="Stadium_Notification" Member="Notifications" ThisKey="Id" OtherKey="StadiumId" Type="Notification" />
       <Association Name="Stadium_StadiumImage" Member="StadiumImages" ThisKey="Id" OtherKey="StadiumId" Type="StadiumImage" />
       <Association Name="Stadium_StadiumRating" Member="StadiumRatings" ThisKey="Id" OtherKey="StadiumId" Type="StadiumRating" />
       <Association Name="Stadium_StadiumReview" Member="StadiumReviews" ThisKey="Id" OtherKey="StadiumId" Type="StadiumReview" />
@@ -230,6 +243,7 @@
       <Association Name="User_Advertisement" Member="Advertisements" ThisKey="Id" OtherKey="Creator" Type="Advertisement" />
       <Association Name="User_UserDistance" Member="UserDistances" ThisKey="Id" OtherKey="UserId" Type="UserDistance" />
       <Association Name="User_JoinSystemRequest" Member="JoinSystemRequests" ThisKey="Id" OtherKey="UserId" Type="JoinSystemRequest" />
+      <Association Name="User_Notification" Member="Notifications" ThisKey="Id" OtherKey="UserId" Type="Notification" />
       <Association Name="User_Reservation" Member="Reservations" ThisKey="Id" OtherKey="UserId" Type="Reservation" />
       <Association Name="User_Reservation1" Member="Reservations1" ThisKey="Id" OtherKey="Approver" Type="Reservation" />
       <Association Name="User_Reservation2" Member="Reservations2" ThisKey="Id" OtherKey="RivalId" Type="Reservation" />

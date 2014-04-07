@@ -23,7 +23,7 @@ namespace FootballPitchesBooking.Models.StadiumStaffModels
         public DateTime CreatedDate { get; set; }
         public string Approver { get; set; }
         public string Status { get; set; }
-        public bool HasRival { get; set; }
+        public bool NeedRival { get; set; }
         public string RivalUser { get; set; }
         public string RivalName { get; set; }
         public string RivalPhone { get; set; }

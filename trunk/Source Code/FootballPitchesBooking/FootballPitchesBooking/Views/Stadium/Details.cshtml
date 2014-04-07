@@ -4,8 +4,6 @@
     ViewBag.Title = "Sân Bóng";
 }
 
-<h2>CHI TIẾT THÔNG TIN SÂN BÓNG</h2>
-
 <div class="row stadium-details">
     <div class="span12">
         <div class="span5 no-margin stadium-side-panel">
@@ -84,6 +82,9 @@
                         }
                     </label>
                     <label><b style="color: red; font-size: 16px; line-height: 12px;">@Model.Rate.ToString("0.0")</b>/@Model.RateCount phiếu bầu</label>
+                </p>
+                <p>
+                    <a href="/Stadium/Book?Id=@Model.Stadium.Id"><button class="btn-medium btn-success">Đặt sân</button></a>
                 </p>
             </div>
             <div class="span7 no-margin">

@@ -67,8 +67,8 @@ namespace FootballPitchesBooking.BusinessObjects
             }
 
             //Nếu có đối thủ thì phải điền thông tin
-            if (reservation.HasRival && (string.IsNullOrWhiteSpace(reservation.RivalName) ||
-                string.IsNullOrWhiteSpace(reservation.RivalPhone) || string.IsNullOrWhiteSpace(reservation.RivalEmail)))
+            if (reservation.NeedRival && (string.IsNullOrEmpty(reservation.RivalName) ||
+                string.IsNullOrEmpty(reservation.RivalPhone) || string.IsNullOrEmpty(reservation.RivalEmail)))
             {
                 return -4;
             }
@@ -80,7 +80,7 @@ namespace FootballPitchesBooking.BusinessObjects
             }
 
             //xoá thông tin đối thủ nếu không có
-            if (!reservation.HasRival)
+            if (!reservation.NeedRival)
             {
                 reservation.RivalId = null;
                 reservation.RivalName = null;
@@ -127,8 +127,8 @@ namespace FootballPitchesBooking.BusinessObjects
             }
 
             //Nếu có đối thủ thì phải điền thông tin
-            if (reservation.HasRival && (string.IsNullOrWhiteSpace(reservation.RivalName) ||
-                string.IsNullOrWhiteSpace(reservation.RivalPhone) || string.IsNullOrWhiteSpace(reservation.RivalEmail)))
+            if (reservation.NeedRival && (string.IsNullOrEmpty(reservation.RivalName) ||
+                string.IsNullOrEmpty(reservation.RivalPhone) || string.IsNullOrEmpty(reservation.RivalEmail)))
             {
                 return -4;
             }
@@ -142,12 +142,12 @@ namespace FootballPitchesBooking.BusinessObjects
             Reservation resv = GetReservationById(reservation.Id);
 
             //Nếu không có thay đổi ở rival thì giữ nguyên Rival Finder
-            if (!reservation.HasRival)
+            if (!reservation.NeedRival)
             {
                 reservation.RivalFinder = null;
             }
 
-            if (resv.HasRival == true && reservation.HasRival == true)
+            if (resv.NeedRival == true && reservation.NeedRival == true)
             {
                 reservation.RivalFinder = resv.RivalFinder;
             }
@@ -167,8 +167,7 @@ namespace FootballPitchesBooking.BusinessObjects
         public int UserBooking(Reservation res)
         {
             var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now.AddHours(2), "SE Asia Standard Time");
-            double time = now.Hour + (now.Minute / 60.0);
-            if (res.Date.CompareTo(now.Date) >= 0 && res.StartTime > time)
+            if (res.Date.AddHours(res.StartTime).CompareTo(now) >= 0)
             {
                 ReservationDAO resDAO = new ReservationDAO();
                 return resDAO.CreateReservation(res);
@@ -179,6 +178,88 @@ namespace FootballPitchesBooking.BusinessObjects
             }
         }
 
+        public int UserCancelBooking(int resId)
+        {
+            ReservationDAO resDAO = new ReservationDAO();
+            return resDAO.UserCancelReservation(resId);
+        }
+
+        public int UserUpdateReservation(Reservation res)
+        {
+            Notification msg = null;
+            if (!string.IsNullOrEmpty(res.RivalStatus) && res.RivalStatus.ToLower().Equals("deni"))
+            {
+                if (res.RivalId != null)
+                {
+                    msg = new Notification();
+                    msg.UserId = res.RivalId;
+                    msg.Status = "Unread";
+                    msg.Message = "[" + res.User.UserName + "] không đồng ý giao hữu với bạn";
+                }
+                else if (!string.IsNullOrEmpty(res.RivalName))
+                {
+                    msg = new Notification();
+                    msg.StadiumId = res.Field.StadiumId;
+                    msg.Status = "Unread";
+                    msg.Message = "[" + res.User.UserName + "] không chấp nhận giao hữu với [" + res.RivalName + " - "
+                        + res.RivalPhone + "] <a href='/StadiumStaff/ViewReservation?Id=" + res.Id + "'>Chi tiết</a>";
+                }
+                res.RivalName = null;
+                res.RivalPhone = null;
+                res.RivalEmail = null;
+                res.RivalStatus = null;
+                res.RivalId = null;
+            }
+            else if (!res.NeedRival)
+            {   
+                if (res.RivalId != null)
+                {
+                    msg = new Notification();
+                    msg.UserId = res.RivalId;
+                    msg.Status = "Unread";
+                    msg.Message = "[" + res.User.UserName + "] không mời giao hữu nữa";
+                }
+                else if (!string.IsNullOrEmpty(res.RivalName))
+                {
+                    msg = new Notification();
+                    msg.StadiumId = res.Field.StadiumId;
+                    msg.Status = "Unread";
+                    msg.Message = "[" + res.User.UserName + "] không mời giao hữu nữa. [Người được cáp: " + res.RivalName + " - " + res.RivalPhone + "] <a href='/StadiumStaff/ViewReservation?Id=" + res.Id + "'>Chi tiết</a>";
+                }
+                res.RivalName = null;
+                res.RivalPhone = null;
+                res.RivalEmail = null;
+                res.RivalStatus = null;
+                res.RivalId = null;
+            }
+            ReservationDAO resDAO = new ReservationDAO();
+            int result = resDAO.UserUpdateReservation(res);
+            if (result == 2)
+            {
+                if (res.RivalId != null)
+                {
+                    msg = new Notification();
+                    msg.UserId = res.RivalId;
+                    msg.Status = "Unread";
+                    msg.Message = "[" + res.User.UserName + "] đồng ý giao hữu với bạn";
+                }
+                else if (!string.IsNullOrEmpty(res.RivalName))
+                {
+                    msg = new Notification();
+                    msg.StadiumId = res.Field.StadiumId;
+                    msg.Status = "Unread";
+                    msg.Message = "[" + res.User.UserName + "] chấp nhận giao hữu với [" + res.RivalName + " - "
+                        + res.RivalPhone + "] <a href='/StadiumStaff/ViewReservation?Id=" + res.Id + "'>Chi tiết</a>";
+                }
+            }
+            if (result > 0 && msg != null)
+            {
+                msg.CreateDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "SE Asia Standard Time");
+                NotificationDAO noDAO = new NotificationDAO();
+                noDAO.CreateMessage(msg);
+            }
+            return result;
+        }
 
         public int UpdateReservationStatus(int reservationId, string status, int approver)
         {

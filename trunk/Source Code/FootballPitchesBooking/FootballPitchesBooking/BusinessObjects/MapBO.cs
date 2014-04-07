@@ -192,12 +192,21 @@ namespace FootballPitchesBooking.BusinessObjects
 
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(requestUrl);
             webRequest.KeepAlive = false;
+            string responsereader;
 
-            WebResponse response = webRequest.GetResponse();
-            Stream dataStream = response.GetResponseStream();
-            StreamReader sreader = new StreamReader(dataStream);
-            string responsereader = sreader.ReadToEnd();
-            response.Close();
+            try
+            {
+                WebResponse response = webRequest.GetResponse();
+                Stream dataStream = response.GetResponseStream();
+                StreamReader sreader = new StreamReader(dataStream);
+                responsereader = sreader.ReadToEnd();
+                response.Close();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+           
 
             DistanceMatrixResponse matrixResponse = JsonConvert.DeserializeObject<DistanceMatrixResponse>(responsereader);
 
