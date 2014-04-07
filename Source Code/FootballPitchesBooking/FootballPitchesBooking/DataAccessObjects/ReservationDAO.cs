@@ -24,27 +24,33 @@ namespace FootballPitchesBooking.DataAccessObjects
         public List<Reservation> GetReservationsNeedRival()
         {
             FPBDataContext db = new FPBDataContext();
-            return db.Reservations.Where(r => r.HasRival == true && r.RivalId == null && r.RivalName.Equals(null) &&
-                   r.RivalPhone.Equals(null) && r.RivalEmail.Equals(null) && r.Date.AddHours(r.StartTime) > DateTime.Now.AddHours(1)
-                   ).OrderByDescending(r => r.Date.AddHours(r.StartTime)).ToList();
+            double time = DateTime.Now.Hour + (DateTime.Now.Minute / 60.0);
+            return db.Reservations.Where(r => r.NeedRival == true && r.RivalId == null && r.RivalName.Equals(null) &&
+                ((r.Date.Date.CompareTo(DateTime.Now.Date) > 0) || (r.Date.Date.CompareTo(DateTime.Now.Date) == 0
+                 && r.StartTime > time))
+                   ).OrderBy(r => r.Date).ThenBy(r => r.StartTime).ToList();
         }
 
 
         public Reservation GetReservationNeedRivalById(int id)
         {
             FPBDataContext db = new FPBDataContext();
-            return db.Reservations.Where(r => r.Id == id && r.HasRival == true && r.RivalId == null && r.RivalName.Equals(null) &&
-                   r.RivalPhone.Equals(null) && r.RivalEmail.Equals(null) && r.Date.AddHours(r.StartTime) > DateTime.Now.AddHours(1)
-                   ).OrderByDescending(r => r.Date.AddHours(r.StartTime)).FirstOrDefault();
+            double time = DateTime.Now.Hour + (DateTime.Now.Minute / 60.0);
+            return db.Reservations.Where(r => r.Id == id && r.NeedRival == true && r.RivalId == null && r.RivalName.Equals(null)
+                && ((r.Date.Date.CompareTo(DateTime.Now.Date) > 0) || (r.Date.Date.CompareTo(DateTime.Now.Date) == 0
+                 && r.StartTime > time))
+                   ).FirstOrDefault();
         }
 
 
         public List<Reservation> GetReservationsNeedRival(string user, DateTime date, int type)
         {
             FPBDataContext db = new FPBDataContext();
-            List<Reservation> allRivals = db.Reservations.Where(r => r.HasRival == true && r.RivalId == null && r.RivalName.Equals(null) &&
-                   r.RivalPhone.Equals(null) && r.RivalEmail.Equals(null) && r.Date.AddHours(r.StartTime) > DateTime.Now.AddHours(1)
-                   ).OrderByDescending(r => r.Date.AddHours(r.StartTime)).ToList();
+            double time = DateTime.Now.Hour + (DateTime.Now.Minute / 60.0);
+            List<Reservation> allRivals = db.Reservations.Where(r => r.NeedRival == true && r.RivalId == null && r.RivalName.Equals(null) && 
+                ((r.Date.Date.CompareTo(DateTime.Now.Date) > 0) || (r.Date.Date.CompareTo(DateTime.Now.Date) == 0 
+                 && r.StartTime > time))
+                   ).OrderBy(r => r.Date).ThenBy(r => r.StartTime).ToList();
 
             if (allRivals.Count == 0)
             {
@@ -119,7 +125,7 @@ namespace FootballPitchesBooking.DataAccessObjects
             curRev.Duration = reservation.Duration;
             curRev.Price = reservation.Price;
             curRev.Status = reservation.Status;
-            curRev.HasRival = reservation.HasRival;
+            curRev.NeedRival = reservation.NeedRival;
             curRev.RivalId = reservation.RivalId;
             curRev.RivalName = reservation.RivalName;
             curRev.RivalPhone = reservation.RivalPhone;
@@ -141,12 +147,31 @@ namespace FootballPitchesBooking.DataAccessObjects
         {
             FPBDataContext db = new FPBDataContext();
             Reservation curRev = db.Reservations.Where(r => r.Id == reservation.Id).FirstOrDefault();
-            curRev.HasRival = reservation.HasRival;
             curRev.RivalId = reservation.RivalId;
             curRev.RivalName = reservation.RivalName;
             curRev.RivalPhone = reservation.RivalPhone;
             curRev.RivalEmail = reservation.RivalEmail;
             curRev.RivalFinder = reservation.RivalFinder;
+            curRev.RivalStatus = "Pending";
+
+            Notification newMsg = new Notification();
+            UserDAO userDAO = new UserDAO();
+            var user = userDAO.GetUserByUserId(curRev.RivalId.Value);
+            newMsg.Message = "Bạn nhận yêu cầu giao hữu từ [" + user.UserName + "] <a href='/Account/EditReservation?Id="
+                + curRev.Id + "'>Chi tiết</a>" ;
+            newMsg.Status = "Unread";
+            newMsg.CreateDate = DateTime.Now;
+            if (curRev.UserId != null)
+            {
+                newMsg.UserId = curRev.UserId;
+            }
+            else
+            {
+                newMsg.StadiumId = curRev.Field.StadiumId;
+            }
+
+            NotificationDAO unDAO = new NotificationDAO();
+            unDAO.CreateMessage(newMsg);
 
             try
             {
@@ -187,6 +212,66 @@ namespace FootballPitchesBooking.DataAccessObjects
                 db.Reservations.Where(r => r.PromotionId == promotionId).ToList().ForEach(r => r.PromotionId = null);
                 db.SubmitChanges();
                 return 1;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+        public int UserCancelReservation(int resId)
+        {
+            FPBDataContext db = new FPBDataContext();
+            try
+            {
+                var res = db.Reservations.Where(r => r.Id == resId).FirstOrDefault();
+                if (res != null)
+                {
+                    res.Status = "Canceled";
+                    db.SubmitChanges();
+                    return 1;
+                }
+                else
+                {
+                    return -1;
+                }                
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+        public int UserUpdateReservation(Reservation res)
+        {
+            FPBDataContext db = new FPBDataContext();
+            try
+            {
+                var cur = db.Reservations.Where(r => r.Id == res.Id).FirstOrDefault();
+                if (cur != null)
+                {
+                    int result = 1;
+                    if (!string.IsNullOrEmpty(cur.RivalStatus) && !string.IsNullOrEmpty(res.RivalStatus) && 
+                        !cur.RivalStatus.ToLower().Equals(res.RivalStatus.ToLower()) && res.RivalStatus.ToLower().Equals("approve"))
+                    {
+                        result = 2;
+                    }
+                    cur.FullName = res.FullName;
+                    cur.Email = res.Email;
+                    cur.PhoneNumber = res.PhoneNumber;
+                    cur.NeedRival = res.NeedRival;
+                    cur.RivalId = res.RivalId;
+                    cur.RivalName = res.RivalName;
+                    cur.RivalPhone = res.RivalPhone;
+                    cur.RivalEmail = res.RivalEmail;
+                    cur.RivalStatus = res.RivalStatus;
+                    db.SubmitChanges();
+                    return result;
+                }
+                else
+                {
+                    return -1;
+                }
             }
             catch (Exception)
             {

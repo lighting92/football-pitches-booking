@@ -23,8 +23,11 @@ namespace FootballPitchesBooking.Models.AccountModels
         public string VerifyCode { get; set; }
         public string CreateDate { get; set; }        
         public string Status { get; set; }
-        public bool HasRival { get; set; }
-        public string RivalStatus { get; set; }        
+        public bool NeedRival { get; set; }
+        public string RivalStatus { get; set; }
+        public string RivalName { get; set; }
+        public string RivalPhone { get; set; }
+        public string RivalEmail { get; set; }
         public bool HavePermission { get; set; }
         public string ErrorMessage { get; set; }
         public string SuccessMessage { get; set; }

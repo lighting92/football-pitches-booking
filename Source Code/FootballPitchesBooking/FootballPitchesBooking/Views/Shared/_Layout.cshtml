@@ -76,27 +76,25 @@
                                     else
                                     {
                                        
-                                        <p>
-                                            @if (User.IsInRole("WebsiteMaster") || User.IsInRole("WebsiteStaff"))
+                                            if (User.IsInRole("WebsiteMaster") || User.IsInRole("WebsiteStaff"))
                                             {
                                                 <div class="links">
-                                                    <a href="/WebsiteStaff">QUẢN TRỊ WEBSITE</a> | <a href="/Account">QUẢN LÝ TÀI KHOẢN</a> | <a href="/Account/Logout">ĐĂNG XUẤT</a>
+                                                    <a href="/Account/BookingHistory">Lịch sử đặt sân</a> | <a href="/WebsiteStaff">Quản trị website</a> | <a href="/Account">Quản lý tài khoản</a> | <a href="/Account/Logout">Đăng xuất</a>
                                                 </div>
                                             }
                                             else if (User.IsInRole("StadiumOwner") || User.IsInRole("StadiumStaff"))
                                             {
                                                 <div class="links">
-                                                    <a href="/StadiumStaff">QUẢN LÝ SÂN BÓNG</a> | <a href="/Account">QUẢN LÝ TÀI KHOẢN</a> | <a href="/Account/Logout">ĐĂNG XUẤT</a>
+                                                    <a href="/Account/BookingHistory">Lịch sử đặt sân</a> | <a href="/StadiumStaff">Quản lý sân bóng</a> | <a href="/Account">Quản lý tài khoản</a> | <a href="/Account/Logout">Đăng xuất</a>
                                                 </div>
                                             }
                                             else
                                             {
                                                 <div class="links">
-                                                    <a href="/Account">QUẢN LÝ TÀI KHOẢN</a> | <a href="/Account/Logout">ĐĂNG XUẤT</a>
+                                                    <a href="/Account/BookingHistory">Lịch sử đặt sân</a> | <a href="/Account">Quản lý tài khoản</a> | <a href="/Account/Logout">Đăng xuất</a>
                                                 </div>
                                             }
 
-                                        </p>
                                        
                                     }
                                 </div>

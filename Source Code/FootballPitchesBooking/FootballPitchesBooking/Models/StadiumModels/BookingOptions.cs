@@ -12,5 +12,6 @@ namespace FootballPitchesBooking.Models.StadiumModels
         public string StartTime { get; set; }
         public string Duration { get; set; }
         public string FieldType { get; set; }
+        public bool NeedRival { get; set; }
     }
 }

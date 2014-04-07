@@ -90,61 +90,63 @@ namespace FootballPitchesBooking.BusinessObjects
                     addresses.origin = userAddress;
                     addresses.destinations = stadiumAddresses.Select(s => s.Address).ToArray();
                     var distanceList = MapBO.SinglePointDistanceMatrix(addresses);
-
-                    //stadium - 1 record: id, address | distancelist: 1record tuong ung voi 1 stadium address
-                    // ex: stadium id 1, address A, index: 0, distance[0]
-                    for (int i = 0; i < distanceList.Count(); i++)
+                    if (distanceList != null)
                     {
-                        PriorityModel temp = new PriorityModel();
-                        temp.Id = stadiumAddresses[i].StadiumId;
-                        if (distanceList[i] != null)
+                        //stadium - 1 record: id, address | distancelist: 1record tuong ung voi 1 stadium address
+                        // ex: stadium id 1, address A, index: 0, distance[0]
+                        for (int i = 0; i < distanceList.Count(); i++)
                         {
-                            if (distanceList[i] <= 2000)
+                            PriorityModel temp = new PriorityModel();
+                            temp.Id = stadiumAddresses[i].StadiumId;
+                            if (distanceList[i] != null)
                             {
-                                temp.Priority = 10;
+                                if (distanceList[i] <= 2000)
+                                {
+                                    temp.Priority = 10;
+                                }
+                                else if (distanceList[i] <= 4000)
+                                {
+                                    temp.Priority = 9;
+                                }
+                                else if (distanceList[i] <= 6000)
+                                {
+                                    temp.Priority = 8;
+                                }
+                                else if (distanceList[i] <= 8000)
+                                {
+                                    temp.Priority = 7;
+                                }
+                                else if (distanceList[i] <= 10000)
+                                {
+                                    temp.Priority = 6;
+                                }
+                                else if (distanceList[i] <= 12000)
+                                {
+                                    temp.Priority = 5;
+                                }
+                                else if (distanceList[i] <= 14000)
+                                {
+                                    temp.Priority = 4;
+                                }
+                                else if (distanceList[i] <= 16000)
+                                {
+                                    temp.Priority = 3;
+                                }
+                                else if (distanceList[i] <= 18000)
+                                {
+                                    temp.Priority = 2;
+                                }
+                                else if (distanceList[i] <= 20000)
+                                {
+                                    temp.Priority = 1;
+                                }
+                                else
+                                {
+                                    temp.Priority = 0;
+                                }
                             }
-                            else if (distanceList[i] <= 4000)
-                            {
-                                temp.Priority = 9;
-                            }
-                            else if (distanceList[i] <= 6000)
-                            {
-                                temp.Priority = 8;
-                            }
-                            else if (distanceList[i] <= 8000)
-                            {
-                                temp.Priority = 7;
-                            }
-                            else if (distanceList[i] <= 10000)
-                            {
-                                temp.Priority = 6;
-                            }
-                            else if (distanceList[i] <= 12000)
-                            {
-                                temp.Priority = 5;
-                            }
-                            else if (distanceList[i] <= 14000)
-                            {
-                                temp.Priority = 4;
-                            }
-                            else if (distanceList[i] <= 16000)
-                            {
-                                temp.Priority = 3;
-                            }
-                            else if (distanceList[i] <= 18000)
-                            {
-                                temp.Priority = 2;
-                            }
-                            else if (distanceList[i] <= 20000)
-                            {
-                                temp.Priority = 1;
-                            }
-                            else
-                            {
-                                temp.Priority = 0;
-                            }
+                            distancePriority.Add(temp);
                         }
-                        distancePriority.Add(temp);
                     }
                 }
                 //có 3 list
@@ -302,58 +304,61 @@ namespace FootballPitchesBooking.BusinessObjects
 
                     //stadium - 1 record: id, address | distancelist: 1record tuong ung voi 1 stadium address
                     // ex: stadium id 1, address A, index: 0, distance[0]
-                    for (int i = 0; i < distanceList.Count(); i++)
+                    if (distanceList != null)
                     {
-                        PriorityModel temp = new PriorityModel();
-                        temp.Id = stadiumAddresses[i].StadiumId;
-                        if (distanceList[i] != null)
+                        for (int i = 0; i < distanceList.Count(); i++)
                         {
-                            if (distanceList[i] <= 2000)
+                            PriorityModel temp = new PriorityModel();
+                            temp.Id = stadiumAddresses[i].StadiumId;
+                            if (distanceList[i] != null)
                             {
-                                temp.Priority = 10;
+                                if (distanceList[i] <= 2000)
+                                {
+                                    temp.Priority = 10;
+                                }
+                                else if (distanceList[i] <= 4000)
+                                {
+                                    temp.Priority = 9;
+                                }
+                                else if (distanceList[i] <= 6000)
+                                {
+                                    temp.Priority = 8;
+                                }
+                                else if (distanceList[i] <= 8000)
+                                {
+                                    temp.Priority = 7;
+                                }
+                                else if (distanceList[i] <= 10000)
+                                {
+                                    temp.Priority = 6;
+                                }
+                                else if (distanceList[i] <= 12000)
+                                {
+                                    temp.Priority = 5;
+                                }
+                                else if (distanceList[i] <= 14000)
+                                {
+                                    temp.Priority = 4;
+                                }
+                                else if (distanceList[i] <= 16000)
+                                {
+                                    temp.Priority = 3;
+                                }
+                                else if (distanceList[i] <= 18000)
+                                {
+                                    temp.Priority = 2;
+                                }
+                                else if (distanceList[i] <= 20000)
+                                {
+                                    temp.Priority = 1;
+                                }
+                                else
+                                {
+                                    temp.Priority = 0;
+                                }
                             }
-                            else if (distanceList[i] <= 4000)
-                            {
-                                temp.Priority = 9;
-                            }
-                            else if (distanceList[i] <= 6000)
-                            {
-                                temp.Priority = 8;
-                            }
-                            else if (distanceList[i] <= 8000)
-                            {
-                                temp.Priority = 7;
-                            }
-                            else if (distanceList[i] <= 10000)
-                            {
-                                temp.Priority = 6;
-                            }
-                            else if (distanceList[i] <= 12000)
-                            {
-                                temp.Priority = 5;
-                            }
-                            else if (distanceList[i] <= 14000)
-                            {
-                                temp.Priority = 4;
-                            }
-                            else if (distanceList[i] <= 16000)
-                            {
-                                temp.Priority = 3;
-                            }
-                            else if (distanceList[i] <= 18000)
-                            {
-                                temp.Priority = 2;
-                            }
-                            else if (distanceList[i] <= 20000)
-                            {
-                                temp.Priority = 1;
-                            }
-                            else
-                            {
-                                temp.Priority = 0;
-                            }
+                            distancePriority.Add(temp);
                         }
-                        distancePriority.Add(temp);
                     }
                 }
                 //có 3 list
@@ -513,61 +518,63 @@ namespace FootballPitchesBooking.BusinessObjects
                     addresses.origin = userAddress;
                     addresses.destinations = stadiumAddresses.Select(s => s.Address).ToArray();
                     var distanceList = MapBO.SinglePointDistanceMatrix(addresses);
-
-                    //stadium - 1 record: id, address | distancelist: 1record tuong ung voi 1 stadium address
-                    // ex: stadium id 1, address A, index: 0, distance[0]
-                    for (int i = 0; i < distanceList.Count(); i++)
+                    if (distanceList != null)
                     {
-                        PriorityModel temp = new PriorityModel();
-                        temp.Id = stadiumAddresses[i].StadiumId;
-                        if (distanceList[i] != null)
+                        //stadium - 1 record: id, address | distancelist: 1record tuong ung voi 1 stadium address
+                        // ex: stadium id 1, address A, index: 0, distance[0]
+                        for (int i = 0; i < distanceList.Count(); i++)
                         {
-                            if (distanceList[i] <= 2000)
+                            PriorityModel temp = new PriorityModel();
+                            temp.Id = stadiumAddresses[i].StadiumId;
+                            if (distanceList[i] != null)
                             {
-                                temp.Priority = 10;
+                                if (distanceList[i] <= 2000)
+                                {
+                                    temp.Priority = 10;
+                                }
+                                else if (distanceList[i] <= 4000)
+                                {
+                                    temp.Priority = 9;
+                                }
+                                else if (distanceList[i] <= 6000)
+                                {
+                                    temp.Priority = 8;
+                                }
+                                else if (distanceList[i] <= 8000)
+                                {
+                                    temp.Priority = 7;
+                                }
+                                else if (distanceList[i] <= 10000)
+                                {
+                                    temp.Priority = 6;
+                                }
+                                else if (distanceList[i] <= 12000)
+                                {
+                                    temp.Priority = 5;
+                                }
+                                else if (distanceList[i] <= 14000)
+                                {
+                                    temp.Priority = 4;
+                                }
+                                else if (distanceList[i] <= 16000)
+                                {
+                                    temp.Priority = 3;
+                                }
+                                else if (distanceList[i] <= 18000)
+                                {
+                                    temp.Priority = 2;
+                                }
+                                else if (distanceList[i] <= 20000)
+                                {
+                                    temp.Priority = 1;
+                                }
+                                else
+                                {
+                                    temp.Priority = 0;
+                                }
                             }
-                            else if (distanceList[i] <= 4000)
-                            {
-                                temp.Priority = 9;
-                            }
-                            else if (distanceList[i] <= 6000)
-                            {
-                                temp.Priority = 8;
-                            }
-                            else if (distanceList[i] <= 8000)
-                            {
-                                temp.Priority = 7;
-                            }
-                            else if (distanceList[i] <= 10000)
-                            {
-                                temp.Priority = 6;
-                            }
-                            else if (distanceList[i] <= 12000)
-                            {
-                                temp.Priority = 5;
-                            }
-                            else if (distanceList[i] <= 14000)
-                            {
-                                temp.Priority = 4;
-                            }
-                            else if (distanceList[i] <= 16000)
-                            {
-                                temp.Priority = 3;
-                            }
-                            else if (distanceList[i] <= 18000)
-                            {
-                                temp.Priority = 2;
-                            }
-                            else if (distanceList[i] <= 20000)
-                            {
-                                temp.Priority = 1;
-                            }
-                            else
-                            {
-                                temp.Priority = 0;
-                            }
+                            distancePriority.Add(temp);
                         }
-                        distancePriority.Add(temp);
                     }
                 }
                 //có 3 list

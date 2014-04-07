@@ -198,7 +198,7 @@
   <data name="Resv_FieldIsNotAvailable" xml:space="preserve">
     <value>Sân đã được đặt, vui lòng chọn thời gian đặt sân khác</value>
   </data>
-  <data name="Resv_HasRivalException" xml:space="preserve">
+  <data name="Resv_NeedRivalException" xml:space="preserve">
     <value>Nếu có đối thủ, vui lòng nhập đầy đủ thông tin đối thủ</value>
   </data>
   <data name="Resv_NotInOpenTime" xml:space="preserve">

@@ -218,7 +218,14 @@
                             <br />
                             <div class="span9 center">
                                 <label>
-                                    <input type="checkbox" name="NeedRival" />
+                                    @if (Model.Options.NeedRival)
+                                    {
+                                    <input type="checkbox" name="NeedRival" checked="checked" />
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" name="NeedRival" />
+                                    }
                                     Yêu cầu tìm đội giao hữu
                                         
                                 </label>

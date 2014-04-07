@@ -267,6 +267,7 @@ namespace FootballPitchesBooking.Controllers
             string strType = form["FieldType"];
             string strField = form["Field"];
             string strNeedRival = form["NeedRival"];
+            bool needRival = !string.IsNullOrEmpty(strNeedRival);
             int stadiumId;
             BookModel model = new BookModel();
             if (int.TryParse(strStadium, out stadiumId))
@@ -279,6 +280,8 @@ namespace FootballPitchesBooking.Controllers
                     {
                         model.UserInfo = new BookingUserInfo();
                         model.Options = new BookingOptions();
+
+                        model.Options.NeedRival = needRival;
 
                         UserBO userBO = new UserBO();
                         var user = userBO.GetUserByUserName(User.Identity.Name);
@@ -339,7 +342,6 @@ namespace FootballPitchesBooking.Controllers
                                     }
                                     if (fa != null)
                                     {
-                                        bool needRival = !string.IsNullOrWhiteSpace(strNeedRival);
                                         ReservationBO resBO = new ReservationBO();
                                         Reservation res = new Reservation();
                                         res.FieldId = field;
@@ -354,7 +356,7 @@ namespace FootballPitchesBooking.Controllers
                                         res.VerifyCode = user.Id + "" + DateTime.Now.Ticks;
                                         res.CreatedDate = DateTime.Now;
                                         res.Status = "Pending";
-                                        res.HasRival = needRival;
+                                        res.NeedRival = needRival;
 
                                         int result = resBO.UserBooking(res);
                                         if (result == 0)
@@ -408,6 +410,7 @@ namespace FootballPitchesBooking.Controllers
                     else
                     {
                         model.ErrorMessage = "Sân này đang không hoạt động. Xin chọn sân khác.";
+                        return View(model);
                     }
                 }
                 else
@@ -419,7 +422,6 @@ namespace FootballPitchesBooking.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            return View();
         }
 
         [HttpPost]

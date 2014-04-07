@@ -77,7 +77,7 @@ namespace FootballPitchesBooking.Controllers
                 temp.RivalStatus = item.RivalStatus;
                 model.Add(temp);
             }
-            
+            model = model.OrderByDescending(m => m.Id).ToList();
             return View(model);
         }
 
@@ -89,6 +89,10 @@ namespace FootballPitchesBooking.Controllers
         {
             ReservationBO resBO = new ReservationBO();
             var res = resBO.GetReservationById(id);
+            if (res == null)
+            {
+                return RedirectToAction("BookingHistory");
+            }
             var model = new EditReservationModel();
             if (res.User.UserName.ToLower().Equals(User.Identity.Name.ToLower()))
             {
@@ -120,7 +124,10 @@ namespace FootballPitchesBooking.Controllers
                 model.VerifyCode = res.VerifyCode;
                 model.CreateDate = res.CreatedDate.ToShortDateString();
                 model.Status = res.Status;
-                model.HasRival = res.HasRival;
+                model.NeedRival = res.NeedRival;
+                model.RivalName = res.RivalName;
+                model.RivalPhone = res.RivalPhone;
+                model.RivalEmail = res.RivalEmail;
                 model.RivalStatus = res.RivalStatus;
             }
             else
@@ -129,6 +136,161 @@ namespace FootballPitchesBooking.Controllers
                 model.ErrorMessage = "Bạn không đủ quyền hạn để chỉnh sửa thông tin đặt sân này";
             }
             return View(model);
+        }
+
+        //
+        // POST: /Account/EditReservation
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult EditReservation(FormCollection form, int id)
+        {
+            ReservationBO resBO = new ReservationBO();
+            var res = resBO.GetReservationById(id);
+            if (res == null)
+            {
+                return RedirectToAction("BookingHistory");
+            }
+            var model = new EditReservationModel();
+            if (res.User.UserName.ToLower().Equals(User.Identity.Name.ToLower()))
+            {
+                model.HavePermission = true;
+                model.CanModify = true;
+                var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "SE Asia Standard Time");
+                bool expired = now.CompareTo(res.Date.Date.AddHours(res.StartTime)) >= 0;
+                if (res.Status.ToLower().Equals("canceled") || expired)
+                {
+                    model.CanModify = false;
+                }
+                model.Id = res.Id;
+                if (model.CanModify)
+                {
+                    model.FullName = form["FullName"];
+                    model.PhoneNumber = form["PhoneNumber"];
+                    model.Email = form["Email"];
+
+                    bool needRival = !string.IsNullOrEmpty(form["NeedRival"]);
+                    model.NeedRival = needRival;
+                    model.RivalStatus = form["RivalStatus"];
+
+                    res.FullName = model.FullName;
+                    res.PhoneNumber = model.PhoneNumber;
+                    res.Email = model.Email;
+                    res.NeedRival = model.NeedRival;
+                    res.RivalStatus = model.RivalStatus;
+
+                    if (resBO.UserUpdateReservation(res) > 0)
+                    {
+                        model.SuccessMessage = Resources.Update_Success;
+                    }
+                    else
+                    {
+                        model.ErrorMessage = "Cập nhật không thành công";
+                    }
+                }
+                else
+                {
+                    model.FullName = res.FullName;
+                    model.PhoneNumber = res.PhoneNumber;
+                    model.Email = res.Email;
+                    model.NeedRival = res.NeedRival;
+                    model.RivalStatus = res.RivalStatus;
+                }
+                model.StartDate = res.Date.ToShortDateString();
+                var hour = (int)res.StartTime + "";
+                var min = ((res.StartTime - (int)res.StartTime) * 60) + "";
+                hour = (hour.Length == 1) ? ("0" + hour) : hour;
+                min = (min.Length == 1) ? ("0" + min) : min;
+                model.StartTime = hour + ":" + min;
+                model.Duration = (res.Duration * 60).ToString();
+                model.StadiumName = res.Field.Stadium.Name;
+                model.StadiumAddress = res.Field.Stadium.Street + "," + res.Field.Stadium.Ward + "," + res.Field.Stadium.District;
+                model.FieldNumber = res.Field.Number;
+                model.FieldType = res.Field.FieldType.ToString();
+                model.Price = res.Price.ToString();
+                model.Discount = res.Discount.HasValue ? res.Discount.ToString() : "0";
+                model.VerifyCode = res.VerifyCode;
+                model.CreateDate = res.CreatedDate.ToShortDateString();
+                model.Status = res.Status;
+                model.RivalName = res.RivalName;
+                model.RivalPhone = res.RivalPhone;
+                model.RivalEmail = res.RivalEmail;
+            }
+            else
+            {
+                model.HavePermission = false;
+                model.ErrorMessage = "Bạn không đủ quyền hạn để chỉnh sửa thông tin đặt sân này";
+            }
+            return View(model);
+        }
+
+        //
+        // GET: /Account/CancelReservation
+        [Authorize]
+        public ActionResult CancelReservation(int id)
+        {
+            ReservationBO resBO = new ReservationBO();            
+            var res = resBO.GetReservationById(id);
+            var model = new EditReservationModel();
+            if (res.User.UserName.ToLower().Equals(User.Identity.Name.ToLower()))
+            {                
+                model.HavePermission = true;
+                model.CanModify = true;
+                var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "SE Asia Standard Time");
+                bool expired = now.CompareTo(res.Date.Date.AddHours(res.StartTime)) >= 0;
+                if (res.Status.ToLower().Equals("canceled") || expired)
+                {
+                    model.CanModify = false;
+                }
+                if (model.CanModify)
+                {
+                    if (resBO.UserCancelBooking(id) > 0)
+                    {
+                        res.Status = "Canceled";
+                        model.SuccessMessage = "Hủy đặt sân thành công";
+                        model.CanModify = false;
+                    }
+                    else
+                    {
+                        model.ErrorMessage = "Hủy đặt sân không thành công";
+                    }
+                }
+                else
+                {
+                    model.ErrorMessage = "Không thể hủy đơn đặt sân này";
+                }
+                model.Id = res.Id;
+                model.FullName = res.FullName;
+                model.PhoneNumber = res.PhoneNumber;
+                model.Email = res.Email;
+                model.StartDate = res.Date.ToShortDateString();
+                var hour = (int)res.StartTime + "";
+                var min = ((res.StartTime - (int)res.StartTime) * 60) + "";
+                hour = (hour.Length == 1) ? ("0" + hour) : hour;
+                min = (min.Length == 1) ? ("0" + min) : min;
+                model.StartTime = hour + ":" + min;
+                model.Duration = (res.Duration * 60).ToString();
+                model.StadiumName = res.Field.Stadium.Name;
+                model.StadiumAddress = res.Field.Stadium.Street + "," + res.Field.Stadium.Ward + "," + res.Field.Stadium.District;
+                model.FieldNumber = res.Field.Number;
+                model.FieldType = res.Field.FieldType.ToString();
+                model.Price = res.Price.ToString();
+                model.Discount = res.Discount.HasValue ? res.Discount.ToString() : "0";
+                model.VerifyCode = res.VerifyCode;
+                model.CreateDate = res.CreatedDate.ToShortDateString();
+                model.Status = res.Status;
+                model.NeedRival = res.NeedRival;
+                model.RivalName = res.RivalName;
+                model.RivalPhone = res.RivalPhone;
+                model.RivalEmail = res.RivalEmail;
+                model.RivalStatus = res.RivalStatus;
+            }
+            else
+            {
+                model.HavePermission = false;
+                model.ErrorMessage = "Bạn không đủ quyền hạn để chỉnh sửa thông tin đặt sân này";
+            }
+            return View("EditReservation", model);
         }
 
 

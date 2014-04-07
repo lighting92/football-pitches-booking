@@ -140,6 +140,7 @@
     <Compile Include="BusinessObjects\StadiumBO.cs" />
     <Compile Include="BusinessObjects\UserBO.cs" />
     <Compile Include="DataAccessObjects\ConfigurationDAO.cs" />
+    <Compile Include="DataAccessObjects\NotificationDAO.cs" />
     <Compile Include="DataAccessObjects\PriceTableDAO.cs" />
     <Compile Include="DataAccessObjects\RecommendationDAO.cs" />
     <Compile Include="Models\AccountModels\BookingHistoryModel.cs" />

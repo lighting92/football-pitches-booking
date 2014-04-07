@@ -4,8 +4,6 @@
     ViewBag.Title = "Sân Bóng";
 }
 
-<h2>SÂN BÓNG</h2>
-
 <div class="row">
     <div class="span12">
         @if (Model.Stadiums != null && Model.Stadiums.Count > 0)
@@ -64,7 +62,7 @@
                                     <img src="~/Content/images/rating-star/00.png" />
                                 }
                             </td>
-                            <td><a href="~/Stadium/Book?Stadium=@Model.Stadiums[i].Id">Đặt sân</a></td>
+                            <td><a href="~/Stadium/Book?Stadium=@Model.Stadiums[i].Id"><button class="btn-small btn-success">Đặt sân</button></a></td>
                         </tr>
                     }
                 </tbody>
