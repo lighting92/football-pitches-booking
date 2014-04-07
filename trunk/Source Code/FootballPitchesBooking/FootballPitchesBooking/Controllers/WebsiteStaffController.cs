@@ -377,6 +377,7 @@ namespace FootballPitchesBooking.Controllers
 
                 // Return.
                 var pageNumber = page ?? 1;
+                // Set number of member in one page
                 var onePageOfUsers = users.ToPagedList(pageNumber, 10);
                 ViewBag.onePageOfUsers = onePageOfUsers;
                 return Request.IsAjaxRequest()
