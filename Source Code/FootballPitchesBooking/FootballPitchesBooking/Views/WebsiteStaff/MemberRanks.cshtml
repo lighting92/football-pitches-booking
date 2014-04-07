@@ -17,7 +17,7 @@
                 UpdateTargetId = "unobtrusive",
             }, new { @class = "form-inline" }))
         {
-            @Html.TextBox("keyWord", "", new { placeholder = "Name of Rank" })
+            @Html.TextBox("keyWord", "", new { placeholder = "Tên Thứ Hạng" })
             <button type="submit" class="btn" value="Search" style="width: 80px;">
                 Search</button>
             @Html.ActionLink("Reload", "MemberRanks", "WebsiteStaff", null, new { @class = "btn", style = "width:54px" })

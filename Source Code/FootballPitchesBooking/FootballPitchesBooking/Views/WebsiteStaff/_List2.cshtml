@@ -44,5 +44,5 @@
             }
         </table>
     </div>
-    @Html.PagedListPager((IPagedList)ViewBag.onePageOfUsers, page => Url.Action("Index", new { page, sort = @ViewBag.Sort, column = @ViewBag.Column, keyWord = @ViewBag.KeyWord }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "unobtrusive", OnComplete = "" }))
+    @Html.PagedListPager((IPagedList)ViewBag.onePageOfUsers, page => Url.Action("MemberRanks", new { page, sort = @ViewBag.Sort, column = @ViewBag.Column, keyWord = @ViewBag.KeyWord }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "unobtrusive", OnComplete = "" }))
 </div>
