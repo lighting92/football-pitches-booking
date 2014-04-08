@@ -43,34 +43,30 @@
         <div class="span4">
             <label>
                 Sân đặt nhiều (%)
-            <input type="text" id="appropriated-stadium-amount1" data-cname="Ap_MostBooked" value="@Model.AppropriateStadiumsMostBooked.Value" readonly/>
+            <input type="text" id="nearest-stadium-amount1" data-cname="Nr_MostBooked" value="@Model.NearestStadiumsMostBooked.Value" readonly/>
             </label>
         </div>
 
         <div class="span4">
             <label>
                 Sân gần nhà (%)
-           <input type="text" id="appropriated-stadium-amount2" data-cname="Ap_Nearest" value="@Model.AppropriateStadiumsNearest.Value" readonly/>
+           <input type="text" id="nearest-stadium-amount2" data-cname="Nr_Nearest" value="@Model.NearestStadiumsNearest.Value" readonly/>
             </label>
         </div>
 
         <div class="span4">
             <label>
                 Sân khuyến mãi (%)
-            <input type="text" id="appropriated-stadium-amount3" data-cname="Ap_MostPromoted" value="@Model.AppropriateStadiumsMostDiscount.Value" readonly/>
+            <input type="text" id="nearest-stadium-amount3" data-cname="Nr_MostPromoted" value="@Model.PromotionStadiumsMostDiscount.Value" readonly/>
             </label>
         </div>
-
-
-
-
     </div>
-
-    <div id="appropriated-stadium"></div>
+    <div id="nearest-stadium"></div>
     <br />
     <button onclick="updatePriority(this)">Cập nhật</button>
 </div>
 <hr />
+
 <div>
     <h3>Sân khuyến mãi</h3>
 
@@ -93,12 +89,36 @@
             <input type="text" id="promoted-stadium-amount3" data-cname="Pr_MostPromoted" value="@Model.PromotionStadiumsMostDiscount.Value" readonly/>
             </label>
         </div>
-
-
-
     </div>
-
     <div id="promoted-stadium"></div>
+    <br />
+    <button onclick="updatePriority(this)">Cập nhật</button>
+</div>
+<hr />
+
+<div>
+    <h3>Sân Hay Đặt</h3>
+    <div class="row">
+        <div class="span4">
+            <label>
+                Sân đặt nhiều (%)
+            <input type="text" id="mostBooked-stadium-amount1" data-cname="Pr_MostBooked" value="@Model.MostBookedStadiumsMostBooked.Value" readonly/>
+            </label>
+        </div>
+        <div class="span4">
+            <label>
+                Sân gần nhà (%)
+            <input type="text" id="mostBooked-stadium-amount2" data-cname="Pr_Nearest" value="@Model.MostBookedStadiumsNearest.Value" readonly/>
+            </label>
+        </div>
+        <div class="span4">
+            <label>
+                Sân khuyến mãi (%)
+            <input type="text" id="mostBooked-stadium-amount3" data-cname="Pr_MostPromoted" value="@Model.MostBookedStadiumsMostDiscount.Value" readonly/>
+            </label>
+        </div>
+    </div>
+    <div id="mostBooked-stadium"></div>
     <br />
     <button onclick="updatePriority(this)">Cập nhật</button>
 </div>
@@ -152,24 +172,24 @@
 
 <script>
     $(function () {
-        $("#appropriated-stadium").slider({
+        $("#nearest-stadium").slider({
             range: true,
             min: 0,
             max: 100,
-            values: [@Model.AppropriateStadiumsMostBooked.Value, @Model.AppropriateStadiumsMostBooked.Value+@Model.AppropriateStadiumsNearest.Value],
+            values: [@Model.NearestStadiumsMostBooked.Value, @Model.NearestStadiumsMostBooked.Value+@Model.NearestStadiumsNearest.Value],
             slide: function (event, ui) {
-                $("#appropriated-stadium-amount").val(ui.values[0] + "% - " + (ui.values[1] - ui.values[0]) + "% - " + (100 - ui.values[1]) + "%");
-                $("#appropriated-stadium-amount1").val(ui.values[0]);
-                $("#appropriated-stadium-amount2").val(ui.values[1] - ui.values[0]);
-                $("#appropriated-stadium-amount3").val(100 - ui.values[1]);
+                $("#nearest-stadium-amount").val(ui.values[0] + "% - " + (ui.values[1] - ui.values[0]) + "% - " + (100 - ui.values[1]) + "%");
+                $("#nearest-stadium-amount1").val(ui.values[0]);
+                $("#nearest-stadium-amount2").val(ui.values[1] - ui.values[0]);
+                $("#nearest-stadium-amount3").val(100 - ui.values[1]);
             }
         });
-        $("#appropriated-stadium-amount").val($("#appropriated-stadium").slider("values", 0)
-          + "% - " + ($("#appropriated-stadium").slider("values", 1) - $("#appropriated-stadium").slider("values", 0)) + "% - "
-          + (100 - $("#appropriated-stadium").slider("values", 1)) + "%");
-        $("#appropriated-stadium-amount1").val($("#appropriated-stadium").slider("values", 0));
-        $("#appropriated-stadium-amount2").val($("#appropriated-stadium").slider("values", 1) - $("#appropriated-stadium").slider("values", 0));
-        $("#appropriated-stadium-amount3").val(100 - $("#appropriated-stadium").slider("values", 1));
+        $("#nearest-stadium-amount").val($("#nearest-stadium").slider("values", 0)
+          + "% - " + ($("#nearest-stadium").slider("values", 1) - $("#nearest-stadium").slider("values", 0)) + "% - "
+          + (100 - $("#nearest-stadium").slider("values", 1)) + "%");
+        $("#nearest-stadium-amount1").val($("#nearest-stadium").slider("values", 0));
+        $("#nearest-stadium-amount2").val($("#nearest-stadium").slider("values", 1) - $("#nearest-stadium").slider("values", 0));
+        $("#nearest-stadium-amount3").val(100 - $("#nearest-stadium").slider("values", 1));
     });
 </script>
 
@@ -193,5 +213,28 @@
         $("#promoted-stadium-amount1").val($("#promoted-stadium").slider("values", 0));
         $("#promoted-stadium-amount2").val($("#promoted-stadium").slider("values", 1) - $("#promoted-stadium").slider("values", 0));
         $("#promoted-stadium-amount3").val(100 - $("#promoted-stadium").slider("values", 1));
+    });
+</script>
+
+<script>
+    $(function () {
+        $("#mostBooked-stadium").slider({
+            range: true,
+            min: 0,
+            max: 100,
+            values: [@Model.MostBookedStadiumsMostBooked.Value, @Model.MostBookedStadiumsMostBooked.Value + @Model.MostBookedStadiumsNearest.Value],
+            slide: function (event, ui) {                  
+                $("#mostBooked-stadium-amount").val(ui.values[0] + "% - " + (ui.values[1] - ui.values[0]) + "% - " + (100 - ui.values[1]) + "%");
+                $("#mostBooked-stadium-amount1").val(ui.values[0]);
+                $("#mostBooked-stadium-amount2").val(ui.values[1] - ui.values[0]);
+                $("#mostBooked-stadium-amount3").val(100 - ui.values[1]);
+            }
+        });
+        $("#mostBooked-stadium-amount").val($("#mostBooked-stadium").slider("values", 0)
+          + "% - " + ($("#mostBooked-stadium").slider("values", 1) - $("#best-stadium").slider("values", 0)) + "% - "
+          + (100 - $("#best-stadium").slider("values", 1)) + "%");
+        $("#mostBooked-stadium-amount1").val($("#mostBooked-stadium").slider("values", 0));
+        $("#mostBooked-stadium-amount2").val($("#mostBooked-stadium").slider("values", 1) - $("#mostBooked-stadium").slider("values", 0));
+        $("#mostBooked-stadium-amount3").val(100 - $("#mostBooked-stadium").slider("values", 1));
     });
 </script>
