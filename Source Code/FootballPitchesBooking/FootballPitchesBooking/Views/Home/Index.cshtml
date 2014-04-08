@@ -369,33 +369,28 @@
 <hr />
 <!--end Promoted stadium -->
 
-    <div class="span4" style="padding-left: 10px; padding-right: 10px; padding-bottom: 10px; background-color: rgba(128, 128, 128, 0.17);">
-        <h3><span>C</span>áp Kèo</h3>
+<div class="span4" style="padding-left: 10px; padding-right: 10px; padding-bottom: 10px; background-color: rgba(128, 128, 128, 0.17);">
+    <h3><span>C</span>áp Kèo</h3>
+
+    @if (Model.Rivals != null)
+        {
+            for (int i = 0; i < Model.Rivals.Count(); i++)            
+        {
+            var item = Model.Rivals[i];
+            var stadium = Model.Rivals[i].Reservation.Field.Stadium;
         <div class="rival-item">
-            <p class="r-name">Đội Friend</p>
-            <p class="r-date">Thời gian: 20h-21h30, 22/02</p>
-            <p class="r-sname">Sân FTOWN</p>
-            <p class="r-saddr">1 Tô Ký, Phường 1, Quận 9, HCM</p>
-            <p class="r-stype">Đá 5 người</p>
+            <p class="r-date">Thời gian: @item.Reservation.Date</p>
+            <p class="r-sname">@item.Reservation.RivalName</p>
+            <p class="r-saddr">@item.Reservation.PhoneNumber</p>
+            <p class="r-stype">@item.Reservation.RivalEmail</p>
+            <p class="r-stype">@stadium.Name</p>
             <p class="r-contact">
                 Liên hệ: Nguyễn Duy Phương | 01662194419 | phuongnd6592@live.com
                 <button class="btn btn-primary home-btn-book pull-right">Tham Gia</button>
             </p>
-
         </div>
-        <hr />
-        <div class="rival-item">
-            <p class="r-name">Đội Friend</p>
-            <p class="r-date">Thời gian: 20h-21h30, 22/02</p>
-            <p class="r-sname">Sân FTOWN</p>
-            <p class="r-saddr">1 Tô Ký, Phường 1, Quận 9, HCM</p>
-            <p class="r-stype">Đá 5 người</p>
-            <p class="r-contact">
-                Liên hệ: Nguyễn Duy Phương | 01662194419 | phuongnd6592@live.com         
-                <button class="btn btn-primary home-btn-book pull-right">Tham Gia</button>
-            </p>
+        }
+            }
+    <hr />
+</div>
 
-        </div>
-    </div>
-
-    

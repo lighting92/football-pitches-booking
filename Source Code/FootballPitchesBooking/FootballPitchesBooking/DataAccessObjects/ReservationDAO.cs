@@ -13,7 +13,7 @@ namespace FootballPitchesBooking.DataAccessObjects
             FPBDataContext db = new FPBDataContext();
             return db.Reservations.Where(r => r.User.UserName.ToLower().Equals(userName.ToLower())).ToList();
         }
-
+        
         public List<Reservation> GetAllReservations()
         {
             FPBDataContext db = new FPBDataContext();

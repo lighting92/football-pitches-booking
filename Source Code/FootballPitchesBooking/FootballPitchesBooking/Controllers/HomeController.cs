@@ -44,9 +44,17 @@ namespace FootballPitchesBooking.Controllers
                 var mostBookedStadiums = recBO.FindMostBookedStadiums(User.Identity.Name, distanceList);
                 if (mostBookedStadiums != null && mostBookedStadiums.Count() > 3)
                 {
-                    mostBookedStadiums = promotionStadiums.Take(3).ToList();
+                    mostBookedStadiums = mostBookedStadiums.Take(3).ToList();
                 }
+
+                var rivals = recBO.FindRivals(User.Identity.Name, distanceList);
+                if (rivals != null && rivals.Count() > 3)
+                {
+                    rivals = rivals.Take(3).ToList();
+                }
+                model.Rivals = rivals;
                 
+
                 model.BestStadiums = bestStadiums;
                 model.BestStadiumsImages = new List<Models.StadiumImage>();
                 foreach (var item in model.BestStadiums)

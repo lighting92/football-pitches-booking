@@ -23,5 +23,9 @@ namespace FootballPitchesBooking.Models.RecommendationModels
         public Configuration MostBookedStadiumsMostBooked { get; set; }
         public Configuration MostBookedStadiumsNearest { get; set; }
         public Configuration MostBookedStadiumsMostDiscount { get; set; }
+
+        public Configuration RivalAtStadiumMostBooked { get; set; }
+        public Configuration RivalAtStadiumNearest { get; set; }
+        public Configuration RivalExpired { get; set; } 
     }
 }

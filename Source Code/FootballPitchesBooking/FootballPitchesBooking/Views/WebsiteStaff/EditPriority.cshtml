@@ -124,6 +124,34 @@
 </div>
 <hr />
 
+<div>
+    <h3>Cáp Kèo</h3>
+    <div class="row">
+        <div class="span4">
+            <label>
+                Kèo tại đặt nhiều (%)
+            <input type="text" id="rival-amount1" data-cname="Rv_Mostbooked" value="@Model.RivalAtStadiumMostBooked.Value" readonly/>
+            </label>
+        </div>
+        <div class="span4">
+            <label>
+                Kèo tại gần nhà (%)
+            <input type="text" id="rival-amount2" data-cname="Rv_Nearest" value="@Model.RivalAtStadiumNearest.Value" readonly/>
+            </label>
+        </div>
+        <div class="span4">
+            <label>
+                Kèo sắp đá (%)
+            <input type="text" id="rival-amount3" data-cname="Rv_Expired" value="@Model.RivalExpired.Value" readonly/>
+            </label>
+        </div>
+    </div>
+    <div id="rival"></div>
+    <br />
+    <button onclick="updatePriority(this)">Cập nhật</button>
+</div>
+<hr />
+
 <script type="text/javascript">
 
     function updatePriority(control){
@@ -231,10 +259,33 @@
             }
         });
         $("#mostBooked-stadium-amount").val($("#mostBooked-stadium").slider("values", 0)
-          + "% - " + ($("#mostBooked-stadium").slider("values", 1) - $("#best-stadium").slider("values", 0)) + "% - "
-          + (100 - $("#best-stadium").slider("values", 1)) + "%");
+          + "% - " + ($("#mostBooked-stadium").slider("values", 1) - $("#mostBooked-stadium").slider("values", 0)) + "% - "
+          + (100 - $("#mostBooked-stadium").slider("values", 1)) + "%");
         $("#mostBooked-stadium-amount1").val($("#mostBooked-stadium").slider("values", 0));
         $("#mostBooked-stadium-amount2").val($("#mostBooked-stadium").slider("values", 1) - $("#mostBooked-stadium").slider("values", 0));
         $("#mostBooked-stadium-amount3").val(100 - $("#mostBooked-stadium").slider("values", 1));
+    });
+</script>
+
+<script>
+    $(function () {
+        $("#rival").slider({
+            range: true,
+            min: 0,
+            max: 100,
+            values: [@Model.RivalAtStadiumMostBooked.Value, @Model.RivalAtStadiumMostBooked.Value + @Model.RivalExpired.Value],
+            slide: function (event, ui) {                  
+                $("#rival-amount").val(ui.values[0] + "% - " + (ui.values[1] - ui.values[0]) + "% - " + (100 - ui.values[1]) + "%");
+                $("#rival-amount1").val(ui.values[0]);
+                $("#rival-amount2").val(ui.values[1] - ui.values[0]);
+                $("#rival-amount3").val(100 - ui.values[1]);
+            }
+        });
+        $("#rival-amount").val($("#rival").slider("values", 0)
+          + "% - " + ($("#rival").slider("values", 1) - $("#rival").slider("values", 0)) + "% - "
+          + (100 - $("#rival").slider("values", 1)) + "%");
+        $("#rival-amount1").val($("#rival").slider("values", 0));
+        $("#rival-amount2").val($("#rival").slider("values", 1) - $("#rival").slider("values", 0));
+        $("#rival-amount3").val(100 - $("#rival").slider("values", 1));
     });
 </script>
