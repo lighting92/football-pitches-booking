@@ -281,6 +281,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 new FileStream(filePath, FileMode.Open);
                 // Call the Deserialize method and cast to the object type.
                 userDistance = (XMLUserDistance)mySerializer.Deserialize(myFileStream);
+                myFileStream.Close();
                 return userDistance;
             }
             catch (FileNotFoundException)
