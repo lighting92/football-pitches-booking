@@ -12,12 +12,16 @@ namespace FootballPitchesBooking.Models.RecommendationModels
         public Configuration BestStadiumsNearest { get; set; }
         public Configuration BestStadiumsMostDiscount { get; set; }
 
-        public Configuration AppropriateStadiumsMostBooked { get; set; }
-        public Configuration AppropriateStadiumsNearest { get; set; }
-        public Configuration AppropriateStadiumsMostDiscount { get; set; }
+        public Configuration NearestStadiumsMostBooked { get; set; }
+        public Configuration NearestStadiumsNearest { get; set; }
+        public Configuration NearestStadiumsMostDiscount { get; set; }
 
         public Configuration PromotionStadiumsMostBooked { get; set; }
         public Configuration PromotionStadiumsNearest { get; set; }
         public Configuration PromotionStadiumsMostDiscount { get; set; }
+
+        public Configuration MostBookedStadiumsMostBooked { get; set; }
+        public Configuration MostBookedStadiumsNearest { get; set; }
+        public Configuration MostBookedStadiumsMostDiscount { get; set; }
     }
 }

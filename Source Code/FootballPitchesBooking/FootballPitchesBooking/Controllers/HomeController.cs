@@ -29,16 +29,22 @@ namespace FootballPitchesBooking.Controllers
                     bestStadiums = bestStadiums.Take(3).ToList();
                 }
 
-                var nearestStadiums = recBO.FindAppropriateStadiums(User.Identity.Name);
+                var nearestStadiums = recBO.FindNearestStadiums(User.Identity.Name, distanceList);
                 if (nearestStadiums.Count() > 3)
                 {
                     nearestStadiums = nearestStadiums.Take(3).ToList();
                 }
 
-                var promotionStadiums = recBO.FindPromotedStadiums(User.Identity.Name);
+                var promotionStadiums = recBO.FindPromotedStadiums(User.Identity.Name, distanceList);
                 if (promotionStadiums != null && promotionStadiums.Count() > 3)
                 {
                     promotionStadiums = promotionStadiums.Take(3).ToList();
+                }
+
+                var mostBookedStadiums = recBO.FindMostBookedStadiums(User.Identity.Name, distanceList);
+                if (mostBookedStadiums != null && mostBookedStadiums.Count() > 3)
+                {
+                    mostBookedStadiums = promotionStadiums.Take(3).ToList();
                 }
                 
                 model.BestStadiums = bestStadiums;
@@ -78,6 +84,19 @@ namespace FootballPitchesBooking.Controllers
                         image.Path = "stadium.jpg";
                     }
                     model.PromotionStadiumsImages.Add(image);
+                }
+
+                model.MostBookedStadiums = mostBookedStadiums;
+                model.MostBookedStadiumsImages = new List<Models.StadiumImage>();
+                foreach (var item in model.MostBookedStadiums)
+                {
+                    var image = item.Stadium.StadiumImages.FirstOrDefault();
+                    if (image == null)
+                    {
+                        image = new StadiumImage();
+                        image.Path = "stadium.jpg";
+                    }
+                    model.MostBookedStadiumsImages.Add(image);
                 }
             }         
             return View(model);

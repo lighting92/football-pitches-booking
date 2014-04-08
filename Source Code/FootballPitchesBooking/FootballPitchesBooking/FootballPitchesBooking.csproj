@@ -143,6 +143,7 @@
     <Compile Include="DataAccessObjects\NotificationDAO.cs" />
     <Compile Include="DataAccessObjects\PriceTableDAO.cs" />
     <Compile Include="DataAccessObjects\RecommendationDAO.cs" />
+    <Compile Include="DataAccessObjects\RivalDAO.cs" />
     <Compile Include="Models\AccountModels\BookingHistoryModel.cs" />
     <Compile Include="Models\AccountModels\EditReservationModel.cs" />
     <Compile Include="DataAccessObjects\UserDistanceDAO.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="Models\RecommendationModels\PriorityModel.cs" />
     <Compile Include="Models\RecommendationModels\RecommendationModel.cs" />
     <Compile Include="Models\RecommendationModels\RecommendationPriorityModel.cs" />
+    <Compile Include="Models\RecommendationModels\RecommendRivalModel.cs" />
     <Compile Include="Models\RecommendationModels\RecommendStadium.cs" />
     <Compile Include="Models\RecommendationModels\StadiumDistance.cs" />
     <Compile Include="Models\RecommendationModels\XMLUserDistance.cs" />
