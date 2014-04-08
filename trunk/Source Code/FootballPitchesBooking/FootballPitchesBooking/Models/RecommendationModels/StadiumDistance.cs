@@ -9,6 +9,6 @@ namespace FootballPitchesBooking.Models.RecommendationModels
     {
         public int StadiumId { get; set; }
         public string StadiumAddress { get; set; }
-        public int Distance { get; set; }
+        public int? Distance { get; set; }
     }
 }

@@ -27,7 +27,7 @@ namespace FootballPitchesBooking.BusinessObjects
             var ud = udDAO.GetUserDistanceByUserName(userName);
             if (ud != null)
             {
-                if (ud.UpdateDate.AddDays(ggper).Date.CompareTo(DateTime.Now.Date) < 0)
+                if (ud.UpdateDate.AddDays(ggper).Date.CompareTo(DateTime.Now.Date) >= 0)
                 {
                     try
                     {
@@ -36,21 +36,167 @@ namespace FootballPitchesBooking.BusinessObjects
                     }
                     catch (FileNotFoundException)
                     {
-                        //Request google and re update xml file
-                        return null;
+                        var stadiums = stadiumDAO.GetAllStadiums();
+                        var stadiumAddresses = stadiums.Select(s => new { StadiumId = s.Id, Address = (s.Street + ", " + s.Ward + ", " + s.District).Replace(" ", "+") }).ToList();
+                        DistanceMatrixResponse addresses = new DistanceMatrixResponse();
+                        addresses.origin = user.Address;
+                        addresses.destinations = stadiumAddresses.Select(s => s.Address).ToArray();
+
+                        var distances = SinglePointDistanceMatrix(addresses);
+
+                        List<StadiumDistance> lsd = new List<StadiumDistance>();
+
+                        for (int i = 0; i < stadiumAddresses.Count(); i++)
+                        {
+                            var temp = new StadiumDistance();
+                            temp.StadiumId = stadiumAddresses[i].StadiumId;
+                            temp.StadiumAddress = stadiumAddresses[i].Address;
+                            temp.Distance = distances[i].Value;
+                            lsd.Add(temp);
+                        }
+                        XMLUserDistance newXMLUserDistance = new XMLUserDistance();
+                        newXMLUserDistance.UserId = user.Id;
+                        newXMLUserDistance.UserAddress = user.Address;
+                        newXMLUserDistance.UpdateDate = ud.UpdateDate.ToShortDateString();
+                        newXMLUserDistance.StadiumsDistance = lsd;
+
+                        UpdateUserDistanceFile(newXMLUserDistance, xmlFolderPath + ud.Path);
+
+                        return lsd;
                     }
                     catch (DirectoryNotFoundException)
                     {
-                        //do something create folder
-                        //Request google and re update xml file
-                        return null;
+                        var stadiums = stadiumDAO.GetAllStadiums();
+                        var stadiumAddresses = stadiums.Select(s => new { StadiumId = s.Id, Address = (s.Street + ", " + s.Ward + ", " + s.District).Replace(" ", "+") }).ToList();
+                        DistanceMatrixResponse addresses = new DistanceMatrixResponse();
+                        addresses.origin = user.Address;
+                        addresses.destinations = stadiumAddresses.Select(s => s.Address).ToArray();
+
+                        var distances = SinglePointDistanceMatrix(addresses);
+
+                        List<StadiumDistance> lsd = new List<StadiumDistance>();
+
+                        for (int i = 0; i < stadiumAddresses.Count(); i++)
+                        {
+                            var temp = new StadiumDistance();
+                            temp.StadiumId = stadiumAddresses[i].StadiumId;
+                            temp.StadiumAddress = stadiumAddresses[i].Address;
+                            temp.Distance = distances[i].Value;
+                            lsd.Add(temp);
+                        }
+                        XMLUserDistance newXMLUserDistance = new XMLUserDistance();
+                        newXMLUserDistance.UserId = user.Id;
+                        newXMLUserDistance.UserAddress = user.Address;
+                        newXMLUserDistance.UpdateDate = ud.UpdateDate.ToShortDateString();
+                        newXMLUserDistance.StadiumsDistance = lsd;
+
+                        UpdateUserDistanceFile(newXMLUserDistance, xmlFolderPath + ud.Path);
+
+                        return lsd;
                     }
                 }
                 else
                 {
-                    //request google and reupdate xml file
-                    //also trycatch exception
-                    return null;
+                    ud.UpdateDate = DateTime.Now.Date;
+                    int result = udDAO.UpdateUserDistance(ud);
+                    if (result > 0)
+                    {
+                        var stadiums = stadiumDAO.GetAllStadiums();
+                        var stadiumAddresses = stadiums.Select(s => new { StadiumId = s.Id, Address = (s.Street + ", " + s.Ward + ", " + s.District).Replace(" ", "+") }).ToList();
+                        DistanceMatrixResponse addresses = new DistanceMatrixResponse();
+                        addresses.origin = user.Address;
+                        addresses.destinations = stadiumAddresses.Select(s => s.Address).ToArray();
+
+                        var distances = SinglePointDistanceMatrix(addresses);
+
+                        List<StadiumDistance> lsd = new List<StadiumDistance>();
+
+                        for (int i = 0; i < stadiumAddresses.Count(); i++)
+                        {
+                            var temp = new StadiumDistance();
+                            temp.StadiumId = stadiumAddresses[i].StadiumId;
+                            temp.StadiumAddress = stadiumAddresses[i].Address;
+                            temp.Distance = distances[i].Value;
+                            lsd.Add(temp);
+                        }
+                        XMLUserDistance newXMLUserDistance = new XMLUserDistance();
+                        newXMLUserDistance.UserId = user.Id;
+                        newXMLUserDistance.UserAddress = user.Address;
+                        newXMLUserDistance.UpdateDate = ud.UpdateDate.ToShortDateString();
+                        newXMLUserDistance.StadiumsDistance = lsd;
+
+                        UpdateUserDistanceFile(newXMLUserDistance, xmlFolderPath + ud.Path);
+
+                        return lsd;
+                    }
+                    else
+                    {
+                        try
+                        {
+                            var xmlUserDistance = GetUserDistance(xmlFolderPath + ud.Path);
+                            return xmlUserDistance.StadiumsDistance;
+                        }
+                        catch (FileNotFoundException)
+                        {
+                            var stadiums = stadiumDAO.GetAllStadiums();
+                            var stadiumAddresses = stadiums.Select(s => new { StadiumId = s.Id, Address = (s.Street + ", " + s.Ward + ", " + s.District).Replace(" ", "+") }).ToList();
+                            DistanceMatrixResponse addresses = new DistanceMatrixResponse();
+                            addresses.origin = user.Address;
+                            addresses.destinations = stadiumAddresses.Select(s => s.Address).ToArray();
+
+                            var distances = SinglePointDistanceMatrix(addresses);
+
+                            List<StadiumDistance> lsd = new List<StadiumDistance>();
+
+                            for (int i = 0; i < stadiumAddresses.Count(); i++)
+                            {
+                                var temp = new StadiumDistance();
+                                temp.StadiumId = stadiumAddresses[i].StadiumId;
+                                temp.StadiumAddress = stadiumAddresses[i].Address;
+                                temp.Distance = distances[i].Value;
+                                lsd.Add(temp);
+                            }
+                            XMLUserDistance newXMLUserDistance = new XMLUserDistance();
+                            newXMLUserDistance.UserId = user.Id;
+                            newXMLUserDistance.UserAddress = user.Address;
+                            newXMLUserDistance.UpdateDate = ud.UpdateDate.ToShortDateString();
+                            newXMLUserDistance.StadiumsDistance = lsd;
+
+                            UpdateUserDistanceFile(newXMLUserDistance, xmlFolderPath + ud.Path);
+
+                            return lsd;
+                        }
+                        catch (DirectoryNotFoundException)
+                        {
+                            var stadiums = stadiumDAO.GetAllStadiums();
+                            var stadiumAddresses = stadiums.Select(s => new { StadiumId = s.Id, Address = (s.Street + ", " + s.Ward + ", " + s.District).Replace(" ", "+") }).ToList();
+                            DistanceMatrixResponse addresses = new DistanceMatrixResponse();
+                            addresses.origin = user.Address;
+                            addresses.destinations = stadiumAddresses.Select(s => s.Address).ToArray();
+
+                            var distances = SinglePointDistanceMatrix(addresses);
+
+                            List<StadiumDistance> lsd = new List<StadiumDistance>();
+
+                            for (int i = 0; i < stadiumAddresses.Count(); i++)
+                            {
+                                var temp = new StadiumDistance();
+                                temp.StadiumId = stadiumAddresses[i].StadiumId;
+                                temp.StadiumAddress = stadiumAddresses[i].Address;
+                                temp.Distance = distances[i].Value;
+                                lsd.Add(temp);
+                            }
+                            XMLUserDistance newXMLUserDistance = new XMLUserDistance();
+                            newXMLUserDistance.UserId = user.Id;
+                            newXMLUserDistance.UserAddress = user.Address;
+                            newXMLUserDistance.UpdateDate = ud.UpdateDate.ToShortDateString();
+                            newXMLUserDistance.StadiumsDistance = lsd;
+
+                            UpdateUserDistanceFile(newXMLUserDistance, xmlFolderPath + ud.Path);
+
+                            return lsd;
+                        }
+                    }
                 }
             }
             else
@@ -88,17 +234,8 @@ namespace FootballPitchesBooking.BusinessObjects
                     newXMLUserDistance.UpdateDate = newUd.UpdateDate.ToShortDateString();
                     newXMLUserDistance.StadiumsDistance = lsd;
 
-                    try
-                    {
-                        UpdateUserDistanceFile(newXMLUserDistance, xmlFolderPath + newUd.Path);
+                    UpdateUserDistanceFile(newXMLUserDistance, xmlFolderPath + newUd.Path);
 
-                    }
-                    catch (DirectoryNotFoundException)
-                    {
-                        //Do something create folder
-                        throw;
-                    }
-                    
                     return lsd;
                 }
                 else
@@ -112,21 +249,22 @@ namespace FootballPitchesBooking.BusinessObjects
         {
             try
             {
+                string directory = filePath.Substring(0, filePath.LastIndexOf("\\"));
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
                 XmlSerializer serializer = new XmlSerializer(typeof(XMLUserDistance));
                 TextWriter writer = new StreamWriter(filePath);
                 serializer.Serialize(writer, xmlUserDistance);
                 writer.Close();
-            }
-            catch (DirectoryNotFoundException)
-            {
-                throw;
             }
             catch (Exception)
             {
 
                 throw;
             }
-            
+
         }
 
         public static XMLUserDistance GetUserDistance(string filePath)
@@ -206,7 +344,7 @@ namespace FootballPitchesBooking.BusinessObjects
             {
                 return null;
             }
-           
+
 
             DistanceMatrixResponse matrixResponse = JsonConvert.DeserializeObject<DistanceMatrixResponse>(responsereader);
 
