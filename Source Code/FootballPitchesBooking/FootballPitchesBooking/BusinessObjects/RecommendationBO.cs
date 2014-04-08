@@ -12,9 +12,9 @@ namespace FootballPitchesBooking.BusinessObjects
     public class RecommendationBO
     {
 
-        
 
-        public List<RecommendStadium> FindBestStadiums(string userName)
+
+        public List<RecommendStadium> FindBestStadiums(string userName, List<StadiumDistance> distances)
         {
             if (!string.IsNullOrWhiteSpace(userName))
             {
@@ -79,74 +79,63 @@ namespace FootballPitchesBooking.BusinessObjects
                 // Nearest stadium
 
                 UserDAO userDAO = new UserDAO();
-                var userAddress = userDAO.GetUserByUserName(userName).Address;
                 StadiumDAO stadiumDAO = new StadiumDAO();
-                var stadiums = stadiumDAO.GetAllStadiums();
+
                 var distancePriority = new List<PriorityModel>();
-                if (stadiums != null && stadiums.Count() != 0)
+                if (distances != null && distances.Count() != 0)
                 {
-                    var stadiumAddresses = stadiums.Select(s => new { StadiumId = s.Id, Address = (s.Street + ", " + s.Ward + ", " + s.District).Replace(" ", "+") }).ToList();
-                    DistanceMatrixResponse addresses = new DistanceMatrixResponse();
-                    addresses.origin = userAddress;
-                    addresses.destinations = stadiumAddresses.Select(s => s.Address).ToArray();
-                    var distanceList = MapBO.SinglePointDistanceMatrix(addresses);
-                    if (distanceList != null)
+                    for (int i = 0; i < distances.Count(); i++)
                     {
-                        //stadium - 1 record: id, address | distancelist: 1record tuong ung voi 1 stadium address
-                        // ex: stadium id 1, address A, index: 0, distance[0]
-                        for (int i = 0; i < distanceList.Count(); i++)
+                        PriorityModel temp = new PriorityModel();
+                        temp.Id = distances[i].StadiumId;
+                        if (distances[i].Distance != null)
                         {
-                            PriorityModel temp = new PriorityModel();
-                            temp.Id = stadiumAddresses[i].StadiumId;
-                            if (distanceList[i] != null)
+                            if (distances[i].Distance <= 2000)
                             {
-                                if (distanceList[i] <= 2000)
-                                {
-                                    temp.Priority = 10;
-                                }
-                                else if (distanceList[i] <= 4000)
-                                {
-                                    temp.Priority = 9;
-                                }
-                                else if (distanceList[i] <= 6000)
-                                {
-                                    temp.Priority = 8;
-                                }
-                                else if (distanceList[i] <= 8000)
-                                {
-                                    temp.Priority = 7;
-                                }
-                                else if (distanceList[i] <= 10000)
-                                {
-                                    temp.Priority = 6;
-                                }
-                                else if (distanceList[i] <= 12000)
-                                {
-                                    temp.Priority = 5;
-                                }
-                                else if (distanceList[i] <= 14000)
-                                {
-                                    temp.Priority = 4;
-                                }
-                                else if (distanceList[i] <= 16000)
-                                {
-                                    temp.Priority = 3;
-                                }
-                                else if (distanceList[i] <= 18000)
-                                {
-                                    temp.Priority = 2;
-                                }
-                                else if (distanceList[i] <= 20000)
-                                {
-                                    temp.Priority = 1;
-                                }
-                                else
-                                {
-                                    temp.Priority = 0;
-                                }
+                                temp.Priority = 10;
                             }
-                            distancePriority.Add(temp);
+                            else if (distances[i].Distance <= 4000)
+                            {
+                                temp.Priority = 9;
+                            }
+                            else if (distances[i].Distance <= 6000)
+                            {
+                                temp.Priority = 8;
+                            }
+                            else if (distances[i].Distance <= 8000)
+                            {
+                                temp.Priority = 7;
+                            }
+                            else if (distances[i].Distance <= 10000)
+                            {
+                                temp.Priority = 6;
+                            }
+                            else if (distances[i].Distance <= 12000)
+                            {
+                                temp.Priority = 5;
+                            }
+                            else if (distances[i].Distance <= 14000)
+                            {
+                                temp.Priority = 4;
+                            }
+                            else if (distances[i].Distance <= 16000)
+                            {
+                                temp.Priority = 3;
+                            }
+                            else if (distances[i].Distance <= 18000)
+                            {
+                                temp.Priority = 2;
+                            }
+                            else if (distances[i].Distance <= 20000)
+                            {
+                                temp.Priority = 1;
+                            }
+                            else
+                            {
+                                temp.Priority = 0;
+                            }
                         }
+                        distancePriority.Add(temp);
                     }
                 }
                 //có 3 list
@@ -161,11 +150,12 @@ namespace FootballPitchesBooking.BusinessObjects
                 var mostDiscount = double.Parse(confDAO.GetConfigByName("Bs_MostPromoted").Value);
                 foreach (var resP in reservationsPriority)
                 {
-                    result.Add(new PriorityModel {
+                    result.Add(new PriorityModel
+                    {
                         Id = resP.Id,
                         Priority = resP.Priority * mostBooked
-                    });                    
-                    
+                    });
+
                 }
 
                 foreach (var proP in promotionsPriority)
@@ -219,7 +209,7 @@ namespace FootballPitchesBooking.BusinessObjects
             else
             {
                 return null;
-            }                   
+            }
         }
 
         //find appropriate stadium
@@ -501,8 +491,8 @@ namespace FootballPitchesBooking.BusinessObjects
                         temp.Priority = 10 - ((max - mostReservationStadiums[i].Count) * e);
                         reservationsPriority.Add(temp);
                     }
-                }              
-                
+                }
+
                 // Nearest stadium
 
                 UserDAO userDAO = new UserDAO();
@@ -669,14 +659,14 @@ namespace FootballPitchesBooking.BusinessObjects
             result.PromotionStadiumsMostBooked = recDAO.GetPriorityByConfigName("Pr_MostBooked");
             result.PromotionStadiumsNearest = recDAO.GetPriorityByConfigName("Pr_Nearest");
             result.PromotionStadiumsMostDiscount = recDAO.GetPriorityByConfigName("Pr_MostPromoted");
-            return result;            
+            return result;
         }
 
 
         public int EditPriority(int PriorityID, int MostBooked, int MostNearest, int MostDiscount)
         {
             RecommendationDAO recDAO = new RecommendationDAO();
-            
+
             return 1;
         }
 
@@ -686,7 +676,7 @@ namespace FootballPitchesBooking.BusinessObjects
             foreach (var item in configs)
             {
                 total += double.Parse(item.Value);
-                
+
             }
             if (total != 100)
             {
@@ -701,5 +691,5 @@ namespace FootballPitchesBooking.BusinessObjects
         }
     }
 
-    
+
 }

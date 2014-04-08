@@ -15,14 +15,15 @@ namespace FootballPitchesBooking.Controllers
         // GET: /Home/
 
         public ActionResult Index()
-        {
-            string xmlFolderPath = Server.MapPath("/XMLUserDistance/");
-            //var distanceList = MapBO.GetStadiumDistanceFromUser(User.Identity.Name, "xmlFolderPath");
+        {            
             var model = new RecommendationModel();        
             if (User.Identity.IsAuthenticated)
             {
-                RecommendationBO recBO = new RecommendationBO();                
-                var bestStadiums = recBO.FindBestStadiums(User.Identity.Name);
+                string xmlFolderPath = Server.MapPath("/XMLUserDistance/");
+                var distanceList = MapBO.GetStadiumDistanceFromUser(User.Identity.Name, xmlFolderPath);
+
+                RecommendationBO recBO = new RecommendationBO();
+                var bestStadiums = recBO.FindBestStadiums(User.Identity.Name, distanceList);
                 if (bestStadiums.Count() > 3)
                 {
                     bestStadiums = bestStadiums.Take(3).ToList();
@@ -39,7 +40,6 @@ namespace FootballPitchesBooking.Controllers
                 {
                     promotionStadiums = promotionStadiums.Take(3).ToList();
                 }
-
                 
                 model.BestStadiums = bestStadiums;
                 model.BestStadiumsImages = new List<Models.StadiumImage>();
