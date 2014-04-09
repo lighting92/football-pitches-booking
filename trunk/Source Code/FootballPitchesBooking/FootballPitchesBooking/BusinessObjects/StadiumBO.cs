@@ -1640,6 +1640,19 @@ namespace FootballPitchesBooking.BusinessObjects
             return ratingDAO.UpdateStadiumRating(rating);
         }
 
+
+        public List<StadiumReview> GetAllReviews()
+        {
+            StadiumReviewDAO reviewDAO = new StadiumReviewDAO();
+            return reviewDAO.GetAllReviews();
+        }
+
+        public StadiumReview GetReviewById(int reviewId)
+        {
+            StadiumReviewDAO reviewDAO = new StadiumReviewDAO();
+            return reviewDAO.GetReviewById(reviewId);
+        }
+
         public bool CreateStadiumReview(StadiumReview review)
         {
             StadiumReviewDAO reviewDAO = new StadiumReviewDAO();
@@ -1650,6 +1663,12 @@ namespace FootballPitchesBooking.BusinessObjects
         {
             StadiumReviewDAO reviewDAO = new StadiumReviewDAO();
             return reviewDAO.ChangeReviewStatus(reviewId, isApproved, approver);
+        }
+
+        public bool DeleteReview(int reviewId)
+        {
+            StadiumReviewDAO reviewDAO = new StadiumReviewDAO();
+            return reviewDAO.DeleteReview(reviewId);
         }
     }
 }

@@ -1,0 +1,60 @@
+﻿@model List<FootballPitchesBooking.Models.StadiumReview>
+@{
+    ViewBag.REVIEW = "active";
+    ViewBag.Title = "Quản Lý Đánh Giá Sân Bóng";
+    Layout = "~/Views/Shared/_WebsiteStaffLayout.cshtml";
+}
+<div class="row">
+    <div class="span12">
+        <h1>QUẢN LÝ ĐÁNH GIÁ SÂN BÓNG</h1>
+
+        @if (Model != null && Model.Count > 0)
+        {
+            <table class="table table-condensed table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th style="width: 120px;">TÊN SÂN BÓNG</th>
+                        <th style="width: 130px;">NGƯỜI ĐÁNH GIÁ</th>
+                        <th>NỘI DUNG</th>
+                        <th style="width: 150px;">THỜI GIAN</th>
+                        <th style="width: 60px;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        if (!item.IsApproved)
+                        {
+                            <tr style="font-weight: bold;">
+                            <td>@item.Stadium.Name</td>
+                            <td>@item.User.UserName</td>
+                            <td>@item.ReviewContent</td>
+                            <td>@item.CreateDate.ToString("HH:mm:ss - dd/MM/yyyy")</td>
+                            <td class="table-cell-action">
+                                <a href="/WebsiteStaff/Review?Id=@item.Id">Chi tiết</a><br />
+                                    <a href="/WebsiteStaff/ApproveReview?Id=@item.Id">Duyệt</a>
+                            </td>
+                        </tr>
+                        }
+                        else
+                        {
+                                <tr>
+                            <td>@item.Stadium.Name</td>
+                            <td>@item.User.UserName</td>
+                            <td>@item.ReviewContent</td>
+                            <td>@item.CreateDate.ToString("HH:mm:ss - dd/MM/yyyy")</td>
+                            <td class="table-cell-action">
+                                <a href="/WebsiteStaff/Review?Id=@item.Id">Chi tiết</a><br />
+                            </td>
+                        </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h3>Hiện tại không có đánh giá nào.</h3>
+        }
+    </div>
+</div>
