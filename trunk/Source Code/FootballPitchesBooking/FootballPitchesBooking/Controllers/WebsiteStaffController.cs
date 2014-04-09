@@ -923,6 +923,10 @@ namespace FootballPitchesBooking.Controllers
                 {
                     model.ErrorMessages.Add(Resources.Ads_ExpiredTimeOver);
                 }
+                else if (result == -2)
+                {
+                    model.ErrorMessages.Add(Resources.Ads_ExistingAdvertisement);
+                }
             }
 
             return View(model);
@@ -1015,6 +1019,10 @@ namespace FootballPitchesBooking.Controllers
                 else if (result == -1)
                 {
                     model.ErrorMessages.Add(Resources.Ads_ExpiredTimeOver);
+                }
+                else if (result == -2)
+                {
+                    model.ErrorMessages.Add(Resources.Ads_ExistingAdvertisement);
                 }
             }
 

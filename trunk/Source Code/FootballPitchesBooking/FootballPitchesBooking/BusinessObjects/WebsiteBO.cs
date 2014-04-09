@@ -31,6 +31,15 @@ namespace FootballPitchesBooking.BusinessObjects
             }
 
             AdvertisementDAO adsDAO = new AdvertisementDAO();
+
+            if (ads.Status == "Active")
+            {
+                if(adsDAO.GetAdvertisement(0, ads.Position) != null)
+                {
+                    return -2;
+                }
+            }
+
             int result = adsDAO.CreateAdvertisement(ads);
 
             return result;
@@ -44,6 +53,15 @@ namespace FootballPitchesBooking.BusinessObjects
             }
 
             AdvertisementDAO adsDAO = new AdvertisementDAO();
+
+            if (ads.Status == "Active")
+            {
+                if (adsDAO.GetAdvertisement(ads.Id, ads.Position) != null)
+                {
+                    return -2;
+                }
+            }
+
             int result = adsDAO.UpdateAdvertisement(ads);
 
             return result;
