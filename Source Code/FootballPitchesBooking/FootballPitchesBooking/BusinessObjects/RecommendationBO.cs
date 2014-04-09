@@ -161,7 +161,8 @@ namespace FootballPitchesBooking.BusinessObjects
 
                 foreach (var near in nearExpiredPriority)
                 {
-                    var temp = nearestReservations.Where(n => n.Id == near.Id).FirstOrDefault();
+                    
+                    var temp = resDAO.GetReservationById(near.Id);
                     var resP = reservationsPriority.Where(r => r.Id == temp.Field.StadiumId).FirstOrDefault();
                     double resPPriority = 0;
                     if (resP != null)
