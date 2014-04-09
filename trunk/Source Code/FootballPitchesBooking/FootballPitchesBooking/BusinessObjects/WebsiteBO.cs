@@ -16,6 +16,17 @@ namespace FootballPitchesBooking.BusinessObjects
         }
 
 
+        public List<Advertisement> GetActiveAds()
+        {
+            AdvertisementDAO adsDAO = new AdvertisementDAO();
+            List<Advertisement> adsList = new List<Advertisement>();
+            adsList.Add(adsDAO.GetAdvertisement(0, "Banner1"));
+            adsList.Add(adsDAO.GetAdvertisement(0, "Banner2"));
+            adsList.Add(adsDAO.GetAdvertisement(0, "Banner3"));
+            return adsList;
+        }
+
+
         public Advertisement GetAdvertisementById(int adsId)
         {
             AdvertisementDAO adsDAO = new AdvertisementDAO();

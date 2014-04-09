@@ -481,6 +481,7 @@
     <Content Include="Views\Stadium\JoinRival.cshtml" />
     <Content Include="Views\WebsiteStaff\Reviews.cshtml" />
     <Content Include="Views\WebsiteStaff\Review.cshtml" />
+    <Content Include="Views\Home\Advertise.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

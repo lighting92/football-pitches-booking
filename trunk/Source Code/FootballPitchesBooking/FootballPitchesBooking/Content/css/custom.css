@@ -449,6 +449,20 @@ footer a
     text-align: center !important;
 }
 
+.advertise-banner
+{
+    display: inline-block;
+    width: 300px;
+    height: 80px;
+    margin: 0 5px;
+}
+
+.advertise-banner img
+{
+    width: 300px;
+    height: 80px;
+}
+
 .hide 
 {
     display: none !important;
