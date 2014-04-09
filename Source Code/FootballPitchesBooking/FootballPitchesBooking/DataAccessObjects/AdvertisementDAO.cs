@@ -22,6 +22,14 @@ namespace FootballPitchesBooking.DataAccessObjects
         }
 
 
+        public Advertisement GetAdvertisement(int id, string position)
+        {
+            FPBDataContext db = new FPBDataContext();
+            return db.Advertisements.Where(a => a.Id != id && a.Position == position &&
+                                           a.ExpiredDate >= DateTime.Now && a.Status == "Active").FirstOrDefault();
+        }
+
+
         public int CreateAdvertisement(Advertisement ads)
         {
             FPBDataContext db = new FPBDataContext();

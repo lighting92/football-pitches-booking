@@ -79,9 +79,9 @@ namespace FootballPitchesBooking.Controllers
                         model.Prices = model.Stadium.FieldPrices.ToList();
                     }
 
-                    if (model.Stadium.StadiumReviews.Count > 0)
+                    if (model.Stadium.StadiumReviews.Where(r => r.IsApproved == true).ToList().Count > 0)
                     {
-                        model.Reviews = model.Stadium.StadiumReviews.OrderByDescending(sr => sr.CreateDate).ToList();
+                        model.Reviews = model.Stadium.StadiumReviews.Where(r => r.IsApproved == true).OrderByDescending(sr => sr.CreateDate).ToList();
                     }
 
                     return View(model);

@@ -210,4 +210,7 @@
   <data name="Ads_ExpiredTimeOver" xml:space="preserve">
     <value>Thời gian quảng cáo đã kết thúc, xin vui lòng chọn thời gian quảng cáo khác</value>
   </data>
+  <data name="Ads_ExistingAdvertisement" xml:space="preserve">
+    <value>Vị trí này đang tồn tại quảng cáo đang hoạt động</value>
+  </data>
 </root>
