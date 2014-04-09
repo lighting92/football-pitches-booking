@@ -1051,7 +1051,7 @@ namespace FootballPitchesBooking.Controllers
                     Value = kv[1].Trim()
                 });
             }
-            
+
             bool valid = true;
             foreach (var item in configs)
             {
@@ -1074,14 +1074,14 @@ namespace FootballPitchesBooking.Controllers
                         break;
                     case 0:
                         message = Resources.DB_Exception;
-                        break;                    
+                        break;
                     case -1:
                         message = "Không tìm thấy tên cấu hình";
                         break;
                     case -2:
                         message = "Cập nhật không thành công";
                         break;
-                    default:                        
+                    default:
                         break;
                 }
             }
@@ -1089,6 +1089,85 @@ namespace FootballPitchesBooking.Controllers
         }
 
         #endregion
+
+
+        #region STADIUM REVIEW
+
+
+        [Authorize(Roles = "WebsiteMaster")]
+        public ActionResult Reviews()
+        {
+            StadiumBO stadiumBO = new StadiumBO();
+            List<StadiumReview> reviews = stadiumBO.GetAllReviews();
+            return View(reviews);
+        }
+
+
+        [Authorize(Roles = "WebsiteMaster")]
+        public ActionResult Review(int? id)
+        {
+            try
+            {
+                StadiumBO stadiumBO = new StadiumBO();
+                StadiumReview review = stadiumBO.GetReviewById((int)id);
+                return View(review);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Reviews", "WebsiteStaff");
+            }
+        }
+
+
+        [Authorize(Roles = "WebsiteMaster")]
+        public ActionResult ApproveReview(int? id)
+        {
+            try
+            {
+                StadiumBO stadiumBO = new StadiumBO();
+                bool result = stadiumBO.ChangeReviewStatus((int)id, true, userBO.GetUserByUserName(User.Identity.Name).Id);
+                return RedirectToAction("Reviews", "WebsiteStaff");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Reviews", "WebsiteStaff");
+            }
+        }
+
+
+        [Authorize(Roles = "WebsiteMaster")]
+        public ActionResult DeleteReview(int? id)
+        {
+            try
+            {
+                int user;
+                try
+                {
+                    user = Int32.Parse(Request.QueryString["User"]);
+                }
+                catch (Exception)
+                {
+                    user = 0;
+                }
+                StadiumBO stadiumBO = new StadiumBO();
+                bool result = stadiumBO.DeleteReview((int)id);
+                if (user == 0)
+                {
+                    return RedirectToAction("Reviews", "WebsiteStaff");
+                }
+                else
+                {
+                    return RedirectToAction("Punish/" + user, "WebsiteStaff");
+                }
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Reviews", "WebsiteStaff");
+            }
+        }
+
+
+        #endregion STADIUM REVIEW
 
     }
 

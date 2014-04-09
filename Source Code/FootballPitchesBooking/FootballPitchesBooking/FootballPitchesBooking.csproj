@@ -479,6 +479,8 @@
     <Content Include="Views\Account\Profiles.cshtml" />
     <Content Include="Views\Stadium\Rivals.cshtml" />
     <Content Include="Views\Stadium\JoinRival.cshtml" />
+    <Content Include="Views\WebsiteStaff\Reviews.cshtml" />
+    <Content Include="Views\WebsiteStaff\Review.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
