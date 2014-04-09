@@ -1,0 +1,21 @@
+﻿@model List<FootballPitchesBooking.Models.Advertisement>
+@if (Model != null && Model.Count > 0)
+{
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            if (item != null)
+            {
+            <div class="advertise-banner">
+                @Html.Raw(@item.AdvertiseDetail)
+            </div> 
+            }
+            else
+            {
+            <div class="advertise-banner">
+                <img src="~/Content/images/contact-ads.gif" />
+            </div> 
+            }
+        }
+    </div> 
+}

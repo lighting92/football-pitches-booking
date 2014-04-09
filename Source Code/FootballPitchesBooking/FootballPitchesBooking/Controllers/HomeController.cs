@@ -110,5 +110,12 @@ namespace FootballPitchesBooking.Controllers
             return View(model);
         }
 
+        public ActionResult Advertise()
+        {
+            List<Advertisement> model = new List<Advertisement>();
+            WebsiteBO webBO = new WebsiteBO();
+            model = webBO.GetActiveAds();
+            return PartialView(model);
+        }
     }
 }
