@@ -44,29 +44,29 @@
     <h1>CHỈNH SỬA THÔNG TIN KHUYẾN MÃI</h1>
     <form action="EditPromotion?id=@Request.QueryString["id"]" method="post" class="form-horizontal" enctype="multipart/form-data">
         <p>
-             @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
-             {
-                 <div class="alert alert-danger">
-                     @foreach (var error in Model.ErrorMessages)
-                     {
-                         <p>- @error</p>
-                     }
-                 </div>
-             }
+            @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
+            {
+                <div class="alert alert-danger">
+                    @foreach (var error in Model.ErrorMessages)
+                    {
+                        <p>- @error</p>
+                    }
+                </div>
+            }
         </p>
         <p>
             <label for="Fields">SỐ SÂN</label>
             <select id="Fields" name="Fields" data-cur="@Model.FieldId">
-                 @if (Model.Fields != null && Model.Fields.Count() > 0)
-                 {
-                     foreach (var item in Model.Fields)
-                     {
-                         if (item.IsActive)
-                         {
-                            <option value="@item.Id">@item.Number</option>
-                         }
-                     }
-                 }
+                @if (Model.Fields != null && Model.Fields.Count() > 0)
+                {
+                    foreach (var item in Model.Fields)
+                    {
+                        if (item.IsActive)
+                        {
+                    <option value="@item.Id">@item.Number</option>
+                        }
+                    }
+                }
             </select>
             <script type="text/javascript">
                 $(document).ready(function () {
@@ -92,7 +92,7 @@
         <p>
             <label for="Discount">ƯU ĐÃI GIẢM GIÁ (%)</label>
             <input name="Discount" id="txtDiscount" type="text" placeholder="Giảm giá (%)" required="required" value="@Model.Discount">
-            <script type="text/javascript"> 
+            <script type="text/javascript">
                 $('#txtDiscount').keyup(function (event) {
                     if (isNaN(String.fromCharCode(event.which))) {
                         var value = $(this).val();
@@ -114,8 +114,10 @@
                 });
             </script>
         </p>
-        <button class="btn btn-primary book-now groupbtn" type="submit" name="Save" onclick="return check()">Lưu</button>
-        <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/Promotions'">Hủy bỏ</button>
+        <p>
+            <button class="btn btn-primary book-now groupbtn" type="submit" name="Save" onclick="return check()">Lưu</button>
+            <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/Promotions'">Hủy bỏ</button>
+        </p>
     </form>
 </div>
 

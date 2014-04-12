@@ -10,6 +10,7 @@ namespace FootballPitchesBooking.Models.StadiumStaffModels
         public bool HavePermission { get; set; }
         public string ErrorMessage { get; set; }
         public Stadium Stadium { get; set; }
+        public int FieldCount { get; set; }
         public List<Stadium> Stadiums { get; set; }
         public List<Reservation> Reservations { get; set; }   
     }

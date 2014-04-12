@@ -1868,6 +1868,7 @@ namespace FootballPitchesBooking.Controllers
 
                     model.HavePermission = true;
                     model.Stadium = std;
+                    model.FieldCount = std.Fields.Count;
                     model.Stadiums = stadiums;
                     model.Reservations = resvBO.GetReservationsOfStadium(std.Id);
                 }
@@ -2325,6 +2326,7 @@ namespace FootballPitchesBooking.Controllers
 
                     model.HavePermission = true;
                     model.Stadium = std;
+                    model.FieldCount = std.Fields.Count;
                     model.Stadiums = stadiums;
                     model.Promotions = stadiumBO.GetAllPromotionsByStadium(std.Id);
                 }

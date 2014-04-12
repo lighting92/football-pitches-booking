@@ -373,25 +373,27 @@
                                 </label>
                             </div>
                             <div class="span3">
-                            <label>
-                                TRẠNG THÁI
+                                <label>
+                                    TRẠNG THÁI
                                     <select id="RivalStatus" name="RivalStatus" data-cur="@Model.RivalStatus">
-                                        <option value="Approved">Approved</option>
-                                        <option value="Denied">Pending</option>
-                                        <option value="Pending">Waiting</option>
+                                        <option value="Approved">Đã xác nhận</option>
+                                        <option value="Denied">Đang chờ xét</option>
+                                        <option value="Pending">Đang chờ</option>
                                     </select>
-                            </label>
-                            <script type="text/javascript">
-                                $(document).ready(function () {
-                                    $("#RivalStatus").val($("#RivalStatus").data("cur"));
-                                });
-                            </script>
-                        </div>
+                                </label>
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        $("#RivalStatus").val($("#RivalStatus").data("cur"));
+                                    });
+                                </script>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="span9">
-                                <button class="btn btn-primary book-now groupbtn" type="submit" name="Save" onclick="return check()">Lưu</button>
-                                <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/Reservations'">Hủy bỏ</button>
+                                <p>
+                                    <button class="btn btn-primary book-now groupbtn" type="submit" name="Save" onclick="return check()">Lưu</button>
+                                    <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/Reservations'">Hủy bỏ</button>
+                                </p>
                             </div>
                         </div>
                     </fieldset>
