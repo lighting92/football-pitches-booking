@@ -4,6 +4,29 @@
     ViewBag.Title = "Sân Bóng";
 }
 
+<script type="text/ecmascript">
+    function check() {
+        var flag = 0;
+        var content = $("#UserReviewContent").val();
+
+        if (content.length < 10) {
+            $("#ReviewContent_Error").text("Yêu cầu đánh giá nhiều hơn 10 ký tự");
+            $("#ReviewContent_Error").css("display", "block");
+            flag++;
+
+        }
+        else {
+            $("#ReviewContent_Error").text(" ");
+            $("#ReviewContent_Error").css("display", "none");
+        }
+
+
+        if (flag > 0) {
+            return false;
+        } else return true;
+    }
+</script>
+
 <div class="row stadium-details">
     <div class="span12">
         <div class="span5 no-margin stadium-side-panel">
@@ -70,7 +93,7 @@
                             <a href="~/Stadium/Rate?Stadium=@Model.Stadium.Id&Point=@((int)Model.Rate + 1)">
                                 <img src="~/Content/images/rating-star/25.png" /></a>
                         }
-                        else if (Model.Rate - (int)Model.Rate >= 0.00)
+                        else if (Model.Rate - (int)Model.Rate >= 0.00 && Model.Rate < 5)
                         {
                             <a href="~/Stadium/Rate?Stadium=@Model.Stadium.Id&Point=@((int)Model.Rate + 1)">
                                 <img src="~/Content/images/rating-star/00.png" /></a>
@@ -84,7 +107,8 @@
                     <label><b style="color: red; font-size: 16px; line-height: 12px;">@Model.Rate.ToString("0.0")</b>/@Model.RateCount phiếu bầu</label>
                 </p>
                 <p>
-                    <a href="/Stadium/Book?Id=@Model.Stadium.Id"><button class="btn-medium btn-success">Đặt sân</button></a>
+                    <a href="/Stadium/Book?Id=@Model.Stadium.Id">
+                        <button class="btn-medium btn-success">Đặt sân</button></a>
                 </p>
             </div>
             <div class="span7 no-margin">
@@ -104,18 +128,6 @@
                                 $(activeTab).removeClass('hide');
                             }
                         });
-
-                        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                            localStorage.setItem('lastTab', $(e.target).attr('href'));
-                        });
-
-                        var lastTab = localStorage.getItem('lastTab');
-                        if (lastTab) {
-                            $('ul.details-menu').children().removeClass('active');
-                            $('a[href=' + lastTab + ']').parents('li:first').addClass('active');
-                            $('div.stadium-details-info').children().addClass('hide');
-                            $(lastTab).removeClass('hide');
-                        }
                     });
                 </script>
                 <div class="span7 no-margin stadium-details-info">
@@ -159,7 +171,8 @@
                                     </p>
                                     <p>
                                         <textarea name="UserReviewContent" id="UserReviewContent" style="width: 420px; min-height: 50px;"></textarea>
-                                        <button type="submit" class="btn-small btn-success pull-right">Gửi đánh giá</button>
+                                        <div class="alert alert-danger" id="ReviewContent_Error" style="display: none"></div>
+                                        <button type="submit" class="btn-small btn-success pull-right" onclick="return check()">Gửi đánh giá</button>
                                     </p>
 
                                     <script type="text/javascript">
@@ -180,7 +193,14 @@
                                 </div>
                                 <div class="content">
                                     <p>
-                                        <a href="~/Account/Details?id=@item.User.Id"><b>@item.User.UserName</b></a>
+                                        @if (item.User.Role.Role1.Equals("BannedMember"))
+                                        {
+                                            <a href="~/Account/Details?id=@item.User.Id" style="color: #000;"><b>@item.User.UserName</b></a>
+                                        }
+                                        else
+                                        {
+                                            <a href="~/Account/Details?id=@item.User.Id"><b>@item.User.UserName</b></a>
+                                        }
                                         <label style="display: inline; margin-left: 20px; font-size: 10px; color: #888888;">@item.CreateDate.ToString("dd/MM/yyyy HH:mm")</label>
                                     </p>
                                     <p>@item.ReviewContent</p>

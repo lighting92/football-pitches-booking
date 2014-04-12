@@ -2,7 +2,14 @@
 
 @{
     ViewBag.USER = "active";
-    ViewBag.Title = "Chi Tiết Thông Tin Thành Viên";
+    if (User.Identity.Name.Equals(Model.UserName))
+    {
+        ViewBag.Title = "Thông Tin Cá Nhân";
+    }
+    else
+    {
+        ViewBag.Title = "Thông Tin Thành Viên";
+    }
     
 }
 
@@ -11,95 +18,95 @@
     <div class="span12">
         <div class="row">
             <div class="span9">
-                <form action="EditUser?Id=@Request.QueryString["id"]" method="post" class="form-horizontal" enctype="multipart/form-data">
-                    <fieldset>
-                        <br />
-                        <br />
-                        <h1>CHI TIẾT THÔNG TIN THÀNH VIÊN
-                        </h1>
-                        <br />
-                        @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
-                        {
-                            <div class="alert alert-danger">
-                                @foreach (var error in Model.ErrorMessages)
-                                {
-                                    <p>- @error</p>
-                                }
-                            </div>
-                        }
-                        <div class="row">
-                            <div class="span3">
-                                <label>
-                                    TÊN ĐĂNG NHẬP
+                <fieldset>
+                    <br />
+                    <br />
+                    @if (User.Identity.Name.Equals(Model.UserName))
+                    {
+                        <h1>THÔNG TIN THÀNH VIÊN</h1>
+                    }
+                    <br />
+                    @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
+                    {
+                        <div class="alert alert-danger">
+                            @foreach (var error in Model.ErrorMessages)
+                            {
+                                <p>- @error</p>
+                            }
+                        </div>
+                    }
+                    <div class="row">
+                        <div class="span3">
+                            <label>
+                                TÊN ĐĂNG NHẬP
                                     <input name="UserName" type="text" disabled="disabled" value="@Model.UserName">
-                                </label>
-                            </div>
-                            <div class="span3" style="visibility: hidden;">
-                                <label>&nbsp</label>
-                                <input type="text">
-                            </div>
-                            <div class="span3" style="visibility: hidden;">
-                                <label>&nbsp</label>
-                                <input type="text">
-                            </div>
-                            <div class="span3">
-                                <label>
-                                    TÊN THÀNH VIÊN
+                            </label>
+                        </div>
+                        <div class="span3" style="visibility: hidden;">
+                            <label>&nbsp</label>
+                            <input type="text">
+                        </div>
+                        <div class="span3" style="visibility: hidden;">
+                            <label>&nbsp</label>
+                            <input type="text">
+                        </div>
+                        <div class="span3">
+                            <label>
+                                TÊN THÀNH VIÊN
                                     <input name="FullName" type="text" disabled="disabled" value="@Model.FullName">
-                                </label>
-                            </div>
-                            <div class="span3">
-                                <label>
-                                    SỐ ĐIỆN THOẠI
+                            </label>
+                        </div>
+                        <div class="span3">
+                            <label>
+                                SỐ ĐIỆN THOẠI
                                     <input name="PhoneNumber" type="text" disabled="disabled" value="@Model.PhoneNumber">
-                                </label>
-                            </div>
-                            <div class="span3">
-                                <label>
-                                    E-MAIL
+                            </label>
+                        </div>
+                        <div class="span3">
+                            <label>
+                                E-MAIL
                                     <input name="Email" type="text" placeholder="E-Mail" disabled="disabled" value="@Model.Email">
-                                </label>
-                            </div>
-                            <div class="span3" style="width: 100%;">
-                                <label>
-                                    ĐỊA CHỈ
+                            </label>
+                        </div>
+                        <div class="span3" style="width: 100%;">
+                            <label>
+                                ĐỊA CHỈ
                                     <input style="width: 685px;" name="Address" type="text" disabled="disabled" value="@Model.Address">
-                                </label>
-                            </div>
-                            <div class="span3">
-                                <label>
-                                    POINT
+                            </label>
+                        </div>
+                        <div class="span3">
+                            <label>
+                                POINT
                                     <input name="Point" type="text" placeholder="ĐIỂM" disabled="disabled" value="@Model.Point">
-                                </label>
-                            </div>
-                            <div class="span3">
-                                <label>
-                                    THỨ HẠNG
+                            </label>
+                        </div>
+                        <div class="span3">
+                            <label>
+                                THỨ HẠNG
                                     <input name="RankName" type="text" placeholder="THỨ HẠNG" disabled="disabled" value="@Model.RankName">
-                                </label>
-                            </div>
-                            <div class="span3">
-                                <label>
-                                    NGÀY THAM GIA
+                            </label>
+                        </div>
+                        <div class="span3">
+                            <label>
+                                NGÀY THAM GIA
                                     <input name="JoinDate" type="text" placeholder="NGÀY THAM GIA" disabled="disabled" value="@Model.JoinDate.ToString("dd/MM/yyyy")">
-                                </label>
-                            </div>
+                            </label>
                         </div>
-                        <div class="row">
-                            <div class="span9">
-                                <br />
-                                <button type="button" onclick="window.location = '/Home'" class="btn btn-primary btn-large book-now pull-right groupbtn">QUAY VỀ</button>
-                                @if (User.Identity.Name.Equals(Model.UserName))
-                                 {
-                                     <button type="button" onclick="window.location = '/Account/Edit'" class="btn btn-primary btn-large book-now pull-right groupbtn">CHỈNH SỬA</button>
-                                     <button type="button" onclick="window.location = '/Account/ChangePassword'" class="btn btn-primary btn-large book-now pull-right groupbtn">ĐỔI MẬT KHẨU</button>
-                                 }
-                                <br />
-                                <br />
-                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="span9">
+                            <br />
+                            <button type="button" onclick="window.location = '/Home'" class="btn btn-primary btn-large book-now pull-right groupbtn">Quay lại</button>
+                            @if (User.Identity.Name.Equals(Model.UserName))
+                            {
+                                <button type="button" onclick="window.location = '/Account/Edit'" class="btn btn-primary btn-large book-now pull-right groupbtn">Chỉnh sửa</button>
+                                <button type="button" onclick="window.location = '/Account/ChangePassword'" class="btn btn-primary btn-large book-now pull-right groupbtn">Đổi mật khẩu</button>
+                            }
+                            <br />
+                            <br />
                         </div>
-                    </fieldset>
-                </form>
+                    </div>
+                </fieldset>
             </div>
         </div>
     </div>

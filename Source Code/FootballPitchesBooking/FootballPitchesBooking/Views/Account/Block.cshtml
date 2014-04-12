@@ -1,0 +1,50 @@
+﻿@model FootballPitchesBooking.Models.AccountModels.BlockUserModel
+
+@{
+    ViewBag.USER = "active";
+    ViewBag.Title = "Thành viên bị cấm";
+}
+
+
+<div class="row account-block-user">
+    <div class="span12">
+        <div class="row">
+            <div class="span9">
+                <fieldset>
+                    <br />
+                    <br />
+                    <h1>THÀNH VIÊN BỊ CẤM</h1>
+                    <br />
+                    @if (Model != null)
+                    {
+                        <div class="row">
+                            <div class="alert alert-danger">
+                                <p>- @Model.ErrorMessage</p>
+                            </div>
+                            <div class="span9">
+                                @if (Model.IsForever || Model.ExpiredDate == null)
+                                {
+                                    <p>@Model.UserName đã bị cấm bởi @Model.Staff từ @Model.StartDate.ToString("HH:mm ngày dd/MM/yyyy") đến không thời hạn</p>   
+                                }
+                                else
+                                {
+                                    <p>@Model.UserName đã bị cấm bởi @Model.Staff từ @Model.StartDate.ToString("HH:mm ngày dd/MM/yyyy") đến @Model.ExpiredDate.ToString("HH:mm ngày dd/MM/yyyy")</p>
+                                }
+                                <p>Lý do: @Model.Reason</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span9">
+                                <br />
+                                <button type="button" onclick="window.location = '/Account/LogOut'" class="btn btn-primary btn-large book-now pull-right groupbtn">Đăng xuất</button>
+                                <br />
+                                <br />
+                            </div>
+                        </div>
+                        
+                    }
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>

@@ -42,7 +42,7 @@
 
 <div class="row stadiumstaff-create-promotion">
     <h1>THÊM KHUYẾN MÃI</h1>
-    <form action="AddPromotion" method="post" class="form-horizontal" enctype="multipart/form-data">
+    <form action="AddPromotion?stadium=@Request.QueryString["stadium"]" method="post" class="form-horizontal" enctype="multipart/form-data">
         <p>
              @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
              {

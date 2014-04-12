@@ -46,6 +46,14 @@ namespace FootballPitchesBooking.BusinessObjects
             return stadiumDAO.GetAllStadiums();
         }
 
+
+        public List<Stadium> GetStadiums(string name, string address)
+        {
+            StadiumDAO stadiumDAO = new StadiumDAO();
+            return stadiumDAO.GetStadiums(name, address);
+        }
+
+
         public List<Stadium> GetStadiumsOfOwner(string ownerName)
         {
             StadiumDAO stadiumDAO = new StadiumDAO();

@@ -11,10 +11,10 @@
 <table class="table table-condensed table-bordered table-hover">
     <thead>
         <tr>
-            <th>Tên Sân Bóng</th>
-            <th>Địa Chỉ</th>
-             <th>Ngày Hết Hạn</th>
-            <th>Trạng Thái</th>
+            <th>TÊN SÂN BÓNG</th>
+            <th>ĐỊA CHỈ</th>
+             <th>NGÀY HẾT HẠN</th>
+            <th>TRẠNG THÁI</th>
             <th></th>
         </tr>
     </thead>
@@ -27,11 +27,11 @@
                 <td>@item.ExpiredDate.ToShortDateString()</td>
                 @if (item.IsActive)
                 {
-                    <td>Đang Hoạt Động</td>
+                    <td>Đang hoạt động</td>
                 }
                 else
                 {
-                    <td>Không Hoạt Động</td>
+                    <td>Không hoạt động</td>
                 }
                 <td class="table-cell-action"><a href="/StadiumStaff/EditStadium?Id=@item.Id">Chỉnh Sửa</a> | <a href="/StadiumStaff/Fields?Stadium=@item.Id">Sân Con</a> | <a href="/StadiumStaff/FieldPrices?Stadium=@item.Id">Bảng Giá</a></td>
             </tr>

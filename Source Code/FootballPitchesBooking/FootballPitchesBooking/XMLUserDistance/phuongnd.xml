@@ -2,7 +2,7 @@
 <XMLUserDistance xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <UserId>2</UserId>
   <UserAddress>1 Tô Ký, Đông Hưng Thuận, Quận 12, Hồ Chí Minh</UserAddress>
-  <UpdateDate>4/8/2014</UpdateDate>
+  <UpdateDate>4/11/2014</UpdateDate>
   <StadiumsDistance>
     <StadiumDistance>
       <StadiumId>1</StadiumId>
@@ -31,7 +31,7 @@
     </StadiumDistance>
     <StadiumDistance>
       <StadiumId>11</StadiumId>
-      <StadiumAddress>44/5+Phạm+Văn+Chiêu,+9,+Q.+2</StadiumAddress>
+      <StadiumAddress>44/5+Phạm+Văn+Chiêu,+9,+Q.+Gò+Vấp</StadiumAddress>
       <Distance>3089</Distance>
     </StadiumDistance>
     <StadiumDistance>

@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_WebsiteStaffLayout.cshtml";
 }
 
-<h2>Quản Lý Người Sử Dụng</h2>
+<h2>QUẢN LÝ THÀNH VIÊN</h2>
 
 <link href="@Url.Content("~/Content/Bootstrap/bootstrap.css")" rel="stylesheet" type="text/css" />
 <br />
@@ -17,10 +17,10 @@
                 UpdateTargetId = "unobtrusive",
             }, new { @class = "form-inline" }))
         {
-            @Html.TextBox("keyWord", "", new { placeholder = "Tên đầy đủ hoặc Tên tài khoản" })
+            @Html.TextBox("keyWord", "", new { placeholder = "Tên đầy đủ hoặc tài khoản" })
             <button type="submit" class="btn" value="Search" style="width: 80px;">
                 Search</button>
-            @Html.ActionLink("Reload", "Users", "WebsiteStaff", null, new { @class = "btn", style = "width:54px" })
+            @Html.ActionLink("Xem tất cả", "Users", "WebsiteStaff", null, new { @class = "btn", style = "width:54px" })
         }   
     </div>
 </div>

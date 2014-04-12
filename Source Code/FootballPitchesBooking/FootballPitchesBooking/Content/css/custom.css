@@ -467,3 +467,8 @@ footer a
 {
     display: none !important;
 }
+
+button.btn.btn-normal, input[type="submit"].btn.btn-normal, input[type="button"].btn.btn-normal 
+{
+    width: auto !important;
+}
