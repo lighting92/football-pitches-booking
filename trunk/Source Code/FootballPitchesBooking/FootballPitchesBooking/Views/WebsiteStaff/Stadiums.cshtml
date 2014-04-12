@@ -18,11 +18,11 @@
     <table class="table table-bordered table-hover">
         <thead>
             <tr>
-                <th>Tên Sân Bóng</th>
-                <th>Địa Chỉ</th>
-                <th>Số Điện Thoại</th>
-                <th>Ngày Hết Hạn</th>
-                <th>Trạng Thái</th>
+                <th>TÊN SÂN BÓNG</th>
+                <th>ĐỊA CHỈ</th>
+                <th>SỐ ĐIỆN THOẠI</th>
+                <th>NGÀY HẾT HẠN</th>
+                <th>TRẠNG THÁI</th>
                 <th></th>
             </tr>
         </thead>
@@ -36,13 +36,13 @@
                     <td>@item.ExpiredDate.ToShortDateString()</td>
                     @if (item.IsActive)
                     {
-                        <td>Đang Hoạt Động</td>
+                        <td>Đang hoạt động</td>
                     }
                     else
                     {
-                        <td>Chưa Hoạt Động</td>
+                        <td>Không hoạt động</td>
                     }
-                    <td><a href="/WebsiteStaff/EditStadium?Id=@item.Id">Chỉnh Sửa</a></td>
+                    <td><a href="/WebsiteStaff/EditStadium?Id=@item.Id">Chỉnh sửa</a></td>
                 </tr>
             }
         </tbody>

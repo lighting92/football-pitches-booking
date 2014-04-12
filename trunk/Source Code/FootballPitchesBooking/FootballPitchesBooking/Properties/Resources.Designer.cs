@@ -106,6 +106,24 @@ namespace FootballPitchesBooking.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tài khoản này đang bị khoá.
+        /// </summary>
+        internal static string Login_BlockUser {
+            get {
+                return ResourceManager.GetString("Login_BlockUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tài khoản này không hoạt động.
+        /// </summary>
+        internal static string Login_InactiveUser {
+            get {
+                return ResourceManager.GetString("Login_InactiveUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mật khẩu không chính xác.
         /// </summary>
         internal static string Login_IncorrectPassword {

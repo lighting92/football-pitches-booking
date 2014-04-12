@@ -83,7 +83,7 @@ namespace FootballPitchesBooking.BusinessObjects
 
         /// <summary>
         /// Validate for login information of user.
-        /// Return 1 for valid info, -1 for user not available, -2 for incorrect password.
+        /// Return 1 for valid info, -1 for user not available, -2 for inactive user, -3 for incorrect password.
         /// </summary>
         /// <param name="loginUser"></param>
         /// <returns></returns>
@@ -91,15 +91,20 @@ namespace FootballPitchesBooking.BusinessObjects
         {
             UserDAO userDAO = new UserDAO();
             User user = userDAO.GetUserByUserName(loginUser.UserName);
+
             if (user != null)
             {
                 if (user.Password.Equals(loginUser.Password))
                 {
                     return 1;
                 }
-                else
+                else if (!user.IsActive)
                 {
                     return -2;
+                }
+                else
+                {
+                    return -3;
                 }
             }
             else
@@ -249,7 +254,7 @@ namespace FootballPitchesBooking.BusinessObjects
         }
 
         //View account profile
-        public User GetUserById(int userId) 
+        public User GetUserById(int userId)
         {
             UserDAO userDAO = new UserDAO();
             return userDAO.GetUserByUserId(userId);
@@ -340,12 +345,12 @@ namespace FootballPitchesBooking.BusinessObjects
             MemberRank existedMemberRankName = rankDAO.GetMemberRankByName(rank.RankName);
             MemberRank existedMemberRankPoint = rankDAO.GetMemberRankByPoint((int)rank.Point);
 
-            if (existedMemberRankName != null && existedMemberRankName.Id != rank.Id ) //check xem co trung ten voi rank nao ko
+            if (existedMemberRankName != null && existedMemberRankName.Id != rank.Id) //check xem co trung ten voi rank nao ko
             {
                 results.Add(-1);
             }
 
-            if (existedMemberRankPoint != null && existedMemberRankPoint.Id != rank.Id ) //check xem co cung point voi rank nao ko
+            if (existedMemberRankPoint != null && existedMemberRankPoint.Id != rank.Id) //check xem co cung point voi rank nao ko
             {
                 results.Add(-2);
             }
@@ -371,5 +376,38 @@ namespace FootballPitchesBooking.BusinessObjects
         }
 
 
+        public List<PunishMember> GetAllPunishingMember()
+        {
+            PunishMemberDAO punishDAO = new PunishMemberDAO();
+            return punishDAO.GetAllPunishingMember();
+        }
+
+
+        public PunishMember GetPunishMemberById(int id)
+        {
+            PunishMemberDAO punishDAO = new PunishMemberDAO();
+            return punishDAO.GetPunishMemberById(id);
+        }
+
+
+        public List<PunishMember> GetPunishsByUserId(int userId)
+        {
+            PunishMemberDAO punishDAO = new PunishMemberDAO();
+            return punishDAO.GetPunishsByUserId(userId);
+        }
+
+
+        public PunishMember GetPunishMemberByUserId(int userId)
+        {
+            PunishMemberDAO punishDAO = new PunishMemberDAO();
+            return punishDAO.GetPunishMemberByUserId(userId);
+        }
+
+
+        public PunishMember GetPunishMemberByUserName(string userName)
+        {
+            PunishMemberDAO punishDAO = new PunishMemberDAO();
+            return punishDAO.GetPunishMemberByUserName(userName);
+        }
     }
 }

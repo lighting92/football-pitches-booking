@@ -47,6 +47,12 @@ namespace FootballPitchesBooking.DataAccessObjects
             return db.Stadiums.ToList();
         }
 
+        public List<Stadium> GetStadiums(string name, string address)
+        {
+            FPBDataContext db = new FPBDataContext();
+            return db.Stadiums.Where(p => p.Name.Contains(name) && string.Concat(p.Street, ", ", p.Ward, ", ", p.District).Contains(address)).ToList();
+        }
+
         public int CreateStadium(Stadium stadium)
         {
             FPBDataContext db = new FPBDataContext();

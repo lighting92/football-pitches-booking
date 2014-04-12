@@ -213,4 +213,10 @@
   <data name="Ads_ExistingAdvertisement" xml:space="preserve">
     <value>Vị trí này đang tồn tại quảng cáo đang hoạt động</value>
   </data>
+  <data name="Login_BlockUser" xml:space="preserve">
+    <value>Tài khoản này đang bị khoá</value>
+  </data>
+  <data name="Login_InactiveUser" xml:space="preserve">
+    <value>Tài khoản này không hoạt động</value>
+  </data>
 </root>

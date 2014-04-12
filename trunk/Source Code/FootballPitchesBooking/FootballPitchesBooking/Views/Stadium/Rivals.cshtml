@@ -11,7 +11,7 @@
         @if (Model != null && Model.Count > 0)
         {
             <div class="row no-margin">
-                <form action="Rivals" method="post">
+                <form action="Rivals" method="post" class="form-horizontal" enctype="multipart/form-data">
                     <div class="span3 no-margin">
                         <label>
                             THỜI GIAN ĐÁ
@@ -43,7 +43,8 @@
                     <div class="span3 pull-right">
                         <label>
                             <br />
-                            <button type="submit" name="Search" class="btn btn-primary btn-large book-now pull-right groupbtn">TÌM KIẾM</button>
+                            <button type="submit" name="Search" class="btn book-now btn-normal groupbtn">Tìm kiếm</button>
+                            <button type="button" onclick="window.location = '/Stadium/Rivals'" class="btn book-now btn-normal groupbtn">Xem tất cả</button>
                         </label>
                     </div>
                 </form>
@@ -88,6 +89,10 @@
                     </tbody>
                 </table>
             </div>
+        }
+        else
+        {
+            <p>Hiện tại không có kèo nào trên hệ thống.</p>
         }
     </div>
 </div>

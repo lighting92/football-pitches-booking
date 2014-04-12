@@ -60,7 +60,7 @@
                 <form action="JoinRival?Id=@Request.QueryString["id"]" method="post">
                     <fieldset>
                         <br />
-                        <h1>THÔNG TIN CHI TIẾT CỦA KÈO</h1>
+                        <h1>THÔNG TIN CHI TIẾT KÈO ĐÁ BÓNG</h1>
                         <br />
                         @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
                         {
@@ -230,7 +230,7 @@
                         <div class="row">
                             <div class="span9 pull-right">
                                 <p>
-                                    <button class="btn btn-primary book-now pull-right groupbtn" type="button" onclick="window.location = '/StadiumStaff/Reservations'">Quay lại</button>
+                                    <button class="btn btn-primary book-now pull-right groupbtn" type="button" onclick="window.location = '/StadiumStaff/Reservations'">Huỷ bỏ</button>
                                     <button class="btn btn-primary book-now pull-right groupbtn" type="submit" id="joinRival" name="JoinRival">Cáp kèo</button>
                                 </p>
                             </div>

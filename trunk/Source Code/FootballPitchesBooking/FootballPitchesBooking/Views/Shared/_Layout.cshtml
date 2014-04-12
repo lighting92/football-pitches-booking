@@ -146,6 +146,10 @@
         @Html.Action("Advertise", "Home")
         <!-- end advertise -->
 
+        @if (ViewBag.Banned == "true")
+        {
+            //redirect to ~/Account/Block
+        }
         <!-- render content -->
         @RenderBody()
         <!-- end content -->

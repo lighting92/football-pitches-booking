@@ -2,25 +2,21 @@
 
 @{
     ViewBag.USER = "active";
-    ViewBag.Title = "Cập Nhật Thông Tin Cá Nhân";
+    ViewBag.Title = "Chỉnh Sửa Thông Tin Cá Nhân";
 }
-
-@*<h2>Cập Nhật Thông Tin Cá Nhân</h2>*@
 
 <script type="text/ecmascript">
     function check() {
         var flag = 0;
         var fullname = $("#txtFullN").val();
-        var password = $("#txtPass").val();
+        var password = $("#txtConfirmPassword").val();
         var phone = $("#txtPhone").val();
         var email = $("#txtMail").val();
         var reg = /^(\w+[\.])*\w+@@(\w+\.)+[a-zA-Z]+$/;
         var aln = /^[a-z|A-Z|0-9]*$/;
-        //var address = $("#txtAddress").val();
-        //var add = /^[a-zA-Z0-9-\/] ?([a-zA-Z0-9-\/]|[a-zA-Z0-9-\/] )*[a-zA-Z0-9-\/]$/;
 
         if (fullname == "" || fullname.length > 30) {
-            $("#FullName_Error").text("Yêu cầu phải từ 1 đến 30 kí tự");
+            $("#FullName_Error").text("Yêu cầu tên thành viên phải từ 1 đến 30 kí tự");
             $("#FullName_Error").css("display", "block");
             flag++;
 
@@ -30,8 +26,8 @@
             $("#FullName_Error").css("display", "none");
         }
 
-        if (password == "" || password.length < 6 || password.length > 32) {
-            $("#ErrorPass").text("Yêu cầu mật khầu từ 6 đến 32 kí tự");
+        if (password.length < 6 || password.length > 32) {
+            $("#ErrorPass").text("Yêu cầu mật khẩu từ 6 đến 32 kí tự");
             $("#ErrorPass").css("display", "block");
             flag++;
         }
@@ -50,29 +46,6 @@
             $("#Phone_Error").text(" ");
             $("#Phone_Error").css("display", "none");
         }
-
-        //if (address == "" || address.length < 2 || password.length > 32) {
-        //    $("#Address_Error").text("Yêu cầu địa chỉ từ 2 đến 32 kí tự");
-        //    $("#Address_Error").css("display", "block");
-        //    flag++;
-        //}
-
-        //else if (!add.test(address)) {
-        //    $("#Address_Error").text("Sai định dạng địa chỉ")
-        //    $("#Address_Error").css("display", "block");
-        //    flag++;
-        //}
-
-        //else if (!aln.test(address)) {
-        //    $("#Address_Error").text("Địa chỉ chỉ phải có chữ và số");
-        //    $("#Address_Error").css("display", "block");
-        //    flag++;
-        //}
-
-        //else {
-        //    $("#Address_Error").text(" ");
-        //    $("#Address_Error").css("display", "none");
-        //}
 
         if (!reg.test(email)) {
             $("#Email_Error").text("Email không đúng");
@@ -103,8 +76,7 @@
                 <form action="Edit" method="post">
                     <fieldset>
                         <br />
-                        <h1>CẬP NHẬT THÔNG TIN CÁ NHÂN
-                        </h1>
+                        <h1>CHỈNH SỬA THÔNG TIN CÁ NHÂN</h1>
                         <br />
                         @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
                         {
@@ -125,7 +97,7 @@
                             <div class="span3">
                                 <label>
                                     MẬT KHẨU
-                                    <input name="Password" id="txtPass" type="password" placeholder="Nhập mật khẩu" required="required" value="">
+                                    <input name="ConfirmPassword" id="txtConfirmPassword" type="password" placeholder="Nhập mật khẩu" required="required" value="">
                                     <div class="alert alert-danger" id="ErrorPass" style="display: none"></div>
                                 </label>
                             </div>
@@ -194,8 +166,8 @@
                         <div class="row">
                             <div class="span9">
                                 <br />
-                                <button type="button" onclick="window.location = '/Account'" class="btn btn-primary btn-large book-now pull-right groupbtn">QUAY VỀ</button>
-                                <button type="submit" name="Save" onclick="return check()" class="btn btn-primary btn-large book-now pull-right groupbtn">LƯU</button>
+                                <button type="button" onclick="window.location = '/Account'" class="btn btn-primary btn-large book-now pull-right groupbtn">Huỷ bỏ</button>
+                                <button type="submit" name="Save" onclick="return check()" class="btn btn-primary btn-large book-now pull-right groupbtn">Lưu</button>
                                 <br />
                                 <br />
                             </div>

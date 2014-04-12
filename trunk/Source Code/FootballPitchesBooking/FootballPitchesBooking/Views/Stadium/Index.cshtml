@@ -3,75 +3,101 @@
     ViewBag.STADIUM = "active";
     ViewBag.Title = "Sân Bóng";
 }
-
+<h2>HỆ THỐNG SÂN BÓNG</h2>
 <div class="row">
     <div class="span12">
         @if (Model.Stadiums != null && Model.Stadiums.Count > 0)
         {
-            <table class="table table-condensed table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th style="width: 150px;"></th>
-                        <th style="width: 150px;">TÊN SÂN BÓNG</th>
-                        <th>ĐỊA CHỈ</th>
-                        <th style="width: 120px;">SỐ ĐIỆN THOẠI</th>
-                        <th style="width: 90px;">ĐÁNH GIÁ</th>
-                        <th style="width: 50px;"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < Model.Stadiums.Count; i++)
-                    {
+            <div class="row" style="margin: 0 0 30px 0;">
+                <form action="Index" method="post" class="form-horizontal" enctype="multipart/form-data">
+                    <div class="span3 no-margin">
+                        <label>
+                            TÊN SÂN BÓNG
+                            <input name="StadiumName" id="StadiumName" type="text" placeholder="Tên sân bóng" value="">
+                        </label>
+                    </div>
+                    <div class="span3">
+                        <label>
+                            ĐỊA CHỈ
+                            <input name="StadiumAddress" id="StadiumAddress" type="text" placeholder="Địa chỉ sân bóng" value="">
+                        </label>
+                    </div>
+                    <div class="span3">
+                        <label>
+                            <br />
+                            <button type="submit" name="Search" class="btn book-now btn-normal groupbtn">Tìm kiếm</button>
+                            <button type="button" onclick="window.location = '/Stadium/Index'" class="btn book-now btn-normal groupbtn">Xem tất cả</button>
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="row no-margin">
+                <table class="table table-condensed table-bordered table-hover">
+                    <thead>
                         <tr>
-                            <td>
-                                @if (Model.Image[i] == null)
-                                {
-                                    <img src="~/Content/images/no-image.jpg" style="width: 150px; height: auto;" />
-                                }
-                                else
-                                {
-                                    <img src="~/Content/images/@Model.Image[i]" style="width: 150px; height: auto;" />
-                                }
-                            </td>
-                            <td><a href="/Stadium/Details/@Model.Stadiums[i].Id">@Model.Stadiums[i].Name</a></td>
-                            <td>@Model.Stadiums[i].Street, @Model.Stadiums[i].Ward, @Model.Stadiums[i].District</td>
-                            <td>@Model.Stadiums[i].Phone</td>
-                            <td class="rating-point">
-                                @for (int p = 0; p < (int)Model.Rate[i]; p++)
-                                {
-                                    <img src="~/Content/images/rating-star/100.png" />
-                                }
-                                @if (Model.Rate[i] - (int)Model.Rate[i] >= 0.75)
-                                {
-                                    <img src="~/Content/images/rating-star/75.png" />
-                                }
-                                else if (Model.Rate[i] - (int)Model.Rate[i] >= 0.50)
-                                {
-                                    <img src="~/Content/images/rating-star/50.png" />
-                                }
-                                else if (Model.Rate[i] - (int)Model.Rate[i] >= 0.25)
-                                {
-                                    <img src="~/Content/images/rating-star/25.png" />
-                                }
-                                else if (Model.Rate[i] - (int)Model.Rate[i] > 0.00)
-                                {
-                                    <img src="~/Content/images/rating-star/00.png" />
-                                }
-                                @for (int p = 1; p <= (5 - Model.Rate[i]); p++)
-                                {
-                                    <img src="~/Content/images/rating-star/00.png" />
-                                }
-                            </td>
-                            <td><a href="~/Stadium/Book?Stadium=@Model.Stadiums[i].Id"><button class="btn-small btn-success">Đặt sân</button></a></td>
+                            <th style="width: 150px;"></th>
+                            <th style="width: 150px;">TÊN SÂN BÓNG</th>
+                            <th>ĐỊA CHỈ</th>
+                            <th style="width: 110px;">SỐ ĐIỆN THOẠI</th>
+                            <th style="width: 90px;">ĐÁNH GIÁ</th>
+                            <th style="width: 70px;"></th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Stadiums.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    @if (Model.Image[i] == null)
+                                    {
+                                        <img src="~/Content/images/no-image.jpg" style="width: 150px; height: auto;" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Content/images/@Model.Image[i]" style="width: 150px; height: auto;" />
+                                    }
+                                </td>
+                                <td><a href="/Stadium/Details/@Model.Stadiums[i].Id">@Model.Stadiums[i].Name</a></td>
+                                <td>@Model.Stadiums[i].Street, @Model.Stadiums[i].Ward, @Model.Stadiums[i].District</td>
+                                <td>@Model.Stadiums[i].Phone</td>
+                                <td class="rating-point">
+                                    @for (int p = 0; p < (int)Model.Rate[i]; p++)
+                                    {
+                                        <img src="~/Content/images/rating-star/100.png" />
+                                    }
+                                    @if (Model.Rate[i] - (int)Model.Rate[i] >= 0.75)
+                                    {
+                                        <img src="~/Content/images/rating-star/75.png" />
+                                    }
+                                    else if (Model.Rate[i] - (int)Model.Rate[i] >= 0.50)
+                                    {
+                                        <img src="~/Content/images/rating-star/50.png" />
+                                    }
+                                    else if (Model.Rate[i] - (int)Model.Rate[i] >= 0.25)
+                                    {
+                                        <img src="~/Content/images/rating-star/25.png" />
+                                    }
+                                    else if (Model.Rate[i] - (int)Model.Rate[i] > 0.00)
+                                    {
+                                        <img src="~/Content/images/rating-star/00.png" />
+                                    }
+                                    @for (int p = 1; p <= (5 - Model.Rate[i]); p++)
+                                    {
+                                        <img src="~/Content/images/rating-star/00.png" />
+                                    }
+                                </td>
+                                <td><a href="~/Stadium/Book?Stadium=@Model.Stadiums[i].Id">
+                                    <button class="btn-small btn-success">Đặt sân</button></a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         }
         else
         {
             <p>Hiện tại không có sân bóng nào trên hệ thống.</p>
         }
-        
+
     </div>
 </div>

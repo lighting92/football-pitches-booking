@@ -348,14 +348,23 @@ namespace FootballPitchesBooking.Controllers
 
                     FormsAuthentication.SetAuthCookie(log.UserName, log.Remember);
 
-                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                    if (userBO.GetUserByUserName(loginUser.UserName).Role.Role1.Equals("BannedMember"))
                     {
-                        return Redirect(returnUrl);
+                        ViewBag.Banned = "true";
+                        return RedirectToAction("Block", "Home");
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        ViewBag.Banned = "false";
+                        if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+                        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                        {
+                            return Redirect(returnUrl);
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
                 }
                 else
@@ -366,6 +375,10 @@ namespace FootballPitchesBooking.Controllers
                         strResult = Resources.Login_IncorrectUserName;
                     }
                     else if (result == -2)
+                    {
+                        strResult = Resources.Login_InactiveUser;
+                    }
+                    else if (result == -3)
                     {
                         strResult = Resources.Login_IncorrectPassword;
                     }
@@ -383,6 +396,34 @@ namespace FootballPitchesBooking.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
+
+
+        public ActionResult Block()
+        {
+            try
+            {
+                UserBO userBO = new UserBO();
+                BlockUserModel model = new BlockUserModel();
+                model.ErrorMessage = Resources.Login_BlockUser;
+                model.UserName = User.Identity.Name;
+                PunishMember punish = userBO.GetPunishMemberByUserName(User.Identity.Name);
+                model.StartDate = Convert.ToDateTime(punish.Date);
+                if (punish.ExpiredDate != null)
+                {
+                    model.ExpiredDate = Convert.ToDateTime(punish.ExpiredDate);
+                }
+                model.IsForever = punish.IsForever != null ? true : false;
+                model.Reason = punish.Reason;
+                model.Staff = punish.User1.UserName;
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
 
         //
         // GET: /Account/Register
@@ -534,17 +575,17 @@ namespace FootballPitchesBooking.Controllers
             return Json(userNames);
         }
         [Authorize]
-        public ActionResult Profiles()
+        public ActionResult Profiles(int? id)
         {
             UserBO userBO = new UserBO();
             User user = new User();
             try
             {
-                user = userBO.GetUserByUserName(User.Identity.Name); 
+                user = userBO.GetUserById((int)id);
             }
             catch (Exception)
             {
-                return RedirectToAction("Index", "Home");
+                user = userBO.GetUserByUserName(User.Identity.Name);
             }
             if (user == null)
             {
@@ -609,7 +650,7 @@ namespace FootballPitchesBooking.Controllers
             Regex emailFormat = new Regex(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
             
             model.UserName = User.Identity.Name;
-            model.Password = form["Password"];
+            model.Password = form["ConfirmPassword"];
             model.Email = form["Email"];
             model.FullName = form["FullName"];
             model.Address = form["Address"];
@@ -696,8 +737,8 @@ namespace FootballPitchesBooking.Controllers
         {
             UserBO userBO = new UserBO();
             AccountModel model = new AccountModel();
-            model.Password = form["Password"];
-            model.ConfirmPassword = form["ConfirmPassword"];
+            model.Password = form["NewPassword"];
+            model.ConfirmPassword = form["ConfirmNewPassword"];
             model.ErrorMessages = new List<string>();
             string oldPassword = form["OldPassword"];
             User curUser = userBO.GetUserByUserName(User.Identity.Name);

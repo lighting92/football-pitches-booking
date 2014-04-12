@@ -142,8 +142,9 @@
     <Compile Include="DataAccessObjects\ConfigurationDAO.cs" />
     <Compile Include="DataAccessObjects\NotificationDAO.cs" />
     <Compile Include="DataAccessObjects\PriceTableDAO.cs" />
+    <Compile Include="DataAccessObjects\PunishMemberDAO.cs" />
     <Compile Include="DataAccessObjects\RecommendationDAO.cs" />
-    <Compile Include="DataAccessObjects\RivalDAO.cs" />
+    <Compile Include="Models\AccountModels\BlockUserModel.cs" />
     <Compile Include="Models\AccountModels\BookingHistoryModel.cs" />
     <Compile Include="Models\AccountModels\EditReservationModel.cs" />
     <Compile Include="DataAccessObjects\UserDistanceDAO.cs" />
@@ -482,6 +483,7 @@
     <Content Include="Views\WebsiteStaff\Reviews.cshtml" />
     <Content Include="Views\WebsiteStaff\Review.cshtml" />
     <Content Include="Views\Home\Advertise.cshtml" />
+    <Content Include="Views\Account\Block.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
