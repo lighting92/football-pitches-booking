@@ -156,10 +156,10 @@
                             <label>
                                 TRẠNG THÁI
                                     <select id="Status" name="Status" data-cur="@Model.Status" disabled="disabled">
-                                        <option value="Approved">Approved</option>
-                                        <option value="Denied">Denied</option>
-                                        <option value="Pending">Pending</option>
-                                        <option value="Canceled">Canceled</option>
+                                        <option value="Approved">Đã xác nhận</option>
+                                        <option value="Denied">Bị từ chối</option>
+                                        <option value="Pending">Đang chờ xét</option>
+                                        <option value="Canceled">Đã bị huỷ</option>
                                     </select>
                             </label>
                             <script type="text/javascript">
@@ -210,7 +210,7 @@
                         <div class="span3">
                             <label>
                                 TRẠNG THÁI
-                                    <select id="Status" name="Status" data-cur="@Model.Status" disabled="disabled">
+                                    <select id="RivalStatus" name="RivalStatus" data-cur="@Model.Status" disabled="disabled">
                                         <option value="Approved">Đã xác nhận</option>
                                         <option value="Denied">Bị từ chối</option>
                                         <option value="Pending">Đang chờ xét</option>
@@ -238,6 +238,7 @@
                                 <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/EditReservation?id=@Request.QueryString["id"]'">Chỉnh sửa</button>
                                 <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/Reservations'">Quay lại</button>
                             </p>
+                            <br />
                         </div>
                     </div>
                 </fieldset>

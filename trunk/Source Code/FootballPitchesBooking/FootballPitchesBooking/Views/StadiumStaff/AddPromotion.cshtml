@@ -44,26 +44,26 @@
     <h1>THÊM KHUYẾN MÃI</h1>
     <form action="AddPromotion?stadium=@Request.QueryString["stadium"]" method="post" class="form-horizontal" enctype="multipart/form-data">
         <p>
-             @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
-             {
-                 <div class="alert alert-danger">
-                     @foreach (var error in Model.ErrorMessages)
-                     {
-                         <p>- @error</p>
-                     }
-                 </div>
-             }
+            @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
+            {
+                <div class="alert alert-danger">
+                    @foreach (var error in Model.ErrorMessages)
+                    {
+                        <p>- @error</p>
+                    }
+                </div>
+            }
         </p>
         <p>
             <label for="Fields">SỐ SÂN</label>
             <select id="Fields" name="Fields">
-                @if(Model.Fields != null && Model.Fields.Count() > 0)
+                @if (Model.Fields != null && Model.Fields.Count() > 0)
                 {
-                    foreach(var item in Model.Fields)
+                    foreach (var item in Model.Fields)
                     {
                         if (item.IsActive)
                         {
-                            <option value="@item.Id">@item.Number</option>
+                    <option value="@item.Id">@item.Number</option>
                         }
                     }
                 }
@@ -97,7 +97,9 @@
             </script>
             <div class="alert alert-danger" id="Discount_Error" style="display: none"></div>
         </p>
-        <button class="btn btn-primary book-now groupbtn" type="submit" name="Save" onclick="return check()">Lưu</button>
-        <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/Promotions'">Hủy bỏ</button>
+        <p>
+            <button class="btn btn-primary book-now groupbtn" type="submit" name="Save" onclick="return check()">Lưu</button>
+            <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/Promotions'">Hủy bỏ</button>
+        </p>
     </form>
 </div>

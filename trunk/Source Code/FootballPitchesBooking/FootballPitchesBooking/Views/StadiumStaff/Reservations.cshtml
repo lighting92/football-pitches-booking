@@ -2,14 +2,14 @@
 
 @{
     ViewBag.RESERVATION = "active";
-    ViewBag.Title = "Quản lý đặt sân";
+    ViewBag.Title = "Quản lý đơn đặt sân";
     Layout = "~/Views/Shared/_StadiumStaffLayout.cshtml";
 }
 <div class="row">
     @if (Model.HavePermission)
     {
         <div class="span12">
-            <h1>QUẢN LÝ ĐẶT SÂN</h1>
+            <h1>QUẢN LÝ ĐƠN ĐẶT SÂN</h1>
             <h4>HỆ THỐNG SÂN <a href="/Stadium/Details?id=@Model.Stadium.Id">@Model.Stadium.Name</a> : <i>@Model.Stadium.Street, @Model.Stadium.Ward, @Model.Stadium.District</i></h4>
             <br />
             <div class="span3 no-margin">
@@ -28,10 +28,17 @@
                 }
             </div>
             <div class="span9">
-                <a href="/StadiumStaff/AddReservation?Stadium=@Model.Stadium.Id">
+                @if (Model.FieldCount > 0)
+                {
+                    <a href="/StadiumStaff/AddReservation?Stadium=@Model.Stadium.Id">
                     <button class="btn btn-primary btn-large book-now groupbtn no-margin">Thêm đơn đặt sân</button></a>
-                <br />
-                <br />
+                    <br />
+                    <br />
+                }
+                else
+                {
+                    <p>Bạn cần thêm sân con cho sân bóng trước khi tạo đơn đặt sân.</p>
+                }
 
                 @if (Model.Reservations != null && Model.Reservations.Count > 0)
                 {
@@ -84,7 +91,7 @@
                 }
                 else
                 {
-                    <h3>Hiện tại không có đơn đặt sân nào cho sân bóng này.</h3>
+                    <p>Hiện tại không có đơn đặt sân nào cho sân bóng này.</p>
                 }
             </div>
         </div>

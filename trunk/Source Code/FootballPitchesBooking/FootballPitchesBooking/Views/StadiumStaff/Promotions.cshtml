@@ -9,7 +9,7 @@
     @if (Model.HavePermission)
     {
         <div class="span12">
-            <h1>QUẢN LÝ ĐẶT SÂN</h1>
+            <h1>QUẢN LÝ KHUYẾN MÃI</h1>
             <h4>HỆ THỐNG SÂN <a href="/StadiumStaff/Fields?Stadium=@Model.Stadium.Id">@Model.Stadium.Name</a> : <i>@Model.Stadium.Street, @Model.Stadium.Ward, @Model.Stadium.District</i></h4>
             <br />
             <div class="span3 no-margin">
@@ -28,11 +28,17 @@
                 }
             </div>
             <div class="span9">
+                @if (Model.FieldCount > 0)
+                {
                 <a href="/StadiumStaff/AddPromotion?Stadium=@Model.Stadium.Id">
                     <button class="btn btn-primary btn-large book-now groupbtn no-margin">Thêm khuyến mãi</button></a>
-                <br />
-                <br />
-
+                    <br />
+                    <br />
+                }
+                else
+                {
+                    <p>Bạn cần thêm sân con cho sân bóng trước khi tạo khuyến mãi.</p>
+                }
 
                 @if (Model.Promotions != null && Model.Promotions.Count > 0)
                 {
