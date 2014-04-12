@@ -120,7 +120,7 @@ namespace FootballPitchesBooking.Controllers
                 model.FieldNumber = res.Field.Number;
                 model.FieldType = res.Field.FieldType.ToString();
                 model.Price = res.Price.ToString();
-                model.Discount = res.Discount.HasValue?res.Discount.ToString():"0";
+                model.Discount = res.Discount.HasValue ? res.Discount.ToString() : "0";
                 model.VerifyCode = res.VerifyCode;
                 model.CreateDate = res.CreatedDate.ToShortDateString();
                 model.Status = res.Status;
@@ -229,11 +229,11 @@ namespace FootballPitchesBooking.Controllers
         [Authorize]
         public ActionResult CancelReservation(int id)
         {
-            ReservationBO resBO = new ReservationBO();            
+            ReservationBO resBO = new ReservationBO();
             var res = resBO.GetReservationById(id);
             var model = new EditReservationModel();
             if (res.User.UserName.ToLower().Equals(User.Identity.Name.ToLower()))
-            {                
+            {
                 model.HavePermission = true;
                 model.CanModify = true;
                 var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "SE Asia Standard Time");
@@ -351,7 +351,7 @@ namespace FootballPitchesBooking.Controllers
                     if (userBO.GetUserByUserName(loginUser.UserName).Role.Role1.Equals("BannedMember"))
                     {
                         ViewBag.Banned = "true";
-                        return RedirectToAction("Block", "Home");
+                        return RedirectToAction("Block", "Account");
                     }
                     else
                     {
@@ -403,20 +403,30 @@ namespace FootballPitchesBooking.Controllers
             try
             {
                 UserBO userBO = new UserBO();
-                BlockUserModel model = new BlockUserModel();
-                model.ErrorMessage = Resources.Login_BlockUser;
-                model.UserName = User.Identity.Name;
                 PunishMember punish = userBO.GetPunishMemberByUserName(User.Identity.Name);
-                model.StartDate = Convert.ToDateTime(punish.Date);
-                if (punish.ExpiredDate != null)
-                {
-                    model.ExpiredDate = Convert.ToDateTime(punish.ExpiredDate);
-                }
-                model.IsForever = punish.IsForever != null ? true : false;
-                model.Reason = punish.Reason;
-                model.Staff = punish.User1.UserName;
 
-                return View(model);
+                BlockUserModel model = null;
+
+                if (punish != null)
+                {
+                    model = new BlockUserModel();
+                    model.ErrorMessage = Resources.Login_BlockUser;
+                    model.UserName = User.Identity.Name;
+                    model.StartDate = Convert.ToDateTime(punish.Date);
+                    model.ExpiredDate = punish.ExpiredDate;
+                    model.IsForever = punish.IsForever != null ? true : false;
+                    model.Reason = punish.Reason;
+                    model.Staff = punish.User1.UserName;
+                }
+
+                if (User.IsInRole("BannedMember"))
+                {
+                    return View(model);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
             catch (Exception)
             {
@@ -480,7 +490,7 @@ namespace FootballPitchesBooking.Controllers
 
             if (reg.PhoneNumber.Length < 6 || reg.PhoneNumber.Length > 20)
             {
-                reg.ErrorMessages.Add(Resources.Reg_PhoneNumberNotInLenght  );
+                reg.ErrorMessages.Add(Resources.Reg_PhoneNumberNotInLenght);
             }
 
             if (!alphanumeric.IsMatch(reg.UserName))
@@ -648,7 +658,7 @@ namespace FootballPitchesBooking.Controllers
             AccountModel model = new AccountModel();
             Regex alphanumeric = new Regex(@"^[a-z|A-Z|0-9]*$");
             Regex emailFormat = new Regex(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
-            
+
             model.UserName = User.Identity.Name;
             model.Password = form["ConfirmPassword"];
             model.Email = form["Email"];
@@ -657,7 +667,7 @@ namespace FootballPitchesBooking.Controllers
             model.PhoneNumber = form["PhoneNumber"];
             model.ErrorMessages = new List<string>();
 
-           
+
             if (string.IsNullOrWhiteSpace(model.Email) || string.IsNullOrWhiteSpace(model.FullName) || string.IsNullOrWhiteSpace(model.Address)
                 || string.IsNullOrWhiteSpace(model.PhoneNumber))
             {
@@ -681,7 +691,7 @@ namespace FootballPitchesBooking.Controllers
 
             try
             {
-                
+
             }
             catch (Exception)
             {
@@ -759,7 +769,7 @@ namespace FootballPitchesBooking.Controllers
             }
 
             if (model.ErrorMessages.Count == 0)
-                {
+            {
                 User user = new User()
                     {
                         Id = curUser.Id,
@@ -769,19 +779,19 @@ namespace FootballPitchesBooking.Controllers
                 int result = userBO.ChangePassword(user);
 
                 if (result > 0)
-                    {
-                        return RedirectToAction("Profiles", "Account");
-                    }
-                else if (result == 0)
-                    {
-                        model.ErrorMessages.Add(Resources.DB_Exception);
-                    }
-                else if (result == -1)
-                    {
-                        model.ErrorMessages.Add(Resources.Login_IncorrectPassword);
-                    }
+                {
+                    return RedirectToAction("Profiles", "Account");
                 }
-                return View(model);            
+                else if (result == 0)
+                {
+                    model.ErrorMessages.Add(Resources.DB_Exception);
+                }
+                else if (result == -1)
+                {
+                    model.ErrorMessages.Add(Resources.Login_IncorrectPassword);
+                }
+            }
+            return View(model);
         }
     }
 }

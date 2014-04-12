@@ -146,10 +146,11 @@
         @Html.Action("Advertise", "Home")
         <!-- end advertise -->
 
-        @if (ViewBag.Banned == "true")
+        @if (User.IsInRole("BannedMember") && !Request.RawUrl.Equals("/Account/Block"))
         {
-            //redirect to ~/Account/Block
+            Response.Redirect("~/Account/Block");
         }
+
         <!-- render content -->
         @RenderBody()
         <!-- end content -->

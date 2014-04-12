@@ -15,33 +15,33 @@
                     <br />
                     <h1>THÀNH VIÊN BỊ CẤM</h1>
                     <br />
-                    @if (Model != null)
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("BannedMember"))
                     {
-                        <div class="row">
-                            <div class="alert alert-danger">
-                                <p>- @Model.ErrorMessage</p>
-                            </div>
+                    <div class="row">
+                        @if (Model != null)
+                        {
                             <div class="span9">
                                 @if (Model.IsForever || Model.ExpiredDate == null)
                                 {
-                                    <p>@Model.UserName đã bị cấm bởi @Model.Staff từ @Model.StartDate.ToString("HH:mm ngày dd/MM/yyyy") đến không thời hạn</p>   
+                                    <p style="font-size: 16px; color: #B81007;"><b>@Model.UserName</b> đã bị cấm bởi <b>@Model.Staff</b> từ @Model.StartDate.ToString("HH:mm ngày dd/MM/yyyy") đến không thời hạn</p>   
                                 }
                                 else
                                 {
-                                    <p>@Model.UserName đã bị cấm bởi @Model.Staff từ @Model.StartDate.ToString("HH:mm ngày dd/MM/yyyy") đến @Model.ExpiredDate.ToString("HH:mm ngày dd/MM/yyyy")</p>
+                                    <p style="font-size: 16px; color: #B81007;"><b>@Model.UserName</b> đã bị cấm bởi <b>@Model.Staff</b> từ @Model.StartDate.ToString("HH:mm ngày dd/MM/yyyy") đến @(Convert.ToDateTime(Model.ExpiredDate).ToString("HH:mm ngày dd/MM/yyyy"))</p>
                                 }
                                 <p>Lý do: @Model.Reason</p>
                             </div>
-                        </div>
-                        <div class="row">
+                        }
+                        else
+                        {
                             <div class="span9">
-                                <br />
-                                <button type="button" onclick="window.location = '/Account/LogOut'" class="btn btn-primary btn-large book-now pull-right groupbtn">Đăng xuất</button>
-                                <br />
-                                <br />
+                                    <p style="font-size: 16px; color: #B81007;"><b>@User.Identity.Name</b> đã bị cấm không thời hạn</p>
                             </div>
-                        </div>
-                        
+                        }
+                        <div class="span9">
+                                    <p>Nhấn vào <a href="/Account/Logout">đây</a> để đăng xuất tài khoản</p>
+                            </div>
+                    </div>
                     }
                 </fieldset>
             </div>
