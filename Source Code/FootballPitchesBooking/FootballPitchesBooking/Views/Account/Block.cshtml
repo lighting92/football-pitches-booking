@@ -21,13 +21,13 @@
                         @if (Model != null)
                         {
                             <div class="span9">
-                                @if (Model.IsForever || Model.ExpiredDate == null)
+                                @if (Model.IsForever || Model.ExpiredDate < DateTime.Now)
                                 {
-                                    <p style="font-size: 16px; color: #B81007;"><b>@Model.UserName</b> đã bị cấm bởi <b>@Model.Staff</b> từ @Model.StartDate.ToString("HH:mm ngày dd/MM/yyyy") đến không thời hạn</p>   
+                                    <p style="font-size: 16px; color: #B81007;"><b>@Model.UserName</b> đã bị cấm bởi <b>@Model.Staff</b> từ @Model.StartDate.ToString("HH:mm") ngày @Model.StartDate.ToString("dd/MM/yyyy") đến không thời hạn</p>   
                                 }
                                 else
                                 {
-                                    <p style="font-size: 16px; color: #B81007;"><b>@Model.UserName</b> đã bị cấm bởi <b>@Model.Staff</b> từ @Model.StartDate.ToString("HH:mm ngày dd/MM/yyyy") đến @(Convert.ToDateTime(Model.ExpiredDate).ToString("HH:mm ngày dd/MM/yyyy"))</p>
+                                    <p style="font-size: 16px; color: #B81007;"><b>@Model.UserName</b> đã bị cấm bởi <b>@Model.Staff</b> từ @Model.StartDate.ToString("HH:mm") ngày @Model.StartDate.ToString("dd/MM/yyyy") đến @Model.ExpiredDate.ToString("HH:mm") ngày @Model.ExpiredDate.ToString("dd/MM/yyyy")</p>
                                 }
                                 <p>Lý do: @Model.Reason</p>
                             </div>
