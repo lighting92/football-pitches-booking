@@ -413,8 +413,8 @@ namespace FootballPitchesBooking.Controllers
                     model.ErrorMessage = Resources.Login_BlockUser;
                     model.UserName = User.Identity.Name;
                     model.StartDate = Convert.ToDateTime(punish.Date);
-                    model.ExpiredDate = punish.ExpiredDate;
-                    model.IsForever = punish.IsForever != null ? true : false;
+                    model.ExpiredDate = punish.ExpiredDate != null ? Convert.ToDateTime(punish.ExpiredDate) : new DateTime(0, 0, 0, 0, 0, 0);
+                    model.IsForever = punish.IsForever != null ? (bool)punish.IsForever : false;
                     model.Reason = punish.Reason;
                     model.Staff = punish.User1.UserName;
                 }
