@@ -765,7 +765,7 @@ namespace FootballPitchesBooking.Controllers
         [HttpPost]
         public ActionResult Rivals(FormCollection form)
         {
-            DateTime date = new DateTime(0, 0, 0, 0, 0, 0, 0);
+            DateTime date = new DateTime(1, 1, 1, 0, 0, 0);
             try
             {
                 DateTime.Parse(form["Date"], new CultureInfo("vi-VN"));
