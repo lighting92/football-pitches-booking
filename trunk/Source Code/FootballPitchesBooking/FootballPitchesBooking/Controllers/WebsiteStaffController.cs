@@ -849,7 +849,6 @@ namespace FootballPitchesBooking.Controllers
         #region ADVERTISEMENT MANAGEMENT
 
 
-        [Authorize(Roles = "WebsiteMaster")]
         public ActionResult Advertisements(int? stadium)
         {
             WebsiteBO webBO = new WebsiteBO();
@@ -864,7 +863,6 @@ namespace FootballPitchesBooking.Controllers
         }
 
 
-        [Authorize(Roles = "WebsiteMaster")]
         [HttpPost]
         public ActionResult AddAdvertisement(FormCollection form)
         {
@@ -933,7 +931,6 @@ namespace FootballPitchesBooking.Controllers
         }
 
 
-        [Authorize(Roles = "WebsiteMaster")]
         public ActionResult EditAdvertisement(int? id)
         {
             WebsiteBO webBO = new WebsiteBO();
@@ -966,7 +963,6 @@ namespace FootballPitchesBooking.Controllers
         }
 
 
-        [Authorize(Roles = "WebsiteMaster")]
         [HttpPost]
         public ActionResult EditAdvertisement(FormCollection form, int id)
         {
@@ -1102,7 +1098,6 @@ namespace FootballPitchesBooking.Controllers
         #region STADIUM REVIEW
 
 
-        [Authorize(Roles = "WebsiteMaster")]
         public ActionResult Reviews()
         {
             StadiumBO stadiumBO = new StadiumBO();
@@ -1111,7 +1106,6 @@ namespace FootballPitchesBooking.Controllers
         }
 
 
-        [Authorize(Roles = "WebsiteMaster")]
         public ActionResult Review(int? id)
         {
             try
@@ -1127,7 +1121,6 @@ namespace FootballPitchesBooking.Controllers
         }
 
 
-        [Authorize(Roles = "WebsiteMaster")]
         public ActionResult ApproveReview(int? id)
         {
             try
@@ -1143,7 +1136,6 @@ namespace FootballPitchesBooking.Controllers
         }
 
 
-        [Authorize(Roles = "WebsiteMaster")]
         public ActionResult DeleteReview(int? id)
         {
             try
