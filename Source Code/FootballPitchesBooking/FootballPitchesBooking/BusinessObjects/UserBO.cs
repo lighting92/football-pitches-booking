@@ -13,6 +13,18 @@ namespace FootballPitchesBooking.BusinessObjects
         MemberRankDAO rankDAO = new MemberRankDAO();
 
 
+        public List<User> GetAllUsers()
+        {
+            return userDAO.GetAllUsers();
+        }
+
+
+        public List<User> GetUsers(string keyword)
+        {
+            return userDAO.GetUsers(keyword);
+        }
+
+
         /// <summary>
         /// Create user. Return a list result for validating.
         /// Return a positive integer (id of new user) for success proccess, 0 for exception, 
@@ -113,87 +125,13 @@ namespace FootballPitchesBooking.BusinessObjects
             }
         }
 
+
         public User GetUserByUserName(string userName)
         {
             UserDAO userDAO = new UserDAO();
             return userDAO.GetUserByUserName(userName);
         }
 
-        public List<User> ToList(ref List<NoModel> noList, int? page, string keyWord = "", string column = "", string sort = "")
-        {
-            // User list.
-            var users = userDAO.Select();
-
-            // Search by key word.
-            if (keyWord.Equals(""))
-            {
-                users = users.OrderBy(u => u.Id).ToList();
-            }
-            else
-            {
-                users = users.Where(u => (u.FullName.ToLower().Contains(keyWord.ToLower()) || u.UserName.ToLower().Contains(keyWord.ToLower()))).OrderBy(u => u.Id).ToList();
-            }
-
-            // Sort by sort type and solumn name.
-            switch (column + sort)
-            {
-                case "NoAsc":
-                    users = users.OrderBy(u => u.Id).ToList();
-                    break;
-                case "NoDesc":
-                    users = users.OrderByDescending(u => u.Id).ToList();
-                    break;
-                case "UserNameAsc":
-                    users = users.OrderBy(u => u.UserName).ToList();
-                    break;
-                case "UserNameDesc":
-                    users = users.OrderByDescending(u => u.UserName).ToList();
-                    break;
-                case "FullNameAsc":
-                    users = users.OrderBy(u => u.FullName).ToList();
-                    break;
-                case "FullNameDesc":
-                    users = users.OrderByDescending(u => u.FullName).ToList();
-                    break;
-                case "EmailAsc":
-                    users = users.OrderBy(u => u.Email).ToList();
-                    break;
-                case "EmailDesc":
-                    users = users.OrderByDescending(u => u.Email).ToList();
-                    break;
-                case "RoleAsc":
-                    users = users.OrderBy(u => u.RoleId).ToList();
-                    break;
-                case "RoleDesc":
-                    users = users.OrderByDescending(u => u.RoleId).ToList();
-                    break;
-                case "JoinDateAsc":
-                    users = users.OrderBy(u => u.JoinDate).ToList();
-                    break;
-                case "JoinDateDesc":
-                    users = users.OrderByDescending(u => u.JoinDate).ToList();
-                    break;
-                case "IsActiveAsc":
-                    users = users.OrderBy(u => u.IsActive).ToList();
-                    break;
-                case "IsActiveDesc":
-                    users = users.OrderByDescending(u => u.IsActive).ToList();
-                    break;
-            }
-
-            // Generate no. List.
-            foreach (var u in users)
-            {
-                noList.Add(new NoModel { Id = u.Id });
-            }
-            noList = noList.OrderBy(n => n.Id).ToList();
-            for (int i = 0; i < noList.Count; i++)
-            {
-                noList[i].No = i + 1;
-            }
-
-            return users;
-        }
 
         public List<MemberRank> ToListMR(ref List<NoModel> noList, int? page, string keyWord = "", string column = "", string sort = "")
         {
@@ -262,21 +200,21 @@ namespace FootballPitchesBooking.BusinessObjects
 
 
         //Get all role 
-        public List<Role> getAllRole()
+        public List<Role> GetAllRoles()
         {
             RoleDAO roleDAO = new RoleDAO();
             return roleDAO.GetAllRoles();
         }
 
         //Get role name
-        public Role getRoleName(int roleId)
+        public Role GetRoleName(int roleId)
         {
             RoleDAO roleDAO = new RoleDAO();
             return roleDAO.GetRoleNameById(roleId);
         }
 
         //Update role
-        public int updateRole(int userID, int roleId)
+        public int UpdateRole(int userID, int roleId)
         {
             RoleDAO roleDAO = new RoleDAO();
             return roleDAO.UpdateRole(roleId, roleId);
@@ -287,7 +225,7 @@ namespace FootballPitchesBooking.BusinessObjects
         public string[] GetAllUserName()
         {
             UserDAO userDAO = new UserDAO();
-            var userNames = userDAO.GetAllUser().Select(u => u.UserName).ToArray();
+            var userNames = userDAO.GetAllUsers().Select(u => u.UserName).ToArray();
             return userNames;
         }
 

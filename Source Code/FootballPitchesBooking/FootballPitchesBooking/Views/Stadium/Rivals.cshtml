@@ -8,7 +8,7 @@
 
 <div class="row">
     <div class="span12">
-        @if (Model != null && Model.Count > 0)
+        @if (Model != null)
         {
             <div class="row no-margin">
                 <form action="Rivals" method="post" class="form-horizontal" enctype="multipart/form-data">
@@ -49,46 +49,53 @@
                     </div>
                 </form>
             </div>
-            <div class="row no-margin">
-                <table class="table table-condensed table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th>TÊN SÂN BÓNG</th>
-                            <th>ĐỊA CHỈ</th>
-                            <th>LOẠI SÂN</th>
-                            <th>CHỦ KÈO</th>
-                            <th>THỜI GIAN ĐÁ</th>
-                            <th>THỜI LƯỢNG</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
+            if (Model.Count > 0)
+            {
+                <div class="row no-margin">
+                    <table class="table table-condensed table-bordered table-hover">
+                        <thead>
                             <tr>
-                                <td>@item.Field.Stadium.Name</td>
-                                <td>@item.Field.Stadium.Street, @item.Field.Stadium.Ward, @item.Field.Stadium.District</td>
-                                <td>Sân @item.Field.FieldType người</td>
-                                @if (item.User != null)
-                                {
-                                    <td>@item.User.UserName</td>
-                                }
-                                else
-                                {
-                                    <td>@item.FullName</td> 
-                                }
-                                <td>
-                                    @((int)item.StartTime):@(((int)(item.StartTime - (int)item.StartTime) * 60).ToString("00")) - @item.Date.ToString("dd/MM/yyyy")
-                                </td>
-                                <td>
-                                    @(item.Duration * 60) phút
-                                </td>
-                                <td class="table-cell-action"><a href="/Stadium/JoinRival?Id=@item.Id">Chi tiết</a></td>
+                                <th>TÊN SÂN BÓNG</th>
+                                <th>ĐỊA CHỈ</th>
+                                <th>LOẠI SÂN</th>
+                                <th>CHỦ KÈO</th>
+                                <th>THỜI GIAN ĐÁ</th>
+                                <th>THỜI LƯỢNG</th>
+                                <th></th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Field.Stadium.Name</td>
+                                    <td>@item.Field.Stadium.Street, @item.Field.Stadium.Ward, @item.Field.Stadium.District</td>
+                                    <td>Sân @item.Field.FieldType người</td>
+                                    @if (item.User != null)
+                                    {
+                                        <td>@item.User.UserName</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.FullName</td> 
+                                    }
+                                <td>
+                                        @((int)item.StartTime):@(((int)(item.StartTime - (int)item.StartTime) * 60).ToString("00")) - @item.Date.ToString("dd/MM/yyyy")
+                                </td>
+                                    <td>
+                                        @(item.Duration * 60) phút
+                                    </td>
+                                    <td class="table-cell-action"><a href="/Stadium/JoinRival?Id=@item.Id">Chi tiết</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <p>Không có kèo nào được tìm thấy.</p>
+            }
         }
         else
         {
