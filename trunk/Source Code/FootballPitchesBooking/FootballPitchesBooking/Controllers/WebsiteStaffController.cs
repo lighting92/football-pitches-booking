@@ -358,37 +358,27 @@ namespace FootballPitchesBooking.Controllers
         //
         // GET: /WebsiteStaff/Users
 
-        public ActionResult Users(int? page, string keyWord = "", string column = "", string sort = "")
+        public ActionResult Users()
         {
+            List<User> users = new List<User>();
+            string keyword = null;
             try
             {
-                // No. list.
-                var noList = new List<NoModel>();
-
-                // User list.
-                List<User> users = userBO.ToList(ref noList, page, keyWord, column, sort);
-
-                // Sort states.
-                ViewBag.KeyWord = keyWord;
-                ViewBag.Page = page;
-                ViewBag.Column = column;
-                ViewBag.Sort = sort;
-                ViewBag.NoList = noList;
-
-                // Return.
-                var pageNumber = page ?? 1;
-                // Set number of member in one page
-                var onePageOfUsers = users.ToPagedList(pageNumber, 10);
-                ViewBag.onePageOfUsers = onePageOfUsers;
-                return Request.IsAjaxRequest()
-                    ? (ActionResult)PartialView("_List")
-                    : View();
+                keyword = Request.QueryString["Search"];
             }
             catch (Exception)
             {
-                // Wrtite to log file.
-                return RedirectToAction("Users", "Error", new { Area = "" });
+                return RedirectToAction("Users", "WebsiteStaff");
             }
+            if (string.IsNullOrWhiteSpace(keyword))
+            {
+                users = userBO.GetAllUsers();
+            }
+            else
+            {
+                users = userBO.GetUsers(keyword);
+            }
+            return View(users);
         }
 
         public ActionResult EditUser(int? id)
@@ -418,7 +408,7 @@ namespace FootballPitchesBooking.Controllers
                 Point = user.Point,
                 IsActive = user.IsActive,
                 RoleId = (int)user.RoleId,
-                Roles = userBO.getAllRole(),
+                Roles = userBO.GetAllRoles(),
                 ErrorMessages = new List<string>()
             };
             return View(model);
@@ -546,7 +536,7 @@ namespace FootballPitchesBooking.Controllers
             model.FullName = usr.FullName;
             model.Address = usr.Address;
             model.RankName = usr.MemberRank.RankName;
-            model.Roles = userBO.getAllRole();
+            model.Roles = userBO.GetAllRoles();
 
             return View(model);
         }

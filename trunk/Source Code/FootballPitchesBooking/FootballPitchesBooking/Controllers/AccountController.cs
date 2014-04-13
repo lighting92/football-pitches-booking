@@ -566,7 +566,7 @@ namespace FootballPitchesBooking.Controllers
             int roleId = 0;
             int.TryParse(form["Role"], out roleId);
             UserBO userBO = new UserBO();
-            if (userBO.updateRole(userId, roleId) > 0)
+            if (userBO.UpdateRole(userId, roleId) > 0)
             {
                 return RedirectToAction("Users", "WebsiteStaff");
             }

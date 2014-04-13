@@ -48,28 +48,18 @@ namespace FootballPitchesBooking.DataAccessObjects
             }
         }
 
-        public List<User> GetAllUser()
+
+        public List<User> GetAllUsers()
         {
             return db.Users.ToList();
         }
 
-        /// <summary>
-        /// Select all User in db
-        /// </summary>
-        /// <returns>List Users</returns>
 
-        public List<User> Select()
+        public List<User> GetUsers(string keyword)
         {
-            try
-            {
-                var users = db.Users.ToList();
-                return users;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+            return db.Users.Where(u => u.UserName.Contains(keyword) || u.FullName.Contains(keyword)).OrderBy(u => u.Id).ToList();
         }
+
 
         public int UpdateUserRole(int userId, int roleId)
         {

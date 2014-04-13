@@ -44,6 +44,10 @@ namespace FootballPitchesBooking.Controllers
                     model.Image.Add(null);
                 }
             }
+            if (model.Stadiums.Count == 0)
+            {
+                model = null;
+            }
             return View(model);
         }
 
@@ -749,6 +753,11 @@ namespace FootballPitchesBooking.Controllers
             ReservationBO resvBO = new ReservationBO();
 
             List<Reservation> rivalList = resvBO.GetReservationsNeedRival();
+
+            if (rivalList.Count == 0)
+            {
+                rivalList = null;
+            }
 
             return View(rivalList);
         }
