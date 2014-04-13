@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Users";
+    ViewBag.Title = "Quản Lý Thành Viên";
     ViewBag.MEMBER = "active";
     Layout = "~/Views/Shared/_WebsiteStaffLayout.cshtml";
 }
@@ -19,7 +19,7 @@
         {
             @Html.TextBox("keyWord", "", new { placeholder = "Tên đầy đủ hoặc tài khoản" })
             <button type="submit" class="btn" value="Search" style="width: 80px;">
-                Search</button>
+                Tìm kiếm</button>
             @Html.ActionLink("Xem tất cả", "Users", "WebsiteStaff", null, new { @class = "btn", style = "width:54px" })
         }   
     </div>
