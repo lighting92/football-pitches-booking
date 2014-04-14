@@ -299,7 +299,14 @@ namespace FootballPitchesBooking.Controllers
 
         public ActionResult Login()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Profiles", "Account");
+            }
+            else
+            {
+                return View();
+            }
         }
 
         //
@@ -438,7 +445,11 @@ namespace FootballPitchesBooking.Controllers
 
         public ActionResult Register(string id)
         {
-            if (!string.IsNullOrEmpty(id))
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Profiles", "Account");
+            }
+            else if (!string.IsNullOrEmpty(id))
             {
                 try
                 {
