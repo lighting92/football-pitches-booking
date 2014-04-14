@@ -90,18 +90,25 @@ namespace FootballPitchesBooking.BusinessObjects
         }
 
 
-        public int SendEmail(string toEmail, string content)
+        public int SendEmail(string toEmail, string content, string subject, bool isHTML)
         {
             SmtpSection cfg = (SmtpSection)ConfigurationManager.GetSection("system.net/mailSettings/smtp");
             try
             {
                 using (MailMessage mail = new MailMessage())
                 {
-                    mail.From = new MailAddress(cfg.Network.UserName, "Hệ thống đặt sân bóng đá FPB");
-                    mail.To.Add(toEmail);
-                    mail.Subject = "Thông tin tài khoản của bạn tại hệ thống đặt sân bóng đá FPB";
+                    mail.From = new MailAddress(cfg.Network.UserName, "Đặt sân bóng đá FPB");
+                    if (toEmail != null)
+                    {
+                        mail.To.Add(toEmail);
+                    }
+                    else
+                    {
+                        mail.To.Add(cfg.Network.UserName);
+                    }
+                    mail.Subject = subject;
                     mail.Body = content;
-                    mail.IsBodyHtml = true;
+                    mail.IsBodyHtml = isHTML;
                     SmtpClient client = new SmtpClient();
                     client.Credentials = new NetworkCredential(cfg.Network.UserName, cfg.Network.Password);
                     client.Host = cfg.Network.Host;

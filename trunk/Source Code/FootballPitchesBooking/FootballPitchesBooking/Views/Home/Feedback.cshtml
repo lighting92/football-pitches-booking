@@ -1,0 +1,72 @@
+﻿@model FootballPitchesBooking.Models.HomeModels.FeedbackModel
+@{
+    ViewBag.Title = "Góp Ý Xây Dựng Website";
+}
+
+<h2>GÓP Ý XÂY DỰNG WEBSITE</h2>
+
+<script type="text/ecmascript">
+    function check() {
+        var flag = 0;
+        var content = $("#FeedbackContent").val();
+
+        if (content.length < 10) {
+            $("#FeedbackContent_Error").text("Vui lòng góp ý nhiều hơn 10 ký tự");
+            $("#FeedbackContent_Error").css("display", "block");
+            flag++;
+
+        }
+        else {
+            $("#FeedbackContent_Error").text(" ");
+            $("#FeedbackContent_Error").css("display", "none");
+        }
+
+
+        if (flag > 0) {
+            return false;
+        } else return true;
+    }
+</script>
+
+<div class="row">
+    <div class="span10">
+        @if (User.Identity.IsAuthenticated)
+        {
+            if (Model.Result == 1)
+            {
+            <div style="color: red">
+                <p>Xin cảm ơn bạn đã góp ý để xây dựng website.</p>
+            </div>
+            <p>
+                <button type="button" onclick="window.location = '/Home'" class="btn btn-primary btn-large book-now pull-right groupbtn">Về trang chủ</button>
+            </p>
+            }
+            else
+            {
+                if (Model.Result == -1)
+                {
+                    <div style="color: red">
+                        <p>Lỗi, ý kiến của bạn chưa được gửi đi, vui lòng thực hiện lại.</p>
+                    </div>
+                }
+                <form action="Feedback" method="post">
+                    <div class="span9 no-margin">
+                        <label>Ý KIẾN CỦA BẠN:</label>
+                        <textarea name="FeedbackContent" id="FeedbackContent" style="width: 690px; min-height: 50px;">@Model</textarea>
+                        <div class="alert alert-danger" id="FeedbackContent_Error" style="display: none"></div>
+
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+                                $('#FeedbackContent').autosize();
+                            });
+                        </script>
+                    </div>
+                    <div class="span9 no-margin">
+                        <button type="button" onclick="window.location = '/Home'" class="btn btn-primary btn-large book-now pull-right groupbtn">Hủy bỏ</button>
+                        <button type="submit" name="Feedback" onclick="return check()" class="btn btn-primary btn-large book-now pull-right groupbtn">Gửi</button>
+                    </div>
+                </form>
+            }
+        }
+    </div>
+</div>

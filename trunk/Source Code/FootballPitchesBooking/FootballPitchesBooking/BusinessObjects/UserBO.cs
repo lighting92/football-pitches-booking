@@ -52,7 +52,6 @@ namespace FootballPitchesBooking.BusinessObjects
                 RoleDAO roleDAO = new RoleDAO();
                 Role r = roleDAO.GetRoleByRoleName("Member");
                 newUser.IsActive = true;
-                newUser.JoinDate = DateTime.Now;
                 newUser.RoleId = r.Id;
                 results.Add(userDAO.CreateUser(newUser));
             }

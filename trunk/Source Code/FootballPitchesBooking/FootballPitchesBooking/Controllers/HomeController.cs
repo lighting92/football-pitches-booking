@@ -1,5 +1,6 @@
 ﻿using FootballPitchesBooking.BusinessObjects;
 using FootballPitchesBooking.Models;
+using FootballPitchesBooking.Models.HomeModels;
 using FootballPitchesBooking.Models.RecommendationModels;
 using System;
 using System.Collections.Generic;
@@ -116,6 +117,38 @@ namespace FootballPitchesBooking.Controllers
             WebsiteBO webBO = new WebsiteBO();
             model = webBO.GetActiveAds();
             return PartialView(model);
+        }
+
+
+        public ActionResult Feedback()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult Feedback(FormCollection form)
+        {
+            UserBO userBO = new UserBO();
+            User user = userBO.GetUserByUserName(User.Identity.Name);
+
+            FeedbackModel model = new FeedbackModel();
+            model.Feedback = form["FeedbackContent"];
+
+            string content = "";
+            content += "Thành viên: " + user.UserName + "\n";
+            content += "Tên đầy đủ: " + user.FullName + "\n";
+            content += "Email: " + user.Email + "\n\n";
+            content += "Nội dung:\n";
+            content += model.Feedback;
+
+            string subject = string.Concat("Phản hồi từ người dùng ", User.Identity.Name);
+
+            WebsiteBO websiteBO = new WebsiteBO();
+
+            model.Result = websiteBO.SendEmail(null, content, subject, false);
+
+            return View(model);
         }
     }
 }
