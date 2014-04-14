@@ -128,8 +128,21 @@ namespace FootballPitchesBooking.DataAccessObjects
                 return 0;
             }
         }
-        
 
 
+        public int ActiveUser(int Id)
+        {
+            try
+            {
+                var curUser = db.Users.Where(u => u.Id == Id).FirstOrDefault();
+                curUser.IsActive = true;
+                db.SubmitChanges();
+                return Id;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
     }
 }

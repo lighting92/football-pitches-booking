@@ -1,6 +1,6 @@
 ﻿@model FootballPitchesBooking.Models.AccountModels.AccountModel
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Đăng Ký Thành Viên";
 }
 
 <h2>Đăng Ký</h2>
@@ -150,94 +150,115 @@
 <div class="row">
     <form action="Register" method="post">
         <div class="span9 no-margin">
-            <div class="span7">
-                <label for="UserName" class="span3">TÊN ĐĂNG NHẬP</label>
-                <input type="text" id="txtName" name="UserName" placeholder="Tài khoản đăng nhập" required="Required" value="@userName" />
-                <div class="alert alert-danger" id="ErrorName" style="display: none"></div>
-            </div>
-            <div class="span7">
-                <label for="Password" class="span3">MẬT KHẨU</label>
-                <input type="password" id="txtPass" name="Password" placeholder="Nhập mật khẩu" required="required" />
-                <div class="alert alert-danger" id="ErrorPass" style="display: none"></div>
-            </div>
-            <div class="span6">
-                <label for="ConfirmPassword" class="span3">XÁC NHẬN MẬT KHẨU</label>
-                <input type="password" id="txtConfirmPass" name="ConfirmPassword" placeholder="Nhập lại mật khẩu" required="required" />
-                <div class="alert alert-danger" id="ErrorConfirmPass" style="display: none"></div>
-            </div>
-            <div class="span6">
-                <label for="Email" class="span3">EMAIL</label>
-                <input type="text" id="txtMail" name="Email" placeholder="Nhập vào Email" required="required" value="@email" />
-                <div class="alert alert-danger" id="Email_Error" style="display: none"></div>
-            </div>
-            <div class="span6">
-                <label for="FullName" class="span3">TÊN ĐẦY ĐỦ</label>
-                <input type="text" id="txtFullN" name="FullName" placeholder="Nhập vào Họ và Tên" required="required" value="@fullName" />
-                <div class="alert alert-danger" id="FullName_Error" style="display: none"></div>
-            </div>
-            <div class="span6">
-                <label for="Address" class="span5">ĐỊA CHỈ</label>
-                <div class="span5 pull-right">
-                    <label for="Province" class="span2">Tỉnh/Thành phố:</label>
-                    <select name="Province">
-                        <option>TP.Hồ Chí Minh</option>
-                        <option>Hà Nội</option>
-                        <option>Đà Nẵng</option>
-                    </select>
+            @if (Model != null && Model.Result == 2)
+            {
+                <div class="span9">
+                    <p>Tài khoản <b>@Model.UserName</b> của bạn đã được kích hoạt thành công.</p>
+                    <p>
+                        <button type="button" onclick="window.location = '/Home'" class="btn btn-primary btn-large book-now pull-right groupbtn">Về trang chủ</button>
+                    </p>
                 </div>
-                <div class="span5 pull-right">
-                    <label for="District" class="span2">Quận/Huyện:</label>
-                    <select name="District">
-                        <option value="Quận 1" selected="selected">Quận 1</option>
-                        <option value="Quận 2">Quận 2</option>
-                        <option value="Quận 3">Quận 3</option>
-                        <option value="Quận 4">Quận 4</option>
-                        <option value="Quận 5">Quận 5</option>
-                        <option value="Quận 6">Quận 6</option>
-                        <option value="Quận 7">Quận 7</option>
-                        <option value="Quận 8">Quận 8</option>
-                        <option value="Quận 9">Quận 9</option>
-                        <option value="Quận 10">Quận 10</option>
-                        <option value="Quận 11">Quận 11</option>
-                        <option value="Quận 12">Quận 12</option>
-                        <option value="Q. Bình Tân">Q. Bình Tân</option>
-                        <option value="Q. Bình Thạnh">Q. Bình Thạnh</option>
-                        <option value="Q. Gò Vấp">Q. Gò Vấp</option>
-                        <option value="Q. Phú Nhuận">Q. Phú Nhuận</option>
-                        <option value="Q. Tân Bình">Q. Tân Bình</option>
-                        <option value="Q. Tân Phú">Q. Tân Phú</option>
-                        <option value="Q. Thủ Đức">Q. Thủ Đức</option>
-                        <option value="H. Bình Chánh">H. Bình Chánh</option>
-                        <option value="H. Củ Chi">H. Củ Chi</option>
-                        <option value="H. Hóc Môn">H. Hóc Môn</option>
-                        <option value="H. Nhà Bè">H. Nhà Bè</option>
-                        <option value="H. Cần Giờ">H. Cần Giờ</option>
-                    </select>
+            }
+            else if (Model != null && Model.Result == 1)
+            {
+                <div class="span9">
+                    <p>Cám ơn bạn đã tham gia, vui lòng kích hoạt bằng email để hoàn tất quá trình đăng ký.</p>
+                    <p>
+                        <button type="button" onclick="window.location = '/Home'" class="btn btn-primary btn-large book-now pull-right groupbtn">Về trang chủ</button>
+                    </p>
                 </div>
-                <div class="span5 pull-right">
-                    <label for="District" class="span2">Địa chỉ:</label>
-                    <input type="text" id="txtAddress" name="Street" placeholder="Nhập vào địa chỉ " required="required" value="@address" />
-                    <div class="alert alert-danger" id="Address_Error" style="display: none"></div>
+            }
+            else
+            {
+                <div class="span6">
+                    <label for="UserName" class="span3">TÊN ĐĂNG NHẬP</label>
+                    <input type="text" id="txtName" name="UserName" placeholder="Tài khoản đăng nhập" required="Required" value="@userName" />
+                    <div class="alert alert-danger" id="ErrorName" style="display: none"></div>
                 </div>
+                <div class="span6">
+                    <label for="Password" class="span3">MẬT KHẨU</label>
+                    <input type="password" id="txtPass" name="Password" placeholder="Nhập mật khẩu" required="required" />
+                    <div class="alert alert-danger" id="ErrorPass" style="display: none"></div>
+                </div>
+                <div class="span6">
+                    <label for="ConfirmPassword" class="span3">XÁC NHẬN MẬT KHẨU</label>
+                    <input type="password" id="txtConfirmPass" name="ConfirmPassword" placeholder="Nhập lại mật khẩu" required="required" />
+                    <div class="alert alert-danger" id="ErrorConfirmPass" style="display: none"></div>
+                </div>
+                <div class="span6">
+                    <label for="Email" class="span3">EMAIL</label>
+                    <input type="text" id="txtMail" name="Email" placeholder="Nhập vào Email" required="required" value="@email" />
+                    <div class="alert alert-danger" id="Email_Error" style="display: none"></div>
+                </div>
+                <div class="span6">
+                    <label for="FullName" class="span3">TÊN ĐẦY ĐỦ</label>
+                    <input type="text" id="txtFullN" name="FullName" placeholder="Nhập vào Họ và Tên" required="required" value="@fullName" />
+                    <div class="alert alert-danger" id="FullName_Error" style="display: none"></div>
+                </div>
+                <div class="span6">
+                    <label for="Address" class="span5">ĐỊA CHỈ</label>
+                    <div class="span5 pull-right">
+                        <label for="Province" class="span2">Tỉnh/Thành phố:</label>
+                        <select name="Province">
+                            <option>TP.Hồ Chí Minh</option>
+                            <option>Hà Nội</option>
+                            <option>Đà Nẵng</option>
+                        </select>
+                    </div>
+                    <div class="span5 pull-right">
+                        <label for="District" class="span2">Quận/Huyện:</label>
+                        <select name="District">
+                            <option value="Quận 1" selected="selected">Quận 1</option>
+                            <option value="Quận 2">Quận 2</option>
+                            <option value="Quận 3">Quận 3</option>
+                            <option value="Quận 4">Quận 4</option>
+                            <option value="Quận 5">Quận 5</option>
+                            <option value="Quận 6">Quận 6</option>
+                            <option value="Quận 7">Quận 7</option>
+                            <option value="Quận 8">Quận 8</option>
+                            <option value="Quận 9">Quận 9</option>
+                            <option value="Quận 10">Quận 10</option>
+                            <option value="Quận 11">Quận 11</option>
+                            <option value="Quận 12">Quận 12</option>
+                            <option value="Q. Bình Tân">Q. Bình Tân</option>
+                            <option value="Q. Bình Thạnh">Q. Bình Thạnh</option>
+                            <option value="Q. Gò Vấp">Q. Gò Vấp</option>
+                            <option value="Q. Phú Nhuận">Q. Phú Nhuận</option>
+                            <option value="Q. Tân Bình">Q. Tân Bình</option>
+                            <option value="Q. Tân Phú">Q. Tân Phú</option>
+                            <option value="Q. Thủ Đức">Q. Thủ Đức</option>
+                            <option value="H. Bình Chánh">H. Bình Chánh</option>
+                            <option value="H. Củ Chi">H. Củ Chi</option>
+                            <option value="H. Hóc Môn">H. Hóc Môn</option>
+                            <option value="H. Nhà Bè">H. Nhà Bè</option>
+                            <option value="H. Cần Giờ">H. Cần Giờ</option>
+                        </select>
+                    </div>
+                    <div class="span5 pull-right">
+                        <label for="District" class="span2">Địa chỉ:</label>
+                        <input type="text" id="txtAddress" name="Street" placeholder="Nhập vào địa chỉ " required="required" value="@address" />
+                        <div class="alert alert-danger" id="Address_Error" style="display: none"></div>
+                    </div>
 
-            </div>
-            <div class="span6">
-                <label for="PhoneNumber" class="span3">SỐ ĐIỆN THOẠI</label>
-                <input type="text" id="txtPhone" name="PhoneNumber" placeholder="Nhập số điện thoại" required="required" value="@phoneNumber" />
-                <script type="text/javascript">
-                    $('#txtPhone').keyup(function (event) {
-                        if (isNaN(String.fromCharCode(event.which))) {
-                            var value = $(this).val();
-                            $(this).val(value.substr(0, value.length - 1));
-                        }
-                    });
-                </script>
-                <div class="alert alert-danger" id="Phone_Error" style="display: none"></div>
-            </div>
-            <div class="span6">
-                <button type="submit" name="Register" onclick="return check()" class="btn btn-primary btn-large book-now pull-right groupbtn">Đăng ký</button>
-                <button type="button" onclick="window.location = '/Home'" class="btn btn-primary btn-large book-now pull-right groupbtn">Hủy bỏ</button>
-            </div>
+                </div>
+                <div class="span6">
+                    <label for="PhoneNumber" class="span3">SỐ ĐIỆN THOẠI</label>
+                    <input type="text" id="txtPhone" name="PhoneNumber" placeholder="Nhập số điện thoại" required="required" value="@phoneNumber" />
+                    <script type="text/javascript">
+                        $('#txtPhone').keyup(function (event) {
+                            if (isNaN(String.fromCharCode(event.which))) {
+                                var value = $(this).val();
+                                $(this).val(value.substr(0, value.length - 1));
+                            }
+                        });
+                    </script>
+                    <div class="alert alert-danger" id="Phone_Error" style="display: none"></div>
+                </div>
+                <div class="span7">
+                    <button type="button" onclick="window.location = '/Home'" class="btn btn-primary btn-large book-now pull-right groupbtn">Hủy bỏ</button>
+                    <button type="submit" name="Register" onclick="return check()" class="btn btn-primary btn-large book-now pull-right groupbtn">Đăng ký</button>
+                </div>
+            }
         </div>
     </form>
 </div>

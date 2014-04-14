@@ -46,5 +46,11 @@ namespace FootballPitchesBooking.Utilities
         {
             return Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(text));
         }
+
+
+        public string FromBase64(string base64)
+        {
+            return System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(base64));
+        }
     }
 }
