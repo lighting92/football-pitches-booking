@@ -452,7 +452,7 @@ namespace FootballPitchesBooking.Controllers
                     UserBO userBO = new UserBO();
                     User user = userBO.GetUserByUserName(userName);
 
-                    if (user.JoinDate.ToShortDateString().Equals(verify.Substring(i + 1, verify.Length - (i + 1))))
+                    if (user.JoinDate.ToShortDateString().Equals(verify.Substring(i + 1, verify.Length - (i + 1))) && !user.IsActive)
                     {
                         if (userBO.ActiveUser(user.Id) > 0)
                         {

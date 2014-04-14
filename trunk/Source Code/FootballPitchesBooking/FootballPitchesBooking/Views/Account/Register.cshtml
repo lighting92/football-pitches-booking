@@ -3,7 +3,7 @@
     ViewBag.Title = "Đăng Ký Thành Viên";
 }
 
-<h2>Đăng Ký</h2>
+<h2>ĐĂNG KÝ THÀNH VIÊN</h2>
 
 <script type="text/ecmascript">
     function check() {
@@ -17,7 +17,7 @@
         var reg = /^(\w+[\.])*\w+@@(\w+\.)+[a-zA-Z]+$/;
         var aln = /^[a-z|A-Z|0-9]*$/;
         var address = $("#txtAddress").val();
-        var add = /^[a-zA-Z0-9-\/] ?([a-zA-Z0-9-\/]|[a-zA-Z0-9-\/] )*[a-zA-Z0-9-\/]$/;
+        var add = /^[A-Za-z\d\s]*$/;
 
 
         if (username == "" || username.length < 6 || username.length > 32) {
@@ -73,19 +73,11 @@
             $("#Address_Error").css("display", "block");
             flag++;
         }
-
         else if (!add.test(address)) {
-            $("#Address_Error").text("Sai định dạng địa chỉ")
-            $("#Address_Error").css("display", "block");
-            flag++;
-        }
-
-        else if (!aln.test(address)) {
             $("#Address_Error").text("Địa chỉ chỉ phải có chữ và số");
             $("#Address_Error").css("display", "block");
             flag++;
         }
-
         else {
             $("#Address_Error").text(" ");
             $("#Address_Error").css("display", "none");
