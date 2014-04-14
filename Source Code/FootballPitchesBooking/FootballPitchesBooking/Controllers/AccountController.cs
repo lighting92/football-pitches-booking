@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using FootballPitchesBooking.Properties;
 using System.Text.RegularExpressions;
+using System.IO;
 
 namespace FootballPitchesBooking.Controllers
 {
@@ -792,6 +793,30 @@ namespace FootballPitchesBooking.Controllers
                 }
             }
             return View(model);
+        }
+
+
+        public ActionResult Forgot()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult Forgot(FormCollection form)
+        {
+            string email = form["Email"];
+            UserBO userBO = new UserBO();
+            User user = userBO.GetUserByUserName(User.Identity.Name);
+
+            StreamReader sr = new StreamReader(Server.MapPath("Content/Reset.html"));
+            sr = System.IO.File.OpenText(Server.MapPath("Content/Reset.html"));
+            string content = sr.ReadToEnd();
+            content = content.Replace("[FullName]", user.FullName);
+            content = content.Replace("[UserName]", user.UserName);
+            content = content.Replace("[Password]", user.Password);
+            content = content.Replace("[LoginLink]", Server.MapPath("~/Login"));
+            content = content.Replace("[Signature]", Server.MapPath(""));
         }
     }
 }
