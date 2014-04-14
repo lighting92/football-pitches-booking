@@ -2,7 +2,7 @@
 <XMLUserDistance xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <UserId>3</UserId>
   <UserAddress>15 PVD, Quận 1, TP.Hồ Chí Minh</UserAddress>
-  <UpdateDate>4/13/2014</UpdateDate>
+  <UpdateDate>4/14/2014</UpdateDate>
   <StadiumsDistance>
     <StadiumDistance>
       <StadiumId>1</StadiumId>

@@ -1,58 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <XMLUserDistance xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <UserId>1</UserId>
-  <UserAddress>Admin</UserAddress>
-  <UpdateDate>4/11/2014</UpdateDate>
+  <UserAddress>1 Tô Ký, Đông Hưng Thuận, Quận 12, Hồ Chí Minh</UserAddress>
+  <UpdateDate>4/14/2014</UpdateDate>
   <StadiumsDistance>
     <StadiumDistance>
       <StadiumId>1</StadiumId>
       <StadiumAddress>18C+Cộng+Hòa,+12,+Q.+Tân+Bình</StadiumAddress>
-      <Distance>19194064</Distance>
+      <Distance>9858</Distance>
     </StadiumDistance>
     <StadiumDistance>
       <StadiumId>2</StadiumId>
       <StadiumAddress>18C+Cộng+Hòa,+12,+Q.+Tân+Bình</StadiumAddress>
-      <Distance>19194064</Distance>
+      <Distance>9858</Distance>
     </StadiumDistance>
     <StadiumDistance>
       <StadiumId>8</StadiumId>
       <StadiumAddress>44/5+Phạm+Văn+Chiêu,+9,+Q.+Gò+Vấp</StadiumAddress>
-      <Distance>19188630</Distance>
+      <Distance>3089</Distance>
     </StadiumDistance>
     <StadiumDistance>
       <StadiumId>9</StadiumId>
       <StadiumAddress>44/5+Phạm+Văn+Chiêu,+9,+Q.+Gò+Vấp</StadiumAddress>
-      <Distance>19188630</Distance>
+      <Distance>3089</Distance>
     </StadiumDistance>
     <StadiumDistance>
       <StadiumId>10</StadiumId>
       <StadiumAddress>44/5+Phạm+Văn+Chiêu,+9,+Q.+Gò+Vấp</StadiumAddress>
-      <Distance>19188630</Distance>
+      <Distance>3089</Distance>
     </StadiumDistance>
     <StadiumDistance>
       <StadiumId>11</StadiumId>
       <StadiumAddress>44/5+Phạm+Văn+Chiêu,+9,+Q.+Gò+Vấp</StadiumAddress>
-      <Distance>19188630</Distance>
+      <Distance>3089</Distance>
     </StadiumDistance>
     <StadiumDistance>
       <StadiumId>12</StadiumId>
       <StadiumAddress>44/5+Phạm+Văn+Chiêu,+9,+Q.+Gò+Vấp</StadiumAddress>
-      <Distance>19188630</Distance>
+      <Distance>3089</Distance>
     </StadiumDistance>
     <StadiumDistance>
       <StadiumId>13</StadiumId>
       <StadiumAddress>44/5+Phạm+Văn+Chiêu,+9,+Q.+Gò+Vấp</StadiumAddress>
-      <Distance>19188630</Distance>
+      <Distance>3089</Distance>
     </StadiumDistance>
     <StadiumDistance>
       <StadiumId>14</StadiumId>
       <StadiumAddress>69/96+Hoàng+Hoa+Thám,+11,+Q.+Tân+Bình</StadiumAddress>
-      <Distance>19192752</Distance>
+      <Distance>8538</Distance>
     </StadiumDistance>
     <StadiumDistance>
       <StadiumId>15</StadiumId>
       <StadiumAddress>33/3+A+Thống+Nhất,+P.+10,+Q.+Gò+Vấp</StadiumAddress>
-      <Distance>19190510</Distance>
+      <Distance>4963</Distance>
     </StadiumDistance>
   </StadiumsDistance>
 </XMLUserDistance>

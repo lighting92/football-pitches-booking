@@ -715,7 +715,7 @@ namespace FootballPitchesBooking.Controllers
 
                 if (result > 0)
                 {
-                    return RedirectToAction("Ads", "WebsiteStaff");
+                    return RedirectToAction("Advertisements", "WebsiteStaff");
                 }
                 else if (result == 0)
                 {
@@ -745,7 +745,7 @@ namespace FootballPitchesBooking.Controllers
 
                 if (ads == null)
                 {
-                    return RedirectToAction("Ads", "WebsiteStaff");
+                    return RedirectToAction("Advertisements", "WebsiteStaff");
                 }
 
                 AdvertisementModel model = new AdvertisementModel()
@@ -762,7 +762,7 @@ namespace FootballPitchesBooking.Controllers
             }
             catch
             {
-                return RedirectToAction("Ads", "WebsiteStaff");
+                return RedirectToAction("Advertisements", "WebsiteStaff");
             }
         }
 
@@ -810,7 +810,7 @@ namespace FootballPitchesBooking.Controllers
 
                 if (result > 0)
                 {
-                    return RedirectToAction("Ads", "WebsiteStaff");
+                    return RedirectToAction("Advertisements", "WebsiteStaff");
                 }
                 else if (result == 0)
                 {
