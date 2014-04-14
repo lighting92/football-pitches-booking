@@ -51,7 +51,7 @@ namespace FootballPitchesBooking.BusinessObjects
             {
                 RoleDAO roleDAO = new RoleDAO();
                 Role r = roleDAO.GetRoleByRoleName("Member");
-                newUser.IsActive = true;
+                newUser.IsActive = false;
                 newUser.RoleId = r.Id;
                 results.Add(userDAO.CreateUser(newUser));
             }
@@ -161,6 +161,12 @@ namespace FootballPitchesBooking.BusinessObjects
             return roleDAO.UpdateRole(roleId, roleId);
         } // thang nao viet vay @@ func thi phai viet hoa chu dau tien theo coding convention @@
 
+
+        public int ActiveUser(int Id)
+        {
+            UserDAO userDAO = new UserDAO();
+            return userDAO.ActiveUser(Id);
+        }
 
 
         public string[] GetAllUserName()

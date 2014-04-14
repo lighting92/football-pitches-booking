@@ -436,8 +436,37 @@ namespace FootballPitchesBooking.Controllers
         //
         // GET: /Account/Register
 
-        public ActionResult Register()
+        public ActionResult Register(string id)
         {
+            if (!string.IsNullOrEmpty(id))
+            {
+                try
+                {
+                    Utils utils = new Utils();
+                    AccountModel model = new AccountModel();
+                    model.ErrorMessages = new List<string>();
+                    string verify = utils.FromBase64(id);
+                    int i = verify.IndexOf("|");
+                    string userName = verify.Substring(0, i);
+
+                    UserBO userBO = new UserBO();
+                    User user = userBO.GetUserByUserName(userName);
+
+                    if (user.JoinDate.ToShortDateString().Equals(verify.Substring(i + 1, verify.Length - (i + 1))))
+                    {
+                        if (userBO.ActiveUser(user.Id) > 0)
+                        {
+                            model.Result = 2;
+                        }
+                        model.UserName = user.UserName;
+                        FormsAuthentication.SetAuthCookie(model.UserName, false);
+                        return View(model);
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }
             return View();
         }
 
@@ -523,7 +552,7 @@ namespace FootballPitchesBooking.Controllers
                 if (result.Count == 1 && result[0] > 0)
                 {
                     Utils utils = new Utils();
-                    string verify = utils.ToBase64(string.Concat(newUser.UserName, newUser.JoinDate.ToShortDateString()));
+                    string verify = utils.ToBase64(string.Concat(newUser.UserName, "|", newUser.JoinDate.ToShortDateString()));
 
                     StreamReader sr = new StreamReader(Server.MapPath("~/Content/Activate.html"));
                     sr = System.IO.File.OpenText(Server.MapPath("~/Content/Activate.html"));
