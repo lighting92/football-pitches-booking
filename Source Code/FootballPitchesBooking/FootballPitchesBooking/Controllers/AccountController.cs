@@ -456,7 +456,7 @@ namespace FootballPitchesBooking.Controllers
             reg.FullName = form["FullName"];
             reg.Address = form["Street"] + ", " + form["District"] + ", " + form["Province"];
             reg.PhoneNumber = form["PhoneNumber"];
-
+            reg.Result = 0;
             reg.ErrorMessages = new List<string>();
 
             if (string.IsNullOrWhiteSpace(reg.UserName) || string.IsNullOrWhiteSpace(reg.Password) || string.IsNullOrWhiteSpace(reg.ConfirmPassword)
@@ -536,10 +536,7 @@ namespace FootballPitchesBooking.Controllers
                     string subject = "Kích hoạt tài khoản của bạn tại hệ thống đặt sân bóng đá FPB";
 
                     WebsiteBO websiteBO = new WebsiteBO();
-                    int sendResult = websiteBO.SendEmail(newUser.Email, content, subject, true);
-
-                    FormsAuthentication.SetAuthCookie(reg.UserName, false);
-                    return RedirectToAction("Index", "Home");
+                    reg.Result = websiteBO.SendEmail(newUser.Email, content, subject, true);
                 }
                 else
                 {
