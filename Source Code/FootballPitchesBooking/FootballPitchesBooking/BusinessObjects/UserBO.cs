@@ -10,7 +10,6 @@ namespace FootballPitchesBooking.BusinessObjects
     public class UserBO
     {
         UserDAO userDAO = new UserDAO(); // day dung ko, uh
-        MemberRankDAO rankDAO = new MemberRankDAO();
 
 
         public List<User> GetAllUsers()
@@ -50,12 +49,8 @@ namespace FootballPitchesBooking.BusinessObjects
 
             if (results.Count == 0)
             {
-                MemberRankDAO mrDAO = new MemberRankDAO();
-                MemberRank mr = mrDAO.GetMemberRankByPoint(0);
                 RoleDAO roleDAO = new RoleDAO();
                 Role r = roleDAO.GetRoleByRoleName("Member");
-                newUser.Point = 0;
-                newUser.RankId = mr.Id;
                 newUser.IsActive = true;
                 newUser.JoinDate = DateTime.Now;
                 newUser.RoleId = r.Id;
@@ -84,12 +79,10 @@ namespace FootballPitchesBooking.BusinessObjects
         public int UpdateUser(User user)
         {
             UserDAO userDAO = new UserDAO();
-            MemberRankDAO rankDAO = new MemberRankDAO();
             if (string.IsNullOrWhiteSpace(user.Password))
             {
                 user.Password = userDAO.GetUserByUserId(user.Id).Password;
             }
-            user.RankId = rankDAO.GetMemberRankByUserPoint(user.Point).Id;
             return userDAO.UpdateUser(user);
         }
 
@@ -133,63 +126,12 @@ namespace FootballPitchesBooking.BusinessObjects
         }
 
 
-        public List<MemberRank> ToListMR(ref List<NoModel> noList, int? page, string keyWord = "", string column = "", string sort = "")
+        public User GetUserByEmail(string email)
         {
-            // User list.
-            var ranks = rankDAO.Select();
-
-            // Search by key word.
-            if (keyWord.Equals(""))
-            {
-                ranks = ranks.OrderBy(u => u.Id).ToList();
-            }
-            else
-            {
-                ranks = ranks.Where(u => u.RankName.ToLower().Contains(keyWord.ToLower())).OrderBy(u => u.Id).ToList();
-            }
-
-            // Sort by sort type and solumn name.
-            switch (column + sort)
-            {
-                case "NoAsc":
-                    ranks = ranks.OrderBy(u => u.Id).ToList();
-                    break;
-                case "NoDesc":
-                    ranks = ranks.OrderByDescending(u => u.Id).ToList();
-                    break;
-                case "RankNameAsc":
-                    ranks = ranks.OrderBy(u => u.RankName).ToList();
-                    break;
-                case "RankNameDesc":
-                    ranks = ranks.OrderByDescending(u => u.RankName).ToList();
-                    break;
-                case "PointAsc":
-                    ranks = ranks.OrderBy(u => u.Point).ToList();
-                    break;
-                case "PointDesc":
-                    ranks = ranks.OrderByDescending(u => u.Point).ToList();
-                    break;
-                case "PromotionAsc":
-                    ranks = ranks.OrderBy(u => u.Promotion).ToList();
-                    break;
-                case "PromotionDesc":
-                    ranks = ranks.OrderByDescending(u => u.Promotion).ToList();
-                    break;
-            }
-
-            // Generate no. List.
-            foreach (var u in ranks)
-            {
-                noList.Add(new NoModel { Id = u.Id });
-            }
-            noList = noList.OrderBy(n => n.Id).ToList();
-            for (int i = 0; i < noList.Count; i++)
-            {
-                noList[i].No = i + 1;
-            }
-
-            return ranks;
+            UserDAO userDAO = new UserDAO();
+            return userDAO.GetUserByEmail(email);
         }
+
 
         //View account profile
         public User GetUserById(int userId)
@@ -241,76 +183,6 @@ namespace FootballPitchesBooking.BusinessObjects
             {
                 return listUsers;
             }
-        }
-
-        public MemberRank GetRankById(int rankId)
-        {
-            return rankDAO.GetMemberRankById(rankId);
-        }
-
-        public List<int> CreateMemberRank(MemberRank rank)
-        {
-            List<int> results = new List<int>();
-            MemberRank existedMemberRankName = rankDAO.GetMemberRankByName(rank.RankName);
-            MemberRank existedMemberRankPoint = rankDAO.GetMemberRankByPoint((int)rank.Point);
-
-            if (existedMemberRankName != null) //check xem co trung ten voi rank nao ko
-            {
-                results.Add(-1);
-            }
-
-            if (existedMemberRankPoint != null) //check xem co cung point voi rank nao ko
-            {
-                results.Add(-2);
-            }
-
-            if (results.Count == 0) //neu ko co loi~
-            {
-                results.Add(rankDAO.CreateMemberRank(rank));
-            }
-
-            if (results.Count == 1 && results[0] > 0)
-            {
-                results.Add(userDAO.UpdateUserRank(rank));
-            }
-
-            return results;
-        }
-
-        public List<int> UpdateMemberRank(MemberRank rank)
-        {
-            List<int> results = new List<int>();
-            MemberRank existedMemberRankName = rankDAO.GetMemberRankByName(rank.RankName);
-            MemberRank existedMemberRankPoint = rankDAO.GetMemberRankByPoint((int)rank.Point);
-
-            if (existedMemberRankName != null && existedMemberRankName.Id != rank.Id) //check xem co trung ten voi rank nao ko
-            {
-                results.Add(-1);
-            }
-
-            if (existedMemberRankPoint != null && existedMemberRankPoint.Id != rank.Id) //check xem co cung point voi rank nao ko
-            {
-                results.Add(-2);
-            }
-
-            if (results.Count == 0) //neu ko co loi~
-            {
-                results.Add(rankDAO.UpdateMemberRank(rank));
-            } // doan validate nay y chang create
-
-            if (results.Count == 1 && results[0] > 0)
-            {
-                results.Add(userDAO.UpdateUserRank(rank));
-                //hoàn thành việc update rank, nhưng còn có đk gì nữa ko? validate?
-                //rank có 2 chỗ cần validate, là point với name có trùng với dữ liệu đã có trong db ko, để tránh lỗi logic
-                //ví dụ: nếu có 2 rank cùng point thì user sẽ lấy rank nào? conflict
-                //hoặc nếu 2 rank cùng tên thì ng ngoài nhìn vào sẽ ko thấy thay đổi gì thì sao? cũng conflict về lỗi logic
-                //vậy nên check 2 cái này trc rồi mới update
-                //chỗ này để update toàn bộ user dựa vào point đã thay đổi
-                //cai nay dung den user nen phai khai bao userDAO vao
-            }
-
-            return results;
         }
 
 
