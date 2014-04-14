@@ -10,6 +10,7 @@ using System.Web.Security;
 using FootballPitchesBooking.Properties;
 using System.Text.RegularExpressions;
 using System.IO;
+using FootballPitchesBooking.Utilities;
 
 namespace FootballPitchesBooking.Controllers
 {
@@ -513,13 +514,30 @@ namespace FootballPitchesBooking.Controllers
                     Email = reg.Email,
                     FullName = reg.FullName,
                     Address = reg.Address,
-                    PhoneNumber = reg.PhoneNumber
+                    PhoneNumber = reg.PhoneNumber,
+                    JoinDate = DateTime.Now.Date
                 };
 
                 List<int> result = userBO.CreateUser(newUser);
 
                 if (result.Count == 1 && result[0] > 0)
                 {
+                    Utils utils = new Utils();
+                    string verify = utils.ToBase64(string.Concat(newUser.UserName, newUser.JoinDate.ToShortDateString()));
+
+                    StreamReader sr = new StreamReader(Server.MapPath("~/Content/Activate.html"));
+                    sr = System.IO.File.OpenText(Server.MapPath("~/Content/Activate.html"));
+                    string content = sr.ReadToEnd();
+                    content = content.Replace("[FullName]", newUser.FullName);
+                    content = content.Replace("[VerifyLink]", Request.Url.Host + "/Account/Register/" + verify);
+                    content = content.Replace("[LoginLink]", Request.Url.Host + "/Account/Login");
+                    content = content.Replace("[Signature]", Request.Url.Host);
+
+                    string subject = "Kích hoạt tài khoản của bạn tại hệ thống đặt sân bóng đá FPB";
+
+                    WebsiteBO websiteBO = new WebsiteBO();
+                    int sendResult = websiteBO.SendEmail(newUser.Email, content, subject, true);
+
                     FormsAuthentication.SetAuthCookie(reg.UserName, false);
                     return RedirectToAction("Index", "Home");
                 }
@@ -820,8 +838,10 @@ namespace FootballPitchesBooking.Controllers
                         content = content.Replace("[LoginLink]", Request.Url.Host + "/Account/Login");
                         content = content.Replace("[Signature]", Request.Url.Host);
 
+                        string subject = "Thông tin tài khoản của bạn tại hệ thống đặt sân bóng đá FPB";
+
                         WebsiteBO websiteBO = new WebsiteBO();
-                        int result = websiteBO.SendEmail(email, content);
+                        int result = websiteBO.SendEmail(email, content, subject, true);
                         return View(result);
                     }
                 }

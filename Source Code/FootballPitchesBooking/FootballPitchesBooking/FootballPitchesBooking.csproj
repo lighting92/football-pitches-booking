@@ -150,6 +150,7 @@
     <Compile Include="DataAccessObjects\UserDistanceDAO.cs" />
     <Compile Include="Models\DistanceModels\Coordinate.cs" />
     <Compile Include="Models\DistanceModels\DistanceMatrixResponse.cs" />
+    <Compile Include="Models\HomeModels\FeedbackModel.cs" />
     <Compile Include="Models\RecommendationModels\PriorityModel.cs" />
     <Compile Include="Models\RecommendationModels\RecommendationModel.cs" />
     <Compile Include="Models\RecommendationModels\RecommendationPriorityModel.cs" />
@@ -478,6 +479,7 @@
     <Content Include="Views\Home\Advertise.cshtml" />
     <Content Include="Views\Account\Block.cshtml" />
     <Content Include="Views\Account\Recovery.cshtml" />
+    <Content Include="Views\Home\Feedback.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

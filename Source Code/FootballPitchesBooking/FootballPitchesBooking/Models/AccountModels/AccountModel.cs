@@ -20,5 +20,6 @@ namespace FootballPitchesBooking.Models.AccountModels
         public string RoleName { get; set; }
         public DateTime JoinDate { get; set; }
         public List<string> ErrorMessages { get; set; }
+        public int Result { get; set; }
     }
 }
