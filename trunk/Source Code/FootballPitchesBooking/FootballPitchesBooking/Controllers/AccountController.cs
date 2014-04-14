@@ -41,8 +41,6 @@ namespace FootballPitchesBooking.Controllers
                 PhoneNumber = user.PhoneNumber,
                 FullName = user.FullName,
                 Address = user.Address,
-                RankName = user.MemberRank.RankName,
-                Point = user.Point,
                 RoleName = user.Role.Role1,
                 JoinDate = user.JoinDate,
                 ErrorMessages = new List<string>()
@@ -351,12 +349,10 @@ namespace FootballPitchesBooking.Controllers
 
                     if (userBO.GetUserByUserName(loginUser.UserName).Role.Role1.Equals("BannedMember"))
                     {
-                        ViewBag.Banned = "true";
                         return RedirectToAction("Block", "Account");
                     }
                     else
                     {
-                        ViewBag.Banned = "false";
                         if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                         && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                         {
@@ -609,8 +605,6 @@ namespace FootballPitchesBooking.Controllers
                 PhoneNumber = user.PhoneNumber,
                 FullName = user.FullName,
                 Address = user.Address,
-                RankName = user.MemberRank.RankName,
-                Point = user.Point,
                 RoleName = user.Role.Role1,
                 JoinDate = user.JoinDate,
                 ErrorMessages = new List<string>()
@@ -642,8 +636,6 @@ namespace FootballPitchesBooking.Controllers
                 PhoneNumber = user.PhoneNumber,
                 FullName = user.FullName,
                 Address = user.Address,
-                RankName = user.MemberRank.RankName,
-                Point = user.Point,
                 RoleName = user.Role.Role1,
                 JoinDate = user.JoinDate,
                 ErrorMessages = new List<string>()
@@ -796,27 +788,49 @@ namespace FootballPitchesBooking.Controllers
         }
 
 
-        public ActionResult Forgot()
+        public ActionResult Recovery()
         {
-            return View();
+            return View(0);
         }
 
 
         [HttpPost]
-        public ActionResult Forgot(FormCollection form)
+        public ActionResult Recovery(FormCollection form)
         {
-            string email = form["Email"];
-            UserBO userBO = new UserBO();
-            User user = userBO.GetUserByUserName(User.Identity.Name);
+            if (!User.Identity.IsAuthenticated)
+            {
+                try
+                {
+                    string email = form["Email"];
+                    UserBO userBO = new UserBO();
+                    User user = userBO.GetUserByEmail(email);
 
-            StreamReader sr = new StreamReader(Server.MapPath("Content/Reset.html"));
-            sr = System.IO.File.OpenText(Server.MapPath("Content/Reset.html"));
-            string content = sr.ReadToEnd();
-            content = content.Replace("[FullName]", user.FullName);
-            content = content.Replace("[UserName]", user.UserName);
-            content = content.Replace("[Password]", user.Password);
-            content = content.Replace("[LoginLink]", Server.MapPath("~/Login"));
-            content = content.Replace("[Signature]", Server.MapPath(""));
+                    if (user == null)
+                    {
+                        return View(-2);
+                    }
+                    else
+                    {
+                        StreamReader sr = new StreamReader(Server.MapPath("~/Content/Reset.html"));
+                        sr = System.IO.File.OpenText(Server.MapPath("~/Content/Reset.html"));
+                        string content = sr.ReadToEnd();
+                        content = content.Replace("[FullName]", user.FullName);
+                        content = content.Replace("[UserName]", user.UserName);
+                        content = content.Replace("[Password]", user.Password);
+                        content = content.Replace("[LoginLink]", Request.Url.Host + "/Account/Login");
+                        content = content.Replace("[Signature]", Request.Url.Host);
+
+                        WebsiteBO websiteBO = new WebsiteBO();
+                        int result = websiteBO.SendEmail(email, content);
+                        return View(result);
+                    }
+                }
+                catch (Exception)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+            }
+            return RedirectToAction("Profiles", "Account");
         }
     }
 }

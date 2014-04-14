@@ -2,7 +2,11 @@
 using FootballPitchesBooking.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Net;
+using System.Net.Configuration;
+using System.Net.Mail;
 using System.Web;
 
 namespace FootballPitchesBooking.BusinessObjects
@@ -83,6 +87,34 @@ namespace FootballPitchesBooking.BusinessObjects
         {
             AdvertisementDAO adsDAO = new AdvertisementDAO();
             return adsDAO.DeleteAdvertisement(adsId);
+        }
+
+
+        public int SendEmail(string toEmail, string content)
+        {
+            SmtpSection cfg = (SmtpSection)ConfigurationManager.GetSection("system.net/mailSettings/smtp");
+            try
+            {
+                using (MailMessage mail = new MailMessage())
+                {
+                    mail.From = new MailAddress(cfg.Network.UserName, "Hệ thống đặt sân bóng đá FPB");
+                    mail.To.Add(toEmail);
+                    mail.Subject = "Thông tin tài khoản của bạn tại hệ thống đặt sân bóng đá FPB";
+                    mail.Body = content;
+                    mail.IsBodyHtml = true;
+                    SmtpClient client = new SmtpClient();
+                    client.Credentials = new NetworkCredential(cfg.Network.UserName, cfg.Network.Password);
+                    client.Host = cfg.Network.Host;
+                    client.Port = cfg.Network.Port;
+                    client.EnableSsl = cfg.Network.EnableSsl;
+                    client.Send(mail);
+                }
+            }
+            catch (SmtpException)
+            {
+                return -1;
+            }
+            return 1;
         }
     }
 }

@@ -10,7 +10,6 @@
       <Column Name="Status" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="Creator" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="User_Advertisement" Member="User" ThisKey="Creator" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="User1_Advertisement" Member="User1" ThisKey="Creator" OtherKey="Id" Type="User1" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.UserDistance" Member="UserDistances">
@@ -20,7 +19,6 @@
       <Column Name="Path" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="UpdateDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Association Name="User_UserDistance" Member="User" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="User1_UserDistance" Member="User1" ThisKey="UserId" OtherKey="Id" Type="User1" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Configuration" Member="Configurations">
@@ -42,13 +40,9 @@
       <Association Name="Field_Field" Member="Fields" ThisKey="Id" OtherKey="ParentField" Type="Field" />
       <Association Name="Field_Promotion" Member="Promotions" ThisKey="Id" OtherKey="FieldId" Type="Promotion" />
       <Association Name="Field_Reservation" Member="Reservations" ThisKey="Id" OtherKey="FieldId" Type="Reservation" />
-      <Association Name="Field_Promotion1" Member="Promotion1s" ThisKey="Id" OtherKey="FieldId" Type="Promotion1" />
-      <Association Name="Field_Reservation1" Member="Reservation1s" ThisKey="Id" OtherKey="FieldId" Type="Reservation1" />
       <Association Name="Field_Field" Member="Field1" ThisKey="ParentField" OtherKey="Id" Type="Field" IsForeignKey="true" />
       <Association Name="FieldPrice_Field" Member="FieldPrice" ThisKey="PriceId" OtherKey="Id" Type="FieldPrice" IsForeignKey="true" />
       <Association Name="Stadium_Field" Member="Stadium" ThisKey="StadiumId" OtherKey="Id" Type="Stadium" IsForeignKey="true" />
-      <Association Name="FieldPrice1_Field" Member="FieldPrice1" ThisKey="PriceId" OtherKey="Id" Type="FieldPrice1" IsForeignKey="true" />
-      <Association Name="Stadium1_Field" Member="Stadium1" ThisKey="StadiumId" OtherKey="Id" Type="Stadium1" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.FieldPrice" Member="FieldPrices">
@@ -59,10 +53,7 @@
       <Column Name="FieldPriceDescription" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
       <Association Name="FieldPrice_Field" Member="Fields" ThisKey="Id" OtherKey="PriceId" Type="Field" />
       <Association Name="FieldPrice_PriceTable" Member="PriceTables" ThisKey="Id" OtherKey="FieldPriceId" Type="PriceTable" />
-      <Association Name="FieldPrice_Field1" Member="Field1s" ThisKey="Id" OtherKey="PriceId" Type="Field1" />
-      <Association Name="FieldPrice_PriceTable1" Member="PriceTable1s" ThisKey="Id" OtherKey="FieldPriceId" Type="PriceTable1" />
       <Association Name="Stadium_FieldPrice" Member="Stadium" ThisKey="StadiumId" OtherKey="Id" Type="Stadium" IsForeignKey="true" />
-      <Association Name="Stadium1_FieldPrice" Member="Stadium1" ThisKey="StadiumId" OtherKey="Id" Type="Stadium1" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.JoinSystemRequest" Member="JoinSystemRequests">
@@ -79,17 +70,6 @@
       <Column Name="Status" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="CreateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="User_JoinSystemRequest" Member="User" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="User1_JoinSystemRequest" Member="User1" ThisKey="UserId" OtherKey="Id" Type="User1" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.MemberRank" Member="MemberRanks">
-    <Type Name="MemberRank">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="RankName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Point" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Promotion" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
-      <Association Name="MemberRank_User" Member="Users" ThisKey="Id" OtherKey="RankId" Type="User" />
-      <Association Name="MemberRank_User1" Member="User1s" ThisKey="Id" OtherKey="RankId" Type="User1" />
     </Type>
   </Table>
   <Table Name="dbo.Notification" Member="Notifications">
@@ -102,8 +82,6 @@
       <Column Name="Status" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="Stadium_Notification" Member="Stadium" ThisKey="StadiumId" OtherKey="Id" Type="Stadium" IsForeignKey="true" />
       <Association Name="User_Notification" Member="User" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="Stadium1_Notification" Member="Stadium1" ThisKey="StadiumId" OtherKey="Id" Type="Stadium1" IsForeignKey="true" />
-      <Association Name="User1_Notification" Member="User1" ThisKey="UserId" OtherKey="Id" Type="User1" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.PriceTable" Member="PriceTables">
@@ -115,7 +93,6 @@
       <Column Name="TimeTo" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Column Name="Price" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Association Name="FieldPrice_PriceTable" Member="FieldPrice" ThisKey="FieldPriceId" OtherKey="Id" Type="FieldPrice" IsForeignKey="true" />
-      <Association Name="FieldPrice1_PriceTable" Member="FieldPrice1" ThisKey="FieldPriceId" OtherKey="Id" Type="FieldPrice1" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Promotion" Member="Promotions">
@@ -128,9 +105,34 @@
       <Column Name="Creator" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="Promotion_Reservation" Member="Reservations" ThisKey="Id" OtherKey="PromotionId" Type="Reservation" />
-      <Association Name="Promotion_Reservation1" Member="Reservation1s" ThisKey="Id" OtherKey="PromotionId" Type="Reservation1" />
       <Association Name="Field_Promotion" Member="Field" ThisKey="FieldId" OtherKey="Id" Type="Field" IsForeignKey="true" />
-      <Association Name="Field1_Promotion" Member="Field1" ThisKey="FieldId" OtherKey="Id" Type="Field1" IsForeignKey="true" />
+      <Association Name="User_Promotion" Member="User" ThisKey="Creator" OtherKey="Id" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PunishMember" Member="PunishMembers">
+    <Type Name="PunishMember">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Reason" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ExpiredDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="IsForever" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="StaffId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="User_PunishMember" Member="User" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
+      <Association Name="User_PunishMember1" Member="User1" ThisKey="StaffId" OtherKey="Id" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ReportUser" Member="ReportUsers">
+    <Type Name="ReportUser">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ReportUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Reason" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Reference" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Date" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Association Name="Reservation_ReportUser" Member="Reservation" ThisKey="Reference" OtherKey="Id" Type="Reservation" IsForeignKey="true" />
+      <Association Name="User_ReportUser" Member="User" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
+      <Association Name="User_ReportUser1" Member="User1" ThisKey="ReportUserId" OtherKey="Id" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Reservation" Member="Reservations">
@@ -158,18 +160,13 @@
       <Column Name="RivalEmail" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="RivalFinder" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="RivalStatus" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="Reservation_ReportUser" Member="ReportUsers" ThisKey="Id" OtherKey="Reference" Type="ReportUser" />
       <Association Name="Field_Reservation" Member="Field" ThisKey="FieldId" OtherKey="Id" Type="Field" IsForeignKey="true" />
       <Association Name="Promotion_Reservation" Member="Promotion" ThisKey="PromotionId" OtherKey="Id" Type="Promotion" IsForeignKey="true" />
       <Association Name="User_Reservation" Member="User" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
       <Association Name="User_Reservation1" Member="User1" ThisKey="Approver" OtherKey="Id" Type="User" IsForeignKey="true" />
       <Association Name="User_Reservation2" Member="User2" ThisKey="RivalId" OtherKey="Id" Type="User" IsForeignKey="true" />
       <Association Name="User_Reservation3" Member="User3" ThisKey="RivalFinder" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="Field1_Reservation" Member="Field1" ThisKey="FieldId" OtherKey="Id" Type="Field1" IsForeignKey="true" />
-      <Association Name="Promotion1_Reservation" Member="Promotion1" ThisKey="PromotionId" OtherKey="Id" Type="Promotion1" IsForeignKey="true" />
-      <Association Name="User1_Reservation" Member="User11" ThisKey="UserId" OtherKey="Id" Type="User1" IsForeignKey="true" />
-      <Association Name="User1_Reservation2" Member="User12" ThisKey="Approver" OtherKey="Id" Type="User1" IsForeignKey="true" />
-      <Association Name="User1_Reservation3" Member="User13" ThisKey="RivalId" OtherKey="Id" Type="User1" IsForeignKey="true" />
-      <Association Name="User1_Reservation4" Member="User14" ThisKey="RivalFinder" OtherKey="Id" Type="User1" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Role" Member="Roles">
@@ -178,7 +175,6 @@
       <Column Name="Role" Member="Role1" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="DisplayName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Association Name="Role_User" Member="Users" ThisKey="Id" OtherKey="RoleId" Type="User" />
-      <Association Name="Role_User1" Member="User1s" ThisKey="Id" OtherKey="RoleId" Type="User1" />
     </Type>
   </Table>
   <Table Name="dbo.Stadium" Member="Stadiums">
@@ -202,15 +198,7 @@
       <Association Name="Stadium_StadiumRating" Member="StadiumRatings" ThisKey="Id" OtherKey="StadiumId" Type="StadiumRating" />
       <Association Name="Stadium_StadiumReview" Member="StadiumReviews" ThisKey="Id" OtherKey="StadiumId" Type="StadiumReview" />
       <Association Name="Stadium_StadiumStaff" Member="StadiumStaffs" ThisKey="Id" OtherKey="StadiumId" Type="StadiumStaff" />
-      <Association Name="Stadium_Field1" Member="Field1s" ThisKey="Id" OtherKey="StadiumId" Type="Field1" />
-      <Association Name="Stadium_FieldPrice1" Member="FieldPrice1s" ThisKey="Id" OtherKey="StadiumId" Type="FieldPrice1" />
-      <Association Name="Stadium_Notification1" Member="Notification1s" ThisKey="Id" OtherKey="StadiumId" Type="Notification1" />
-      <Association Name="Stadium_StadiumImage1" Member="StadiumImage1s" ThisKey="Id" OtherKey="StadiumId" Type="StadiumImage1" />
-      <Association Name="Stadium_StadiumRating1" Member="StadiumRating1s" ThisKey="Id" OtherKey="StadiumId" Type="StadiumRating1" />
-      <Association Name="Stadium_StadiumReview1" Member="StadiumReview1s" ThisKey="Id" OtherKey="StadiumId" Type="StadiumReview1" />
-      <Association Name="Stadium_StadiumStaff1" Member="StadiumStaff1s" ThisKey="Id" OtherKey="StadiumId" Type="StadiumStaff1" />
       <Association Name="User_Stadium" Member="User" ThisKey="MainOwner" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="User1_Stadium" Member="User1" ThisKey="MainOwner" OtherKey="Id" Type="User1" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.StadiumImage" Member="StadiumImages">
@@ -221,7 +209,6 @@
       <Column Name="Title" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Column Name="Caption" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
       <Association Name="Stadium_StadiumImage" Member="Stadium" ThisKey="StadiumId" OtherKey="Id" Type="Stadium" IsForeignKey="true" />
-      <Association Name="Stadium1_StadiumImage" Member="Stadium1" ThisKey="StadiumId" OtherKey="Id" Type="Stadium1" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.StadiumRating" Member="StadiumRatings">
@@ -232,8 +219,6 @@
       <Column Name="Rate" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Association Name="Stadium_StadiumRating" Member="Stadium" ThisKey="StadiumId" OtherKey="Id" Type="Stadium" IsForeignKey="true" />
       <Association Name="User_StadiumRating" Member="User" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="Stadium1_StadiumRating" Member="Stadium1" ThisKey="StadiumId" OtherKey="Id" Type="Stadium1" IsForeignKey="true" />
-      <Association Name="User1_StadiumRating" Member="User1" ThisKey="UserId" OtherKey="Id" Type="User1" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.StadiumReview" Member="StadiumReviews">
@@ -248,9 +233,6 @@
       <Association Name="Stadium_StadiumReview" Member="Stadium" ThisKey="StadiumId" OtherKey="Id" Type="Stadium" IsForeignKey="true" />
       <Association Name="User_StadiumReview" Member="User" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
       <Association Name="User_StadiumReview1" Member="User1" ThisKey="Approver" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="Stadium1_StadiumReview" Member="Stadium1" ThisKey="StadiumId" OtherKey="Id" Type="Stadium1" IsForeignKey="true" />
-      <Association Name="User1_StadiumReview" Member="User11" ThisKey="UserId" OtherKey="Id" Type="User1" IsForeignKey="true" />
-      <Association Name="User1_StadiumReview2" Member="User12" ThisKey="Approver" OtherKey="Id" Type="User1" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.StadiumStaff" Member="StadiumStaffs">
@@ -261,8 +243,6 @@
       <Column Name="IsOwner" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="Stadium_StadiumStaff" Member="Stadium" ThisKey="StadiumId" OtherKey="Id" Type="Stadium" IsForeignKey="true" />
       <Association Name="User_StadiumStaff" Member="User" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="Stadium1_StadiumStaff" Member="Stadium1" ThisKey="StadiumId" OtherKey="Id" Type="Stadium1" IsForeignKey="true" />
-      <Association Name="User1_StadiumStaff" Member="User1" ThisKey="UserId" OtherKey="Id" Type="User1" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.[User]" Member="Users">
@@ -274,8 +254,6 @@
       <Column Name="Address" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Column Name="PhoneNumber" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
       <Column Name="Email" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Point" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="RankId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="JoinDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="RoleId" Type="System.Int32" DbType="Int" CanBeNull="true" />
@@ -283,6 +261,11 @@
       <Association Name="User_UserDistance" Member="UserDistances" ThisKey="Id" OtherKey="UserId" Type="UserDistance" />
       <Association Name="User_JoinSystemRequest" Member="JoinSystemRequests" ThisKey="Id" OtherKey="UserId" Type="JoinSystemRequest" />
       <Association Name="User_Notification" Member="Notifications" ThisKey="Id" OtherKey="UserId" Type="Notification" />
+      <Association Name="User_Promotion" Member="Promotions" ThisKey="Id" OtherKey="Creator" Type="Promotion" />
+      <Association Name="User_PunishMember" Member="PunishMembers" ThisKey="Id" OtherKey="UserId" Type="PunishMember" />
+      <Association Name="User_PunishMember1" Member="PunishMembers1" ThisKey="Id" OtherKey="StaffId" Type="PunishMember" />
+      <Association Name="User_ReportUser" Member="ReportUsers" ThisKey="Id" OtherKey="UserId" Type="ReportUser" />
+      <Association Name="User_ReportUser1" Member="ReportUsers1" ThisKey="Id" OtherKey="ReportUserId" Type="ReportUser" />
       <Association Name="User_Reservation" Member="Reservations" ThisKey="Id" OtherKey="UserId" Type="Reservation" />
       <Association Name="User_Reservation1" Member="Reservations1" ThisKey="Id" OtherKey="Approver" Type="Reservation" />
       <Association Name="User_Reservation2" Member="Reservations2" ThisKey="Id" OtherKey="RivalId" Type="Reservation" />
@@ -292,370 +275,7 @@
       <Association Name="User_StadiumReview" Member="StadiumReviews" ThisKey="Id" OtherKey="UserId" Type="StadiumReview" />
       <Association Name="User_StadiumReview1" Member="StadiumReviews1" ThisKey="Id" OtherKey="Approver" Type="StadiumReview" />
       <Association Name="User_StadiumStaff" Member="StadiumStaffs" ThisKey="Id" OtherKey="UserId" Type="StadiumStaff" />
-      <Association Name="User_UserDistance1" Member="UserDistance1s" ThisKey="Id" OtherKey="UserId" Type="UserDistance1" />
-      <Association Name="User_Advertisement1" Member="Advertisement1s" ThisKey="Id" OtherKey="Creator" Type="Advertisement1" />
-      <Association Name="User_JoinSystemRequest1" Member="JoinSystemRequest1s" ThisKey="Id" OtherKey="UserId" Type="JoinSystemRequest1" />
-      <Association Name="User_Notification1" Member="Notification1s" ThisKey="Id" OtherKey="UserId" Type="Notification1" />
-      <Association Name="User_PunishMember" Member="PunishMembers" ThisKey="Id" OtherKey="UserId" Type="PunishMember" />
-      <Association Name="User_PunishMember1" Member="PunishMembers1" ThisKey="Id" OtherKey="StaffId" Type="PunishMember" />
-      <Association Name="User_ReportUser" Member="ReportUsers" ThisKey="Id" OtherKey="ReportUserId" Type="ReportUser" />
-      <Association Name="User_ReportUser1" Member="ReportUsers1" ThisKey="Id" OtherKey="UserId" Type="ReportUser" />
-      <Association Name="User_Reservation11" Member="Reservation1s" ThisKey="Id" OtherKey="UserId" Type="Reservation1" />
-      <Association Name="User_Reservation12" Member="Reservation1s1" ThisKey="Id" OtherKey="Approver" Type="Reservation1" />
-      <Association Name="User_Reservation13" Member="Reservation1s2" ThisKey="Id" OtherKey="RivalId" Type="Reservation1" />
-      <Association Name="User_Reservation14" Member="Reservation1s3" ThisKey="Id" OtherKey="RivalFinder" Type="Reservation1" />
-      <Association Name="User_Stadium1" Member="Stadium1s" ThisKey="Id" OtherKey="MainOwner" Type="Stadium1" />
-      <Association Name="User_StadiumRating1" Member="StadiumRating1s" ThisKey="Id" OtherKey="UserId" Type="StadiumRating1" />
-      <Association Name="User_StadiumReview11" Member="StadiumReview1s" ThisKey="Id" OtherKey="UserId" Type="StadiumReview1" />
-      <Association Name="User_StadiumReview12" Member="StadiumReview1s1" ThisKey="Id" OtherKey="Approver" Type="StadiumReview1" />
-      <Association Name="User_StadiumStaff1" Member="StadiumStaff1s" ThisKey="Id" OtherKey="UserId" Type="StadiumStaff1" />
-      <Association Name="MemberRank_User" Member="MemberRank" ThisKey="RankId" OtherKey="Id" Type="MemberRank" IsForeignKey="true" />
       <Association Name="Role_User" Member="Role" ThisKey="RoleId" OtherKey="Id" Type="Role" IsForeignKey="true" />
-      <Association Name="MemberRank1_User" Member="MemberRank1" ThisKey="RankId" OtherKey="Id" Type="MemberRank1" IsForeignKey="true" />
-      <Association Name="Role1_User" Member="Role1" ThisKey="RoleId" OtherKey="Id" Type="Role1" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.UserDistance" Member="UserDistance1s">
-    <Type Name="UserDistance1">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Path" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="UpdateDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Association Name="User_UserDistance1" Member="User" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="User1_UserDistance1" Member="User1" ThisKey="UserId" OtherKey="Id" Type="User1" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Advertisement" Member="Advertisement1s">
-    <Type Name="Advertisement1">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Position" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
-      <Column Name="AdvertiseDetail" Type="System.String" DbType="NText NOT NULL" CanBeNull="false" UpdateCheck="Never" />
-      <Column Name="CreateDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Column Name="ExpiredDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Column Name="Status" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Creator" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="User_Advertisement1" Member="User" ThisKey="Creator" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="User1_Advertisement1" Member="User1" ThisKey="Creator" OtherKey="Id" Type="User1" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Configuration" Member="Configuration1s">
-    <Type Name="Configuration1">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="Value" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Field" Member="Field1s">
-    <Type Name="Field1">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="StadiumId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Number" Type="System.String" DbType="NVarChar(5) NOT NULL" CanBeNull="false" />
-      <Column Name="ParentField" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="FieldType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="PriceId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Field1_Field1" Member="Field1s" ThisKey="Id" OtherKey="ParentField" Type="Field1" />
-      <Association Name="Field1_Promotion" Member="Promotions" ThisKey="Id" OtherKey="FieldId" Type="Promotion" />
-      <Association Name="Field1_Reservation" Member="Reservations" ThisKey="Id" OtherKey="FieldId" Type="Reservation" />
-      <Association Name="Field1_Promotion1" Member="Promotion1s" ThisKey="Id" OtherKey="FieldId" Type="Promotion1" />
-      <Association Name="Field1_Reservation1" Member="Reservation1s" ThisKey="Id" OtherKey="FieldId" Type="Reservation1" />
-      <Association Name="Field1_Field1" Member="Field11" ThisKey="ParentField" OtherKey="Id" Type="Field1" IsForeignKey="true" />
-      <Association Name="FieldPrice_Field1" Member="FieldPrice" ThisKey="PriceId" OtherKey="Id" Type="FieldPrice" IsForeignKey="true" />
-      <Association Name="Stadium_Field1" Member="Stadium" ThisKey="StadiumId" OtherKey="Id" Type="Stadium" IsForeignKey="true" />
-      <Association Name="FieldPrice1_Field1" Member="FieldPrice1" ThisKey="PriceId" OtherKey="Id" Type="FieldPrice1" IsForeignKey="true" />
-      <Association Name="Stadium1_Field1" Member="Stadium1" ThisKey="StadiumId" OtherKey="Id" Type="Stadium1" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.FieldPrice" Member="FieldPrice1s">
-    <Type Name="FieldPrice1">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="StadiumId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="FieldPriceName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="FieldPriceDescription" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
-      <Association Name="FieldPrice1_Field" Member="Fields" ThisKey="Id" OtherKey="PriceId" Type="Field" />
-      <Association Name="FieldPrice1_Field1" Member="Field1s" ThisKey="Id" OtherKey="PriceId" Type="Field1" />
-      <Association Name="FieldPrice1_PriceTable" Member="PriceTables" ThisKey="Id" OtherKey="FieldPriceId" Type="PriceTable" />
-      <Association Name="FieldPrice1_PriceTable1" Member="PriceTable1s" ThisKey="Id" OtherKey="FieldPriceId" Type="PriceTable1" />
-      <Association Name="Stadium_FieldPrice1" Member="Stadium" ThisKey="StadiumId" OtherKey="Id" Type="Stadium" IsForeignKey="true" />
-      <Association Name="Stadium1_FieldPrice1" Member="Stadium1" ThisKey="StadiumId" OtherKey="Id" Type="Stadium1" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.JoinSystemRequest" Member="JoinSystemRequest1s">
-    <Type Name="JoinSystemRequest1">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="FullName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Address" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="Phone" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
-      <Column Name="Email" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="StadiumName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="StadiumAddress" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="Note" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
-      <Column Name="Status" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="CreateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="User_JoinSystemRequest1" Member="User" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="User1_JoinSystemRequest1" Member="User1" ThisKey="UserId" OtherKey="Id" Type="User1" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.MemberRank" Member="MemberRank1s">
-    <Type Name="MemberRank1">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="RankName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Point" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Promotion" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
-      <Association Name="MemberRank1_User" Member="Users" ThisKey="Id" OtherKey="RankId" Type="User" />
-      <Association Name="MemberRank1_User1" Member="User1s" ThisKey="Id" OtherKey="RankId" Type="User1" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Notification" Member="Notification1s">
-    <Type Name="Notification1">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="UserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="StadiumId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Message" Type="System.String" DbType="NVarChar(2000) NOT NULL" CanBeNull="false" />
-      <Column Name="CreateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Status" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="Stadium_Notification1" Member="Stadium" ThisKey="StadiumId" OtherKey="Id" Type="Stadium" IsForeignKey="true" />
-      <Association Name="User_Notification1" Member="User" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="Stadium1_Notification1" Member="Stadium1" ThisKey="StadiumId" OtherKey="Id" Type="Stadium1" IsForeignKey="true" />
-      <Association Name="User1_Notification1" Member="User1" ThisKey="UserId" OtherKey="Id" Type="User1" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.PriceTable" Member="PriceTable1s">
-    <Type Name="PriceTable1">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="FieldPriceId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Day" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="TimeFrom" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Column Name="TimeTo" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Column Name="Price" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Association Name="FieldPrice_PriceTable1" Member="FieldPrice" ThisKey="FieldPriceId" OtherKey="Id" Type="FieldPrice" IsForeignKey="true" />
-      <Association Name="FieldPrice1_PriceTable1" Member="FieldPrice1" ThisKey="FieldPriceId" OtherKey="Id" Type="FieldPrice1" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Promotion" Member="Promotion1s">
-    <Type Name="Promotion1">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="FieldId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="PromotionFrom" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Column Name="PromotionTo" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Column Name="Discount" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Column Name="Creator" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="Promotion1_Reservation" Member="Reservations" ThisKey="Id" OtherKey="PromotionId" Type="Reservation" />
-      <Association Name="Promotion1_Reservation1" Member="Reservation1s" ThisKey="Id" OtherKey="PromotionId" Type="Reservation1" />
-      <Association Name="Field_Promotion1" Member="Field" ThisKey="FieldId" OtherKey="Id" Type="Field" IsForeignKey="true" />
-      <Association Name="Field1_Promotion1" Member="Field1" ThisKey="FieldId" OtherKey="Id" Type="Field1" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.PunishMember" Member="PunishMembers">
-    <Type Name="PunishMember">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Reason" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
-      <Column Name="Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="ExpiredDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="IsForever" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="StaffId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="User_PunishMember" Member="User" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="User_PunishMember1" Member="User1" ThisKey="StaffId" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="User1_PunishMember" Member="User11" ThisKey="UserId" OtherKey="Id" Type="User1" IsForeignKey="true" />
-      <Association Name="User1_PunishMember1" Member="User12" ThisKey="StaffId" OtherKey="Id" Type="User1" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.ReportUser" Member="ReportUsers">
-    <Type Name="ReportUser">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ReportUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Reason" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Date" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Association Name="User_ReportUser" Member="User" ThisKey="ReportUserId" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="User_ReportUser1" Member="User1" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="User1_ReportUser" Member="User11" ThisKey="ReportUserId" OtherKey="Id" Type="User1" IsForeignKey="true" />
-      <Association Name="User1_ReportUser1" Member="User12" ThisKey="UserId" OtherKey="Id" Type="User1" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Reservation" Member="Reservation1s">
-    <Type Name="Reservation1">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="FieldId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="UserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="FullName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="PhoneNumber" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
-      <Column Name="Email" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Date" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Column Name="StartTime" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Column Name="Duration" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Column Name="Price" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Column Name="Discount" Type="System.Double" DbType="Float" CanBeNull="true" />
-      <Column Name="PromotionId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="VerifyCode" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Approver" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Status" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
-      <Column Name="NeedRival" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="RivalId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="RivalName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="RivalPhone" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
-      <Column Name="RivalEmail" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="RivalFinder" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="RivalStatus" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Association Name="Field_Reservation1" Member="Field" ThisKey="FieldId" OtherKey="Id" Type="Field" IsForeignKey="true" />
-      <Association Name="Field1_Reservation1" Member="Field1" ThisKey="FieldId" OtherKey="Id" Type="Field1" IsForeignKey="true" />
-      <Association Name="Promotion_Reservation1" Member="Promotion" ThisKey="PromotionId" OtherKey="Id" Type="Promotion" IsForeignKey="true" />
-      <Association Name="Promotion1_Reservation1" Member="Promotion1" ThisKey="PromotionId" OtherKey="Id" Type="Promotion1" IsForeignKey="true" />
-      <Association Name="User_Reservation11" Member="User" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="User_Reservation12" Member="User1" ThisKey="Approver" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="User_Reservation13" Member="User2" ThisKey="RivalId" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="User_Reservation14" Member="User3" ThisKey="RivalFinder" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="User1_Reservation1" Member="User11" ThisKey="UserId" OtherKey="Id" Type="User1" IsForeignKey="true" />
-      <Association Name="User1_Reservation11" Member="User12" ThisKey="Approver" OtherKey="Id" Type="User1" IsForeignKey="true" />
-      <Association Name="User1_Reservation12" Member="User13" ThisKey="RivalId" OtherKey="Id" Type="User1" IsForeignKey="true" />
-      <Association Name="User1_Reservation13" Member="User14" ThisKey="RivalFinder" OtherKey="Id" Type="User1" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Role" Member="Role1s">
-    <Type Name="Role1">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Role" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="DisplayName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Association Name="Role1_User" Member="Users" ThisKey="Id" OtherKey="RoleId" Type="User" />
-      <Association Name="Role1_User1" Member="User1s" ThisKey="Id" OtherKey="RoleId" Type="User1" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Stadium" Member="Stadium1s">
-    <Type Name="Stadium1">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="Street" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Ward" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="District" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Phone" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
-      <Column Name="Email" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="MainOwner" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="OpenTime" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Column Name="CloseTime" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Column Name="ExpiredDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Association Name="Stadium1_Field" Member="Fields" ThisKey="Id" OtherKey="StadiumId" Type="Field" />
-      <Association Name="Stadium1_Field1" Member="Field1s" ThisKey="Id" OtherKey="StadiumId" Type="Field1" />
-      <Association Name="Stadium1_FieldPrice" Member="FieldPrices" ThisKey="Id" OtherKey="StadiumId" Type="FieldPrice" />
-      <Association Name="Stadium1_FieldPrice1" Member="FieldPrice1s" ThisKey="Id" OtherKey="StadiumId" Type="FieldPrice1" />
-      <Association Name="Stadium1_Notification" Member="Notifications" ThisKey="Id" OtherKey="StadiumId" Type="Notification" />
-      <Association Name="Stadium1_Notification1" Member="Notification1s" ThisKey="Id" OtherKey="StadiumId" Type="Notification1" />
-      <Association Name="Stadium1_StadiumImage" Member="StadiumImages" ThisKey="Id" OtherKey="StadiumId" Type="StadiumImage" />
-      <Association Name="Stadium1_StadiumRating" Member="StadiumRatings" ThisKey="Id" OtherKey="StadiumId" Type="StadiumRating" />
-      <Association Name="Stadium1_StadiumReview" Member="StadiumReviews" ThisKey="Id" OtherKey="StadiumId" Type="StadiumReview" />
-      <Association Name="Stadium1_StadiumStaff" Member="StadiumStaffs" ThisKey="Id" OtherKey="StadiumId" Type="StadiumStaff" />
-      <Association Name="Stadium1_StadiumImage1" Member="StadiumImage1s" ThisKey="Id" OtherKey="StadiumId" Type="StadiumImage1" />
-      <Association Name="Stadium1_StadiumRating1" Member="StadiumRating1s" ThisKey="Id" OtherKey="StadiumId" Type="StadiumRating1" />
-      <Association Name="Stadium1_StadiumReview1" Member="StadiumReview1s" ThisKey="Id" OtherKey="StadiumId" Type="StadiumReview1" />
-      <Association Name="Stadium1_StadiumStaff1" Member="StadiumStaff1s" ThisKey="Id" OtherKey="StadiumId" Type="StadiumStaff1" />
-      <Association Name="User_Stadium1" Member="User" ThisKey="MainOwner" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="User1_Stadium1" Member="User1" ThisKey="MainOwner" OtherKey="Id" Type="User1" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.StadiumImage" Member="StadiumImage1s">
-    <Type Name="StadiumImage1">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="StadiumId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Path" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="Title" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="Caption" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
-      <Association Name="Stadium_StadiumImage1" Member="Stadium" ThisKey="StadiumId" OtherKey="Id" Type="Stadium" IsForeignKey="true" />
-      <Association Name="Stadium1_StadiumImage1" Member="Stadium1" ThisKey="StadiumId" OtherKey="Id" Type="Stadium1" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.StadiumRating" Member="StadiumRating1s">
-    <Type Name="StadiumRating1">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="StadiumId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Rate" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Association Name="Stadium_StadiumRating1" Member="Stadium" ThisKey="StadiumId" OtherKey="Id" Type="Stadium" IsForeignKey="true" />
-      <Association Name="Stadium1_StadiumRating1" Member="Stadium1" ThisKey="StadiumId" OtherKey="Id" Type="Stadium1" IsForeignKey="true" />
-      <Association Name="User_StadiumRating1" Member="User" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="User1_StadiumRating1" Member="User1" ThisKey="UserId" OtherKey="Id" Type="User1" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.StadiumReview" Member="StadiumReview1s">
-    <Type Name="StadiumReview1">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="StadiumId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ReviewContent" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
-      <Column Name="IsApproved" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="Approver" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="CreateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="Stadium_StadiumReview1" Member="Stadium" ThisKey="StadiumId" OtherKey="Id" Type="Stadium" IsForeignKey="true" />
-      <Association Name="Stadium1_StadiumReview1" Member="Stadium1" ThisKey="StadiumId" OtherKey="Id" Type="Stadium1" IsForeignKey="true" />
-      <Association Name="User_StadiumReview11" Member="User" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="User_StadiumReview12" Member="User1" ThisKey="Approver" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="User1_StadiumReview1" Member="User11" ThisKey="UserId" OtherKey="Id" Type="User1" IsForeignKey="true" />
-      <Association Name="User1_StadiumReview11" Member="User12" ThisKey="Approver" OtherKey="Id" Type="User1" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.StadiumStaff" Member="StadiumStaff1s">
-    <Type Name="StadiumStaff1">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="StadiumId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="IsOwner" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="Stadium_StadiumStaff1" Member="Stadium" ThisKey="StadiumId" OtherKey="Id" Type="Stadium" IsForeignKey="true" />
-      <Association Name="Stadium1_StadiumStaff1" Member="Stadium1" ThisKey="StadiumId" OtherKey="Id" Type="Stadium1" IsForeignKey="true" />
-      <Association Name="User_StadiumStaff1" Member="User" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="User1_StadiumStaff1" Member="User1" ThisKey="UserId" OtherKey="Id" Type="User1" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.[User]" Member="User1s">
-    <Type Name="User1">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="UserName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Password" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="FullName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Address" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="PhoneNumber" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
-      <Column Name="Email" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Point" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="RankId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="JoinDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="RoleId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="User1_Advertisement" Member="Advertisements" ThisKey="Id" OtherKey="Creator" Type="Advertisement" />
-      <Association Name="User1_Advertisement1" Member="Advertisement1s" ThisKey="Id" OtherKey="Creator" Type="Advertisement1" />
-      <Association Name="User1_UserDistance" Member="UserDistances" ThisKey="Id" OtherKey="UserId" Type="UserDistance" />
-      <Association Name="User1_UserDistance1" Member="UserDistance1s" ThisKey="Id" OtherKey="UserId" Type="UserDistance1" />
-      <Association Name="User1_JoinSystemRequest" Member="JoinSystemRequests" ThisKey="Id" OtherKey="UserId" Type="JoinSystemRequest" />
-      <Association Name="User1_JoinSystemRequest1" Member="JoinSystemRequest1s" ThisKey="Id" OtherKey="UserId" Type="JoinSystemRequest1" />
-      <Association Name="User1_Notification" Member="Notifications" ThisKey="Id" OtherKey="UserId" Type="Notification" />
-      <Association Name="User1_Notification1" Member="Notification1s" ThisKey="Id" OtherKey="UserId" Type="Notification1" />
-      <Association Name="User1_Reservation" Member="Reservations" ThisKey="Id" OtherKey="UserId" Type="Reservation" />
-      <Association Name="User1_Reservation1" Member="Reservation1s" ThisKey="Id" OtherKey="UserId" Type="Reservation1" />
-      <Association Name="User1_Reservation2" Member="Reservations1" ThisKey="Id" OtherKey="Approver" Type="Reservation" />
-      <Association Name="User1_Reservation11" Member="Reservation1s1" ThisKey="Id" OtherKey="Approver" Type="Reservation1" />
-      <Association Name="User1_Reservation3" Member="Reservations2" ThisKey="Id" OtherKey="RivalId" Type="Reservation" />
-      <Association Name="User1_Reservation12" Member="Reservation1s2" ThisKey="Id" OtherKey="RivalId" Type="Reservation1" />
-      <Association Name="User1_Reservation4" Member="Reservations3" ThisKey="Id" OtherKey="RivalFinder" Type="Reservation" />
-      <Association Name="User1_Reservation13" Member="Reservation1s3" ThisKey="Id" OtherKey="RivalFinder" Type="Reservation1" />
-      <Association Name="User1_Stadium" Member="Stadiums" ThisKey="Id" OtherKey="MainOwner" Type="Stadium" />
-      <Association Name="User1_Stadium1" Member="Stadium1s" ThisKey="Id" OtherKey="MainOwner" Type="Stadium1" />
-      <Association Name="User1_StadiumRating" Member="StadiumRatings" ThisKey="Id" OtherKey="UserId" Type="StadiumRating" />
-      <Association Name="User1_StadiumRating1" Member="StadiumRating1s" ThisKey="Id" OtherKey="UserId" Type="StadiumRating1" />
-      <Association Name="User1_StadiumReview" Member="StadiumReviews" ThisKey="Id" OtherKey="UserId" Type="StadiumReview" />
-      <Association Name="User1_StadiumReview1" Member="StadiumReview1s" ThisKey="Id" OtherKey="UserId" Type="StadiumReview1" />
-      <Association Name="User1_StadiumReview2" Member="StadiumReviews1" ThisKey="Id" OtherKey="Approver" Type="StadiumReview" />
-      <Association Name="User1_StadiumReview11" Member="StadiumReview1s1" ThisKey="Id" OtherKey="Approver" Type="StadiumReview1" />
-      <Association Name="User1_StadiumStaff" Member="StadiumStaffs" ThisKey="Id" OtherKey="UserId" Type="StadiumStaff" />
-      <Association Name="User1_StadiumStaff1" Member="StadiumStaff1s" ThisKey="Id" OtherKey="UserId" Type="StadiumStaff1" />
-      <Association Name="User1_PunishMember" Member="PunishMembers" ThisKey="Id" OtherKey="UserId" Type="PunishMember" />
-      <Association Name="User1_PunishMember1" Member="PunishMembers1" ThisKey="Id" OtherKey="StaffId" Type="PunishMember" />
-      <Association Name="User1_ReportUser" Member="ReportUsers" ThisKey="Id" OtherKey="ReportUserId" Type="ReportUser" />
-      <Association Name="User1_ReportUser1" Member="ReportUsers1" ThisKey="Id" OtherKey="UserId" Type="ReportUser" />
-      <Association Name="MemberRank_User1" Member="MemberRank" ThisKey="RankId" OtherKey="Id" Type="MemberRank" IsForeignKey="true" />
-      <Association Name="MemberRank1_User1" Member="MemberRank1" ThisKey="RankId" OtherKey="Id" Type="MemberRank1" IsForeignKey="true" />
-      <Association Name="Role_User1" Member="Role" ThisKey="RoleId" OtherKey="Id" Type="Role" IsForeignKey="true" />
-      <Association Name="Role1_User1" Member="Role1" ThisKey="RoleId" OtherKey="Id" Type="Role1" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

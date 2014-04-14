@@ -178,7 +178,6 @@
     <Compile Include="DataAccessObjects\FieldDAO.cs" />
     <Compile Include="DataAccessObjects\FieldPriceDAO.cs" />
     <Compile Include="DataAccessObjects\JoinSystemRequestDAO.cs" />
-    <Compile Include="DataAccessObjects\MemberRankDAO.cs" />
     <Compile Include="DataAccessObjects\PromotionDAO.cs" />
     <Compile Include="DataAccessObjects\ReservationDAO.cs" />
     <Compile Include="DataAccessObjects\RoleDAO.cs" />
@@ -198,7 +197,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FPB.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Models\WebsiteStaffModels\RankModel.cs" />
     <Compile Include="Models\StadiumModels\JoinUsModel.cs" />
     <Compile Include="Models\NoModel.cs" />
     <Compile Include="Models\StadiumModels\QuickSearchModel.cs" />
@@ -416,10 +414,7 @@
     <Content Include="Views\Stadium\JoinUs.cshtml" />
     <Content Include="Views\WebsiteStaff\JoinRequests.cshtml" />
     <Content Include="Views\Stadium\JoinUsSuccess.cshtml" />
-    <Content Include="Views\WebsiteStaff\_List.cshtml" />
     <Content Include="Views\WebsiteStaff\Users.cshtml" />
-    <Content Include="Views\WebsiteStaff\MemberRanks.cshtml" />
-    <Content Include="Views\WebsiteStaff\_List2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -443,7 +438,6 @@
     <Content Include="Views\Shared\_WebsiteStaffLayout.cshtml" />
     <Content Include="Views\WebsiteStaff\EditJSR.cshtml" />
     <Content Include="Views\WebsiteStaff\Error.cshtml" />
-    <Content Include="Views\WebsiteStaff\AddMemberRank.cshtml" />
     <Content Include="Views\WebsiteStaff\Stadiums.cshtml" />
     <Content Include="Views\WebsiteStaff\EditStadium.cshtml" />
     <Content Include="Views\WebsiteStaff\AddStadium.cshtml" />
@@ -458,7 +452,6 @@
     <Content Include="Views\StadiumStaff\AddFieldPrices.cshtml" />
     <Content Include="Views\StadiumStaff\EditField.cshtml" />
     <Content Include="Views\Stadium\QuickSearch.cshtml" />
-    <Content Include="Views\WebsiteStaff\EditMemberRank.cshtml" />
     <Content Include="Views\StadiumStaff\AddPromotion.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\StadiumStaff\EditPromotion.cshtml" />
@@ -484,6 +477,7 @@
     <Content Include="Views\WebsiteStaff\Review.cshtml" />
     <Content Include="Views\Home\Advertise.cshtml" />
     <Content Include="Views\Account\Block.cshtml" />
+    <Content Include="Views\Account\Recovery.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

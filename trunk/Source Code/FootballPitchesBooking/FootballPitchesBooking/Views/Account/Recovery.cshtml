@@ -1,0 +1,71 @@
+﻿@model int
+@{
+    ViewBag.Title = "Khôi Phục Mật Khẩu Thành Viên";
+}
+
+<h2>KHÔI PHỤC MẬT KHẨU THÀNH VIÊN</h2>
+
+<script type="text/ecmascript">
+    function check() {
+        var flag = 0;
+        var email = $("#txtMail").val();
+        var reg = /^(\w+[\.])*\w+@@(\w+\.)+[a-zA-Z]+$/;
+
+        if (!reg.test(email)) {
+            $("#Email_Error").text("Email không đúng");
+            $("#Email_Error").css("display", "block");
+            flag++;
+        }
+        else {
+            $("#Email_Error").text(" ");
+            $("#Email_Error").css("display", "none");
+        }
+
+
+        if (flag > 0) {
+            return false;
+        } else return true;
+    }
+</script>
+
+
+<div class="row">
+    <div class="span10">
+        @if (Model == 1)
+        {
+            <div style="color: red">
+                <p>Hệ thống đã gửi email cho bạn, vui lòng kiểm tra email để lấy thông tin đăng nhập.</p>
+            </div>
+            <p>
+                <button type="button" onclick="window.location = '/Home'" class="btn btn-primary btn-large book-now pull-right groupbtn">Hủy bỏ</button>
+                <button type="button" onclick="window.location = '/Account/Login'" class="btn btn-primary btn-large book-now pull-right groupbtn">Đăng nhập</button>
+            </p>
+        }
+        else
+        {
+            if (Model == -1)
+            {
+            <div style="color: red">
+                <p>Lỗi, email chưa được gửi đi, vui lòng thực hiện lại.</p>
+            </div>
+            }
+            else if (Model == -2)
+            {
+            <div style="color: red">
+                <p>Không tìm thấy tài khoản email này trong hệ thống.</p>
+            </div>
+            }
+            <form action="Recovery" method="post">
+                <div class="span5 no-margin">
+                    <label for="Email" class="span1 no-margin" style="height: 30px; line-height: 30px;">E-MAIL:</label>
+                    <input class="span4" type="text" id="txtMail" name="Email" placeholder="Nhập vào E-mail để khôi phục mật khẩu" required="required" value="" />
+                    <div class="alert alert-danger" id="Email_Error" style="display: none"></div>
+                </div>
+                <div class="span5 pull-right">
+                    <button type="button" onclick="window.location = '/Home'" class="btn btn-primary btn-large book-now pull-right groupbtn">Hủy bỏ</button>
+                    <button type="submit" name="Recovery" onclick="return check()" class="btn btn-primary btn-large book-now pull-right groupbtn">Gửi</button>
+                </div>
+            </form>
+        }
+    </div>
+</div>
