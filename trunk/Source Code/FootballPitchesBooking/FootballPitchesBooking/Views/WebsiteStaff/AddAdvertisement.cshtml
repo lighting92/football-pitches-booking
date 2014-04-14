@@ -12,7 +12,7 @@
         var expired = $("#ExpiredDate").val();
 
         if (detail == "") {
-            $("#AdvertiseDetail_Error").append("Xin vui lòng chọn thời gian khuyến mãi");
+            $("#AdvertiseDetail_Error").append("Xin vui lòng nhập vào chi tiết của quảng cáo");
             $("#AdvertiseDetail_Error").css("display", "block");
             flag++;
         }
@@ -22,7 +22,7 @@
         }
 
         if (expired == "") {
-            $("#ExpiredDate_Error").append("Xin vui lòng chọn thời gian khuyến mãi");
+            $("#ExpiredDate_Error").append("Xin vui lòng chọn thời gian khuyến mãi");   
             $("#ExpiredDate_Error").css("display", "block");
             flag++;
         }
@@ -41,7 +41,7 @@
     <h1>THÊM QUẢNG CÁO</h1>
     <form action="AddAdvertisement" method="post" class="form-horizontal" enctype="multipart/form-data">
         <p>
-            @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
+            @if (Model != null && Model.ErrorMessages.Count() > 0)
             {
                 <div class="alert alert-danger">
                     @foreach (var error in Model.ErrorMessages)

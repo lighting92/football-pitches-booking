@@ -831,6 +831,8 @@ namespace FootballPitchesBooking.Controllers
                 }
             }
             return RedirectToAction("Profiles", "Account");
+
+            return View();
         }
     }
 }
