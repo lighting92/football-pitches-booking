@@ -214,6 +214,11 @@ namespace FootballPitchesBooking.BusinessObjects
 
                 var distances = SinglePointDistanceMatrix(addresses);
 
+                if (distances == null)
+                {
+                    return null;
+                }
+
                 List<StadiumDistance> lsd = new List<StadiumDistance>();
 
                 for (int i = 0; i < stadiumAddresses.Count(); i++)

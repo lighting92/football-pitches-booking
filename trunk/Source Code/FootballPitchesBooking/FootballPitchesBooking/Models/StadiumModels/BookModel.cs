@@ -12,7 +12,7 @@ namespace FootballPitchesBooking.Models.StadiumModels
         public BookingOptions Options { get; set; }
         public BookingUserInfo UserInfo { get; set; }
         public List<double> Prices { get; set; }
-        public List<double> Discount { get; set; }        
+        public List<double> Discounts { get; set; }        
         public string ErrorMessage { get; set; }
         public string SuccessMessage { get; set; }
     }

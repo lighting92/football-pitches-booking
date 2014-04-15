@@ -166,7 +166,7 @@ namespace FootballPitchesBooking.BusinessObjects
 
         public int UserBooking(Reservation res)
         {
-            var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now.AddHours(2), "SE Asia Standard Time");
+            var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now.AddHours(0.5), "SE Asia Standard Time");
             if (res.Date.AddHours(res.StartTime).CompareTo(now) >= 0)
             {
                 ReservationDAO resDAO = new ReservationDAO();
@@ -174,14 +174,34 @@ namespace FootballPitchesBooking.BusinessObjects
             }
             else
             {
-                return -1;                
+                return -1;
             }
         }
 
         public int UserCancelBooking(int resId)
         {
             ReservationDAO resDAO = new ReservationDAO();
-            return resDAO.UserCancelReservation(resId);
+
+            var res = resDAO.GetReservationById(resId);
+            if (res != null)
+            {
+                Notification msg = new Notification();
+                msg.StadiumId = res.Field.StadiumId;
+                msg.Status = "Unread";
+                msg.Message = "[" + res.User.UserName + "] đã hủy đặt sân do bạn quản lý <a href='/StadiumStaff/ViewReservation?Id=" + res.Id + "'>Chi tiết</a>";
+                msg.CreateDate = msg.CreateDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "SE Asia Standard Time");
+                var result = resDAO.UserCancelReservation(resId);
+                if (result > 0)
+                {
+                    NotificationDAO notDAO = new NotificationDAO();
+                    notDAO.CreateMessage(msg);
+                }
+                return result;
+            }
+            else
+            {
+                return -1;
+            }
         }
 
         public int UserUpdateReservation(Reservation res)
@@ -211,7 +231,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 res.RivalId = null;
             }
             else if (!res.NeedRival)
-            {   
+            {
                 if (res.RivalId != null)
                 {
                     msg = new Notification();
@@ -266,16 +286,16 @@ namespace FootballPitchesBooking.BusinessObjects
             ReservationDAO resvDAO = new ReservationDAO();
             return resvDAO.UpdateReservationStatus(reservationId, status, approver);
         }
-		
-		
-		public int UpdateReservationRival(Reservation reservation)
+
+
+        public int UpdateReservationRival(Reservation reservation)
         {
             ReservationDAO resvDAO = new ReservationDAO();
             return resvDAO.UpdateReservationRival(reservation);
         }
-		
-		
-		public List<Reservation> GetReservationsNeedRival()
+
+
+        public List<Reservation> GetReservationsNeedRival()
         {
             ReservationDAO resvDAO = new ReservationDAO();
             return resvDAO.GetReservationsNeedRival();

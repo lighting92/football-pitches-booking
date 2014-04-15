@@ -50,9 +50,10 @@ namespace FootballPitchesBooking.BusinessObjects
                 UserDAO userDAO = new UserDAO();
                 StadiumDAO stadiumDAO = new StadiumDAO();
                 var distancePriority = new List<PriorityModel>();
-                distances = distances.Where(d => listStadiumIds.Contains(d.StadiumId)).ToList();
+                
                 if (distances != null && distances.Count() != 0)
                 {
+                    distances = distances.Where(d => listStadiumIds.Contains(d.StadiumId)).ToList();
                     for (int i = 0; i < distances.Count(); i++)
                     {
                         PriorityModel temp = new PriorityModel();
@@ -396,6 +397,10 @@ namespace FootballPitchesBooking.BusinessObjects
             if (!string.IsNullOrWhiteSpace(userName))
             {
                 // Most reservations
+                if (distances == null)
+                {
+                    return null;
+                }
                 ReservationDAO resDAO = new ReservationDAO();
                 var reservations = resDAO.GetAllReservationsOfUser(userName);
                 var notCancelReservations = reservations.Where(r => !r.Status.ToLower().Equals("canceled")).ToList();
@@ -658,9 +663,10 @@ namespace FootballPitchesBooking.BusinessObjects
                 UserDAO userDAO = new UserDAO();
                 StadiumDAO stadiumDAO = new StadiumDAO();
                 var distancePriority = new List<PriorityModel>();
-                distances = distances.Where(d => listPSIds.Contains(d.StadiumId)).ToList();
+                
                 if (distances != null && distances.Count() != 0)
                 {
+                    distances = distances.Where(d => listPSIds.Contains(d.StadiumId)).ToList();
                     for (int i = 0; i < distances.Count(); i++)
                     {
                         PriorityModel temp = new PriorityModel();
@@ -856,9 +862,10 @@ namespace FootballPitchesBooking.BusinessObjects
                 UserDAO userDAO = new UserDAO();
                 StadiumDAO stadiumDAO = new StadiumDAO();
                 var distancePriority = new List<PriorityModel>();
-                distances = distances.Where(d => listMostIds.Contains(d.StadiumId)).ToList();
+                
                 if (distances != null && distances.Count() != 0)
                 {
+                    distances = distances.Where(d => listMostIds.Contains(d.StadiumId)).ToList();
                     for (int i = 0; i < distances.Count(); i++)
                     {
                         PriorityModel temp = new PriorityModel();

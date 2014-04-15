@@ -10,5 +10,6 @@ namespace FootballPitchesBooking.Models.StadiumModels
         public Stadium Stadium { get; set; }
         public List<Field> Fields { get; set; }
         public List<double> Prices { get; set; }
+        public List<double> Discounts { get; set; }
     }
 }

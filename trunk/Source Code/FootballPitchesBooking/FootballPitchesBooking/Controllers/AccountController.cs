@@ -842,6 +842,54 @@ namespace FootballPitchesBooking.Controllers
             return View(model);
         }
 
+        [Authorize]
+        public ActionResult Notifications()
+        {
+            UserBO userBO = new UserBO();
+            var model = userBO.GetAllNotificationsOfUser(User.Identity.Name);
+            model = model.OrderByDescending(n => n.Id).ToList();
+            return View(model);
+        }
+
+        [Authorize]
+        public ActionResult UpdateNotificationsStatus(FormCollection form)
+        {
+            var strIds = form["ids[]"];
+            var action = form["action"];
+            if (!string.IsNullOrEmpty(strIds) && !string.IsNullOrEmpty(action))
+            {
+                string[] sids = strIds.Split(',');
+                List<int> ids = new List<int>();
+                foreach (var item in sids)
+                {
+                    ids.Add(int.Parse(item));
+                }
+                action= action.Trim().ToLower();
+                if (action.Equals("read") || action.Equals("unread") || action.Equals("delete"))
+                {
+                    UserBO userBO = new UserBO();
+                    var result = userBO.UpdateNotifications(User.Identity.Name, ids, action);
+                    if (result == -2)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else if (result == 0)
+                    {
+                        TempData["Error"] = "Máy chủ đang bận, xin thử lại sau.";
+                    }
+                }
+            }
+            return RedirectToAction("Notifications");
+        }
+
+        [Authorize]
+        [HttpPost]
+        public JsonResult GetCountOfUnreadNotifications()
+        {
+            UserBO userBO = new UserBO();
+            var count = userBO.GetCountOfUnreadNotifications(User.Identity.Name);
+            return Json(count);
+        }
 
         public ActionResult Recovery()
         {

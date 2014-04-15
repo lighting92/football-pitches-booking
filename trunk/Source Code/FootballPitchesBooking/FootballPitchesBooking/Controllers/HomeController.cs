@@ -31,25 +31,41 @@ namespace FootballPitchesBooking.Controllers
                 }
 
                 var nearestStadiums = recBO.FindNearestStadiums(User.Identity.Name, distanceList);
+                if (nearestStadiums == null)
+                {
+                    nearestStadiums = new List<RecommendStadium>();
+                }
                 if (nearestStadiums.Count() > 3)
                 {
                     nearestStadiums = nearestStadiums.Take(3).ToList();
                 }
 
                 var promotionStadiums = recBO.FindPromotedStadiums(User.Identity.Name, distanceList);
-                if (promotionStadiums != null && promotionStadiums.Count() > 3)
+                if (promotionStadiums == null)
+                {
+                    promotionStadiums = new List<RecommendStadium>();
+                }
+                if (promotionStadiums.Count() > 3)
                 {
                     promotionStadiums = promotionStadiums.Take(3).ToList();
                 }
 
                 var mostBookedStadiums = recBO.FindMostBookedStadiums(User.Identity.Name, distanceList);
-                if (mostBookedStadiums != null && mostBookedStadiums.Count() > 3)
+                if (mostBookedStadiums == null)
+                {
+                    mostBookedStadiums = new List<RecommendStadium>();
+                }
+                if (mostBookedStadiums.Count() > 3)
                 {
                     mostBookedStadiums = mostBookedStadiums.Take(3).ToList();
                 }
 
                 var rivals = recBO.FindRivals(User.Identity.Name, distanceList);
-                if (rivals != null && rivals.Count() > 3)
+                if (rivals == null)
+                {
+                    rivals = new List<RecommendRivalModel>();
+                }
+                if (rivals.Count() > 3)
                 {
                     rivals = rivals.Take(3).ToList();
                 }

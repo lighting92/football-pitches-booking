@@ -104,7 +104,6 @@
       <Column Name="Discount" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Column Name="Creator" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="Promotion_Reservation" Member="Reservations" ThisKey="Id" OtherKey="PromotionId" Type="Reservation" />
       <Association Name="Field_Promotion" Member="Field" ThisKey="FieldId" OtherKey="Id" Type="Field" IsForeignKey="true" />
       <Association Name="User_Promotion" Member="User" ThisKey="Creator" OtherKey="Id" Type="User" IsForeignKey="true" />
     </Type>
@@ -148,7 +147,6 @@
       <Column Name="Duration" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Column Name="Price" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Column Name="Discount" Type="System.Double" DbType="Float" CanBeNull="true" />
-      <Column Name="PromotionId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="VerifyCode" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="Approver" Type="System.Int32" DbType="Int" CanBeNull="true" />
@@ -162,7 +160,6 @@
       <Column Name="RivalStatus" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Association Name="Reservation_ReportUser" Member="ReportUsers" ThisKey="Id" OtherKey="Reference" Type="ReportUser" />
       <Association Name="Field_Reservation" Member="Field" ThisKey="FieldId" OtherKey="Id" Type="Field" IsForeignKey="true" />
-      <Association Name="Promotion_Reservation" Member="Promotion" ThisKey="PromotionId" OtherKey="Id" Type="Promotion" IsForeignKey="true" />
       <Association Name="User_Reservation" Member="User" ThisKey="UserId" OtherKey="Id" Type="User" IsForeignKey="true" />
       <Association Name="User_Reservation1" Member="User1" ThisKey="Approver" OtherKey="Id" Type="User" IsForeignKey="true" />
       <Association Name="User_Reservation2" Member="User2" ThisKey="RivalId" OtherKey="Id" Type="User" IsForeignKey="true" />

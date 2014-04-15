@@ -224,5 +224,43 @@ namespace FootballPitchesBooking.BusinessObjects
             PunishMemberDAO punishDAO = new PunishMemberDAO();
             return punishDAO.GetPunishMemberByUserName(userName);
         }
+
+        public List<Notification> GetAllNotificationsOfUser(string userName)
+        {
+            NotificationDAO notDAO = new NotificationDAO();
+            return notDAO.GetAllNotificationsOfUser(userName);
+        }
+
+        public int GetCountOfUnreadNotifications(string userName)
+        {
+            NotificationDAO notDAO = new NotificationDAO();
+            var unread = notDAO.GetCountOfUnreadNotifications(userName);
+            return unread.Count();
+        }
+
+        public int UpdateNotifications(string userName, List<int> ids, string action)
+        {
+            NotificationDAO notDAO = new NotificationDAO();
+            var allNotifications = notDAO.GetAllNotificationsOfUser(userName);
+            foreach (var item in ids)
+            {
+                if (allNotifications.Where(n => n.Id == item).FirstOrDefault() == null)
+                {
+                    return -2;
+                }
+            }
+            if (action.Equals("read"))
+            {
+                return notDAO.MarkAsRead(ids);
+            }
+            else if (action.Equals("unread"))
+            {
+                return notDAO.MarkAsUnread(ids);
+            }
+            else
+            {
+                return notDAO.DeleteMessages(ids);
+            }
+        }
     }
 }

@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using FootballPitchesBooking.Properties;
 using System.Globalization;
+using FootballPitchesBooking.Utilities;
 
 namespace FootballPitchesBooking.Controllers
 {
@@ -254,7 +255,7 @@ namespace FootballPitchesBooking.Controllers
                                 var avails = stadiumBO.GetAvailableFieldsOfStadium(stadiumId, fieldType, startDate, startTime, duration);
                                 model.Fields = avails.Fields;
                                 model.Prices = avails.Prices;
-
+                                model.Discounts = avails.Discounts;
                                 model.Options.StartDate = strDate;
                                 model.Options.StartTime = strTime;
                                 model.Options.Duration = strDuration;
@@ -367,21 +368,35 @@ namespace FootballPitchesBooking.Controllers
                                 {
                                     model.Fields = avails.Fields;
                                     model.Prices = avails.Prices;
+                                    model.Discounts = avails.Discounts;
 
                                     double price = 0;
                                     Field fa = null;
+                                    double discount = 0;
                                     for (int i = 0; i < avails.Fields.Count(); i++)
                                     {
                                         if (avails.Fields[i].Id == field)
                                         {
                                             fa = avails.Fields[i];
                                             price = avails.Prices[i];
+                                            discount = avails.Discounts[i];
                                         }
                                     }
                                     if (fa != null)
                                     {
                                         ReservationBO resBO = new ReservationBO();
                                         Reservation res = new Reservation();
+                                        Guid g = Guid.NewGuid();
+                                        string verCode = Convert.ToBase64String(g.ToByteArray());
+                                        verCode = verCode.Replace("=", "");
+                                        verCode = verCode.Replace("+", "");
+                                        verCode = verCode.ToUpper();
+                                        while (verCode.Length > 6)
+                                        {
+                                            Random r = new Random((int)DateTime.Now.Ticks);
+                                            verCode = verCode.Remove(r.Next(verCode.Length), 1);
+                                        }
+
                                         res.FieldId = field;
                                         res.UserId = user.Id;
                                         res.FullName = model.UserInfo.FullName;
@@ -391,7 +406,8 @@ namespace FootballPitchesBooking.Controllers
                                         res.StartTime = startTime;
                                         res.Duration = duration;
                                         res.Price = price;
-                                        res.VerifyCode = user.Id + "" + DateTime.Now.Ticks;
+                                        res.Discount = discount;
+                                        res.VerifyCode = verCode;
                                         res.CreatedDate = DateTime.Now;
                                         res.Status = "Pending";
                                         res.NeedRival = needRival;
@@ -561,11 +577,10 @@ namespace FootballPitchesBooking.Controllers
             model.StartTime = form["StartTime"];
             model.Date = form["StartDate"];
             model.Duration = form["Duration"];
-            model.City = form["City"];
             model.District = form["District"];
 
             if (string.IsNullOrWhiteSpace(model.FieldType) || string.IsNullOrWhiteSpace(model.StartTime) || string.IsNullOrWhiteSpace(model.Date)
-                || string.IsNullOrWhiteSpace(model.Duration) || string.IsNullOrWhiteSpace(model.City) || string.IsNullOrWhiteSpace(model.District))
+                || string.IsNullOrWhiteSpace(model.Duration) || string.IsNullOrWhiteSpace(model.District))
             {
                 model.ErrorMessage = "Bạn hãy sử dụng mẫu bên dưới để tìm kiếm nhanh sân còn trống";
             }
