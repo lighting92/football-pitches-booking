@@ -12,27 +12,86 @@ namespace FootballPitchesBooking.BusinessObjects
 {
     public class StadiumBO
     {
+        public List<Notification> GetAllNotificationsOfStadiumsForUser(string userName)
+        {
+            UserDAO userDAO = new UserDAO();
+            StadiumDAO stadiumDAO = new StadiumDAO();
+            NotificationDAO notificationDAO = new NotificationDAO();
+            var user = userDAO.GetUserByUserName(userName);
+            var stadiums = user.StadiumStaffs.Select(s => s.Stadium).Distinct().ToList();
+            var ms = stadiumDAO.GetStadiumsByMainOwnerId(user.Id);
+            foreach (var item in ms)
+            {
+                if (!stadiums.Any(s => s.Id == item.Id))
+                {
+                    stadiums.Add(item);
+                }
+            }
+            var nots = stadiums.Select(s => s.Notifications).ToList();
+            List<Notification> result = new List<Notification>();
+            foreach (var item in nots)
+            {
+                foreach (var i in item)
+                {
+                    result.Add(i);
+                }
+            }
+            return result;
+        }
+
+        public int UpdateNotifications(string userName, List<int> ids, string action)
+        {
+            NotificationDAO notDAO = new NotificationDAO();
+            var allNotifications = GetAllNotificationsOfStadiumsForUser(userName);
+            foreach (var item in ids)
+            {
+                if (allNotifications.Where(n => n.Id == item).FirstOrDefault() == null)
+                {
+                    return -2;
+                }
+            }
+            if (action.Equals("read"))
+            {
+                return notDAO.MarkAsRead(ids);
+            }
+            else if (action.Equals("unread"))
+            {
+                return notDAO.MarkAsUnread(ids);
+            }
+            else
+            {
+                return notDAO.DeleteMessages(ids);
+            }
+        }
+
+        public int GetCountOfUnreadNotifications(string userName)
+        {
+            return GetAllNotificationsOfStadiumsForUser(userName).Where(n => n.Status.ToLower().Equals("unread")).Count();
+        }
+
         public QuickSearchResultModel GetAvailableFieldsOfStadium(int stadiumId, int fieldType, DateTime startDate, double startTime, double duration)
         {
             FieldDAO fieldDAO = new FieldDAO();
             var availableFields = fieldDAO.GetAvailableFieldsOfStadium(stadiumId, fieldType, startDate, startTime, duration);
             if (availableFields != null && availableFields.Count != 0)
             {
-                    QuickSearchResultModel result = new QuickSearchResultModel();
-                   
-                    result.Fields = availableFields;
+                QuickSearchResultModel result = new QuickSearchResultModel();
 
-                    List<double> prices = new List<double>();
+                result.Fields = availableFields;
 
-                    foreach (var f in result.Fields)
-                    {
-                        var price = CalculatePrice(f, startDate, startTime, duration);
-                        prices.Add(price);
-                    }
+                List<double> prices = new List<double>();
+                List<double> discounts = new List<double>();
+                foreach (var f in result.Fields)
+                {
+                    var price = CalculatePrice(f, startDate, startTime, duration);
+                    prices.Add(price[0]);
+                    discounts.Add(price[1]);
+                }
 
-                    result.Prices = prices;
+                result.Prices = prices;
+                result.Discounts = discounts;
 
-                    return result;
+                return result;
             }
             else
             {
@@ -1302,13 +1361,15 @@ namespace FootballPitchesBooking.BusinessObjects
                     temp.Fields = fs;
 
                     List<double> prices = new List<double>();
+                    List<double> discounts = new List<double>();
                     foreach (var f in fs)
                     {
                         var price = CalculatePrice(f, startDate, startTime, duration);
-                        prices.Add(price);
+                        prices.Add(price[0]);
+                        discounts.Add(price[1]);
                     }
                     temp.Prices = prices;
-
+                    temp.Discounts = discounts;
                     results.Add(temp);
                 }
                 return results;
@@ -1319,7 +1380,7 @@ namespace FootballPitchesBooking.BusinessObjects
             }
         }
 
-        public double CalculatePrice(Field field, DateTime startDate, double startTime, double duration)
+        public List<double> CalculatePrice(Field field, DateTime startDate, double startTime, double duration)
         {
             FieldPriceDAO fpDAO = new FieldPriceDAO();
             double price = 0;
@@ -1402,7 +1463,7 @@ namespace FootballPitchesBooking.BusinessObjects
                         temp.TimeFrom = goToTime;
                         if (temp.TimeTo > startTime + duration)
                         {
-                            temp.TimeTo = dayPrices[count].TimeTo;                            
+                            temp.TimeTo = dayPrices[count].TimeTo;
                         }
                         else
                         {
@@ -1537,15 +1598,26 @@ namespace FootballPitchesBooking.BusinessObjects
                     complete = true;
                 }
             }
+            var discount = GetPromotionByField(field.Id, startDate);
+            double d = 0;
             foreach (var item in finalPrices)
             {
                 price += (item.Price * (item.TimeTo - item.TimeFrom));
             }
+            if (discount != null)
+            {
+                d = discount.Discount / 100 * price;
+            }
             if (goToTime < startTime + duration)
             {
-                price += CalculatePrice(field, startDate.AddDays(1).Date, 0, startTime + duration - goToTime);
+                var nextPrice = CalculatePrice(field, startDate.AddDays(1).Date, 0, startTime + duration - goToTime);
+                price += nextPrice[0];
+                d += nextPrice[1];
             }
-            return price;
+            List<double> result = new List<double>();
+            result.Add(price);
+            result.Add(d);
+            return result;
         }
 
 
@@ -1612,15 +1684,7 @@ namespace FootballPitchesBooking.BusinessObjects
             PromotionDAO promotionDAO = new PromotionDAO();
             int result = promotionDAO.DeletePromotion(promotionId);
 
-            if (result > 0)
-            {
-                ReservationDAO reservationDAO = new ReservationDAO();
-                if (reservationDAO.UpdateReservationByPromotionChanged(promotionId) > 0)
-                {
-                    return result;
-                }                
-            }
-            return 0;
+            return result;
         }
 
         public Promotion GetPromotionByField(int fieldId, DateTime date)

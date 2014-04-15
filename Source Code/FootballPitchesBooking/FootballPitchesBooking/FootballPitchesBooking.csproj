@@ -241,6 +241,20 @@
     <Content Include="Content\bootstrap\js\bootstrap3.js" />
     <Content Include="Content\bootstrap\js\collapse.js" />
     <Content Include="Content\bootstrap\js\jquery-ui-1.9.2.custom.js" />
+    <Content Include="Content\css\jquery.dataTables.css" />
+    <Content Include="Content\css\jquery.dataTables_themeroller.css" />
+    <Content Include="Content\images\back_disabled.png" />
+    <Content Include="Content\images\back_enabled.png" />
+    <Content Include="Content\images\back_enabled_hover.png" />
+    <Content Include="Content\images\favicon.ico" />
+    <Content Include="Content\images\forward_disabled.png" />
+    <Content Include="Content\images\forward_enabled.png" />
+    <Content Include="Content\images\forward_enabled_hover.png" />
+    <Content Include="Content\images\sort_asc.png" />
+    <Content Include="Content\images\sort_asc_disabled.png" />
+    <Content Include="Content\images\sort_both.png" />
+    <Content Include="Content\images\sort_desc.png" />
+    <Content Include="Content\images\sort_desc_disabled.png" />
     <Content Include="Scripts\jquery.autosize.min.js" />
     <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.ar.js" />
     <Content Include="Content\bootstrap\js\locales\bootstrap-datepicker.az.js" />
@@ -382,6 +396,8 @@
     <Content Include="Scripts\bootstrap-timepicker.js" />
     <Content Include="Scripts\global.js" />
     <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery.dataTables.columnFilter.js" />
+    <Content Include="Scripts\jquery.dataTables.js" />
     <Content Include="Scripts\jquery.js" />
     <Content Include="Scripts\jquery.nivo.slider.js" />
     <Content Include="Scripts\jquery.price_format.2.0.js" />
@@ -433,6 +449,7 @@
     <Content Include="Content\css\OpenSans-Bold.woff" />
     <Content Include="Content\css\OpenSans-Light.woff" />
     <Content Include="Content\css\OpenSans.woff" />
+    <Content Include="Content\images\Sorting icons.psd" />
     <None Include="Models\FPB.dbml.layout">
       <DependentUpon>FPB.dbml</DependentUpon>
     </None>
@@ -474,12 +491,14 @@
     <Content Include="Views\Account\Profiles.cshtml" />
     <Content Include="Views\Stadium\Rivals.cshtml" />
     <Content Include="Views\Stadium\JoinRival.cshtml" />
+    <Content Include="Views\Account\Notifications.cshtml" />
     <Content Include="Views\WebsiteStaff\Reviews.cshtml" />
     <Content Include="Views\WebsiteStaff\Review.cshtml" />
     <Content Include="Views\Home\Advertise.cshtml" />
     <Content Include="Views\Account\Block.cshtml" />
     <Content Include="Views\Account\Recovery.cshtml" />
     <Content Include="Views\Home\Feedback.cshtml" />
+    <Content Include="Views\StadiumStaff\Notifications.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

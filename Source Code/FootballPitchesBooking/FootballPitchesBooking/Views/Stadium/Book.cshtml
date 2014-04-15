@@ -158,7 +158,8 @@
                                                 {
                                                     var field = Model.Fields[i];
                                                     var price = Model.Prices[i];
-                                                <option value="@field.Id">Sân @field.Number: @price VNĐ</option>                                                    
+                                                    var discount = Model.Discounts[i];
+                                                <option value="@field.Id">Sân @field.Number - Giá @price VNĐ - Giảm @discount VNĐ</option>                                                    
                                                 }
                                             }
                                             else
@@ -169,17 +170,31 @@
                                     </label>
                                     <script type="text/javascript">
                                         $(document).ready(function () {
-                                            $.each($("#fieldPrices option"), function (index, opt) {
+                                            $.each($("#fieldPrices option"), function (index, opt) {                                                
                                                 var strPrice = opt.innerHTML;
+                                                var fregex = / Giá \d+ /;
+                                                var lregex = / Giảm \d+ /;
                                                 var regex = / \d+ /;
-                                                var el = document.createElement("price");
-                                                var price = strPrice.match(regex);
-                                                el.innerHTML = price;
-                                                $(el).priceFormat({
-                                                    prefix: '',
-                                                    centsLimit: 0
-                                                })
-                                                opt.innerHTML = opt.innerHTML.replace(regex, " " + el.innerHTML + " ");
+                                                if (strPrice.match(regex) != null) {
+                                                    var el1 = document.createElement("price");
+                                                    var el2 = document.createElement("discount");
+                                                    var price = strPrice.match(fregex)[0];
+                                                    price = price.match(regex);
+                                                    var discount = strPrice.match(lregex)[0];
+                                                    discount = discount.match(regex);
+                                                    el1.innerHTML = price;
+                                                    el2.innerHTML = discount;
+                                                    $(el1).priceFormat({
+                                                        prefix: '',
+                                                        centsLimit: 0
+                                                    })
+                                                    $(el2).priceFormat({
+                                                        prefix: '',
+                                                        centsLimit: 0
+                                                    })
+                                                    opt.innerHTML = opt.innerHTML.replace(fregex, " Giá " + el1.innerHTML + " ");
+                                                    opt.innerHTML = opt.innerHTML.replace(lregex, " Giảm " + el2.innerHTML + " ");
+                                                }
                                             });
                                         });
                                     </script>

@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="~/Content/bootstrap/css/bootstrap-timepicker.min.css" type="text/css">
     <link rel="stylesheet" href="~/Content/bootstrap/css/datepicker.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/Content/bootstrap/css/datepicker3.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/css/jquery.dataTables.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/css/jquery.dataTables_themeroller.css" type="text/css" />
     <link rel="stylesheet" href="~/Content/css/fpb.css" type="text/css">
     <link rel="stylesheet" href="~/Content/css/fpb-responsive.css" type="text/css">
     <link rel="stylesheet" href="~/Scripts/slider/default.css" type="text/css" media="screen" />
@@ -22,6 +24,8 @@
     <script type="text/javascript" src="~/Scripts/jquery.js"></script>
     <script type="text/javascript" src="~/Content/bootstrap/js/bootstrap-datepicker.js"></script>
     <script type="text/javascript" src="~/Scripts/jquery.autosize.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.dataTables.columnFilter.js"></script>
 </head>
 <body>
     <div class="container-fluid">
@@ -66,8 +70,27 @@
                     {
                         <div class="links">
                             XIN CHÀO <a href="/Account">@User.Identity.Name.ToUpper()</a>
+                            <div class="links">
+                                <notify id="notmsg"></notify>
+                            </div>
                             <p><a href="/Home">TỚI TRANG CHỦ</a> | <a href="/Account/Logout">ĐĂNG XUẤT</a></p>
                         </div>
+                        
+                        <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        function GetNotify() {
+                                            $.ajax({
+                                                url: "/StadiumStaff/GetCountOfUnreadNotifications",
+                                                type: "POST",
+                                                success: function (data) {
+                                                    $("#notmsg").html("<a href='/StadiumStaff/Notifications'>Bạn có <b>" + data + "</b> tin nhắn chưa đọc</a>");
+                                                }
+                                            });
+                                            setTimeout(GetNotify, 20000);
+                                        }
+                                        GetNotify();
+                                    });
+                                </script>
                     }
                 </div>
                 <!-- /account -->
@@ -115,7 +138,7 @@
     <script type="text/javascript" src="~/Scripts/jquery.quicksand.js"></script>
     <script type="text/javascript" src="~/Scripts/jquery.ui.datepicker-vi-VN.js"></script>
     <script type="text/javascript" src="~/Scripts/bootstrap-timepicker.js"></script>
-    <script type="text/javascript" src="~/Scripts/jquery.price_format.2.0.js"></script>   
+    <script type="text/javascript" src="~/Scripts/jquery.price_format.2.0.js"></script>
     <script type="text/javascript" src="~/Scripts/global.js"></script>
 </body>
 </html>

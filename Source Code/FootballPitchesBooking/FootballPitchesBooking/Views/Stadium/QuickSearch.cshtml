@@ -50,19 +50,19 @@
                             <div class="row-fluid home">
                                 <div id="fieldtypeselector" class="span3">
                                     <div class="room_selector" data-ftype="5" style="display: @field5;">
-                                        <h5 style="text-transform: none"><a href="#" class="pull-left"><i class="icon-chevron-left"></i></a>sân 5 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
+                                        <h5 style="text-transform: none"><a href="#" class="pull-left"><i class="icon-chevron-left"></i></a>Sân 5 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
                                         <a href="/Content/css/images/stadiums/san5nguoi.jpg">
                                             <img src="/Content/css/images/stadiums/san5nguoi.jpg" alt="" /></a>
                                         <p>Sân hình chữ nhật, chiều dài tối đa 42m và tối thiểu 25m, chiều rộng tối đa 25m và tối thiểu 15m.</p>
                                     </div>
                                     <div class="room_selector" data-ftype="7" style="display: @field7;">
-                                        <h5 style="text-transform: none"><a href="#" class="pull-left "><i class="icon-chevron-left"></i></a>sân 7 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
+                                        <h5 style="text-transform: none"><a href="#" class="pull-left "><i class="icon-chevron-left"></i></a>Sân 7 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
                                         <a href="/Content/css/images/stadiums/san7nguoi.jpg">
                                             <img src="/Content/css/images/stadiums/san7nguoi.jpg" alt="" /></a>
                                         <p>Sân hình chữ nhật, chiều dài tối đa 75m và tối thiểu 50m, chiều rộng tối đa 40m và tối thiểu 55m.</p>
                                     </div>
                                     <div class="room_selector" data-ftype="11" style="display: @field11;">
-                                        <h5 style="text-transform: none"><a href="#" class="pull-left "><i class="icon-chevron-left"></i></a>sân 11 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
+                                        <h5 style="text-transform: none"><a href="#" class="pull-left "><i class="icon-chevron-left"></i></a>Sân 11 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
                                         <a href="/Content/css/images/stadiums/san7nguoi.jpg">
                                             <img src="/Content/css/images/stadiums/san11nguoi.png" alt="" /></a>
                                         <p>Sân hình chữ nhật, chiều dài tối đa 120m và tối thiểu 90m, chiều rộng tối đa 90m và tối thiểu 45m. </p>
@@ -115,14 +115,6 @@
                                                     <option value="2">120 phút</option>
                                                     <option value="2.5">150 phút</option>
                                                     <option value="3">180 phút</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="control-label pull-left" for="city" data-cur="@Model.City">Tỉnh/TP</label>
-                                            <div class="controls">
-                                                <select name="City" class="select_city" id="city">
-                                                    <option value="HCM">Hồ Chí Minh</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -241,7 +233,7 @@
 
                         @for (int i = 0; i < item.Fields.Count(); i++)
                         {
-                            <p>- Sân Số @item.Fields[i].Number : @item.Prices[i]</p>
+                            <p>- Sân Số @item.Fields[i].Number - Giá @item.Prices[i] VNĐ - Giảm @item.Discounts[i] VNĐ</p>
                         }
                     </td>
                     <td class="table-cell-action">

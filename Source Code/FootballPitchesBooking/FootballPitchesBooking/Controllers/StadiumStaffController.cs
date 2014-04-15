@@ -23,6 +23,54 @@ namespace FootballPitchesBooking.Controllers
             return View();
         }
 
+        public ActionResult Notifications()
+        {
+            StadiumBO stadiumBO = new StadiumBO();
+            var model = stadiumBO.GetAllNotificationsOfStadiumsForUser(User.Identity.Name);
+            model = model.OrderByDescending(n => n.Id).ToList();
+            return View(model);
+        }
+
+        [Authorize]
+        public ActionResult UpdateNotificationsStatus(FormCollection form)
+        {
+            var strIds = form["ids[]"];
+            var action = form["action"];
+            if (!string.IsNullOrEmpty(strIds) && !string.IsNullOrEmpty(action))
+            {
+                string[] sids = strIds.Split(',');
+                List<int> ids = new List<int>();
+                foreach (var item in sids)
+                {
+                    ids.Add(int.Parse(item));
+                }
+                action = action.Trim().ToLower();
+                if (action.Equals("read") || action.Equals("unread") || action.Equals("delete"))
+                {
+                    StadiumBO stadiumBO = new StadiumBO();
+                    var result = stadiumBO.UpdateNotifications(User.Identity.Name, ids, action);
+                    if (result == -2)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else if (result == 0)
+                    {
+                        TempData["Error"] = "Máy chủ đang bận, xin thử lại sau.";
+                    }
+                }
+            }
+            return RedirectToAction("Notifications");
+        }
+
+        [Authorize]
+        [HttpPost]
+        public JsonResult GetCountOfUnreadNotifications()
+        {
+            StadiumBO stadiumBO = new StadiumBO();
+            var count = stadiumBO.GetCountOfUnreadNotifications(User.Identity.Name);
+            return Json(count);
+        }
+
 
         #region STADIUMS MANAGEMENT
 
@@ -1975,7 +2023,17 @@ namespace FootballPitchesBooking.Controllers
                 }
                 User staff = userBO.GetUserByUserName(User.Identity.Name);
                 Promotion promotion = stadiumBO.GetPromotionByField(model.FieldId, model.Date);
-
+                var price = stadiumBO.CalculatePrice(stadiumBO.GetFieldById(model.FieldId), model.Date, model.StartTime, model.Duration);
+                Guid g = Guid.NewGuid();
+                string verCode = Convert.ToBase64String(g.ToByteArray());
+                verCode = verCode.Replace("=", "");
+                verCode = verCode.Replace("+", "");
+                verCode = verCode.ToUpper();
+                while (verCode.Length > 6)
+                {
+                    Random r = new Random((int)DateTime.Now.Ticks);
+                    verCode = verCode.Remove(r.Next(verCode.Length), 1);
+                }
                 Reservation reservation = new Reservation()
                 {
                     FieldId = model.FieldId,
@@ -1985,10 +2043,9 @@ namespace FootballPitchesBooking.Controllers
                     Date = model.Date,
                     StartTime = model.StartTime,
                     Duration = model.Duration,
-                    Price = stadiumBO.CalculatePrice(stadiumBO.GetFieldById(model.FieldId), model.Date, model.StartTime, model.Duration),
-                    Discount = promotion.Discount,
-                    PromotionId = promotion.Id,
-                    VerifyCode = "aaaaaaaaaaaa",
+                    Price = price[0],
+                    Discount = price[1],
+                    VerifyCode = verCode,
                     CreatedDate = DateTime.Now.Date,
                     Approver = staff.Id,
                     Status = model.Status,
@@ -2081,7 +2138,6 @@ namespace FootballPitchesBooking.Controllers
                     Duration = resv.Duration,
                     Price = resv.Price,
                     Discount = resv.Discount == null ? 0 : (int)resv.Discount,
-                    Promotion = resv.Promotion,
                     CreatedDate = resv.CreatedDate.Date,
                     Approver = resv.User1 == null ? "" : resv.User1.UserName,
                     Status = resv.Status,
@@ -2133,7 +2189,6 @@ namespace FootballPitchesBooking.Controllers
                     Duration = resv.Duration,
                     Price = resv.Price,
                     Discount = resv.Discount == null ? 0 : (int)resv.Discount,
-                    Promotion = resv.Promotion,
                     CreatedDate = resv.CreatedDate.Date,
                     Approver = resv.User1 == null ? "" : resv.User1.UserName,
                     Status = resv.Status,
@@ -2221,7 +2276,7 @@ namespace FootballPitchesBooking.Controllers
                     Date = model.Date,
                     StartTime = model.StartTime,
                     Duration = model.Duration,
-                    Price = stadiumBO.CalculatePrice(stadiumBO.GetFieldById(model.FieldId), model.Date, model.StartTime, model.Duration),
+                    Price = stadiumBO.CalculatePrice(stadiumBO.GetFieldById(model.FieldId), model.Date, model.StartTime, model.Duration)[0],
                     Approver = staff.Id,
                     Status = model.Status,
                     NeedRival = model.NeedRival

@@ -19,9 +19,6 @@
                 <p>HỖ TRỢ CÁP KÈO, GỢI Ý SÂN THÍCH HỢP</p>
             </blockquote>
 
-            <blockquote class="textItem" style="display: none;">
-                <p>HỆ THỐNG THÀNH VIÊN HẤP DẪN</p>
-            </blockquote>
         </div>
     </div>
 </div>
@@ -46,19 +43,19 @@
                             <div class="row-fluid home">
                                 <div id="fieldtypeselector" class="span3">
                                     <div class="room_selector" data-ftype="5" style="display: block">
-                                        <h5 style="text-transform: none"><a href="#" class="pull-left"><i class="icon-chevron-left"></i></a>sân 5 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
+                                        <h5 style="text-transform: none"><a href="#" class="pull-left"><i class="icon-chevron-left"></i></a>Sân 5 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
                                         <a href="/Content/css/images/stadiums/san5nguoi.jpg">
                                             <img src="/Content/css/images/stadiums/san5nguoi.jpg" alt="" /></a>
                                         <p>Sân hình chữ nhật, chiều dài tối đa 42m và tối thiểu 25m, chiều rộng tối đa 25m và tối thiểu 15m.</p>
                                     </div>
                                     <div class="room_selector" data-ftype="7" style="display: none">
-                                        <h5 style="text-transform: none"><a href="#" class="pull-left "><i class="icon-chevron-left"></i></a>sân 7 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
+                                        <h5 style="text-transform: none"><a href="#" class="pull-left "><i class="icon-chevron-left"></i></a>Sân 7 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
                                         <a href="/Content/css/images/stadiums/san7nguoi.jpg">
                                             <img src="/Content/css/images/stadiums/san7nguoi.jpg" alt="" /></a>
                                         <p>Sân hình chữ nhật, chiều dài tối đa 75m và tối thiểu 50m, chiều rộng tối đa 40m và tối thiểu 55m.</p>
                                     </div>
                                     <div class="room_selector" data-ftype="11" style="display: none">
-                                        <h5 style="text-transform: none"><a href="#" class="pull-left "><i class="icon-chevron-left"></i></a>sân 11 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
+                                        <h5 style="text-transform: none"><a href="#" class="pull-left "><i class="icon-chevron-left"></i></a>Sân 11 người<a href="#" class="pull-right "><i class="icon-chevron-right"></i></a></h5>
                                         <a href="/Content/css/images/stadiums/san7nguoi.jpg">
                                             <img src="/Content/css/images/stadiums/san11nguoi.png" alt="" /></a>
                                         <p>Sân hình chữ nhật, chiều dài tối đa 120m và tối thiểu 90m, chiều rộng tối đa 90m và tối thiểu 45m. </p>
@@ -114,14 +111,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="control-group">
-                                            <label class="control-label pull-left" for="city" data-cur="HCM">Tỉnh/TP</label>
-                                            <div class="controls">
-                                                <select name="City" class="select_city" id="city">
-                                                    <option value="HCM">Hồ Chí Minh</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                        
                                         <div class="control-group">
                                             <label class="control-label pull-left" for="district">Quận / Huyện</label>
                                             <div class="controls">
@@ -232,12 +222,10 @@
                         @if (img != null)
                         {
                             <img src="/Content/images/@img.Path" />
-                            <span class="promotion-date"><b class="pull-left"></b></span>
                         }
                         else
                         {
                             <img src="/Content/images/stadium.jpg" />
-                            <span class="promotion-date"><b class="pull-left"></b></span>
                         }
                     </a>
                 </div>
@@ -272,12 +260,10 @@
                         @if (img != null)
                         {
                             <img src="/Content/images/@img.Path" />
-                            <span class="promotion-date"><b class="pull-left"></b></span>
                         }
                         else
                         {
                             <img src="/Content/images/stadium.jpg" />
-                            <span class="promotion-date"><b class="pull-left"></b></span>
                         }
                     </a>
                 </div>
@@ -310,12 +296,10 @@
                         @if (img != null)
                         {
                             <img src="/Content/images/@img.Path" />
-                            <span class="promotion-date"><b class="pull-left"></b></span>
                         }
                         else
                         {
                             <img src="/Content/images/stadium.jpg" />
-                            <span class="promotion-date"><b class="pull-left"></b></span>
                         }
                     </a>
                 </div>
@@ -348,12 +332,10 @@
                         @if (img != null)
                         {
                             <img src="/Content/images/@img.Path" />
-                            <span class="promotion-date"><b class="pull-left"></b></span>
                         }
                         else
                         {
                             <img src="/Content/images/stadium.jpg" />
-                            <span class="promotion-date"><b class="pull-left"></b></span>
                         }
                     </a>
                 </div>
@@ -369,8 +351,8 @@
 <hr />
 <!--end Promoted stadium -->
 
-<div class="span4" style="padding-left: 10px; padding-right: 10px; padding-bottom: 10px; background-color: rgba(128, 128, 128, 0.17);">
-    <h3><span>C</span>áp Kèo</h3>
+<div class="row-fluid">
+    <h3>Tìm đội giao hữu</h3>
 
     @if (Model.Rivals != null)
         {
@@ -378,19 +360,22 @@
         {
             var item = Model.Rivals[i];
             var stadium = Model.Rivals[i].Reservation.Field.Stadium;
-        <div class="rival-item">
-            <p class="r-date">Thời gian: @item.Reservation.Date</p>
-            <p class="r-sname">@item.Reservation.RivalName</p>
-            <p class="r-saddr">@item.Reservation.PhoneNumber</p>
-            <p class="r-stype">@item.Reservation.RivalEmail</p>
-            <p class="r-stype">@stadium.Name</p>
-            <p class="r-contact">
-                Liên hệ: Nguyễn Duy Phương | 01662194419 | phuongnd6592@live.com
-                <button class="btn btn-primary home-btn-book pull-right">Tham Gia</button>
-            </p>
+            var minute = ((item.Reservation.StartTime - (int)item.Reservation.StartTime) * 60) + "";
+            if (minute.Length == 1)
+            {
+                minute = "0" + minute;
+            }
+            var starttime = (int)item.Reservation.StartTime + ":" + minute;
+            var duration = (int)item.Reservation.Duration + " tiếng " + ((item.Reservation.Duration - (int)item.Reservation.Duration) * 60) + " phút";
+        <div class="span4 rival-item">
+            <p class="r-stype" style="font-weight:bold">Sân @stadium.Name</p>
+            <p class="r-saddr">@stadium.Street, @stadium.Ward, @stadium.District</p>
+            <p class="r-date">Ngày @item.Reservation.Date.ToShortDateString()</p>
+            <p class="r-date">Lúc @starttime trong @duration</p>
+            <p class="r-sname"><a href="/Stadium/JoinRival?Id=@item.Reservation.Id">Chi tiết >>></a></p>
+            
         </div>
         }
             }
-    <hr />
 </div>
 
