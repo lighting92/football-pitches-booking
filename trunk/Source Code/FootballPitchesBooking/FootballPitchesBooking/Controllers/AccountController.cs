@@ -963,6 +963,10 @@ namespace FootballPitchesBooking.Controllers
                 {
                     return View(-2);
                 }
+                else if (user.IsActive)
+                {
+                    return View(-3);
+                }
                 else
                 {
                     Utils utils = new Utils();
