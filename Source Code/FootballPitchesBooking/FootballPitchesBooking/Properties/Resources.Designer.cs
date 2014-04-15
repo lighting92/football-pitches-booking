@@ -115,7 +115,7 @@ namespace FootballPitchesBooking.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tài khoản này không hoạt động.
+        ///   Looks up a localized string similar to Tài khoản này chưa được kích hoạt.
         /// </summary>
         internal static string Login_InactiveUser {
             get {
@@ -124,7 +124,7 @@ namespace FootballPitchesBooking.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mật khẩu không chính xác.
+        ///   Looks up a localized string similar to Mật khẩu không chính xác, vui lòng đăng nhập email và kích hoạt tài khoản.
         /// </summary>
         internal static string Login_IncorrectPassword {
             get {

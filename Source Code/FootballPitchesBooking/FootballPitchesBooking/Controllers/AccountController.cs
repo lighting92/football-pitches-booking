@@ -381,7 +381,8 @@ namespace FootballPitchesBooking.Controllers
                     }
                     else if (result == -2)
                     {
-                        strResult = Resources.Login_InactiveUser;
+                        strResult = string.Concat(Resources.Login_InactiveUser, 
+                            "<br /><label style='color: black;'>Nếu chưa nhận được email kích hoạt, nhấn vào <a href='/Account/Activate'>đây</a>.</label>");
                     }
                     else if (result == -3)
                     {
@@ -443,40 +444,11 @@ namespace FootballPitchesBooking.Controllers
         //
         // GET: /Account/Register
 
-        public ActionResult Register(string id)
+        public ActionResult Register()
         {
             if (User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Profiles", "Account");
-            }
-            else if (!string.IsNullOrEmpty(id))
-            {
-                try
-                {
-                    Utils utils = new Utils();
-                    AccountModel model = new AccountModel();
-                    model.ErrorMessages = new List<string>();
-                    string verify = utils.FromBase64(id);
-                    int i = verify.IndexOf("|");
-                    string userName = verify.Substring(0, i);
-
-                    UserBO userBO = new UserBO();
-                    User user = userBO.GetUserByUserName(userName);
-
-                    if (user.JoinDate.ToShortDateString().Equals(verify.Substring(i + 1, verify.Length - (i + 1))) && !user.IsActive)
-                    {
-                        if (userBO.ActiveUser(user.Id) > 0)
-                        {
-                            model.Result = 2;
-                        }
-                        model.UserName = user.UserName;
-                        FormsAuthentication.SetAuthCookie(model.UserName, false);
-                        return View(model);
-                    }
-                }
-                catch (Exception)
-                {
-                }
             }
             return View();
         }
@@ -558,9 +530,9 @@ namespace FootballPitchesBooking.Controllers
                     JoinDate = DateTime.Now.Date
                 };
 
-                List<int> result = userBO.CreateUser(newUser);
+                List<int> results = userBO.CreateUser(newUser);
 
-                if (result.Count == 1 && result[0] > 0)
+                if (results.Count == 1 && results[0] > 0)
                 {
                     Utils utils = new Utils();
                     string verify = utils.ToBase64(string.Concat(newUser.UserName, "|", newUser.JoinDate.ToShortDateString()));
@@ -569,18 +541,19 @@ namespace FootballPitchesBooking.Controllers
                     sr = System.IO.File.OpenText(Server.MapPath("~/Content/Activate.html"));
                     string content = sr.ReadToEnd();
                     content = content.Replace("[FullName]", newUser.FullName);
-                    content = content.Replace("[VerifyLink]", Request.Url.Host + "/Account/Register/" + verify);
-                    content = content.Replace("[LoginLink]", Request.Url.Host + "/Account/Login");
-                    content = content.Replace("[Signature]", Request.Url.Host);
+                    content = content.Replace("[VerifyLink]", Request.Url.GetLeftPart(UriPartial.Authority) + "/Account/Activate/" + verify);
+                    content = content.Replace("[LoginLink]", Request.Url.GetLeftPart(UriPartial.Authority) + "/Account/Login");
+                    content = content.Replace("[Signature]", Request.Url.GetLeftPart(UriPartial.Authority));
 
                     string subject = "Kích hoạt tài khoản của bạn tại hệ thống đặt sân bóng đá FPB";
 
                     WebsiteBO websiteBO = new WebsiteBO();
-                    reg.Result = websiteBO.SendEmail(newUser.Email, content, subject, true);
+                    int result = websiteBO.SendEmail(newUser.Email, content, subject, true);
+                    return View("Activate", result);
                 }
                 else
                 {
-                    foreach (var error in result)
+                    foreach (var error in results)
                     {
                         if (error == 0)
                         {
@@ -864,7 +837,7 @@ namespace FootballPitchesBooking.Controllers
                 {
                     ids.Add(int.Parse(item));
                 }
-                action= action.Trim().ToLower();
+                action = action.Trim().ToLower();
                 if (action.Equals("read") || action.Equals("unread") || action.Equals("delete"))
                 {
                     UserBO userBO = new UserBO();
@@ -891,53 +864,129 @@ namespace FootballPitchesBooking.Controllers
             return Json(count);
         }
 
+
         public ActionResult Recovery()
         {
-            return View(0);
+            if (!User.Identity.IsAuthenticated)
+            {
+                return View(0);
+            }
+            return RedirectToAction("Profiles", "Account");
         }
 
 
         [HttpPost]
         public ActionResult Recovery(FormCollection form)
         {
-            if (!User.Identity.IsAuthenticated)
+            try
             {
-                try
+                string email = form["Email"];
+                UserBO userBO = new UserBO();
+                User user = userBO.GetUserByEmail(email);
+
+                if (user == null)
                 {
-                    string email = form["Email"];
-                    UserBO userBO = new UserBO();
-                    User user = userBO.GetUserByEmail(email);
-
-                    if (user == null)
-                    {
-                        return View(-2);
-                    }
-                    else
-                    {
-                        StreamReader sr = new StreamReader(Server.MapPath("~/Content/Reset.html"));
-                        sr = System.IO.File.OpenText(Server.MapPath("~/Content/Reset.html"));
-                        string content = sr.ReadToEnd();
-                        content = content.Replace("[FullName]", user.FullName);
-                        content = content.Replace("[UserName]", user.UserName);
-                        content = content.Replace("[Password]", user.Password);
-                        content = content.Replace("[LoginLink]", Request.Url.Host + "/Account/Login");
-                        content = content.Replace("[Signature]", Request.Url.Host);
-
-                        string subject = "Thông tin tài khoản của bạn tại hệ thống đặt sân bóng đá FPB";
-
-                        WebsiteBO websiteBO = new WebsiteBO();
-                        int result = websiteBO.SendEmail(email, content, subject, true);
-                        return View(result);
-                    }
+                    return View(-2);
                 }
-                catch (Exception)
+                else
                 {
-                    return RedirectToAction("Login", "Account");
+                    StreamReader sr = new StreamReader(Server.MapPath("~/Content/Reset.html"));
+                    sr = System.IO.File.OpenText(Server.MapPath("~/Content/Reset.html"));
+                    string content = sr.ReadToEnd();
+                    content = content.Replace("[FullName]", user.FullName);
+                    content = content.Replace("[UserName]", user.UserName);
+                    content = content.Replace("[Password]", user.Password);
+                    content = content.Replace("[LoginLink]", Request.RawUrl + "/Account/Login");
+                    content = content.Replace("[Signature]", Request.RawUrl);
+
+                    string subject = "Thông tin tài khoản của bạn tại hệ thống đặt sân bóng đá FPB";
+
+                    WebsiteBO websiteBO = new WebsiteBO();
+                    int result = websiteBO.SendEmail(email, content, subject, true);
+                    return View(result);
                 }
             }
-            return RedirectToAction("Profiles", "Account");
+            catch (Exception)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
 
-            return View();
+
+        public ActionResult Activate(string id)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Profiles", "Account");
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(id))
+                {
+                    try
+                    {
+                        Utils utils = new Utils();
+                        string verify = utils.FromBase64(id);
+                        int i = verify.IndexOf("|");
+                        string userName = verify.Substring(0, i);
+
+                        UserBO userBO = new UserBO();
+                        User user = userBO.GetUserByUserName(userName);
+
+                        if (user.JoinDate.ToShortDateString().Equals(verify.Substring(i + 1, verify.Length - (i + 1))))
+                        {
+                            if (userBO.ActiveUser(user.Id) > 0)
+                            {
+                                return View(2);
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+                return View(0);
+            }
+        }
+
+
+        [HttpPost]
+        public ActionResult Activate(FormCollection form)
+        {
+            try
+            {
+                string email = form["Email"];
+                UserBO userBO = new UserBO();
+                User user = userBO.GetUserByEmail(email);
+
+                if (user == null)
+                {
+                    return View(-2);
+                }
+                else
+                {
+                    Utils utils = new Utils();
+                    string verify = utils.ToBase64(string.Concat(user.UserName, "|", user.JoinDate.ToShortDateString()));
+
+                    StreamReader sr = new StreamReader(Server.MapPath("~/Content/Activate.html"));
+                    sr = System.IO.File.OpenText(Server.MapPath("~/Content/Activate.html"));
+                    string content = sr.ReadToEnd();
+                    content = content.Replace("[FullName]", user.FullName);
+                    content = content.Replace("[VerifyLink]", Request.Url.GetLeftPart(UriPartial.Authority) + "/Account/Activate/" + verify);
+                    content = content.Replace("[LoginLink]", Request.Url.GetLeftPart(UriPartial.Authority) + "/Account/Login");
+                    content = content.Replace("[Signature]", Request.Url.GetLeftPart(UriPartial.Authority));
+
+                    string subject = "Kích hoạt tài khoản của bạn tại hệ thống đặt sân bóng đá FPB";
+
+                    WebsiteBO websiteBO = new WebsiteBO();
+                    int result = websiteBO.SendEmail(user.Email, content, subject, true);
+                    return View(result);
+                }
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
     }
 }

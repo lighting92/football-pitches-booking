@@ -499,6 +499,7 @@
     <Content Include="Views\Account\Recovery.cshtml" />
     <Content Include="Views\Home\Feedback.cshtml" />
     <Content Include="Views\StadiumStaff\Notifications.cshtml" />
+    <Content Include="Views\Account\Activate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

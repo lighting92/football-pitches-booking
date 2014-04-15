@@ -1,40 +1,54 @@
 ﻿@model FootballPitchesBooking.Models.AccountModels.LoginModel
 @{
-    ViewBag.Title = "Login";
+    ViewBag.Title = "Đăng Nhập";
 }
 
-<h2>Đăng Nhập</h2>
 
 @{
-string userName = "";
-string passWord = "";
-string remember = "";
-if (Model != null)
-{
-    userName = Model.UserName;
-    passWord = Model.Password;
-    remember = Model.Remember?"checked":"";
-    if (!string.IsNullOrWhiteSpace(Model.ErrorString))
-    {
-        <p style="color:red">@Model.ErrorString</p>
-    }
-}
+    string userName = "";
+    string passWord = "";
+    string remember = "";
+    
 }
 
-<div style="text-align:right; width: 300px;">
+<div class="row">
     <form action="Login?ReturnUrl=@Request.QueryString["ReturnUrl"]" method="post">
-        <p>
-            <label for="UserName">Tên tài khoản:</label>
-            <input type="text" name="UserName" placeholder="Tên Đăng Nhập" value="@userName" />
-        </p>
-        <p>
-            <label for="UserName">Mật khẩu:</label>
-            <input type="password" name="Password" placeholder="Mật Khẩu" value="@passWord" />
-        </p>
-        <p> 
-            <input type="checkbox" name="Remember" checked="@remember" /> Lưu đăng nhập
-        </p>
-        <button type="submit">Đăng nhập</button>
-        <button type="button" onclick="window.location = '/Home'">Hủy bỏ</button>
+        <div class="span5" style="margin-left: 275px;">
+            @if (Model != null)
+            {
+                userName = Model.UserName;
+                passWord = Model.Password;
+                remember = Model.Remember ? "checked" : "";
+                if (!string.IsNullOrWhiteSpace(Model.ErrorString))
+                {
+                <p style="color: red">@Html.Raw(Model.ErrorString)</p>
+                }
+            }
+            <div class="span5">
+                <br />
+                <label for="UserName" class="span2" style="height: 30px; line-height: 30px;">TÊN ĐĂNG NHẬP</label>
+                <input type="text" id="txtName" name="UserName" class="pull-right" placeholder="Tên đăng nhập" required="Required" value="@userName" />
+                <div class="alert alert-danger" id="ErrorName" style="display: none"></div>
+            </div>
+            <div class="span5">
+                <br />
+                <label for="Password" class="span2" style="height: 30px; line-height: 30px;">MẬT KHẨU</label>
+                <input type="password" id="txtPass" name="Password" class="pull-right" placeholder="Mật khẩu" required="required" value="@passWord" />
+                <div class="alert alert-danger" id="ErrorPass" style="display: none"></div>
+            </div>
+            <div class="span5">
+                <label class="span2"></label>
+                <div class="span3 pull-right" style="text-align: right;">
+                    <input type="checkbox" name="Remember" checked="@remember" />
+                    <div class="span2 no-margin pull-right" style="width: 110px; height: 30px; line-height: 30px; text-align: right;">Lưu đăng nhập</div>
+                </div>
+
+            </div>
+            <div class="span5">
+                <br />
+                <button type="button" onclick="window.location = '/Home'" class="btn btn-primary btn-large book-now pull-right groupbtn">Huỷ bỏ</button>
+                <button type="submit" class="btn btn-primary btn-large book-now pull-right groupbtn">Đăng nhập</button>
+            </div>
+        </div>
     </form>
 </div>
