@@ -127,7 +127,7 @@
     <value>Xin hãy điền đầy đủ vào những trường thông tin bắt buộc</value>
   </data>
   <data name="Login_IncorrectPassword" xml:space="preserve">
-    <value>Mật khẩu không chính xác</value>
+    <value>Mật khẩu không chính xác, vui lòng đăng nhập email và kích hoạt tài khoản</value>
   </data>
   <data name="Login_IncorrectUserName" xml:space="preserve">
     <value>Tài khoản không tồn tại</value>
@@ -217,6 +217,6 @@
     <value>Tài khoản này đang bị khoá</value>
   </data>
   <data name="Login_InactiveUser" xml:space="preserve">
-    <value>Tài khoản này không hoạt động</value>
+    <value>Tài khoản này chưa được kích hoạt</value>
   </data>
 </root>

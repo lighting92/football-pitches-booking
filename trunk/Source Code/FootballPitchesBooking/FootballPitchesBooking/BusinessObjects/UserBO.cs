@@ -100,12 +100,15 @@ namespace FootballPitchesBooking.BusinessObjects
             {
                 if (user.Password.Equals(loginUser.Password))
                 {
-                    return 1;
-                }
-                else if (!user.IsActive)
-                {
-                    return -2;
-                }
+                    if (user.IsActive)
+                    {
+                        return 1;
+                    }
+                    else
+                    {
+                        return -2;
+                    }
+            }
                 else
                 {
                     return -3;
