@@ -10,12 +10,11 @@
         var flag = 0;
         var date = $("input[name=Date]").val();
         var startTime = $("input[name=StartTime]").val();
-        var customer = $("input[name=Customer]").val();
         var fullname = $("input[name=FullName]").val();
         var email = $("input[name=Email]").val();
         var phone = $("input[name=PhoneNumber]").val();
-        var hasRival = $('#HasRival').val();
-        var rival = $("input[name=RivalUser]").val();
+        var needRival = $('#NeedRival').val();
+        var rivalStatus = $("#RivalStatus").val();
         var rivalName = $("input[name=RivalName]").val();
         var rivalemail = $("input[name=RivalEmail]").val();
         var rivalphone = $("input[name=RivalPhone]").val();
@@ -77,37 +76,72 @@
             $("#PhoneNumber_Error").css("display", "none");
         }
 
-        if (hasRival == 'True') {
-            if (rivalName.length > 30) {
-                $("#RivalName_Error").text("Yêu cầu phải từ 1 đến 30 kí tự");
-                $("#RivalName_Error").css("display", "block");
-                flag++;
+        if (needRival == 'True') {
+            if (rivalStatus == 'Waiting') {
+                if (rivalName.length > 0) {
+                    $("#RivalName_Error").text("Để trống nếu đang chờ đối thủ");
+                    $("#RivalName_Error").css("display", "block");
+                    flag++;
 
+                }
+                else {
+                    $("#RivalName_Error").text(" ");
+                    $("#RivalName_Error").css("display", "none");
+                }
+
+                if (rivalemail.length > 0) {
+                    $("#RivalEmail_Error").text("Để trống nếu đang chờ đối thủ");
+                    $("#RivalEmail_Error").css("display", "block");
+                    flag++;
+                }
+                else {
+                    $("#RivalEmail_Error").text(" ");
+                    $("#RivalEmail_Error").css("display", "none");
+                }
+
+                if (rivalphone.length > 0) {
+                    $("#RivalPhone_Error").text("Để trống nếu đang chờ đối thủ");
+                    $("#RivalPhone_Error").css("display", "block");
+                    flag++;
+
+                }
+                else {
+                    $("#RivalPhone_Error").text(" ");
+                    $("#RivalPhone_Error").css("display", "none");
+                }
             }
             else {
-                $("#RivalName_Error").text(" ");
-                $("#RivalName_Error").css("display", "none");
-            }
+                if (rivalName.length > 30 && rivalName.length < 1) {
+                    $("#RivalName_Error").text("Yêu cầu phải từ 1 đến 30 kí tự");
+                    $("#RivalName_Error").css("display", "block");
+                    flag++;
 
-            if (rivalemail.length > 0 && !reg.test(rivalemail)) {
-                $("#RivalEmail_Error").text("Email không đúng");
-                $("#RivalEmail_Error").css("display", "block");
-                flag++;
-            }
-            else {
-                $("#RivalEmail_Error").text(" ");
-                $("#RivalEmail_Error").css("display", "none");
-            }
+                }
+                else {
+                    $("#RivalName_Error").text(" ");
+                    $("#RivalName_Error").css("display", "none");
+                }
 
-            if (rivalphone.length > 0 && (rivalphone.length < 10 || rivalphone.length > 11)) {
-                $("#RivalPhone_Error").text("Yêu cầu phải nhập đúng số điện thoại");
-                $("#RivalPhone_Error").css("display", "block");
-                flag++;
+                if (rivalemail.length > 0 && !reg.test(rivalemail)) {
+                    $("#RivalEmail_Error").text("Email không đúng");
+                    $("#RivalEmail_Error").css("display", "block");
+                    flag++;
+                }
+                else {
+                    $("#RivalEmail_Error").text(" ");
+                    $("#RivalEmail_Error").css("display", "none");
+                }
 
-            }
-            else {
-                $("#RivalPhone_Error").text(" ");
-                $("#RivalPhone_Error").css("display", "none");
+                if (rivalphone.length < 10 || rivalphone.length > 11) {
+                    $("#RivalPhone_Error").text("Yêu cầu phải nhập đúng số điện thoại");
+                    $("#RivalPhone_Error").css("display", "block");
+                    flag++;
+
+                }
+                else {
+                    $("#RivalPhone_Error").text(" ");
+                    $("#RivalPhone_Error").css("display", "none");
+                }
             }
         }
 
@@ -250,7 +284,7 @@
                             <div class="span3">
                                 <label>
                                     CẦN ĐỐI THỦ
-                                    <select id="HasRival" name="NeedRival">
+                                    <select id="NeedRival" name="NeedRival">
                                         <option selected="selected" value="False">Không</option>
                                         <option value="True">Có</option>
                                     </select>
@@ -258,13 +292,13 @@
                                 </label>
                                 <script type="text/javascript">
                                     $(document).ready(function () {
-                                        if ($('#HasRival').val() == 'True') {
+                                        if ($('#NeedRival').val() == 'True') {
                                             $('#RivalInfo').show();
                                         }
                                         else {
                                             $('#RivalInfo').hide();
                                         }
-                                        $('#HasRival').change(function () {
+                                        $('#NeedRival').change(function () {
                                             if ($(this).val() == 'True') {
                                                 $('#RivalInfo').show();
                                             }
@@ -325,8 +359,8 @@
                                     TRẠNG THÁI
                                     <select id="RivalStatus" name="RivalStatus">
                                         <option value="Approved">Đã xác nhận</option>
-                                        <option value="Denied">Đang chờ xét</option>
-                                        <option value="Pending">Đang chờ</option>
+                                        <option value="Pending">Đang chờ xét</option>
+                                        <option value="Waiting" selected="selected">Đang chờ</option>
                                     </select>
                                 </label>
                             </div>

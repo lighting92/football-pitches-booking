@@ -505,8 +505,6 @@
     <Content Include="Views\WebsiteStaff\AddMemberRank.cshtml" />
     <Content Include="Views\WebsiteStaff\EditMemberRank.cshtml" />
     <Content Include="Views\WebsiteStaff\MemberRanks.cshtml" />
-    <Content Include="Views\WebsiteStaff\_List.cshtml" />
-    <Content Include="Views\WebsiteStaff\_List2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
