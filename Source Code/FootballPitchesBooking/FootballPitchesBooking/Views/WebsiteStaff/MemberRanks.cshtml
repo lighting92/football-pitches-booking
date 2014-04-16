@@ -1,36 +1,40 @@
-﻿@{
-    ViewBag.RANK = "active";
-    ViewBag.Title = "Hệ thống cấp bậc";
+﻿@model List<FootballPitchesBooking.Models.MemberRank>
+@{
+    ViewBag.Title = "Hệ Thống Cấp Bậc";
+    ViewBag.MEMBERRANK = "active";
     Layout = "~/Views/Shared/_WebsiteStaffLayout.cshtml";
 }
 
-<h2>Quản Lý Cấp Bậc</h2>
-
-<link href="@Url.Content("~/Content/Bootstrap/bootstrap.css")" rel="stylesheet" type="text/css" />
-<br />
-<div class="search_content" style="background-image: none; background-color: white">
-    <div>
-        @using (Ajax.BeginForm("MemberRanks", "WebsiteStaff", new AjaxOptions
-            {
-                InsertionMode = InsertionMode.Replace,
-                HttpMethod = "GET",
-                UpdateTargetId = "unobtrusive",
-            }, new { @class = "form-inline" }))
+<h2>QUẢN LÝ THÀNH VIÊN</h2>
+<div class="row">
+    <div class="span12">
+        @if (Model != null && Model.Count > 0)
         {
-            @Html.TextBox("keyWord", "", new { placeholder = "Tên Thứ Hạng" })
-            <button type="submit" class="btn" value="Search" style="width: 80px;">
-                Tìm kiếm</button>
-            @Html.ActionLink("Xem tất cả", "MemberRanks", "WebsiteStaff", null, new { @class = "btn", style = "width:54px" })
+            <div class="row no-margin">
+                <table class="table table-condensed table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th style="width: 200px;">CẤP BẬC</th>
+                            <th style="width: 120px;">ĐIỂM TỐI THIỂU</th>
+                            <th>ƯU ĐÃI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><a href="/WebsiteStaff/EditMemberRank?Id=@item.Id">@item.RankName</a></td>
+                                <td>@item.Point</td>
+                                <td>@item.Promotion</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p>Hệ thống chưa có cấp bậc nào.</p>
         }
     </div>
-</div>
-<br />
-<div> @Html.ActionLink("Thêm cấp bậc", "AddMemberRank", "WebsiteStaff", null, null)</div>
-<div>
-    @*<span>@Html.ActionLink("Create Rank", "Create", null, new { @class = "btn" })</span>
-    <span>@Html.ActionLink("Import Rank", "Import", null, new { @class = "btn" })</span>*@
-</div>
-<br />
-<div id="unobtrusive" style="background-image: none; background-color: white">
-    @Html.Partial("_List2")
 </div>
