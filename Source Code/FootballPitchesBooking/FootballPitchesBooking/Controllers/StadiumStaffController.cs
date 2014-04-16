@@ -2344,9 +2344,14 @@ namespace FootballPitchesBooking.Controllers
             {
                 return RedirectToAction("Reservations/" + stadium, "StadiumStaff");
             }
+            else if (result == -1)
+            {
+                ViewData["fieldNA"] = "true";
+                return RedirectToAction("ViewReservation/" + id, "StadiumStaff");
+            }
             else
             {
-                ViewData["field"] = "na";
+                ViewData["dbExcp"] = "true";
                 return RedirectToAction("ViewReservation/" + id, "StadiumStaff");
             }
         }

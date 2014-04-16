@@ -20,7 +20,11 @@
                             {
                                 <p>- @error</p>
                             }
-                            @if(ViewData["field"] == "na")
+                            @if(ViewData["fieldNA"] == "true")
+                            {
+                                <p>- Sân đã được đặt</p>
+                            }
+                            @if(ViewData["dbExcp"] == "true")
                             {
                                 <p>- Sân đã được đặt</p>
                             }
