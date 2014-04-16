@@ -665,36 +665,10 @@ namespace FootballPitchesBooking.Controllers
         #region MEMBER RANK MANAGEMENT
 
         [Authorize(Roles = "WebsiteMaster")]
-        public ActionResult MemberRanks(int? page, string keyWord = "", string column = "", string sort = "")
+        public ActionResult MemberRanks()
         {
-            try
-            {
-                // No. list.
-                var noList = new List<NoModel>();
-
-                // User list.
-                List<MemberRank> ranks = userBO.ToListMR(ref noList, page, keyWord, column, sort);
-
-                // Sort states.
-                ViewBag.KeyWord = keyWord;
-                ViewBag.Page = page;
-                ViewBag.Column = column;
-                ViewBag.Sort = sort;
-                ViewBag.NoList = noList;
-
-                // Return.
-                var pageNumber = page ?? 1;
-                var onePageOfUsers = ranks.ToPagedList(pageNumber, 10);
-                ViewBag.onePageOfUsers = onePageOfUsers;
-                return Request.IsAjaxRequest()
-                    ? (ActionResult)PartialView("_List2")
-                    : View();
-            }
-            catch (Exception)
-            {
-                // Wrtite to log file.
-                return View("Error");
-            }
+            List<MemberRank> ranks = userBO.GetAllRanks();
+            return View(ranks);
         }
 
         [Authorize(Roles = "WebsiteMaster")]
