@@ -1,0 +1,48 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@using FootballPitchesBooking.Models;
+
+<div id="list">
+    <div>
+        <table class="table table-condensed table-bordered table-hover">
+            <tr>
+                <th style="vertical-align: middle">
+                    Tên thứ hạng
+                </th>
+                <th style="vertical-align: middle">
+                    Điểm 
+                </th>
+                <th style="vertical-align: middle; width: 150px">
+                    Ưu đãi giảm giá
+                </th>
+                <th style="vertical-align: middle; width: 50px">
+                    
+                </th>
+            </tr>
+            @{
+                var row = 0;
+                foreach (var rank in ViewBag.onePageOfUsers as IEnumerable<MemberRank>)
+                {
+
+                    row++;
+                    <tr id="row_@row">
+                        <td>
+                            <span style="word-wrap: break-word">@Html.ActionLink(rank.RankName, "EditMemberRank", "WebsiteStaff", new {id = @rank.Id}, null)</span>
+                        </td>
+                        <td>
+                            <span style="word-wrap: break-word">@Html.DisplayFor(model => rank.Point)</span>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(item => rank.Promotion)
+                        </td>
+                        <td>
+                            <a href="/WebsiteStaff/EditMemberRank/@rank.Id">Sửa</a>
+                        </td>
+                        
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+    @Html.PagedListPager((IPagedList)ViewBag.onePageOfUsers, page => Url.Action("MemberRanks", new { page, sort = @ViewBag.Sort, column = @ViewBag.Column, keyWord = @ViewBag.KeyWord }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "unobtrusive", OnComplete = "" }))
+</div>

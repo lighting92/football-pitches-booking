@@ -1892,7 +1892,7 @@ namespace FootballPitchesBooking.Controllers
 
         #region RESERVATION MANAGEMENT
 
-        public ActionResult Reservations(int? stadium)
+        public ActionResult Reservations(int? id)
         {
             StadiumBO stadiumBO = new StadiumBO();
             List<Stadium> stadiums = stadiumBO.GetStadiumsByStaff(User.Identity.Name);
@@ -1900,7 +1900,7 @@ namespace FootballPitchesBooking.Controllers
             ReservationsModel model = new ReservationsModel();
             try
             {
-                int stadiumId = Convert.ToInt32(stadium);
+                int stadiumId = Convert.ToInt32(id);
                 if (stadiums.Count > 0)
                 {
                     std = stadiums[0];
@@ -2001,8 +2001,7 @@ namespace FootballPitchesBooking.Controllers
                 checkParseError = true;
             }
 
-            if (checkParseError || string.IsNullOrWhiteSpace(model.FullName) || string.IsNullOrWhiteSpace(model.PhoneNumber)
-                                || string.IsNullOrWhiteSpace(model.Email))
+            if (checkParseError || string.IsNullOrWhiteSpace(model.FullName) || string.IsNullOrWhiteSpace(model.PhoneNumber))
             {
                 model.ErrorMessages.Add(Resources.Form_EmptyFields);
             }
@@ -2076,7 +2075,7 @@ namespace FootballPitchesBooking.Controllers
 
                 if (result > 0)
                 {
-                    return RedirectToAction("Reservations", "StadiumStaff");
+                    return RedirectToAction("Reservations/" + stadium, "StadiumStaff");
                 }
                 else if (result == 0)
                 {
@@ -2147,6 +2146,7 @@ namespace FootballPitchesBooking.Controllers
                     RivalPhone = resv.RivalPhone,
                     RivalEmail = resv.RivalEmail,
                     RivalFinder = resv.RivalFinder == null ? "" : resv.User3.UserName,
+                    StadiumId = std.Id,
                     StadiumName = std.Name,
                     StadiumAddress = string.Concat(std.Street, ", ", std.Ward, ", ", std.District)
                 };
@@ -2198,6 +2198,7 @@ namespace FootballPitchesBooking.Controllers
                     RivalPhone = resv.RivalPhone,
                     RivalEmail = resv.RivalEmail,
                     RivalFinder = resv.RivalFinder == null ? "" : resv.User3.UserName,
+                    StadiumId = std.Id,
                     StadiumName = std.Name,
                     StadiumAddress = string.Concat(std.Street, ", ", std.Ward, ", ", std.District)
                 };
@@ -2300,7 +2301,7 @@ namespace FootballPitchesBooking.Controllers
 
                 if (result > 0)
                 {
-                    return RedirectToAction("Reservations", "StadiumStaff");
+                    return RedirectToAction("Reservations/" + promotion.Field.StadiumId, "StadiumStaff");
                 }
                 else if (result == 0)
                 {
@@ -2328,6 +2329,7 @@ namespace FootballPitchesBooking.Controllers
                 }
             }
             Stadium std = resv.Field.Stadium;
+            model.StadiumId = std.Id;
 		 	model.StadiumName = std.Name;
 		 	model.StadiumAddress = string.Concat(std.Street, ", ", std.Ward, ", ", std.District);
             return View(model);
@@ -2359,7 +2361,7 @@ namespace FootballPitchesBooking.Controllers
         #region PROMOTION MANAGEMENT
 
 
-        public ActionResult Promotions(int? stadium)
+        public ActionResult Promotions(int? id)
         {
             StadiumBO stadiumBO = new StadiumBO();
             List<Stadium> stadiums = stadiumBO.GetStadiumsByStaff(User.Identity.Name);
@@ -2367,7 +2369,7 @@ namespace FootballPitchesBooking.Controllers
             PromotionsModel model = new PromotionsModel();
             try
             {
-                int stadiumId = Convert.ToInt32(stadium);
+                int stadiumId = Convert.ToInt32(id);
                 if (stadiums.Count > 0)
                 {
                     std = stadiums[0];
@@ -2425,7 +2427,7 @@ namespace FootballPitchesBooking.Controllers
 
 
         [HttpPost]
-        public ActionResult AddPromotion(FormCollection form)
+        public ActionResult AddPromotion(FormCollection form, int stadium)
         {
             PromotionModel model = new PromotionModel();
 
@@ -2464,7 +2466,7 @@ namespace FootballPitchesBooking.Controllers
 
                 if (result > 0)
                 {
-                    return RedirectToAction("Promotions", "StadiumStaff");
+                    return RedirectToAction("Promotions/" + stadium, "StadiumStaff");
                 }
                 else if (result == 0)
                 {
@@ -2504,7 +2506,8 @@ namespace FootballPitchesBooking.Controllers
                     PromotionFrom = promotion.PromotionFrom,
                     PromotionTo = promotion.PromotionTo,
                     Discount = promotion.Discount,
-                    IsActive = promotion.IsActive
+                    IsActive = promotion.IsActive,
+                    StadiumId = promotion.Field.StadiumId
                 };
 
                 return View(model);
@@ -2547,7 +2550,7 @@ namespace FootballPitchesBooking.Controllers
                     PromotionFrom = model.PromotionFrom,
                     PromotionTo = model.PromotionTo,
                     Discount = model.Discount,
-                    IsActive = model.IsActive
+                    IsActive = model.IsActive,
                 };
 
                 int result = stadiumBO.UpdatePromotion(promotion);
