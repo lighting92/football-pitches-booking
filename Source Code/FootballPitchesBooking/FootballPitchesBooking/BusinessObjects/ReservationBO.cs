@@ -59,16 +59,19 @@ namespace FootballPitchesBooking.BusinessObjects
 
             Stadium std = fieldDAO.GetFieldById(reservation.FieldId).Stadium;
             //Đặt thời gian đá sớm hơn hoặc kéo dài quá thời gian phục vụ
-            if (std.OpenTime < std.CloseTime && (reservation.StartTime < std.OpenTime || reservation.StartTime + reservation.Duration > std.CloseTime) ||
-                std.OpenTime > std.CloseTime && (!(reservation.StartTime + reservation.Duration < std.CloseTime + 24 && reservation.StartTime > std.OpenTime) ||
-                                                 !(reservation.StartTime < std.OpenTime && reservation.StartTime + reservation.Duration < std.CloseTime)))
+            if (!((std.OpenTime < std.CloseTime
+                    && (reservation.StartTime < std.OpenTime || reservation.StartTime + reservation.Duration > std.CloseTime)) ||
+                (std.OpenTime > std.CloseTime
+                    && (reservation.StartTime > std.OpenTime && reservation.StartTime + reservation.Duration < std.CloseTime + 24)) ||
+                (std.OpenTime > std.CloseTime
+                    && (reservation.StartTime < std.OpenTime && (reservation.StartTime + reservation.Duration < std.CloseTime)))))
             {
                 return -3;
             }
 
             //Nếu có đối thủ thì phải điền thông tin
-            if (reservation.NeedRival && (string.IsNullOrEmpty(reservation.RivalName) ||
-                string.IsNullOrEmpty(reservation.RivalPhone) || string.IsNullOrEmpty(reservation.RivalEmail)))
+            if (reservation.NeedRival && (!string.IsNullOrEmpty(reservation.RivalName) && string.IsNullOrEmpty(reservation.RivalPhone)) ||
+                                         (string.IsNullOrEmpty(reservation.RivalName) && !string.IsNullOrEmpty(reservation.RivalPhone)))
             {
                 return -4;
             }

@@ -404,6 +404,8 @@ namespace FootballPitchesBooking.Controllers
                 PhoneNumber = user.PhoneNumber,
                 FullName = user.FullName,
                 Address = user.Address,
+                RankName = user.MemberRank.RankName,
+                Point = user.Point,
                 IsActive = user.IsActive,
                 RoleId = (int)user.RoleId,
                 Roles = userBO.GetAllRoles(),
@@ -459,6 +461,15 @@ namespace FootballPitchesBooking.Controllers
                 return RedirectToAction("Users", "WebsiteStaff");
             }
 
+            try
+            {
+                model.Point = Int32.Parse(form["Point"]);
+            }
+            catch (Exception)
+            {
+                model.ErrorMessages.Add(Resources.Form_EmptyFields);
+                model.Point = usr.Point;
+            }
 
             try
             {
@@ -502,6 +513,7 @@ namespace FootballPitchesBooking.Controllers
                     Id = id,
                     Password = model.Password,
                     Email = model.Email,
+                    Point = model.Point,
                     IsActive = model.IsActive,
                     RoleId = model.RoleId
                 };
@@ -523,6 +535,7 @@ namespace FootballPitchesBooking.Controllers
             model.PhoneNumber = usr.PhoneNumber;
             model.FullName = usr.FullName;
             model.Address = usr.Address;
+            model.RankName = usr.MemberRank.RankName;
             model.Roles = userBO.GetAllRoles();
 
             return View(model);
@@ -648,6 +661,179 @@ namespace FootballPitchesBooking.Controllers
         }
 
         #endregion JOIN SYSTEM REQUEST MANAGEMENT
+
+        #region MEMBER RANK MANAGEMENT
+
+        [Authorize(Roles = "WebsiteMaster")]
+        public ActionResult MemberRanks(int? page, string keyWord = "", string column = "", string sort = "")
+        {
+            try
+            {
+                // No. list.
+                var noList = new List<NoModel>();
+
+                // User list.
+                List<MemberRank> ranks = userBO.ToListMR(ref noList, page, keyWord, column, sort);
+
+                // Sort states.
+                ViewBag.KeyWord = keyWord;
+                ViewBag.Page = page;
+                ViewBag.Column = column;
+                ViewBag.Sort = sort;
+                ViewBag.NoList = noList;
+
+                // Return.
+                var pageNumber = page ?? 1;
+                var onePageOfUsers = ranks.ToPagedList(pageNumber, 10);
+                ViewBag.onePageOfUsers = onePageOfUsers;
+                return Request.IsAjaxRequest()
+                    ? (ActionResult)PartialView("_List2")
+                    : View();
+            }
+            catch (Exception)
+            {
+                // Wrtite to log file.
+                return View("Error");
+            }
+        }
+
+        [Authorize(Roles = "WebsiteMaster")]
+        public ActionResult AddMemberRank()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "WebsiteMaster")]
+        [HttpPost]
+        public ActionResult AddMemberRank(FormCollection form)
+        {
+            RankModel rank = new RankModel();
+            rank.RankName = form["RankName"];
+            rank.Point = Int32.Parse(form["Point"]);
+            rank.Promotion = form["Promotion"];
+            rank.ErrorMessages = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(rank.RankName) || string.IsNullOrWhiteSpace(rank.Promotion))
+            {
+                rank.ErrorMessages.Add(Resources.Form_EmptyFields);
+            }
+
+            if (rank.ErrorMessages.Count == 0)
+            {
+                UserBO userBO = new UserBO();
+
+                MemberRank memberrank = new MemberRank
+                {
+                    RankName = rank.RankName,
+                    Point = rank.Point,
+                    Promotion = rank.Promotion,
+
+                };
+
+                List<int> results = userBO.CreateMemberRank(memberrank);
+
+                if (results.Count == 1 && results[0] > 0)
+                {
+                    return RedirectToAction("Index", "Home"); //cai nay sau nay sua lai redirect den trang list rank hay gi day, khi nao add success thi no redirect, ko thi bao loi
+                }
+                else
+                {
+                    foreach (var error in results)
+                    {
+                        if (error == 0)
+                        {
+                            rank.ErrorMessages.Add(Resources.DB_Exception);
+                        }
+                        if (error == -1)
+                        {
+                            rank.ErrorMessages.Add(Resources.Rank_RankNameNotAvailable);
+                        }
+                        if (error == -2)
+                        {
+                            rank.ErrorMessages.Add(Resources.Rank_RankPointNotAvailable);
+                        }
+                    }
+                }
+
+            }
+            return View(rank); //cai bao' loi~ mang tinh' tuong doi', chua biet requirement chinh xac sao nen chu check trc cho chac
+        }
+
+        //giao dien tinh' sau
+        [Authorize(Roles = "WebsiteMaster")]
+        public ActionResult EditMemberRank(int? id) //truyen vao 1 id, int? id tuc la id nay co the null hoac kieu khac, vi du user co' tinh` gõ đường dẫn là EditMemberRank?id=abc thì sao, int? id để bắt các TH này
+        {
+            MemberRank memberRank = new MemberRank();
+            memberRank = userBO.GetRankById((int)id); //convert từ int? về int rồi mới gọi hàm
+            RankModel rank = new RankModel
+            {
+                Id = memberRank.Id,
+                RankName = memberRank.RankName,
+                Point = (int)memberRank.Point,
+                Promotion = memberRank.Promotion,
+                ErrorMessages = new List<string>()
+            };
+            return View(rank); //trả về Rankmodel
+        }
+
+        [Authorize(Roles = "WebsiteMaster")]
+        [HttpPost]
+        public ActionResult EditMemberRank(FormCollection form) //cái này là lấy form vào, các field của form tương tự ở dưới
+        {
+            RankModel rank = new RankModel();
+            rank.Id = Int32.Parse(form["RankId"]);
+            rank.RankName = form["RankName"];
+            rank.Point = Int32.Parse(form["Point"]);
+            rank.Promotion = form["Promotion"];
+            rank.ErrorMessages = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(rank.RankName) || string.IsNullOrWhiteSpace(rank.Promotion)) //check null
+            {
+                rank.ErrorMessages.Add(Resources.Form_EmptyFields);
+            }
+
+            if (rank.ErrorMessages.Count == 0) //nếu ko có lỗi thì gọi BO lên update
+            {
+                MemberRank memberrank = new MemberRank
+                {
+                    Id = rank.Id,
+                    RankName = rank.RankName,
+                    Point = rank.Point,
+                    Promotion = rank.Promotion,
+
+                };
+
+                List<int> results = userBO.UpdateMemberRank(memberrank);
+
+                if (results.Count == 2 && results[0] > 0 && results[1] > 0) //nếu update ko có lỗi thì redirect qua cái này
+                {
+                    return RedirectToAction("MemberRanks", "WebsiteStaff"); //cai nay sau nay sua lai redirect den trang list rank hay gi day, khi nao add success thi no redirect, ko thi bao loi
+                }
+                else //nếu update lỗi thì báo lỗi ra ngoài rồi kiu ng ta update lại
+                {
+                    foreach (var error in results)
+                    {
+                        if (error == 0)
+                        {
+                            rank.ErrorMessages.Add(Resources.DB_Exception);
+                        }
+                        if (error == -1)
+                        {
+                            rank.ErrorMessages.Add(Resources.Rank_RankNameNotAvailable);
+                        }
+                        if (error == -2)
+                        {
+                            rank.ErrorMessages.Add(Resources.Rank_RankPointNotAvailable);
+                        }
+                    }
+                }
+
+            }
+            return View(rank); //cai bao' loi~ mang tinh' tuong doi', chua biet requirement chinh xac sao nen  check trc cho chac
+        }
+
+
+        #endregion MEMBER RANK MANAGEMENT
 
 
         #region ADVERTISEMENT MANAGEMENT

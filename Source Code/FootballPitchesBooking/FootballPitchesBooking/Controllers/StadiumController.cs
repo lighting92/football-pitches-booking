@@ -518,7 +518,7 @@ namespace FootballPitchesBooking.Controllers
                     {
                         var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now.AddMinutes(2), "SE Asia Standard Time");
                         double time = now.Hour + (now.Minute / 60.0);
-                        if (startDate.Date.CompareTo(now.Date) >= 0 && startTime > time)
+                        if (startDate.Date.CompareTo(now.Date) > 0 || ( startDate.Date.CompareTo(now.Date) == 0 && startTime > time))
                         {
                             var avails = stadiumBO.GetAvailableFieldsOfStadium(stadium, fieldType, startDate, startTime, duration);
                             if (avails != null && avails.Fields.Count() != 0)

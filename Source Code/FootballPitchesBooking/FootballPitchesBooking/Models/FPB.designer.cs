@@ -48,6 +48,9 @@ namespace FootballPitchesBooking.Models
     partial void InsertJoinSystemRequest(JoinSystemRequest instance);
     partial void UpdateJoinSystemRequest(JoinSystemRequest instance);
     partial void DeleteJoinSystemRequest(JoinSystemRequest instance);
+    partial void InsertMemberRank(MemberRank instance);
+    partial void UpdateMemberRank(MemberRank instance);
+    partial void DeleteMemberRank(MemberRank instance);
     partial void InsertNotification(Notification instance);
     partial void UpdateNotification(Notification instance);
     partial void DeleteNotification(Notification instance);
@@ -164,6 +167,14 @@ namespace FootballPitchesBooking.Models
 			get
 			{
 				return this.GetTable<JoinSystemRequest>();
+			}
+		}
+		
+		public System.Data.Linq.Table<MemberRank> MemberRanks
+		{
+			get
+			{
+				return this.GetTable<MemberRank>();
 			}
 		}
 		
@@ -1788,6 +1799,168 @@ namespace FootballPitchesBooking.Models
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MemberRank")]
+	public partial class MemberRank : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _RankName;
+		
+		private System.Nullable<int> _Point;
+		
+		private string _Promotion;
+		
+		private EntitySet<User> _Users;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnRankNameChanging(string value);
+    partial void OnRankNameChanged();
+    partial void OnPointChanging(System.Nullable<int> value);
+    partial void OnPointChanged();
+    partial void OnPromotionChanging(string value);
+    partial void OnPromotionChanged();
+    #endregion
+		
+		public MemberRank()
+		{
+			this._Users = new EntitySet<User>(new Action<User>(this.attach_Users), new Action<User>(this.detach_Users));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RankName", DbType="NVarChar(50)")]
+		public string RankName
+		{
+			get
+			{
+				return this._RankName;
+			}
+			set
+			{
+				if ((this._RankName != value))
+				{
+					this.OnRankNameChanging(value);
+					this.SendPropertyChanging();
+					this._RankName = value;
+					this.SendPropertyChanged("RankName");
+					this.OnRankNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Point", DbType="Int")]
+		public System.Nullable<int> Point
+		{
+			get
+			{
+				return this._Point;
+			}
+			set
+			{
+				if ((this._Point != value))
+				{
+					this.OnPointChanging(value);
+					this.SendPropertyChanging();
+					this._Point = value;
+					this.SendPropertyChanged("Point");
+					this.OnPointChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Promotion", DbType="NVarChar(500)")]
+		public string Promotion
+		{
+			get
+			{
+				return this._Promotion;
+			}
+			set
+			{
+				if ((this._Promotion != value))
+				{
+					this.OnPromotionChanging(value);
+					this.SendPropertyChanging();
+					this._Promotion = value;
+					this.SendPropertyChanged("Promotion");
+					this.OnPromotionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MemberRank_User", Storage="_Users", ThisKey="Id", OtherKey="RankId")]
+		public EntitySet<User> Users
+		{
+			get
+			{
+				return this._Users;
+			}
+			set
+			{
+				this._Users.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Users(User entity)
+		{
+			this.SendPropertyChanging();
+			entity.MemberRank = this;
+		}
+		
+		private void detach_Users(User entity)
+		{
+			this.SendPropertyChanging();
+			entity.MemberRank = null;
 		}
 	}
 	
@@ -5639,6 +5812,10 @@ namespace FootballPitchesBooking.Models
 		
 		private string _Email;
 		
+		private int _Point;
+		
+		private int _RankId;
+		
 		private System.DateTime _JoinDate;
 		
 		private bool _IsActive;
@@ -5681,6 +5858,8 @@ namespace FootballPitchesBooking.Models
 		
 		private EntitySet<StadiumStaff> _StadiumStaffs;
 		
+		private EntityRef<MemberRank> _MemberRank;
+		
 		private EntityRef<Role> _Role;
 		
     #region Extensibility Method Definitions
@@ -5701,6 +5880,10 @@ namespace FootballPitchesBooking.Models
     partial void OnPhoneNumberChanged();
     partial void OnEmailChanging(string value);
     partial void OnEmailChanged();
+    partial void OnPointChanging(int value);
+    partial void OnPointChanged();
+    partial void OnRankIdChanging(int value);
+    partial void OnRankIdChanged();
     partial void OnJoinDateChanging(System.DateTime value);
     partial void OnJoinDateChanged();
     partial void OnIsActiveChanging(bool value);
@@ -5729,6 +5912,7 @@ namespace FootballPitchesBooking.Models
 			this._StadiumReviews = new EntitySet<StadiumReview>(new Action<StadiumReview>(this.attach_StadiumReviews), new Action<StadiumReview>(this.detach_StadiumReviews));
 			this._StadiumReviews1 = new EntitySet<StadiumReview>(new Action<StadiumReview>(this.attach_StadiumReviews1), new Action<StadiumReview>(this.detach_StadiumReviews1));
 			this._StadiumStaffs = new EntitySet<StadiumStaff>(new Action<StadiumStaff>(this.attach_StadiumStaffs), new Action<StadiumStaff>(this.detach_StadiumStaffs));
+			this._MemberRank = default(EntityRef<MemberRank>);
 			this._Role = default(EntityRef<Role>);
 			OnCreated();
 		}
@@ -5869,6 +6053,50 @@ namespace FootballPitchesBooking.Models
 					this._Email = value;
 					this.SendPropertyChanged("Email");
 					this.OnEmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Point", DbType="Int NOT NULL")]
+		public int Point
+		{
+			get
+			{
+				return this._Point;
+			}
+			set
+			{
+				if ((this._Point != value))
+				{
+					this.OnPointChanging(value);
+					this.SendPropertyChanging();
+					this._Point = value;
+					this.SendPropertyChanged("Point");
+					this.OnPointChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RankId", DbType="Int NOT NULL")]
+		public int RankId
+		{
+			get
+			{
+				return this._RankId;
+			}
+			set
+			{
+				if ((this._RankId != value))
+				{
+					if (this._MemberRank.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnRankIdChanging(value);
+					this.SendPropertyChanging();
+					this._RankId = value;
+					this.SendPropertyChanged("RankId");
+					this.OnRankIdChanged();
 				}
 			}
 		}
@@ -6168,6 +6396,40 @@ namespace FootballPitchesBooking.Models
 			set
 			{
 				this._StadiumStaffs.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MemberRank_User", Storage="_MemberRank", ThisKey="RankId", OtherKey="Id", IsForeignKey=true)]
+		public MemberRank MemberRank
+		{
+			get
+			{
+				return this._MemberRank.Entity;
+			}
+			set
+			{
+				MemberRank previousValue = this._MemberRank.Entity;
+				if (((previousValue != value) 
+							|| (this._MemberRank.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MemberRank.Entity = null;
+						previousValue.Users.Remove(this);
+					}
+					this._MemberRank.Entity = value;
+					if ((value != null))
+					{
+						value.Users.Add(this);
+						this._RankId = value.Id;
+					}
+					else
+					{
+						this._RankId = default(int);
+					}
+					this.SendPropertyChanged("MemberRank");
+				}
 			}
 		}
 		

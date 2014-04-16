@@ -42,7 +42,9 @@ namespace FootballPitchesBooking.Controllers
                 PhoneNumber = user.PhoneNumber,
                 FullName = user.FullName,
                 Address = user.Address,
-                RoleName = user.Role.Role1,
+                RankName = user.MemberRank.RankName,
+                Point = user.Point,
+                RoleName = user.Role.Role1,                
                 JoinDate = user.JoinDate,
                 ErrorMessages = new List<string>()
             };
@@ -633,6 +635,8 @@ namespace FootballPitchesBooking.Controllers
                 PhoneNumber = user.PhoneNumber,
                 FullName = user.FullName,
                 Address = user.Address,
+                RankName = user.MemberRank.RankName,
+                Point = user.Point,
                 RoleName = user.Role.Role1,
                 JoinDate = user.JoinDate,
                 ErrorMessages = new List<string>()
@@ -664,6 +668,8 @@ namespace FootballPitchesBooking.Controllers
                 PhoneNumber = user.PhoneNumber,
                 FullName = user.FullName,
                 Address = user.Address,
+                RankName = user.MemberRank.RankName,
+                Point = user.Point,
                 RoleName = user.Role.Role1,
                 JoinDate = user.JoinDate,
                 ErrorMessages = new List<string>()

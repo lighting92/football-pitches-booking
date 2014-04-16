@@ -140,6 +140,7 @@
     <Compile Include="BusinessObjects\StadiumBO.cs" />
     <Compile Include="BusinessObjects\UserBO.cs" />
     <Compile Include="DataAccessObjects\ConfigurationDAO.cs" />
+    <Compile Include="DataAccessObjects\MemberRankDAO.cs" />
     <Compile Include="DataAccessObjects\NotificationDAO.cs" />
     <Compile Include="DataAccessObjects\PriceTableDAO.cs" />
     <Compile Include="DataAccessObjects\PunishMemberDAO.cs" />
@@ -167,6 +168,7 @@
     <Compile Include="Models\StadiumStaffModels\ReservationsModel.cs" />
     <Compile Include="Models\StadiumStaffModels\ReservationModel.cs" />
     <Compile Include="Models\WebsiteStaffModels\AdvertisementModel.cs" />
+    <Compile Include="Models\WebsiteStaffModels\RankModel.cs" />
     <Compile Include="Models\WebsiteStaffModels\UserModel.cs" />
     <Compile Include="Utilities\Utils.cs" />
     <Compile Include="BusinessObjects\WebsiteBO.cs" />
@@ -500,6 +502,11 @@
     <Content Include="Views\Home\Feedback.cshtml" />
     <Content Include="Views\StadiumStaff\Notifications.cshtml" />
     <Content Include="Views\Account\Activate.cshtml" />
+    <Content Include="Views\WebsiteStaff\AddMemberRank.cshtml" />
+    <Content Include="Views\WebsiteStaff\EditMemberRank.cshtml" />
+    <Content Include="Views\WebsiteStaff\MemberRanks.cshtml" />
+    <Content Include="Views\WebsiteStaff\_List.cshtml" />
+    <Content Include="Views\WebsiteStaff\_List2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

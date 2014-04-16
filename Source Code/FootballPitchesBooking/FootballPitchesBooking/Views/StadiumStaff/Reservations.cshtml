@@ -20,7 +20,7 @@
                             @foreach (var item in Model.Stadiums)
                             {
                                 <tr>
-                                    <td><a href="/StadiumStaff/Reservations?Stadium=@item.Id">@item.Name</a></td>
+                                    <td><a href="/StadiumStaff/Reservations/@item.Id">@item.Name</a></td>
                                 </tr>
                             }
                         </tbody>
