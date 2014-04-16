@@ -165,7 +165,7 @@
                             <div class="span3">
                                 <label>
                                     NGÀY ĐẶT
-                                    <input name="Date" id="Date" type="text" placeholder="Ngày đặt sân" required="required" value="">
+                                    <input name="Date" id="Date" type="text" placeholder="Ngày đặt sân" required="required" value="@DateTime.Now.ToString("dd/MM/yyyy")">
                                     <script>
                                         $('#Date').datepicker({
                                             format: "dd/mm/yyyy",
@@ -179,7 +179,7 @@
                                 <label>
                                     GIỜ ĐẶT
                                     <div class="input-append bootstrap-timepicker">
-                                        <input name="StartTime" id="startTime" type="text" class="span2 input-time-collapse" value="" />
+                                        <input name="StartTime" id="startTime" type="text" class="span2 input-time-collapse" value="@(DateTime.Now.Hour + 1):00" />
                                         <script type="text/javascript">
                                             $(document).ready(function () {
                                                 $('#startTime').timepicker({
@@ -215,23 +215,6 @@
                         <div class="row">
                             <div class="span9">
                                 <h4>THÔNG TIN KHÁCH HÀNG</h4>
-                            </div>
-                            <div class="span3">
-                                <label>
-                                    TÊN KHÁCH HÀNG
-                                    <input name="Customer" type="text" placeholder="Tên khách hàng" value="">
-                                    <div class="alert alert-danger" id="Customer_Error" style="display: none"></div>
-                                </label>
-                            </div>
-                            <div class="span3" style="visibility: hidden;">
-                                <label>&nbsp</label>
-                                <input type="text">
-                                <div class="alert alert-danger" style="display: none"></div>
-                            </div>
-                            <div class="span3" style="visibility: hidden;">
-                                <label>&nbsp</label>
-                                <input type="text">
-                                <div class="alert alert-danger" style="display: none"></div>
                             </div>
                             <div class="span3">
                                 <label>
@@ -307,23 +290,6 @@
                         <div id="RivalInfo" class="row">
                             <div class="span9">
                                 <h4>THÔNG TIN ĐỐI THỦ</h4>
-                            </div>
-                            <div class="span3">
-                                <label>
-                                    TÊN ĐỐI THỦ
-                                    <input name="RivalUser" type="text" placeholder="Tên đối thủ" value="">
-                                    <div class="alert alert-danger" id="RivalUser_Error" style="display: none"></div>
-                                </label>
-                            </div>
-                            <div class="span3" style="visibility: hidden;">
-                                <label>&nbsp</label>
-                                <input type="text">
-                                <div class="alert alert-danger" style="display: none"></div>
-                            </div>
-                            <div class="span3" style="visibility: hidden;">
-                                <label>&nbsp</label>
-                                <input type="text">
-                                <div class="alert alert-danger" style="display: none"></div>
                             </div>
                             <div class="span3">
                                 <label>

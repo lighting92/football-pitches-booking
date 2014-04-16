@@ -227,23 +227,6 @@
                             </div>
                             <div class="span3">
                                 <label>
-                                    TÊN KHÁCH HÀNG
-                                    <input name="Customer" type="text" placeholder="Tên khách hàng" value="@Model.Customer">
-                                    <div class="alert alert-danger" id="Customer_Error" style="display: none"></div>
-                                </label>
-                            </div>
-                            <div class="span3" style="visibility: hidden;">
-                                <label>&nbsp</label>
-                                <input type="text">
-                                <div class="alert alert-danger" style="display: none"></div>
-                            </div>
-                            <div class="span3" style="visibility: hidden;">
-                                <label>&nbsp</label>
-                                <input type="text">
-                                <div class="alert alert-danger" style="display: none"></div>
-                            </div>
-                            <div class="span3">
-                                <label>
                                     TÊN ĐẦY ĐỦ
                                     <input name="FullName" type="text" placeholder="Tên đầy đủ" required="required" value="@Model.FullName">
                                     <div class="alert alert-danger" id="FullName_Error" style="display: none"></div>
@@ -275,7 +258,7 @@
                         <div class="row">
                             <div class="span3">
                                 <label>
-                                    ĐỐI THỦ
+                                    CẦN ĐỐI THỦ
                                     <select id="HasRival" name="NeedRival" data-cur="@Model.NeedRival">
                                         <option value="False">Không</option>
                                         <option value="True">Có</option>
@@ -328,23 +311,6 @@
                             </div>
                             <div class="span3">
                                 <label>
-                                    TÊN ĐỐI THỦ
-                                    <input name="RivalUser" type="text" placeholder="Tên đối thủ" value="@Model.RivalUser">
-                                    <div class="alert alert-danger" id="RivalUser_Error" style="display: none"></div>
-                                </label>
-                            </div>
-                            <div class="span3" style="visibility: hidden;">
-                                <label>&nbsp</label>
-                                <input type="text">
-                                <div class="alert alert-danger" style="display: none"></div>
-                            </div>
-                            <div class="span3" style="visibility: hidden;">
-                                <label>&nbsp</label>
-                                <input type="text">
-                                <div class="alert alert-danger" style="display: none"></div>
-                            </div>
-                            <div class="span3">
-                                <label>
                                     TÊN ĐẦY ĐỦ
                                     <input name="RivalName" type="text" placeholder="Tên đầy đủ" value="@Model.RivalName">
                                     <div class="alert alert-danger" id="RivalName_Error" style="display: none"></div>
@@ -392,7 +358,7 @@
                             <div class="span9">
                                 <p>
                                     <button class="btn btn-primary book-now groupbtn" type="submit" name="Save" onclick="return check()">Lưu</button>
-                                    <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/Reservations'">Hủy bỏ</button>
+                                    <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/Reservations/@Model.Fields.FirstOrDefault().StadiumId'">Hủy bỏ</button>
                                 </p>
                             </div>
                         </div>
