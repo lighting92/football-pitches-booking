@@ -2146,7 +2146,6 @@ namespace FootballPitchesBooking.Controllers
                     RivalPhone = resv.RivalPhone,
                     RivalEmail = resv.RivalEmail,
                     RivalFinder = resv.RivalFinder == null ? "" : resv.User3.UserName,
-                    StadiumId = std.Id,
                     StadiumName = std.Name,
                     StadiumAddress = string.Concat(std.Street, ", ", std.Ward, ", ", std.District)
                 };
@@ -2198,7 +2197,6 @@ namespace FootballPitchesBooking.Controllers
                     RivalPhone = resv.RivalPhone,
                     RivalEmail = resv.RivalEmail,
                     RivalFinder = resv.RivalFinder == null ? "" : resv.User3.UserName,
-                    StadiumId = std.Id,
                     StadiumName = std.Name,
                     StadiumAddress = string.Concat(std.Street, ", ", std.Ward, ", ", std.District)
                 };
@@ -2329,7 +2327,6 @@ namespace FootballPitchesBooking.Controllers
                 }
             }
             Stadium std = resv.Field.Stadium;
-            model.StadiumId = std.Id;
 		 	model.StadiumName = std.Name;
 		 	model.StadiumAddress = string.Concat(std.Street, ", ", std.Ward, ", ", std.District);
             return View(model);
@@ -2341,8 +2338,17 @@ namespace FootballPitchesBooking.Controllers
             ReservationBO resvBO = new ReservationBO();
             UserBO userBO = new UserBO();
             User staff = userBO.GetUserByUserName(User.Identity.Name);
+            int stadium = resvBO.GetReservationById(id).Field.StadiumId;
             int result = resvBO.UpdateReservationStatus(id, "Approved", staff.Id);
-            return RedirectToAction("Reservations", "StadiumStaff");
+            if (result > 0)
+            {
+                return RedirectToAction("Reservations/" + stadium, "StadiumStaff");
+            }
+            else
+            {
+                ViewData["field"] = "na";
+                return RedirectToAction("ViewReservation/" + id, "StadiumStaff");
+            }
         }
 
 
@@ -2507,7 +2513,6 @@ namespace FootballPitchesBooking.Controllers
                     PromotionTo = promotion.PromotionTo,
                     Discount = promotion.Discount,
                     IsActive = promotion.IsActive,
-                    StadiumId = promotion.Field.StadiumId
                 };
 
                 return View(model);

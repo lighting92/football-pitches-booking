@@ -287,6 +287,12 @@ namespace FootballPitchesBooking.BusinessObjects
         public int UpdateReservationStatus(int reservationId, string status, int approver)
         {
             ReservationDAO resvDAO = new ReservationDAO();
+            FieldDAO fieldDAO = new FieldDAO();
+            Reservation reservation = resvDAO.GetReservationById(reservationId);
+            if (!fieldDAO.CheckAvailableField(reservation.FieldId, reservation.Date, reservation.StartTime, reservation.Duration, reservation.Id))
+            {
+                return -1;
+            }
             return resvDAO.UpdateReservationStatus(reservationId, status, approver);
         }
 
