@@ -73,12 +73,28 @@ namespace FootballPitchesBooking.DataAccessObjects
         }
 
 
-        public List<MemberRank> Select()
+        public int DeleteMemberRank(MemberRank rank)
+        {
+            FPBDataContext db = new FPBDataContext();
+            db.MemberRanks.DeleteOnSubmit(rank);
+            try //cai nay de test xem co' update success ko, neu success (ko co' loi~) thi return id cua rank vua update, con neu ko thi return 0 (cai nay de so sanh' o phia' controller de hien thi loi~)
+            {
+                db.SubmitChanges();
+                return 1;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+
+        public List<MemberRank> GetAllRanks()
         {
             FPBDataContext db = new FPBDataContext();
             try
             {
-                var ranks = db.MemberRanks.ToList();
+                List<MemberRank> ranks = db.MemberRanks.OrderBy(r => r.Point).ToList();
                 return ranks;
             }
             catch (Exception)
