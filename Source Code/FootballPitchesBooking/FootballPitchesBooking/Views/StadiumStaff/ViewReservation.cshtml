@@ -218,16 +218,18 @@
                         <div class="span3">
                             <label>
                                 TRẠNG THÁI
-                                    <select id="RivalStatus" name="RivalStatus" data-cur="@Model.Status" disabled="disabled">
+                                    <select id="RivalStatus" name="RivalStatus" data-cur="@Model.RivalStatus" disabled="disabled">
                                         <option value="Approved">Đã xác nhận</option>
-                                        <option value="Denied">Bị từ chối</option>
                                         <option value="Pending">Đang chờ xét</option>
-                                        <option value="Canceled">Đã bị huỷ</option>
+                                        <option value="Waiting" selected="selected">Đang chờ</option>
                                     </select>
                             </label>
                             <script type="text/javascript">
                                 $(document).ready(function () {
-                                    $("#RivalStatus").val($("#RivalStatus").data("cur"));
+                                    var rivalStatus = $("#RivalStatus").data("cur");
+                                    if (rivalStatus) {
+                                        $("#RivalStatus").val(rivalStatus);
+                                    }
                                 });
                             </script>
                         </div>

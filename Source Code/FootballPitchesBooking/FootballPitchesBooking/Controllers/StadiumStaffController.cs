@@ -1954,7 +1954,7 @@ namespace FootballPitchesBooking.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Reservations", "StadiumStaff");
+                    return RedirectToAction("Reservations/" + stadium, "StadiumStaff");
                 }
             }
             catch (Exception)
@@ -1978,7 +1978,6 @@ namespace FootballPitchesBooking.Controllers
             {
                 model.FieldId = Int32.Parse(form["Fields"]);
                 model.Fields = stadiumBO.GetFieldsByStadiumId(stadium);
-                model.Customer = form["Customer"];
                 model.FullName = form["FullName"];
                 model.PhoneNumber = form["PhoneNumber"];
                 model.Email = form["Email"];
@@ -1990,10 +1989,10 @@ namespace FootballPitchesBooking.Controllers
                 model.NeedRival = Boolean.Parse(form["NeedRival"]);
                 if (model.NeedRival)
                 {
-                    model.RivalUser = form["RivalUser"];
                     model.RivalName = form["RivalName"];
                     model.RivalPhone = form["RivalPhone"];
                     model.RivalEmail = form["RivalEmail"];
+                    model.RivalStatus = form["RivalStatus"];
                 }
             }
             catch (Exception)
@@ -2001,7 +2000,8 @@ namespace FootballPitchesBooking.Controllers
                 checkParseError = true;
             }
 
-            if (checkParseError || string.IsNullOrWhiteSpace(model.FullName) || string.IsNullOrWhiteSpace(model.PhoneNumber))
+            if (checkParseError || string.IsNullOrWhiteSpace(model.FullName) || string.IsNullOrWhiteSpace(model.PhoneNumber) ||
+                 (!model.RivalStatus.Equals("Waiting") && (string.IsNullOrWhiteSpace(model.RivalName) || string.IsNullOrWhiteSpace(model.RivalPhone))))
             {
                 model.ErrorMessages.Add(Resources.Form_EmptyFields);
             }
@@ -2009,17 +2009,6 @@ namespace FootballPitchesBooking.Controllers
             if (model.ErrorMessages.Count == 0)
             {
                 UserBO userBO = new UserBO();
-
-                User customer = null;
-                if (!string.IsNullOrWhiteSpace(model.Customer))
-                {
-                    customer = userBO.GetUserByUserName(model.Customer);
-                }
-                User rival = null;
-                if (model.NeedRival && !string.IsNullOrEmpty(model.RivalUser))
-                {
-                    rival = userBO.GetUserByUserName(model.RivalUser);
-                }
                 User staff = userBO.GetUserByUserName(User.Identity.Name);
                 Promotion promotion = stadiumBO.GetPromotionByField(model.FieldId, model.Date);
                 var price = stadiumBO.CalculatePrice(stadiumBO.GetFieldById(model.FieldId), model.Date, model.StartTime, model.Duration);
@@ -2051,22 +2040,16 @@ namespace FootballPitchesBooking.Controllers
                     NeedRival = model.NeedRival
                 };
 
-                if (customer != null)
+                if (reservation.NeedRival)
                 {
-                    reservation.UserId = customer.Id;
-                }
-
-                if (reservation.NeedRival && !string.IsNullOrEmpty(model.RivalName)
-                    && !string.IsNullOrEmpty(model.RivalPhone) && !string.IsNullOrEmpty(model.RivalEmail))
-                {
-                    if (rival != null)
+                    if (!string.IsNullOrWhiteSpace(model.RivalName) && !string.IsNullOrWhiteSpace(model.RivalPhone))
                     {
-                        reservation.RivalId = rival.Id;
+                        reservation.RivalName = model.RivalName;
+                        reservation.RivalPhone = model.RivalPhone;
+                        reservation.RivalEmail = model.RivalEmail;
+                        reservation.RivalFinder = staff.Id;
                     }
-                    reservation.RivalName = model.RivalName;
-                    reservation.RivalPhone = model.RivalPhone;
-                    reservation.RivalEmail = model.RivalEmail;
-                    reservation.RivalFinder = staff.Id;
+                    reservation.RivalStatus = model.RivalStatus;
                 }
 
                 ReservationBO resvBO = new ReservationBO();
@@ -2146,6 +2129,7 @@ namespace FootballPitchesBooking.Controllers
                     RivalPhone = resv.RivalPhone,
                     RivalEmail = resv.RivalEmail,
                     RivalFinder = resv.RivalFinder == null ? "" : resv.User3.UserName,
+                    RivalStatus = resv.RivalStatus == null ? "Waiting" : resv.RivalStatus,
                     StadiumName = std.Name,
                     StadiumAddress = string.Concat(std.Street, ", ", std.Ward, ", ", std.District)
                 };
@@ -2197,6 +2181,7 @@ namespace FootballPitchesBooking.Controllers
                     RivalPhone = resv.RivalPhone,
                     RivalEmail = resv.RivalEmail,
                     RivalFinder = resv.RivalFinder == null ? "" : resv.User3.UserName,
+                    RivalStatus = resv.RivalStatus == null ? "Waiting" : resv.RivalStatus,
                     StadiumName = std.Name,
                     StadiumAddress = string.Concat(std.Street, ", ", std.Ward, ", ", std.District)
                 };
@@ -2235,10 +2220,10 @@ namespace FootballPitchesBooking.Controllers
                 model.NeedRival = Boolean.Parse(form["NeedRival"]);
                 if (model.NeedRival)
                 {
-                    model.RivalUser = form["RivalUser"];
                     model.RivalName = form["RivalName"];
                     model.RivalPhone = form["RivalPhone"];
                     model.RivalEmail = form["RivalEmail"];
+                    model.RivalStatus = form["RivalStatus"];
                 }
             }
             catch (Exception)
@@ -2246,8 +2231,8 @@ namespace FootballPitchesBooking.Controllers
                 checkParseError = true;
             }
 
-            if (checkParseError || string.IsNullOrWhiteSpace(model.FullName) || string.IsNullOrWhiteSpace(model.PhoneNumber)
-            || string.IsNullOrWhiteSpace(model.Email))
+            if (checkParseError || string.IsNullOrWhiteSpace(model.FullName) || string.IsNullOrWhiteSpace(model.PhoneNumber) ||
+                (!model.RivalStatus.Equals("Waiting") && (string.IsNullOrWhiteSpace(model.RivalName) || string.IsNullOrWhiteSpace(model.RivalPhone))))
             {
                 model.ErrorMessages.Add(Resources.Form_EmptyFields);
             }
@@ -2256,14 +2241,8 @@ namespace FootballPitchesBooking.Controllers
             {
                 StadiumBO stadiumBO = new StadiumBO();
                 UserBO userBO = new UserBO();
-
-                User rival = null;
-                if (model.NeedRival && !string.IsNullOrEmpty(model.RivalUser))
-                {
-                    rival = userBO.GetUserByUserName(model.RivalUser);
-                }
                 User staff = userBO.GetUserByUserName(User.Identity.Name);
-                Promotion promotion = stadiumBO.GetPromotionByField(model.FieldId, model.Date);
+                int stadium = stadiumBO.GetFieldById(model.FieldId).StadiumId;
 
                 Reservation reservation = new Reservation()
                 {
@@ -2281,17 +2260,16 @@ namespace FootballPitchesBooking.Controllers
                     NeedRival = model.NeedRival
                 };
 
-                if (reservation.NeedRival && !string.IsNullOrEmpty(model.RivalName)
-                    && !string.IsNullOrEmpty(model.RivalPhone) && !string.IsNullOrEmpty(model.RivalEmail))
+                if (reservation.NeedRival)
                 {
-                    if (rival != null)
+                    if (!string.IsNullOrWhiteSpace(model.RivalName) && !string.IsNullOrWhiteSpace(model.RivalPhone))
                     {
-                        reservation.RivalId = rival.Id;
+                        reservation.RivalName = model.RivalName;
+                        reservation.RivalPhone = model.RivalPhone;
+                        reservation.RivalEmail = model.RivalEmail;
+                        reservation.RivalFinder = staff.Id;
                     }
-                    reservation.RivalName = model.RivalName;
-                    reservation.RivalPhone = model.RivalPhone;
-                    reservation.RivalEmail = model.RivalEmail;
-                    reservation.RivalFinder = staff.Id;
+                    reservation.RivalStatus = model.RivalStatus;
                 }
 
 
@@ -2299,7 +2277,7 @@ namespace FootballPitchesBooking.Controllers
 
                 if (result > 0)
                 {
-                    return RedirectToAction("Reservations/" + promotion.Field.StadiumId, "StadiumStaff");
+                    return RedirectToAction("Reservations/" + stadium, "StadiumStaff");
                 }
                 else if (result == 0)
                 {
@@ -2327,8 +2305,8 @@ namespace FootballPitchesBooking.Controllers
                 }
             }
             Stadium std = resv.Field.Stadium;
-		 	model.StadiumName = std.Name;
-		 	model.StadiumAddress = string.Concat(std.Street, ", ", std.Ward, ", ", std.District);
+            model.StadiumName = std.Name;
+            model.StadiumAddress = string.Concat(std.Street, ", ", std.Ward, ", ", std.District);
             return View(model);
         }
 
@@ -2552,7 +2530,7 @@ namespace FootballPitchesBooking.Controllers
             if (model.ErrorMessages.Count == 0)
             {
                 StadiumBO stadiumBO = new StadiumBO();
-
+                int stadium = stadiumBO.GetFieldById(model.FieldId).StadiumId;
                 Promotion promotion = new Promotion
                 {
                     Id = id,
@@ -2567,7 +2545,7 @@ namespace FootballPitchesBooking.Controllers
 
                 if (result > 0)
                 {
-                    return RedirectToAction("Promotions", "StadiumStaff");
+                    return RedirectToAction("Promotions/" + stadium, "StadiumStaff");
                 }
                 else if (result == 0)
                 {

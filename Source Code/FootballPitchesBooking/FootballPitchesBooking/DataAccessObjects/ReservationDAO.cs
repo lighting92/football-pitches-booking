@@ -27,7 +27,7 @@ namespace FootballPitchesBooking.DataAccessObjects
             double time = DateTime.Now.Hour + (DateTime.Now.Minute / 60.0);
             return db.Reservations.Where(r => r.NeedRival == true && r.RivalId == null && r.RivalName.Equals(null) &&
                 ((r.Date.Date.CompareTo(DateTime.Now.Date) > 0) || (r.Date.Date.CompareTo(DateTime.Now.Date) == 0
-                 && r.StartTime > time))
+                 && r.StartTime > time)) && r.RivalStatus.Equals("Waiting")
                    ).OrderBy(r => r.Date).ThenBy(r => r.StartTime).ToList();
         }
 
@@ -38,7 +38,7 @@ namespace FootballPitchesBooking.DataAccessObjects
             double time = DateTime.Now.Hour + (DateTime.Now.Minute / 60.0);
             return db.Reservations.Where(r => r.Id == id && r.NeedRival == true && r.RivalId == null && r.RivalName.Equals(null)
                 && ((r.Date.Date.CompareTo(DateTime.Now.Date) > 0) || (r.Date.Date.CompareTo(DateTime.Now.Date) == 0
-                 && r.StartTime > time))
+                 && r.StartTime > time)) && r.RivalStatus.Equals("Waiting")
                    ).FirstOrDefault();
         }
 
@@ -48,8 +48,8 @@ namespace FootballPitchesBooking.DataAccessObjects
             FPBDataContext db = new FPBDataContext();
             double time = DateTime.Now.Hour + (DateTime.Now.Minute / 60.0);
             List<Reservation> allRivals = db.Reservations.Where(r => r.NeedRival == true && r.RivalId == null && r.RivalName.Equals(null) && 
-                ((r.Date.Date.CompareTo(DateTime.Now.Date) > 0) || (r.Date.Date.CompareTo(DateTime.Now.Date) == 0 
-                 && r.StartTime > time))
+                ((r.Date.Date.CompareTo(DateTime.Now.Date) > 0) || (r.Date.Date.CompareTo(DateTime.Now.Date) == 0
+                 && r.StartTime > time)) && r.RivalStatus.Equals("Waiting")
                    ).OrderBy(r => r.Date).ThenBy(r => r.StartTime).ToList();
 
             if (allRivals.Count == 0)
@@ -130,6 +130,7 @@ namespace FootballPitchesBooking.DataAccessObjects
             curRev.RivalName = reservation.RivalName;
             curRev.RivalPhone = reservation.RivalPhone;
             curRev.RivalEmail = reservation.RivalEmail;
+            curRev.RivalStatus = reservation.RivalStatus;
 
             try
             {
