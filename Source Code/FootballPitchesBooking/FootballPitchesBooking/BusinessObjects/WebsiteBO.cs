@@ -97,7 +97,7 @@ namespace FootballPitchesBooking.BusinessObjects
             {
                 using (MailMessage mail = new MailMessage())
                 {
-                    mail.From = new MailAddress(cfg.Network.UserName, "Đặt sân bóng đá FPB");
+                    mail.From = new MailAddress(cfg.Network.UserName, "Đặt Sân Bóng FPB");
                     if (toEmail != null)
                     {
                         mail.To.Add(toEmail);

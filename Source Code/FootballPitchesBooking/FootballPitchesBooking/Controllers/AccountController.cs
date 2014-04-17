@@ -902,8 +902,8 @@ namespace FootballPitchesBooking.Controllers
                     content = content.Replace("[FullName]", user.FullName);
                     content = content.Replace("[UserName]", user.UserName);
                     content = content.Replace("[Password]", user.Password);
-                    content = content.Replace("[LoginLink]", Request.RawUrl + "/Account/Login");
-                    content = content.Replace("[Signature]", Request.RawUrl);
+                    content = content.Replace("[LoginLink]", Request.Url.GetLeftPart(UriPartial.Authority) + "/Account/Login");
+                    content = content.Replace("[Signature]", Request.Url.GetLeftPart(UriPartial.Authority));
 
                     string subject = "Thông tin tài khoản của bạn tại hệ thống đặt sân bóng đá FPB";
 
