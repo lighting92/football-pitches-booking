@@ -153,7 +153,7 @@ namespace FootballPitchesBooking.Controllers
                 model.FullName = form["FullName"];
                 model.Email = form["Email"];
                 content += "Khách viếng thăm\n";
-                subject = string.Concat("[Góp ý] Ý kiến đóng góp từ khách viếng thăm");
+                subject = string.Concat("[Góp ý] Ý kiến đóng góp xây dựng website từ khách viếng thăm");
             }
             else
             {
@@ -162,7 +162,7 @@ namespace FootballPitchesBooking.Controllers
                 model.FullName = user.FullName;
                 model.Email = user.Email;
                 content += "Thành viên: " + user.UserName + "\n";
-                subject = string.Concat("[Góp ý] Ý kiến đóng góp từ người dùng ", user.UserName);
+                subject = string.Concat("[Góp ý] Ý kiến đóng góp xây dựng website từ người dùng ", user.UserName);
             }
 
             model.Feedback = form["FeedbackContent"];
