@@ -219,4 +219,7 @@
   <data name="Login_InactiveUser" xml:space="preserve">
     <value>Tài khoản này chưa được kích hoạt</value>
   </data>
+  <data name="Resv_RivalAvailable" xml:space="preserve">
+    <value>Kèo này đã có đối thủ, xin vui lòng chọn kèo khác</value>
+  </data>
 </root>

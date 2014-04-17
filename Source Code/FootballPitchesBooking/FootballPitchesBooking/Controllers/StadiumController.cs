@@ -857,7 +857,16 @@ namespace FootballPitchesBooking.Controllers
 
                 if (model.ErrorMessages.Count == 0)
                 {
-                    int result = resvBO.UpdateReservationRival(id, userId, fullName, phone, email);
+                    User user = new User()
+                    {
+                        Id = userId,
+                        UserName = User.Identity.Name,
+                        FullName = fullName,
+                        PhoneNumber = phone,
+                        Email = email
+                    };
+
+                    int result = resvBO.UpdateReservationRival(id, user);
 
                     model.Resv.RivalId = userId;
                     model.Resv.RivalName = fullName;
@@ -871,6 +880,10 @@ namespace FootballPitchesBooking.Controllers
                     else if (result == 0)
                     {
                         model.ErrorMessages.Add(Resources.DB_Exception);
+                    }
+                    else if (result == -1)
+                    {
+                        model.ErrorMessages.Add(Resources.Resv_RivalAvailable);
                     }
                 }
 
