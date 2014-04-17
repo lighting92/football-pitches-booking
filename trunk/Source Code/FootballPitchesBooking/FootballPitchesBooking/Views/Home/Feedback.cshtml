@@ -9,6 +9,30 @@
     function check() {
         var flag = 0;
         var content = $("#FeedbackContent").val();
+        var fullname = $("#txtFullName").val();
+        var email = $("#txtMail").val();
+        var reg = /^(\w+[\.])*\w+@@(\w+\.)+[a-zA-Z]+$/;
+
+        if (!reg.test(email)) {
+            $("#Email_Error").text("Email không đúng");
+            $("#Email_Error").css("display", "block");
+            flag++;
+        }
+        else {
+            $("#Email_Error").text(" ");
+            $("#Email_Error").css("display", "none");
+        }
+
+        if (fullname.length < 30 && fullname.length < 1) {
+            $("#FullName_Error").text("Vui lòng góp ý nhiều hơn 10 ký tự");
+            $("#FullName_Error").css("display", "block");
+            flag++;
+
+        }
+        else {
+            $("#FullName_Error").text(" ");
+            $("#FullName_Error").css("display", "none");
+        }
 
         if (content.length < 10) {
             $("#FeedbackContent_Error").text("Vui lòng góp ý nhiều hơn 10 ký tự");
@@ -28,45 +52,70 @@
     }
 </script>
 
+@{
+    string content = "";
+    string fullname = "";
+    string email = "";
+    if (Model != null)
+    {
+        content = Model.Feedback;
+        fullname = Model.FullName;
+        email = Model.Email;
+    }    
+}
+
+
 <div class="row">
     <div class="span10">
-        @if (User.Identity.IsAuthenticated)
+        @if (Model != null && Model.Result == 1)
         {
-            if (Model.Result == 1)
-            {
             <div style="color: red">
                 <p>Xin cảm ơn bạn đã góp ý để xây dựng website.</p>
             </div>
             <p>
                 <button type="button" onclick="window.location = '/Home'" class="btn btn-primary btn-large book-now pull-right groupbtn">Về trang chủ</button>
             </p>
-            }
-            else
+        }
+        else
+        {
+            if (Model != null && Model.Result == -1)
             {
-                if (Model.Result == -1)
-                {
-                    <div style="color: red">
-                        <p>Lỗi, ý kiến của bạn chưa được gửi đi, vui lòng thực hiện lại.</p>
-                    </div>
-                }
-                <form action="Feedback" method="post">
-                    <div class="span9 no-margin">
-                        <label>Ý KIẾN CỦA BẠN:</label>
-                        <textarea name="FeedbackContent" id="FeedbackContent" style="width: 690px; min-height: 50px;">@Model</textarea>
-                        <div class="alert alert-danger" id="FeedbackContent_Error" style="display: none"></div>
-
-                        <script type="text/javascript">
-                            $(document).ready(function () {
-                                $('#FeedbackContent').autosize();
-                            });
-                        </script>
-                    </div>
-                    <div class="span9 no-margin">
-                        <button type="button" onclick="window.location = '/Home'" class="btn btn-primary btn-large book-now pull-right groupbtn">Hủy bỏ</button>
-                        <button type="submit" name="Feedback" onclick="return check()" class="btn btn-primary btn-large book-now pull-right groupbtn">Gửi</button>
-                    </div>
-                </form>
+            <div style="color: red">
+                <p>Lỗi, ý kiến của bạn chưa được gửi đi, vui lòng thực hiện lại.</p>
+            </div>
             }
+            <form action="Feedback" method="post">
+                @if(!User.Identity.IsAuthenticated)
+                {
+                <div class="span9 no-margin">
+                    <div class="span6 no-margin">
+                        <label for="Email" class="span2 no-margin" style="height: 30px; line-height: 30px;">TÊN BẠN:</label>
+                        <input class="span4" type="text" id="txtFullName" name="FullName" placeholder="Tên đầy đủ của bạn" required="required" value="@fullname" />
+                        <div class="alert alert-danger" id="FullName_Error" style="display: none"></div>
+                    </div>
+                    <div class="span6 no-margin">
+                        <label for="Email" class="span2 no-margin" style="height: 30px; line-height: 30px;">EMAIL:</label>
+                        <input class="span4" type="text" id="txtMail" name="Email" placeholder="Email của bạn" required="required" value="@email" />
+                        <div class="alert alert-danger" id="Email_Error" style="display: none"></div>
+                    </div>
+                </div>
+                }
+                <div class="span9 no-margin">
+                    <label>Ý KIẾN CỦA BẠN:</label>
+                    <textarea name="FeedbackContent" id="FeedbackContent" style="width: 690px; min-height: 50px;">@content</textarea>
+                    <div class="alert alert-danger" id="FeedbackContent_Error" style="display: none"></div>
+
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $('#FeedbackContent').autosize();
+                        });
+                    </script>
+                </div>
+                <div class="span9 no-margin">
+                    <button type="button" onclick="window.location = '/Home'" class="btn btn-primary btn-large book-now pull-right groupbtn">Hủy bỏ</button>
+                    <button type="submit" name="Feedback" onclick="return check()" class="btn btn-primary btn-large book-now pull-right groupbtn">Gửi</button>
+                </div>
+            </form>
         }
     </div>
 </div>

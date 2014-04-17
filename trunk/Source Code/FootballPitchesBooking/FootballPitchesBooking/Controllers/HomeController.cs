@@ -145,20 +145,32 @@ namespace FootballPitchesBooking.Controllers
         [HttpPost]
         public ActionResult Feedback(FormCollection form)
         {
-            UserBO userBO = new UserBO();
-            User user = userBO.GetUserByUserName(User.Identity.Name);
-
-            FeedbackModel model = new FeedbackModel();
-            model.Feedback = form["FeedbackContent"];
-
             string content = "";
-            content += "Thành viên: " + user.UserName + "\n";
-            content += "Tên đầy đủ: " + user.FullName + "\n";
-            content += "Email: " + user.Email + "\n\n";
+            string subject = "";
+            FeedbackModel model = new FeedbackModel();
+            if (!User.Identity.IsAuthenticated)
+            {
+                model.FullName = form["FullName"];
+                model.Email = form["Email"];
+                content += "Khách viếng thăm\n";
+                subject = string.Concat("[Góp ý] Ý kiến đóng góp từ khách viếng thăm");
+            }
+            else
+            {
+                UserBO userBO = new UserBO();
+                User user = userBO.GetUserByUserName(User.Identity.Name);
+                model.FullName = user.FullName;
+                model.Email = user.Email;
+                content += "Thành viên: " + user.UserName + "\n";
+                subject = string.Concat("[Góp ý] Ý kiến đóng góp từ người dùng ", user.UserName);
+            }
+
+            model.Feedback = form["FeedbackContent"];
+            
+            content += "Tên đầy đủ: " + model.FullName + "\n";
+            content += "Email: " + model.Email + "\n\n";
             content += "Nội dung:\n";
             content += model.Feedback;
-
-            string subject = string.Concat("Phản hồi từ người dùng ", User.Identity.Name);
 
             WebsiteBO websiteBO = new WebsiteBO();
 
