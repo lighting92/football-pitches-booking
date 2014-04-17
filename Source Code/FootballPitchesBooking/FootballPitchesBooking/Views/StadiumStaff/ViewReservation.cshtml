@@ -20,11 +20,11 @@
                             {
                                 <p>- @error</p>
                             }
-                            @if(ViewData["fieldNA"] == "true")
+                            @if (ViewData["fieldNA"] == "true")
                             {
                                 <p>- Sân đã được đặt</p>
                             }
-                            @if(ViewData["dbExcp"] == "true")
+                            @if (ViewData["dbExcp"] == "true")
                             {
                                 <p>- Sân đã được đặt</p>
                             }
@@ -57,7 +57,8 @@
                             </label>
                         </div>
                         <div class="span6">
-                            <label>HỆ THỐNG SÂN <b>@Model.StadiumName.ToUpper()</b>
+                            <label>
+                                HỆ THỐNG SÂN <b>@Model.StadiumName.ToUpper()</b>
                                 <input style="width: 450px;" name="Stadium" id="Stadium" type="text" value="@Model.StadiumAddress" disabled="disabled">
                             </label>
                         </div>
@@ -237,14 +238,18 @@
                     <div class="row">
                         <div class="span9">
                             <p>
-                                @if (!Model.Status.Equals("Approved"))
+                                @if (Convert.ToDateTime(Model.Date).AddHours(Model.StartTime) > DateTime.Now)
                                 {
+                                    if (!Model.Status.Equals("Approved"))
+                                    {
                                     <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/ApproveReservation?id=@Request.QueryString["id"]'">Xác nhận</button>
-                                    <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '?id=@Request.QueryString["id"]'">Báo cáo vi phạm</button>
-                                }
-                                @if (!Model.Status.Equals("Denied"))
-                                {
+                                    
+                                    }
+                                    if (!Model.Status.Equals("Denied"))
+                                    {
                                     <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/DenyReservation?id=@Request.QueryString["id"]'">Từ chối</button>
+                                    <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '?id=@Request.QueryString["id"]'">Báo cáo vi phạm</button>
+                                    }
                                 }
                                 <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/EditReservation?id=@Request.QueryString["id"]'">Chỉnh sửa</button>
                                 <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/Reservations/@Model.Fields.FirstOrDefault().StadiumId'">Quay lại</button>
