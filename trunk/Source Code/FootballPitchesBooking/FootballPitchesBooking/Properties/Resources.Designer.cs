@@ -295,6 +295,15 @@ namespace FootballPitchesBooking.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Kèo này đã có đối thủ, xin vui lòng chọn kèo khác.
+        /// </summary>
+        internal static string Resv_RivalAvailable {
+            get {
+                return ResourceManager.GetString("Resv_RivalAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Thời gian đặt sân phải muộn hơn thời gian hiện tại ít nhất 1 giờ.
         /// </summary>
         internal static string Resv_TimeOver {

@@ -144,19 +144,18 @@ namespace FootballPitchesBooking.DataAccessObjects
         }
 
 
-        public int UpdateReservationRival(int id, int rivalId, string rivalName, string rivalPhone, string rivalEmail)
+        public int UpdateReservationRival(int reservationId, User user)
         {
             FPBDataContext db = new FPBDataContext();
-            Reservation curRev = db.Reservations.Where(r => r.Id == id).FirstOrDefault();
-            curRev.RivalId = rivalId;
-            curRev.RivalName = rivalName;
-            curRev.RivalPhone = rivalPhone;
-            curRev.RivalEmail = rivalEmail;
+            Reservation curRev = db.Reservations.Where(r => r.Id == reservationId).FirstOrDefault();
+            curRev.RivalId = user.Id;
+            curRev.RivalName = user.FullName;
+            curRev.RivalPhone = user.PhoneNumber;
+            curRev.RivalEmail = user.Email;
             curRev.RivalStatus = "Pending";
 
             Notification newMsg = new Notification();
             UserDAO userDAO = new UserDAO();
-            var user = userDAO.GetUserByUserId(curRev.RivalId.Value);
             newMsg.Message = "Bạn nhận yêu cầu giao hữu từ [" + user.UserName + "] <a href='/Account/EditReservation?Id="
                 + curRev.Id + "'>Chi tiết</a>" ;
             newMsg.Status = "Unread";
@@ -176,7 +175,7 @@ namespace FootballPitchesBooking.DataAccessObjects
             try
             {
                 db.SubmitChanges();
-                return id;
+                return reservationId;
             }
             catch (Exception)
             {
