@@ -242,14 +242,20 @@
                                 {
                                     if (!Model.Status.Equals("Approved"))
                                     {
-                                    <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/ApproveReservation?id=@Request.QueryString["id"]'">Xác nhận</button>
-                                    
+                                        <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/ApproveReservation?id=@Request.QueryString["id"]'">Xác nhận</button>
                                     }
                                     if (!Model.Status.Equals("Denied"))
                                     {
-                                    <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/DenyReservation?id=@Request.QueryString["id"]'">Từ chối</button>
-                                    <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '?id=@Request.QueryString["id"]'">Báo cáo vi phạm</button>
+                                        <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/DenyReservation?id=@Request.QueryString["id"]'">Từ chối</button>
+                                        
                                     }
+                                }
+                                else
+                                {
+                                    if (Model.Status.Equals("Approved"))
+                                    {
+                                        <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '?id=@Request.QueryString["id"]'">Báo cáo vi phạm</button> 
+                                    } 
                                 }
                                 <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/EditReservation?id=@Request.QueryString["id"]'">Chỉnh sửa</button>
                                 <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/Reservations/@Model.Fields.FirstOrDefault().StadiumId'">Quay lại</button>
