@@ -2108,6 +2108,7 @@ namespace FootballPitchesBooking.Controllers
                 Stadium std = resv.Field.Stadium;
                 ReservationModel model = new ReservationModel()
                 {
+                    Id = resv.Id,
                     FieldId = resv.FieldId,
                     Fields = resv.Field.Stadium.Fields.ToList(),
                     UserId = resv.UserId == null ? 0 : (int)resv.UserId,
@@ -2160,6 +2161,7 @@ namespace FootballPitchesBooking.Controllers
                 Stadium std = resv.Field.Stadium;
                 ReservationModel model = new ReservationModel()
                 {
+                    Id = resv.Id,
                     FieldId = resv.FieldId,
                     Fields = resv.Field.Stadium.Fields.ToList(),
                     UserId = resv.UserId == null ? 0 : (int)resv.UserId,
@@ -2208,6 +2210,7 @@ namespace FootballPitchesBooking.Controllers
             Reservation resv = resvBO.GetReservationById(id);
             try
             {
+                model.Id = id;
                 model.FieldId = Int32.Parse(form["Fields"]);
                 model.FullName = form["FullName"];
                 model.PhoneNumber = form["PhoneNumber"];
@@ -2277,7 +2280,7 @@ namespace FootballPitchesBooking.Controllers
 
                 if (result > 0)
                 {
-                    return RedirectToAction("Reservations/" + stadium, "StadiumStaff");
+                    return RedirectToAction("ViewReservation/" + id, "StadiumStaff");
                 }
                 else if (result == 0)
                 {

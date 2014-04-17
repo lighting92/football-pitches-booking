@@ -7,6 +7,7 @@ namespace FootballPitchesBooking.Models.StadiumStaffModels
 {
     public class ReservationModel
     {
+        public int Id { get; set; }
         public int FieldId { get; set; }
         public List<Field> Fields { get; set; }
         public int UserId { get; set; }
