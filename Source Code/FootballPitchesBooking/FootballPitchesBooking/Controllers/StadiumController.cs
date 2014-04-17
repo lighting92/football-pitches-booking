@@ -857,16 +857,7 @@ namespace FootballPitchesBooking.Controllers
 
                 if (model.ErrorMessages.Count == 0)
                 {
-                    Reservation reservartion = new Reservation()
-                    {
-                        Id = id,
-                        RivalId = userId,
-                        RivalName = fullName,
-                        RivalPhone = phone,
-                        RivalEmail = email
-                    };
-
-                    int result = resvBO.UpdateReservationRival(reservartion);
+                    int result = resvBO.UpdateReservationRival(id, userId, fullName, phone, email);
 
                     model.Resv.RivalId = userId;
                     model.Resv.RivalName = fullName;

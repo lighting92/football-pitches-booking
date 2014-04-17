@@ -301,10 +301,10 @@ namespace FootballPitchesBooking.BusinessObjects
         }
 
 
-        public int UpdateReservationRival(Reservation reservation)
+        public int UpdateReservationRival(int id, int rivalId, string rivalName, string rivalPhone, string rivalEmail)
         {
             ReservationDAO resvDAO = new ReservationDAO();
-            return resvDAO.UpdateReservationRival(reservation);
+            return resvDAO.UpdateReservationRival(id, rivalId, rivalName, rivalPhone, rivalEmail);
         }
 
 
