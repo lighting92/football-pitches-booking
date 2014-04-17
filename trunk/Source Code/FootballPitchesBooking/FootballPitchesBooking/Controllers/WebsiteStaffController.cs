@@ -706,15 +706,15 @@ namespace FootballPitchesBooking.Controllers
 
                 List<int> results = userBO.CreateMemberRank(memberrank);
 
-                if (results.Count == 1 && results[0] > 0)
+                if (results.Count == 2 && results[0] > 0)
                 {
-                    return RedirectToAction("Index", "Home"); //cai nay sau nay sua lai redirect den trang list rank hay gi day, khi nao add success thi no redirect, ko thi bao loi
+                    return RedirectToAction("MemberRanks", "WebsiteStaff");
                 }
                 else
                 {
                     foreach (var error in results)
                     {
-                        if (error == 0)
+                        if (error == 0 || error == -3)
                         {
                             rank.ErrorMessages.Add(Resources.DB_Exception);
                         }
@@ -752,10 +752,10 @@ namespace FootballPitchesBooking.Controllers
 
         [Authorize(Roles = "WebsiteMaster")]
         [HttpPost]
-        public ActionResult EditMemberRank(FormCollection form) //cái này là lấy form vào, các field của form tương tự ở dưới
+        public ActionResult EditMemberRank(FormCollection form, int id) //cái này là lấy form vào, các field của form tương tự ở dưới
         {
             RankModel rank = new RankModel();
-            rank.Id = Int32.Parse(form["RankId"]);
+            rank.Id = id;
             rank.RankName = form["RankName"];
             rank.Point = Int32.Parse(form["Point"]);
             rank.Promotion = form["Promotion"];
@@ -787,7 +787,7 @@ namespace FootballPitchesBooking.Controllers
                 {
                     foreach (var error in results)
                     {
-                        if (error == 0)
+                        if (error == 0 || error == -3)
                         {
                             rank.ErrorMessages.Add(Resources.DB_Exception);
                         }
@@ -804,6 +804,20 @@ namespace FootballPitchesBooking.Controllers
 
             }
             return View(rank); //cai bao' loi~ mang tinh' tuong doi', chua biet requirement chinh xac sao nen  check trc cho chac
+        }
+
+
+        public ActionResult DeleteMemberRank(int id)
+        {
+            if (userBO.DeleteMemberRank(id) == 1)
+            {
+                return RedirectToAction("MemberRanks", "WebsiteStaff");
+            }
+            else
+            {
+                ViewData["deleteRank"] = "fail";
+                return RedirectToAction("EditMemberRank/" + id, "WebsiteStaff");
+            }
         }
 
 

@@ -2232,7 +2232,7 @@ namespace FootballPitchesBooking.Controllers
             }
 
             if (checkParseError || string.IsNullOrWhiteSpace(model.FullName) || string.IsNullOrWhiteSpace(model.PhoneNumber) ||
-                (!model.RivalStatus.Equals("Waiting") && (string.IsNullOrWhiteSpace(model.RivalName) || string.IsNullOrWhiteSpace(model.RivalPhone))))
+                (model.RivalStatus != "Waiting" && (string.IsNullOrWhiteSpace(model.RivalName) || string.IsNullOrWhiteSpace(model.RivalPhone))))
             {
                 model.ErrorMessages.Add(Resources.Form_EmptyFields);
             }
@@ -2305,6 +2305,7 @@ namespace FootballPitchesBooking.Controllers
                 }
             }
             Stadium std = resv.Field.Stadium;
+            model.RivalStatus = model.RivalStatus == null ? "Waiting" : model.RivalStatus;
             model.StadiumName = std.Name;
             model.StadiumAddress = string.Concat(std.Street, ", ", std.Ward, ", ", std.District);
             return View(model);
