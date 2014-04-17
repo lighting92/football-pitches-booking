@@ -16,15 +16,35 @@
     </div>
 }
 
+<script type="text/ecmascript">
+    function check() {
+        var rankname = $("#txtRankName").val();
+        if (rankname == "" || rankname.length < 4 || rankname.length > 30) {
+            $("#RankName_Error").text("Yêu cầu tên cấp bậc phải từ 4 đến 30 kí tự");
+            $("#RankName_Error").css("display", "block");
+            flag++;
+
+        }
+        else {
+            $("#RankName_Error").text(" ");
+            $("#RankName_Error").css("display", "none");
+        }
+        if (flag > 0) {
+            return false;
+        } else return true;
+    </script>
+
 <form action="AddMemberRank" method="post">
     <table> 
         <tr>
-            <td>Tên hạng:</td>
-            <td><input type="text" name="RankName" required ="required" value="" /></td>
+            <td>Cấp bậc:</td>
+            <td><input type="text" id="txtRankName" name="RankName" required ="required" value="" /></td>
+            <td><div class="alert alert-danger" id="RankName_Error" style="display: none" /></td>
         </tr>
         <tr>
-            <td>Điểm:</td>
+            <td>Điểm tối thiểu:</td>
             <td><input type="text" name="Point" required ="required" value="" /></td>
+
         </tr>
         <tr>
             <td>Ưu đãi giảm giá:</td>
@@ -33,8 +53,9 @@
         
         <tr>
             <td colspan="2">
-                <button type="submit">Lưu</button>
-                <button type="button" onclick="window.location = '/WebsiteStaff/MemberRanks'">Huỷ bỏ</button>
+                <button type="button" onclick="window.location = '/WebsiteStaff/MemberRanks'" class="btn btn-primary btn-large book-now pull-right groupbtn">Huỷ bỏ</button>
+                <button type="submit" onclick="return check()" class="btn btn-primary btn-large book-now pull-right groupbtn">Lưu</button>
+                
             </td>
         </tr>
     </table>

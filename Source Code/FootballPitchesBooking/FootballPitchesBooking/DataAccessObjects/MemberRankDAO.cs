@@ -17,7 +17,7 @@ namespace FootballPitchesBooking.DataAccessObjects
         public MemberRank GetMemberRankByUserPoint(int point) //ham nay la get rank by point theo diem? user
         {
             FPBDataContext db = new FPBDataContext();
-            return db.MemberRanks.Where(m => m.Point <= point).OrderByDescending(m => m.Point).FirstOrDefault(); 
+            return db.MemberRanks.Where(m => m.Point <= point).OrderByDescending(m => m.Point).FirstOrDefault();
         }
 
         public MemberRank GetMemberRankByPoint(int point) //ham nay get rank by point cua rank nhap vao
@@ -26,7 +26,6 @@ namespace FootballPitchesBooking.DataAccessObjects
             return db.MemberRanks.Where(m => m.Point == point).FirstOrDefault();
         }
 
-        
 
         public MemberRank GetMemberRankByName(string rankName)
         {
@@ -73,16 +72,20 @@ namespace FootballPitchesBooking.DataAccessObjects
         }
 
 
-        public int DeleteMemberRank(MemberRank rank)
+        public int DeleteMemberRank(int id)
         {
             FPBDataContext db = new FPBDataContext();
-            db.MemberRanks.DeleteOnSubmit(rank);
-            try //cai nay de test xem co' update success ko, neu success (ko co' loi~) thi return id cua rank vua update, con neu ko thi return 0 (cai nay de so sanh' o phia' controller de hien thi loi~)
+            try
             {
+                MemberRank rank = db.MemberRanks.Where(r => r.Id == id).FirstOrDefault();
+                MemberRank under = db.MemberRanks.Where(m => m.Point < rank.Point).OrderByDescending(m => m.Point).FirstOrDefault();
+                db.Users.Where(u => u.RankId == rank.Id).ToList().ForEach(u => u.RankId = under.Id);
+                db.SubmitChanges();
+                db.MemberRanks.DeleteOnSubmit(rank);
                 db.SubmitChanges();
                 return 1;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return 0;
             }

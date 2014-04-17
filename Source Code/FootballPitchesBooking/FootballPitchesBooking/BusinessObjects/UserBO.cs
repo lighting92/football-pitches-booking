@@ -275,6 +275,11 @@ namespace FootballPitchesBooking.BusinessObjects
         }
 
 
+        public int DeleteMemberRank(int id)
+        {
+            return rankDAO.DeleteMemberRank(id);
+        }
+
 
         public List<PunishMember> GetAllPunishingMember()
         {

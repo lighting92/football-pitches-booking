@@ -8,9 +8,11 @@
 <h2>Hệ Thống Cấp Bậc</h2>
 <div class="row">
     <div class="span12">
-        <a href="/StadiumStaff/AddMemberRank">
+        <a href="/WebsiteStaff/AddMemberRank">
             <button type="button" class="btn btn-primary btn-large book-now groupbtn no-margin">Thêm cấp bậc</button>
         </a>
+        <br />
+        <br />
         @if (Model != null && Model.Count > 0)
         {
             <div class="row no-margin">
@@ -19,14 +21,14 @@
                         <tr>
                             <th style="width: 200px;">CẤP BẬC</th>
                             <th style="width: 120px;">ĐIỂM TỐI THIỂU</th>
-                            <th>ƯU ĐÃI</th>
+                            <th>ƯU ĐÃI GIẢM GIÁ</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td><a href="/WebsiteStaff/EditMemberRank?Id=@item.Id">@item.RankName</a></td>
+                                <td><a href="/WebsiteStaff/EditMemberRank/@item.Id">@item.RankName</a></td>
                                 <td>@item.Point</td>
                                 <td>@item.Promotion</td>
                             </tr>
