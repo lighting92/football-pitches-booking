@@ -505,6 +505,8 @@
     <Content Include="Views\WebsiteStaff\AddMemberRank.cshtml" />
     <Content Include="Views\WebsiteStaff\EditMemberRank.cshtml" />
     <Content Include="Views\WebsiteStaff\MemberRanks.cshtml" />
+    <Content Include="Views\Account\RivalHistory.cshtml" />
+    <Content Include="Views\Account\EditRival.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -127,6 +127,13 @@ namespace FootballPitchesBooking.BusinessObjects
         }
 
 
+        public Stadium GetStadiumByField(int fieldId)
+        {
+            StadiumDAO stadiumDAO = new StadiumDAO();
+            return stadiumDAO.GetStadiumByField(fieldId);
+        }
+
+
         public List<Stadium> GetStadiumsByStaff(string staffName)
         {
             StadiumDAO stadiumDAO = new StadiumDAO();

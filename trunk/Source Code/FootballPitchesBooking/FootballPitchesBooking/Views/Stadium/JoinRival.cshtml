@@ -112,22 +112,25 @@
                             <div class="span9">
                                 <h4>THÔNG TIN KHÁCH HÀNG</h4>
                             </div>
-                            <div class="span3">
-                                <label>
-                                    TÊN KHÁCH HÀNG
+                            @if (Model.Resv.User != null)
+                            {
+                                <div class="span3">
+                                    <label>
+                                        TÊN KHÁCH HÀNG
                                     <input name="Customer" type="text" placeholder="Tên khách hàng" required="required" value="@Model.Resv.User.UserName" disabled="disabled">
-                                </label>
-                            </div>
-                            <div class="span3" style="visibility: hidden;">
-                                <label>&nbsp</label>
-                                <input type="text">
-                                <div class="alert alert-danger" style="display: none"></div>
-                            </div>
-                            <div class="span3" style="visibility: hidden;">
-                                <label>&nbsp</label>
-                                <input type="text">
-                                <div class="alert alert-danger" style="display: none"></div>
-                            </div>
+                                    </label>
+                                </div>
+                                <div class="span3" style="visibility: hidden;">
+                                    <label>&nbsp</label>
+                                    <input type="text">
+                                    <div class="alert alert-danger" style="display: none"></div>
+                                </div>
+                                <div class="span3" style="visibility: hidden;">
+                                    <label>&nbsp</label>
+                                    <input type="text">
+                                    <div class="alert alert-danger" style="display: none"></div>
+                                </div>
+                            }
                             <div class="span3">
                                 <label>
                                     TÊN ĐẦY ĐỦ
@@ -180,22 +183,6 @@
                         <div id="RivalInfo" class="row">
                             <div class="span9">
                                 <h4>THÔNG TIN CÁP KÈO</h4>
-                            </div>
-                            <div class="span3">
-                                <label>
-                                    NGƯỜI CÁP
-                                    <input name="RivalUser" type="text" placeholder="Người cáp" required="required" value="@User.Identity.Name" disabled="disabled">
-                                </label>
-                            </div>
-                            <div class="span3" style="visibility: hidden;">
-                                <label>&nbsp</label>
-                                <input type="text">
-                                <div class="alert alert-danger" style="display: none"></div>
-                            </div>
-                            <div class="span3" style="visibility: hidden;">
-                                <label>&nbsp</label>
-                                <input type="text">
-                                <div class="alert alert-danger" style="display: none"></div>
                             </div>
                             <div class="span3">
                                 <label>

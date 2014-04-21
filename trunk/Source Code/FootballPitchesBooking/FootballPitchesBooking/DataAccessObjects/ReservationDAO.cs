@@ -13,7 +13,16 @@ namespace FootballPitchesBooking.DataAccessObjects
             FPBDataContext db = new FPBDataContext();
             return db.Reservations.Where(r => r.User.UserName.ToLower().Equals(userName.ToLower())).ToList();
         }
+
+
+        public List<Reservation> GetAllReservationsOfRival(string userName)
+        {
+            FPBDataContext db = new FPBDataContext();
+            return db.Reservations.Where(r => r.User2.UserName.ToLower().Equals(userName.ToLower()))
+                                  .OrderByDescending(r => r.Date).ThenByDescending(r => r.StartTime).ToList();
+        }
         
+
         public List<Reservation> GetAllReservations()
         {
             FPBDataContext db = new FPBDataContext();
@@ -148,29 +157,59 @@ namespace FootballPitchesBooking.DataAccessObjects
         {
             FPBDataContext db = new FPBDataContext();
             Reservation curRev = db.Reservations.Where(r => r.Id == reservationId).FirstOrDefault();
-            curRev.RivalId = user.Id;
-            curRev.RivalName = user.FullName;
-            curRev.RivalPhone = user.PhoneNumber;
-            curRev.RivalEmail = user.Email;
-            curRev.RivalStatus = "Pending";
-
-            Notification newMsg = new Notification();
-            UserDAO userDAO = new UserDAO();
-            newMsg.Message = "Bạn nhận yêu cầu giao hữu từ [" + user.UserName + "] <a href='/Account/EditReservation?Id="
-                + curRev.Id + "'>Chi tiết</a>" ;
-            newMsg.Status = "Unread";
-            newMsg.CreateDate = DateTime.Now;
-            if (curRev.UserId != null)
+            if (user != null)
             {
-                newMsg.UserId = curRev.UserId;
+                curRev.RivalId = user.Id;
+                curRev.RivalName = user.FullName;
+                curRev.RivalPhone = user.PhoneNumber;
+                curRev.RivalEmail = user.Email;
+                curRev.RivalStatus = "Pending";
+
+                Notification newMsg = new Notification();
+                UserDAO userDAO = new UserDAO();
+                newMsg.Message = "Bạn nhận yêu cầu giao hữu từ [" + user.UserName + "] <a href='/Account/EditReservation?Id="
+                    + curRev.Id + "'>Chi tiết</a>";
+                newMsg.Status = "Unread";
+                newMsg.CreateDate = DateTime.Now;
+                if (curRev.UserId != null)
+                {
+                    newMsg.UserId = curRev.UserId;
+                }
+                else
+                {
+                    newMsg.StadiumId = curRev.Field.StadiumId;
+                }
+
+                NotificationDAO unDAO = new NotificationDAO();
+                unDAO.CreateMessage(newMsg);
             }
             else
             {
-                newMsg.StadiumId = curRev.Field.StadiumId;
-            }
+                curRev.RivalId = null;
+                curRev.RivalName = null;
+                curRev.RivalPhone = null;
+                curRev.RivalEmail = null;
+                curRev.RivalFinder = null;
+                curRev.RivalStatus = "Waiting";
 
-            NotificationDAO unDAO = new NotificationDAO();
-            unDAO.CreateMessage(newMsg);
+                Notification newMsg = new Notification();
+                UserDAO userDAO = new UserDAO();
+                newMsg.Message = "Đối thủ giao hữu với bạn đã huỷ bỏ yêu cầu giao hữu <a href='/Account/EditReservation?Id="
+                    + curRev.Id + "'>Chi tiết</a>";
+                newMsg.Status = "Unread";
+                newMsg.CreateDate = DateTime.Now;
+                if (curRev.UserId != null)
+                {
+                    newMsg.UserId = curRev.UserId;
+                }
+                else
+                {
+                    newMsg.StadiumId = curRev.Field.StadiumId;
+                }
+
+                NotificationDAO unDAO = new NotificationDAO();
+                unDAO.CreateMessage(newMsg);
+            }
 
             try
             {

@@ -14,6 +14,12 @@ namespace FootballPitchesBooking.DataAccessObjects
             return db.Stadiums.Where(s => s.Id == stadiumId).FirstOrDefault();
         }
 
+        public Stadium GetStadiumByField(int fieldId)
+        {
+            FPBDataContext db = new FPBDataContext();
+            return db.Fields.Where(f => f.Id == fieldId).FirstOrDefault().Stadium;
+        }
+
         public List<Stadium> GetStadiumsByMainOwnerId(int mainOwnerId)
         {
             FPBDataContext db = new FPBDataContext();
