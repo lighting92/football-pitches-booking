@@ -83,6 +83,91 @@ namespace FootballPitchesBooking.Controllers
             return View(model);
         }
 
+
+        [Authorize]
+        public ActionResult RivalHistory()
+        {
+            ReservationBO resBO = new ReservationBO();
+            var res = resBO.GetReservationsOfRival(User.Identity.Name);
+            return View(res);
+        }
+
+
+        [Authorize]
+        public ActionResult CancelRival(int? id)
+        {
+            ReservationBO resvBO = new ReservationBO();
+
+            try
+            {
+                Reservation resv = resvBO.GetReservationById((int)id);
+                if (resv.Date > DateTime.Now || (resv.Date == DateTime.Now && resv.StartTime > (DateTime.Now.Hour + 1 + DateTime.Now.Minute / 60)))
+                {
+                    int result = resvBO.UpdateReservationRival((int)id, null);
+                }
+                return RedirectToAction("RivalHistory", "Account");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("RivalHistory", "Account");
+            }
+        }
+
+
+        [Authorize]
+        public ActionResult EditRival(int? id)
+        {
+            ReservationBO resvBO = new ReservationBO();
+
+            try
+            {
+                Reservation resv = resvBO.GetReservationById((int)id);
+
+                if (resv == null || !resv.User2.UserName.Equals(User.Identity.Name))
+                {
+                    return RedirectToAction("RivalHistory", "Account");
+                }
+
+                return View(resv);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("RivalHistory", "Account");
+            }
+        }
+
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult EditRival(FormCollection form, int id)
+        {
+            ReservationBO resvBO = new ReservationBO();
+            string fullName = form["FullName"];
+            string phone = form["PhoneNumber"];
+            string email = form["Email"];
+
+            UserBO userBO = new UserBO();
+            User user = new User()
+            {
+                Id = userBO.GetUserByUserName(User.Identity.Name).Id,
+                FullName = fullName,
+                PhoneNumber = phone,
+                Email = email
+            };
+
+            try
+            {
+                int result = resvBO.UpdateReservationRival(id, user);
+
+                return RedirectToAction("RivalHistory", "Account");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("RivalHistory", "Account");
+            }
+        }
+
+
         //
         // GET: /Account/EditReservation
 

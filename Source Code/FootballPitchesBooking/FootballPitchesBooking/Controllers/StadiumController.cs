@@ -813,10 +813,12 @@ namespace FootballPitchesBooking.Controllers
             {
                 ReservationBO resvBO = new ReservationBO();
                 UserBO userBO = new UserBO();
+                StadiumBO stadiumBO = new StadiumBO();
 
                 JoinRivalModel model = new JoinRivalModel();
                 model.Resv = resvBO.GetReservationNeedRivalById((int)id);
                 model.UserInfo = userBO.GetUserByUserName(User.Identity.Name);
+                model.ErrorMessages = new List<string>();
                 if (model.Resv != null)
                 {
                     return View(model);

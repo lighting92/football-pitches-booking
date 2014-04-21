@@ -260,6 +260,25 @@
                             <div class="span9">
                                 <h4>THÔNG TIN KHÁCH HÀNG</h4>
                             </div>
+                            @if (!string.IsNullOrEmpty(Model.Customer))
+                            {
+                                <div class="span3">
+                                    <label>
+                                        KHÁCH HÀNG
+                                         <input name="FullName" type="text" disabled="disabled" value="@Model.Customer">
+                                    </label>
+                                </div>
+                                <div class="span3" style="visibility: hidden;">
+                                    <label>&nbsp</label>
+                                    <input type="text">
+                                    <div class="alert alert-danger" style="display: none"></div>
+                                </div>
+                                <div class="span3" style="visibility: hidden;">
+                                    <label>&nbsp</label>
+                                    <input type="text">
+                                    <div class="alert alert-danger" style="display: none"></div>
+                                </div>
+                            }
                             <div class="span3">
                                 <label>
                                     TÊN ĐẦY ĐỦ

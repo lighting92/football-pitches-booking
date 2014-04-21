@@ -37,6 +37,14 @@ namespace FootballPitchesBooking.BusinessObjects
             return resDAO.GetAllReservationsOfUser(userName);
         }
 
+
+        public List<Reservation> GetReservationsOfRival(string userName)
+        {
+            ReservationDAO resDAO = new ReservationDAO();
+            return resDAO.GetAllReservationsOfRival(userName);
+        }
+
+
         public int CreateReservation(Reservation reservation)
         {
             Utils utils = new Utils();
@@ -304,15 +312,7 @@ namespace FootballPitchesBooking.BusinessObjects
         public int UpdateReservationRival(int reservationId, User user)
         {
             ReservationDAO resvDAO = new ReservationDAO();
-            Reservation resv = resvDAO.GetReservationNeedRivalById(reservationId);
-            if (resv != null)
-            {
-                return resvDAO.UpdateReservationRival(reservationId, user);
-            }
-            else
-            {
-                return -1;
-            }
+            return resvDAO.UpdateReservationRival(reservationId, user);
         }
 
 
