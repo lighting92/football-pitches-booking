@@ -1,0 +1,52 @@
+﻿@model List<FootballPitchesBooking.Models.Reservation>
+@{
+    ViewBag.USER = "active";
+    ViewBag.Title = "Lịch Sử Cáp Kèo";
+}
+<br />
+<h2>LỊCH SỬ CÁP KÈO</h2>
+
+
+<table class="table table-condensed table-bordered table-hover">
+    <thead>
+        <tr>
+            <th style="text-align:center">NGÀY ĐÁ</th>
+            <th style="text-align:center">GIỜ BẮT ĐẦU</th>
+            <th style="text-align:center">THỜI LƯỢNG</th>
+            <th style="text-align:center; min-width:70px;">SÂN BÓNG</th>
+            <th style="text-align:center">ĐỊA CHỈ</th>
+            <th style="text-align:center">CHỦ KÈO</th>
+            <th style="text-align:center">TRẠNG THÁI</th>
+            <th style="text-align:center"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (var item in Model)
+            {
+            <tr>
+                <td style="width: 85px;">@item.Date</td>
+                <td style="width: 85px; text-align: right;">@((int)item.StartTime):@(((item.StartTime - (int)item.StartTime) * 60).ToString("00"))</td>
+                <td style="width: 85px; text-align: right;">@((int)(item.Duration * 60)) phút</td>
+                <td>@item.Field.Stadium.Name</td>
+                <td>@item.Field.Stadium.Street, @item.Field.Stadium.Ward, @item.Field.Stadium.District</td>
+                <td style="width: 100px;">@(item.User == null ? item.FullName : item.User.UserName)</td>
+                @if (item.RivalStatus.ToLower().Equals("approved"))
+                {
+                    <td style="width: 100px;">Đã xác nhận</td>
+                }
+                else if (item.RivalStatus.ToLower().Equals("pending"))
+                {
+                    <td style="width: 100px;">Đang chờ xét</td>
+                }
+                <td style="width:100px;" class="table-cell-action"><a href="/Account/EditRival?Id=@item.Id">Chi tiết</a></td>
+            </tr>
+            }
+        }
+        else
+        {
+            <p>Bạn chưa cáp kèo nào.</p>
+        }
+    </tbody>
+</table>
