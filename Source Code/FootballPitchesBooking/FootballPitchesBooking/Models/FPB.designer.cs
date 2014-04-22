@@ -3037,7 +3037,7 @@ namespace FootballPitchesBooking.Models
 		
 		private int _UserId;
 		
-		private int _ReportUserId;
+		private System.Nullable<int> _ReportUserId;
 		
 		private string _Reason;
 		
@@ -3059,7 +3059,7 @@ namespace FootballPitchesBooking.Models
     partial void OnIdChanged();
     partial void OnUserIdChanging(int value);
     partial void OnUserIdChanged();
-    partial void OnReportUserIdChanging(int value);
+    partial void OnReportUserIdChanging(System.Nullable<int> value);
     partial void OnReportUserIdChanged();
     partial void OnReasonChanging(string value);
     partial void OnReasonChanged();
@@ -3121,8 +3121,8 @@ namespace FootballPitchesBooking.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReportUserId", DbType="Int NOT NULL")]
-		public int ReportUserId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReportUserId", DbType="Int")]
+		public System.Nullable<int> ReportUserId
 		{
 			get
 			{
@@ -3304,7 +3304,7 @@ namespace FootballPitchesBooking.Models
 					}
 					else
 					{
-						this._ReportUserId = default(int);
+						this._ReportUserId = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("User1");
 				}

@@ -139,12 +139,14 @@
     <Compile Include="BusinessObjects\ReservationBO.cs" />
     <Compile Include="BusinessObjects\StadiumBO.cs" />
     <Compile Include="BusinessObjects\UserBO.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="DataAccessObjects\ConfigurationDAO.cs" />
     <Compile Include="DataAccessObjects\MemberRankDAO.cs" />
     <Compile Include="DataAccessObjects\NotificationDAO.cs" />
     <Compile Include="DataAccessObjects\PriceTableDAO.cs" />
     <Compile Include="DataAccessObjects\PunishMemberDAO.cs" />
     <Compile Include="DataAccessObjects\RecommendationDAO.cs" />
+    <Compile Include="DataAccessObjects\ReportUserDAO.cs" />
     <Compile Include="Models\AccountModels\BlockUserModel.cs" />
     <Compile Include="Models\AccountModels\BookingHistoryModel.cs" />
     <Compile Include="Models\AccountModels\EditReservationModel.cs" />
@@ -168,6 +170,7 @@
     <Compile Include="Models\StadiumStaffModels\ReservationsModel.cs" />
     <Compile Include="Models\StadiumStaffModels\ReservationModel.cs" />
     <Compile Include="Models\WebsiteStaffModels\AdvertisementModel.cs" />
+    <Compile Include="Models\WebsiteStaffModels\PunishMemberModel.cs" />
     <Compile Include="Models\WebsiteStaffModels\RankModel.cs" />
     <Compile Include="Models\WebsiteStaffModels\UserModel.cs" />
     <Compile Include="Utilities\Utils.cs" />
@@ -505,9 +508,54 @@
     <Content Include="Views\WebsiteStaff\AddMemberRank.cshtml" />
     <Content Include="Views\WebsiteStaff\EditMemberRank.cshtml" />
     <Content Include="Views\WebsiteStaff\MemberRanks.cshtml" />
+    <Content Include="Views\WebsiteStaff\Reports.cshtml" />
+    <Content Include="Views\WebsiteStaff\PunishMembers.cshtml" />
+    <Content Include="Views\WebsiteStaff\PunishMember.cshtml" />
+    <Content Include="Views\WebsiteStaff\EditPunishMember.cshtml" />
     <Content Include="Views\Account\RivalHistory.cshtml" />
     <Content Include="Views\Account\EditRival.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:55604/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

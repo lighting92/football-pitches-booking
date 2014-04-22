@@ -1931,7 +1931,7 @@ namespace FootballPitchesBooking.Controllers
                 model.HavePermission = false;
                 model.ErrorMessage = Resources.StadiumStaff_HaveNoPermissionTotAccessStadium;
             }
-
+            model.Reservations = model.Reservations.OrderByDescending(r => r.Id).ToList();
             return View(model);
         }
 

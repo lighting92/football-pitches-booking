@@ -132,9 +132,11 @@
     }
 
     $(document).ready(function () {
-        $('table').dataTable().columnFilter({
+        $('table').dataTable({
+            "aaSorting": []
+        }).columnFilter({
             sPlaceHolder: "head:before",
-            aoColumns: [
+            "aoColumns": [
                 { type: "date-range" },
                 { type: "text" },
                 { type: "text" },

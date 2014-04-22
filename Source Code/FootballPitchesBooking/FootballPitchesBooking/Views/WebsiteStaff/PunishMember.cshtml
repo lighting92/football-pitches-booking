@@ -1,0 +1,191 @@
+﻿@model FootballPitchesBooking.Models.WebsiteStaffModels.PunishMemberModel
+@{
+    ViewBag.Title = "Phạt thành viên";
+    ViewBag.PUNISH = "active";
+    Layout = "~/Views/Shared/_WebsiteStaffLayout.cshtml";
+}
+
+<div class="row webstaff-edit-stadium">
+    <div class="span12">
+        <div class="row">
+            <div class="span9">
+                <form action="/WebsiteStaff/PunishMember" method="post" class="form-horizontal" enctype="multipart/form-data">
+                    <fieldset>
+                        <br />
+                        <br />
+                        <h1>Phạt thành viên
+                        </h1>
+                        <br />
+                        @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
+                        {
+                            <div class="alert alert-danger">
+                                @foreach (var error in Model.ErrorMessages)
+                                {
+                                    <p>- @error</p>
+                                }
+                            </div>
+                        }
+                        <div class="row">
+                            <div class="span8">
+                                <legend><span>Thông tin lệnh phạt</span></legend>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    Tài khoản bị phạt
+                                    <input id="punishedusername" name="PunishedUserName" type="text" placeholder="Người bị phạt" value="@Model.PunishedUserName">
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $.ajax({
+                                                url: "/Account/GetAllUserName",
+                                                type: "post",
+                                                success: function (data) {
+                                                    $("#punishedusername").typeahead({
+                                                        source: data
+                                                    });
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    Phạt vĩnh viễn
+                                    @if (Model.IsForever)
+                                    {
+                                        <input type="checkbox" name="IsForever" checked="checked" onchange="changeforever(this)"/>
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" name="IsForever" onchange="changeforever(this)" />
+                                    }
+                                    <script type="text/javascript">
+                                        function changeforever(control) {
+                                            if (control.checked) {
+                                                jQuery("#expss").css("display", "none");
+                                                jQuery("#expiredDate").removeAttr("name");
+                                            }
+                                            else {
+                                                jQuery("#expss").css("display", "block");
+                                                jQuery("#expiredDate").attr("name", "ExpiredDate");
+                                            }
+                                        }
+                                    </script>
+                                </label>
+                            </div>
+                            @if (!Model.IsForever)
+                                    {                            
+                            <div class="span3" id="expss">
+                                <label>
+                                    Ngày hết hạn
+                                <input type="text" class="span3" id="expiredDate" name="ExpiredDate" value="@Model.ExpiredDate">
+                                    <span id="expiredDatePicker" class="datepicker" style="display: none"></span>
+                                </label>
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        var close = false;
+                                        $("#expiredDatePicker").datepicker({
+                                            dateFormat: 'dd/mm/yy',
+                                            showOtherMonths: false,
+                                            numberOfMonths: 1,
+                                            altField: "#expiredDate",
+                                            altFormat: "dd/mm/yy",
+                                            minDate: null,
+                                            defaultDate: "@Model.ExpiredDate",
+                                            onSelect: function (date) {
+                                                close = false;
+                                                $("#expiredDate").focus();
+                                            },
+                                            onChangeMonthYear: function () {
+                                                close = false;
+                                                $("#expiredDate").focus();
+                                            }
+                                        });
+                                        $("#expiredDate").focus(function () {
+                                            document.getElementById("expiredDatePicker").style.display = "block";
+                                        });
+                                        $("#expiredDate").mousedown(function () {
+                                            document.getElementById("expiredDatePicker").style.display = "block";
+                                        });
+                                        $("#expiredDate").focusout(function () {
+                                            close = true;
+                                            setTimeout(function () {
+                                                if (close) {
+                                                    document.getElementById("expiredDatePicker").style.display = "none";
+                                                }
+                                            }, 200);
+                                        });
+                                    });
+                                </script>
+                            </div>
+                            }
+                            else
+                            {
+                                <div class="span3" id="expss" style="display:none">
+                                <label>
+                                    Ngày hết hạn
+                                <input type="text" class="span3" id="expiredDate" value="@Model.ExpiredDate">
+                                    <span id="expiredDatePicker" class="datepicker" style="display: none"></span>
+                                </label>
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        var close = false;
+                                        $("#expiredDatePicker").datepicker({
+                                            dateFormat: 'dd/mm/yy',
+                                            showOtherMonths: false,
+                                            numberOfMonths: 1,
+                                            altField: "#expiredDate",
+                                            altFormat: "dd/mm/yy",
+                                            minDate: null,
+                                            defaultDate: "@Model.ExpiredDate",
+                                            onSelect: function (date) {
+                                                close = false;
+                                                $("#expiredDate").focus();
+                                            },
+                                            onChangeMonthYear: function () {
+                                                close = false;
+                                                $("#expiredDate").focus();
+                                            }
+                                        });
+                                        $("#expiredDate").focus(function () {
+                                            document.getElementById("expiredDatePicker").style.display = "block";
+                                        });
+                                        $("#expiredDate").mousedown(function () {
+                                            document.getElementById("expiredDatePicker").style.display = "block";
+                                        });
+                                        $("#expiredDate").focusout(function () {
+                                            close = true;
+                                            setTimeout(function () {
+                                                if (close) {
+                                                    document.getElementById("expiredDatePicker").style.display = "none";
+                                                }
+                                            }, 200);
+                                        });
+                                    });
+                                </script>
+                            </div>
+                            }                           
+                        </div>
+                        <div class="row">
+                            <div class="span9">
+                                <legend>Lý do</legend>
+                                <textarea name="Reason" class="span9" rows="3">@Model.Reason</textarea>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="span9">
+                                <br />
+                                <button type="button" onclick="window.location='/WebsiteStaff/PunishMembers'" class="btn btn-primary btn-large book-now pull-right">Huỷ bỏ</button>
+                                <button type="submit" class="btn btn-primary btn-large book-now pull-right">Lưu</button>
+                                <br />
+                                <br />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

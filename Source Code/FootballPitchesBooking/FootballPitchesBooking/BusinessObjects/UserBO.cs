@@ -114,7 +114,7 @@ namespace FootballPitchesBooking.BusinessObjects
                     {
                         return -2;
                     }
-            }
+                }
                 else
                 {
                     return -3;
@@ -315,6 +315,81 @@ namespace FootballPitchesBooking.BusinessObjects
             return punishDAO.GetPunishMemberByUserName(userName);
         }
 
+        public int PunishMember(string staffusername, string punishedUserName, DateTime? expiredDate, bool? isForever, string reason)
+        {
+            PunishMemberDAO pmDAO = new PunishMemberDAO();
+            UserDAO userDAO = new UserDAO();
+
+            var staff = userDAO.GetUserByUserName(staffusername);
+            var punishedUser = userDAO.GetUserByUserName(punishedUserName);
+
+            if (punishedUserName != null)
+            {
+                var dup = pmDAO.GetPunishMemberByUserId(punishedUser.Id);
+                if (dup != null)
+                {
+                    dup.StaffId = staff.Id;
+                    dup.ExpiredDate = expiredDate;
+                    dup.IsForever = isForever;
+                    dup.Reason = reason;
+                    dup.Date = DateTime.Now;
+                    return pmDAO.UpdatePunishMember(dup);
+                }
+                else
+                {
+                    PunishMember pm = new PunishMember();
+                    pm.StaffId = staff.Id;
+                    pm.UserId = punishedUser.Id;
+                    pm.Reason = reason;
+                    pm.ExpiredDate = expiredDate;
+                    pm.IsForever = isForever;
+                    pm.Date = DateTime.Now;
+                    return pmDAO.PunishMember(pm);
+                }
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        public int CancelPunishMembers(int[] ids)
+        {
+            PunishMemberDAO pmDAO = new PunishMemberDAO();
+            return pmDAO.CancelPunishMembers(ids);
+        }
+
+        public int UpdatePunishMember(string staffusername, string punishedUserName, DateTime? expiredDate, bool? isForever, string reason)
+        {
+            PunishMemberDAO pmDAO = new PunishMemberDAO();
+            UserDAO userDAO = new UserDAO();
+
+            var staff = userDAO.GetUserByUserName(staffusername);
+            var punishedUser = userDAO.GetUserByUserName(punishedUserName);
+
+            if (punishedUserName != null)
+            {
+                var dup = pmDAO.GetPunishMemberByUserId(punishedUser.Id);
+                if (dup != null)
+                {
+                    dup.StaffId = staff.Id;
+                    dup.ExpiredDate = expiredDate;
+                    dup.IsForever = isForever;
+                    dup.Reason = reason;
+                    dup.Date = DateTime.Now;
+                    return pmDAO.UpdatePunishMember(dup);
+                }
+                else
+                {
+                    return -2;
+                }
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
         public List<Notification> GetAllNotificationsOfUser(string userName)
         {
             NotificationDAO notDAO = new NotificationDAO();
@@ -350,6 +425,69 @@ namespace FootballPitchesBooking.BusinessObjects
             else
             {
                 return notDAO.DeleteMessages(ids);
+            }
+        }
+
+        public List<ReportUser> GetAllReportUser()
+        {
+            ReportUserDAO rpDAO = new ReportUserDAO();
+            return rpDAO.GetAllReport();
+        }
+
+        public int ReportRival(int resId, string userName)
+        {
+            ReportUserDAO rpDAO = new ReportUserDAO();
+
+            ReservationDAO resDAO = new ReservationDAO();
+
+            UserDAO userDAO = new UserDAO();
+
+            var user = userDAO.GetUserByUserName(userName);
+
+            var res = resDAO.GetReservationById(resId);
+
+            bool havePermission = res.UserId == user.Id;
+
+            var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "SE Asia Standard Time");
+
+            bool expired = res.Date.Date.AddHours(res.StartTime).CompareTo(now) < 0;
+
+            if (havePermission && expired)
+            {
+                var dup = rpDAO.GetReportByReservationId(resId);
+                if (dup != null)
+                {
+                    return -3;
+                }
+                else
+                {
+                    ReportUser rp = new ReportUser();
+                    rp.UserId = user.Id;
+                    rp.ReportUserId = res.RivalId;
+                    rp.Reference = res.Id;
+                    rp.Reason = "[Rival]";
+                    rp.Date = now;
+                    var result = rpDAO.CreateReportUser(rp);
+                    if (result > 0 && res.RivalId != null)
+                    {
+                        NotificationDAO notDAO = new NotificationDAO();
+                        Notification not = new Notification();
+                        not.UserId = res.RivalId;
+                        not.Status = "unread";
+                        not.Message = "Bạn bị cáo buộc rằng đã cáp kèo nhưng không đến sân. <a href='/Account/JoinedMatch/" + res.Id + "'>Chi tiết</a>";
+                        not.CreateDate = now;
+                        notDAO.CreateMessage(not);
+                    }
+                    return result;
+                }
+            }
+            else if (!havePermission)
+            {
+                return -1;
+            }
+            else
+            {
+                return -2;
             }
         }
     }

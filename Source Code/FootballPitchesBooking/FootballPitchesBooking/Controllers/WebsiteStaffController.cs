@@ -1147,6 +1147,192 @@ namespace FootballPitchesBooking.Controllers
 
         #endregion STADIUM REVIEW
 
+        #region REPORT/PUNISH MANAGEMENT
+        public ActionResult Reports()
+        {
+            UserBO userBO = new UserBO();
+            var model = userBO.GetAllReportUser();
+            return View(model);
+        }
+
+        public ActionResult PunishMembers()
+        {
+            UserBO userBO = new UserBO();
+            var model = userBO.GetAllPunishingMember();
+            model = model.OrderByDescending(p => p.Id).ToList();
+            return View(model);
+        }
+
+        public ActionResult PunishMember()
+        {
+            UserBO userBO = new UserBO();
+            var model = new PunishMemberModel();
+            model.ExpiredDate = DateTime.Now.AddDays(2).ToShortDateString();
+            model.Reason = "";
+            model.PunishedUserName = "";
+            model.UserNames = userBO.GetAllUserName();
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult PunishMember(FormCollection form)
+        {
+            UserBO userBO = new UserBO();
+            var model = new PunishMemberModel();
+            model.ExpiredDate = form["ExpiredDate"];
+            model.IsForever = !string.IsNullOrEmpty(form["IsForever"]);
+            model.Reason = form["Reason"];
+            model.PunishedUserName = form["PunishedUserName"];
+            model.UserNames = userBO.GetAllUserName();
+            model.ErrorMessages = new List<string>();
+
+            DateTime? exp = null;
+            bool valid = true;
+            if (string.IsNullOrEmpty(model.PunishedUserName))
+            {
+                model.ErrorMessages.Add("Chưa nhập tên thành viên bị phạt");
+                valid = false;
+            }
+            if (string.IsNullOrEmpty(model.ExpiredDate) && !model.IsForever)
+            {
+                model.ErrorMessages.Add("Chưa chọn thời hạn cho lệnh phạt này");
+                valid = false;
+            }
+            if (string.IsNullOrEmpty(model.Reason))
+            {
+                model.ErrorMessages.Add("Chưa nhập lý do cho lệnh phạt này");
+                valid = false;
+            }            
+            if (!string.IsNullOrEmpty(model.ExpiredDate))
+            {
+                DateTime temp;
+                bool validExp = DateTime.TryParse(model.ExpiredDate, out temp);
+                if (validExp)
+                {
+                    exp = temp;
+                }
+                else
+                {
+                    valid = false;
+                    model.ErrorMessages.Add("Ngày tháng nhập vào không hợp lệ");
+                }
+            }
+            if (valid)
+            {
+                var result = userBO.PunishMember(User.Identity.Name, model.PunishedUserName, exp, model.IsForever, model.Reason);
+                if (result > 0)
+                {
+                    TempData["Success"] = "Phạt thành viên thành công";
+                    return Redirect("/WebsiteStaff/EditPunishMember/" + result);
+                }
+                else
+                {
+                    model.ErrorMessages.Add("Thành viên này không tồn tại");
+                }
+            }
+            return View(model);
+        }
+
+        public ActionResult EditPunishMember(int id)
+        {
+            UserBO userBO = new UserBO();
+            var pm = userBO.GetPunishMemberById(id);
+            if (pm == null)
+            {
+                return Redirect("/WebsiteStaff/PunishMembers");
+            }
+            var model = new PunishMemberModel();
+            model.Date = pm.Date.Value.ToShortDateString();
+            if (pm.ExpiredDate != null)
+            {
+                model.ExpiredDate = pm.ExpiredDate.Value.ToShortDateString();
+            }
+            model.IsForever = pm.IsForever.Value;
+            model.PunishedUserName = pm.User.UserName;
+            model.Reason = pm.Reason;
+            model.StaffUserName = pm.User1.UserName;
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult EditPunishMember(FormCollection form, int id)
+        {
+            UserBO userBO = new UserBO();
+            var pm = userBO.GetPunishMemberById(id);
+            if (pm == null)
+            {
+                return RedirectToAction("PunishMembers");
+            }
+            var model = new PunishMemberModel();
+            model.Date = pm.Date.Value.ToShortDateString();
+            model.ExpiredDate = form["ExpiredDate"];           
+            model.IsForever = !string.IsNullOrEmpty(form["IsForever"]);
+            model.Reason = form["Reason"];
+            model.PunishedUserName = form["PunishedUserName"];
+            model.PunishedUserName = pm.User.UserName;
+            model.StaffUserName = pm.User1.UserName;
+
+            DateTime? exp = null;
+            bool valid = true;
+            if (string.IsNullOrEmpty(model.ExpiredDate) && !model.IsForever)
+            {
+                model.ErrorMessages.Add("Chưa chọn thời hạn cho lệnh phạt này");
+                valid = false;
+            }
+            if (string.IsNullOrEmpty(model.Reason))
+            {
+                model.ErrorMessages.Add("Chưa nhập lý do cho lệnh phạt này");
+                valid = false;
+            }
+            if (!string.IsNullOrEmpty(model.ExpiredDate))
+            {
+                DateTime temp;
+                bool validExp = DateTime.TryParse(model.ExpiredDate, out temp);
+                if (validExp)
+                {
+                    exp = temp;
+                }
+                else
+                {
+                    valid = false;
+                    model.ErrorMessages.Add("Ngày tháng nhập vào không hợp lệ");
+                }
+            }
+            if (valid)
+            {
+                var result = userBO.UpdatePunishMember(User.Identity.Name, model.PunishedUserName, exp, model.IsForever, model.Reason);
+                if (result > 0)
+                {
+                    model.SuccessMessage = "Cập nhật phạt thành viên thành công";
+                }
+                else
+                {
+                    model.ErrorMessages.Add("Thành viên này không tồn tại");
+                }
+            }
+            return View(model);
+        }
+
+        public ActionResult CancelPunish(FormCollection form)
+        {
+            var strIds = form["ids[]"];
+            string[] sids = strIds.Split(',');
+            List<int> ids = new List<int>();
+            foreach (var item in sids)
+            {
+                ids.Add(int.Parse(item));
+            }
+
+            UserBO userBO = new UserBO();
+            var result = userBO.CancelPunishMembers(ids.ToArray());
+            if (result == 0)
+            {
+                TempData["Error"] = "Máy chủ đang bận, xin thử lại sau.";
+            }
+
+
+            return RedirectToAction("PunishMembers");
+        }
+        #endregion REPORT/PUNISH MANAGEMENT
     }
 
 }

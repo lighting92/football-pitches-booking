@@ -1,0 +1,154 @@
+﻿@model List<FootballPitchesBooking.Models.PunishMember>
+@{
+    ViewBag.Title = "Phạt thành viên";
+    ViewBag.PUNISH = "active";
+    Layout = "~/Views/Shared/_WebsiteStaffLayout.cshtml";
+}
+<form id="punishform" action="/WebsiteStaff/CancelPunish" method="post">
+    <p style="text-align: right">
+        <button style="margin-bottom: 5px;" onclick="window.location='/WebsiteStaff/PunishMember'" type="button" class="btn-medium btn-danger pull-left">Phạt thành viên</button>
+        <button style="margin-bottom: 5px;" onclick="submitform()" type="button" class="btn-medium btn-danger">Gỡ lệnh phạt</button>
+    </p>
+    <p style="text-align: right">
+        <button class="btn-auto" type="button" onclick="selectall()">Chọn tất cả</button>
+        <button class="btn-auto" type="button" onclick="deselectall()">Bỏ chọn tất cả</button>
+    </p>
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+    <table id="punishtable" class="table table-condensed table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Tên tài khoản</th>
+                <th>Ngày phạt</th>
+                <th>Ngày hết hạn</th>
+                <th>Nhân viên phạt</th>
+                <th>Lý do</th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th style="text-align: center">Tên tài khoản</th>
+                <th style="text-align: center">Ngày phạt</th>
+                <th style="text-align: center">Ngày hết hạn</th>
+                <th style="text-align: center">Nhân viên phạt</th>
+                <th style="text-align: center">Lý do</th>
+                <th style="text-align: center">Chỉnh sửa</th>
+                <th style="text-align: center">Đánh dấu</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="row_@item.Id">
+                    <td>
+                        @item.User.UserName
+                    </td>
+                    <td>
+                        @item.Date.Value.ToShortDateString()
+                    </td>
+                    @if (item.ExpiredDate != null)
+                    {
+                        <td>@item.ExpiredDate.Value.ToShortDateString()</td>
+                    }
+                    else if (item.IsForever != null && item.IsForever.Value)
+                    {
+                        <td style="text-align: center">Vĩnh viễn</td>
+                    }
+
+                    <td>@item.User1.UserName</td>
+                    <td>@item.Reason</td>
+                    <td style="text-align: center"><a href="/WebsiteStaff/EditPunishMember/@item.Id">Chỉnh sửa</a></td>
+                    <td style="text-align: center">
+                        <label style="display: none">Không</label>
+                        <input type="checkbox" data-nid="@item.Id" onchange="checkbox(this)" value="@item.Id"/>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th style="text-align: center">Tên tài khoản</th>
+                <th style="text-align: center">Ngày phạt</th>
+                <th style="text-align: center">Ngày hết hạn</th>
+                <th style="text-align: center">Nhân viên phạt</th>
+                <th style="text-align: center">Lý do</th>
+                <th style="text-align: center">Chỉnh sửa</th>
+                <th style="text-align: center">Đánh dấu</th>
+            </tr>
+        </tfoot>
+    </table>
+</form>
+<script type="text/javascript">
+    function selectall() {
+        var table = $("#punishtable").dataTable();
+        var checks = jQuery("#punishtable input[type='checkbox']");
+        jQuery.each(checks, function (index, obj) {
+            jQuery(obj).attr("checked", "checked");
+            jQuery(obj).attr("name", "ids[]");
+            jQuery(obj).parent().find("label").html("Chọn");
+            table.fnUpdate($(obj).parent().html(), $("tr#row_" + obj.value)[0], 6, false, false);
+        });
+    }
+
+    function deselectall() {
+        var table = $("#punishtable").dataTable();
+        var checks = jQuery("#punishtable input[type='checkbox']");
+        jQuery.each(checks, function (index, obj) {
+            jQuery(obj).removeAttr("checked");
+            jQuery(obj).removeAttr("name");
+            jQuery(obj).parent().find("label").html("Không");
+            table.fnUpdate($(obj).parent().html(), $("tr#row_" + obj.value)[0], 6, false, false);
+        });
+    }
+
+    function checkbox(control) {
+        var table = $("#punishtable").dataTable();
+        var id = jQuery(control).data("nid");
+        control.name = "ids[]";
+        if (!control.checked) {
+            control.removeAttribute("name");
+            jQuery(control).removeAttr("checked");
+            jQuery(control).parent().find("label").html("Không");
+        }
+        else {
+            jQuery(control).attr("checked", "checked");
+            jQuery(control).parent().find("label").html("Chọn");
+        }
+        table.fnUpdate($(control).parent().html(), $("tr#row_" + control.value)[0], 6, false, false);
+    }
+
+    function submitform(action) {
+        var yes = confirm("Bạn có thực sự muốn xóa những thông báo đã chọn không?");
+        
+        if (!yes) {
+            return false;
+        }
+
+        var punishform = document.getElementById("punishform");
+        console.debug(punishform);
+        punishform.submit();
+    }
+
+    $(document).ready(function () {
+        $('#punishtable').dataTable({
+            "aaSorting": []
+        }).columnFilter({
+            sPlaceHolder: "head:before",
+            "aoColumns": [
+                { type: "text" },
+                { type: "date-range" },
+                { type: "date-range" },
+                { type: "text" },
+                { type: "text" },
+                null,
+                { type: "select", values: ['Chọn', 'Không'] }
+            ]
+        });
+    });
+</script>
+
+

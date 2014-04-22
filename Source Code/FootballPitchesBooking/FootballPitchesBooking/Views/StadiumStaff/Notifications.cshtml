@@ -139,7 +139,9 @@
     }
 
     $(document).ready(function () {
-        $('table').dataTable().columnFilter({
+        $('table').dataTable({
+            "aaSorting": []
+        }).columnFilter({
             sPlaceHolder: "head:before",
             aoColumns: [
                 { type: "date-range" },
