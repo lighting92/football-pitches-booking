@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="~/Content/bootstrap/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="~/Content/bootstrap/css/bootstrap-responsive.min.css" type="text/css">
     <link rel="stylesheet" href="~/Content/bootstrap/css/bootstrap-timepicker.min.css" type="text/css">
+    <link rel="stylesheet" href="~/Content/css/jquery.dataTables.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/css/jquery.dataTables_themeroller.css" type="text/css" />
     <link rel="stylesheet" href="~/Content/css/fpb.css" type="text/css">
     <link rel="stylesheet" href="~/Content/css/fpb-responsive.css" type="text/css">
     <link rel="stylesheet" href="~/Scripts/slider/default.css" type="text/css" media="screen" />
@@ -19,6 +21,8 @@
 
     <script type="text/javascript" src="~/Scripts/jquery.js"></script>
     <script type="text/javascript" src="~/Scripts/jquery.autosize.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.dataTables.columnFilter.js"></script>
 </head>
 <body>
     <div class="container-fluid">
@@ -72,7 +76,7 @@
         </div>
         <div class="row"  style="margin-right:-50px">
             <div class="span6 pull-right main_menu">
-                <div class="navbar">
+                <div class="navbar webstaffnav">
                     <div class="container">
                         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                             <span class="icon-bar"></span>
@@ -83,20 +87,24 @@
                         <div class="nav-collapse">
                             <ul class="nav nav-pills">
                                 @if (User.IsInRole("WebsiteMaster"))
-                                {
-                                    <li class="@ViewBag.REQUEST"><a href="/WebsiteStaff/JoinRequests">THAM GIA</a></li>
+                                {                                    
+                                    <li class="@ViewBag.REQUEST"><a href="/WebsiteStaff/JoinRequests">YÊU CẦU THAM GIA</a></li>
                                     <li class="@ViewBag.STADIUM"><a href="/WebsiteStaff/Stadiums">SÂN BÓNG</a></li>
                                     <li class="@ViewBag.REVIEW"><a href="/WebsiteStaff/Reviews">ĐÁNH GIÁ</a></li>
                                     <li class="@ViewBag.MEMBER"><a href="/WebsiteStaff/Users">THÀNH VIÊN</a></li>
                                     <li class="@ViewBag.RANK"><a href="/WebsiteStaff/MemberRanks">CẤP BẬC</a></li>
                                     <li class="@ViewBag.ADVERTISEMENT"><a href="/WebsiteStaff/Advertisements">QUẢNG CÁO</a></li>
                                     <li class="@ViewBag.PRIORITY"><a href="/WebsiteStaff/EditPriority">GỢI Ý SÂN</a></li>
+                                    <li class="@ViewBag.REPORT"><a href="/WebsiteStaff/Reports">BÁO CÁO THÀNH VIÊN</a></li>
+                                    <li class="@ViewBag.PUNISH"><a href="/WebsiteStaff/PunishMembers">PHẠT THÀNH VIÊN</a></li>
                                 }
                                 else
                                 {
                                     <li class="@ViewBag.REVIEW"><a href="/WebsiteStaff/Reviews">ĐÁNH GIÁ</a></li>
                                     <li class="@ViewBag.MEMBER"><a href="/WebsiteStaff/Users">THÀNH VIÊN</a></li>
                                     <li class="@ViewBag.ADVERTISEMENT"><a href="/WebsiteStaff/Advertisements">QUẢNG CÁO</a></li>
+                                    <li class="@ViewBag.REPORT"><a href="/WebsiteStaff/Reports">BÁO CÁO THÀNH VIÊN</a></li>
+                                    <li class="@ViewBag.PUNISH"><a href="/WebsiteStaff/PunishMembers">PHẠT THÀNH VIÊN</a></li>
                                 }
                             </ul>
                         </div>

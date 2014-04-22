@@ -411,6 +411,10 @@ namespace FootballPitchesBooking.Controllers
                                         res.CreatedDate = DateTime.Now;
                                         res.Status = "Pending";
                                         res.NeedRival = needRival;
+                                        if (needRival)
+                                        {
+                                            res.RivalStatus = "Waiting";
+                                        }
 
                                         int result = resBO.UserBooking(res);
                                         if (result == 0)

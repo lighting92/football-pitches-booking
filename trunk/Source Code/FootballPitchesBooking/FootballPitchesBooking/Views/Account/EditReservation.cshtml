@@ -147,12 +147,6 @@
                                         <input class="format-price" type="text" value="@Model.Discount" readonly />
                                     </label>
                                 </div>
-                                <script type="text/javascript">
-                                    $(".format-price").priceFormat({
-                                        prefix: '',
-                                        centsLimit: 0
-                                    });
-                                </script>
                                 <div class="span3">
                                     <label>
                                         Mã xác nhận
@@ -185,6 +179,8 @@
                             <div class="row">
                                 <div class="span8">
                                     <legend><span>Giao Hữu</span></legend>
+                                </div>
+                                <div class="span8 alert" style="display:none" id="reportMessage">
                                 </div>
                                 <div class="span3">
                                     <label>
@@ -238,7 +234,7 @@
                                             }
                                             else
                                             {
-                                             <select name="RivalStatus" data-cur="@Model.RivalStatus">
+                                            <select name="RivalStatus" data-cur="@Model.RivalStatus">
                                                 <option value="Pending">Đang chờ duyệt</option>
                                                 <option value="Approve">Chấp nhận</option>
                                                 <option value="Deni">Từ chối</option>
@@ -247,12 +243,24 @@
                                         }
                                         </label>
                                     </div>
+                                        if (!canMod && Model.Status.ToLower().Equals("approved"))
+                                        {
+                                    <div class="span3">
+                                        <label>
+                                            &nbsp
+                                            </label>
+                                        <button class="btn-medium btn-report" onclick="reportRival()" type="button">Báo đối thủ không đến</button>
+                                    </div>
+                                        }
+                                        else
+                                        {
                                     <div class="span3" style="visibility: hidden">
                                         <label>
                                             &nbsp
                                         <input type="text" />
                                         </label>
                                     </div>
+                                        }                                    
                                     <div class="span3">
                                         <label>
                                             Tên đối thủ
@@ -317,7 +325,34 @@
     </div>
 </div>
 <script type="text/javascript">
+    var waiting = false;
+    function reportRival() {
+        if (!waiting) {
+            jQuery.ajax({
+                url: "/Report/Rival/@Model.Id",
+                type: "POST",
+                success: function (data) {
+                    var success = data.lastIndexOf("SUCCESS::");
+                    var message = data.substring(data.lastIndexOf("::") + 2, data.length);
+                    if (success >= 0) {
+                        jQuery("#reportMessage").removeClass("alert-danger");
+                        jQuery("#reportMessage").addClass("alert-success");
+                    }
+                    else {
+                        jQuery("#reportMessage").removeClass("alert-success");
+                        jQuery("#reportMessage").addClass("alert-danger");
+                    }
+                    jQuery("#reportMessage").html(message);
+                    jQuery("#reportMessage").css("display", "block");
+                }
+            });
+        }
+    }
     $(document).ready(function () {
+        $(".format-price").priceFormat({
+            prefix: '',
+            centsLimit: 0
+        });
         $.each($("select"), function (index, obj) {
             $(obj).val($(obj).data("cur"));
         });

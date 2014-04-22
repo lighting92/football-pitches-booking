@@ -222,7 +222,7 @@ namespace FootballPitchesBooking.BusinessObjects
         public int UserUpdateReservation(Reservation res)
         {
             Notification msg = null;
-            if (!string.IsNullOrEmpty(res.RivalStatus) && res.RivalStatus.ToLower().Equals("deni"))
+            if (!string.IsNullOrEmpty(res.RivalStatus) && res.RivalStatus.ToLower().Equals("deni") && res.NeedRival)
             {
                 if (res.RivalId != null)
                 {
@@ -242,8 +242,12 @@ namespace FootballPitchesBooking.BusinessObjects
                 res.RivalName = null;
                 res.RivalPhone = null;
                 res.RivalEmail = null;
-                res.RivalStatus = null;
+                res.RivalStatus = "Waiting";
                 res.RivalId = null;
+            }
+            else if (res.NeedRival && string.IsNullOrEmpty(res.RivalStatus))
+            {
+                res.RivalStatus = "Waiting";
             }
             else if (!res.NeedRival)
             {

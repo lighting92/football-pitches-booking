@@ -1,0 +1,84 @@
+﻿@model List<FootballPitchesBooking.Models.ReportUser>
+@{
+    ViewBag.Title = "Báo cáo thành viên vi phạm";
+    ViewBag.REPORT = "active";
+    Layout = "~/Views/Shared/_WebsiteStaffLayout.cshtml";
+}
+
+    <table id="reporttable" class="table table-condensed table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Ngày</th>
+                <th>Tài khoản tố cáo</th>
+                <th>Tài khoản bị tố cáo</th>
+                <th></th>
+                <th>Lý do</th>
+            </tr>
+            <tr>
+                <th style="text-align: center">Ngày</th>
+                <th style="text-align: center">Tài khoản tố cáo</th>
+                <th style="text-align: center">Tài khoản bị tố cáo</th>
+                <th style="text-align: center">Đơn đặt sân liên quan</th>
+                <th style="text-align: center">Lý do</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="row_@item.Id">
+                    <td>
+                        @item.Date.ToShortDateString()
+                    </td>
+                    <td>
+                        @item.User.UserName
+                    </td>
+                    
+                        @if (item.User != null)
+                        {
+                            <td>@item.User1.UserName</td>
+                        }
+                        else
+                        {
+                            <td style="text-align:center">-</td>
+                        }
+                    
+                    <td style="text-align:center"><a href="/WebsiteStaff/Reservation/@item.Reservation.Id">Xem chi tiết</a></td>
+                    @if (item.Reason.ToLower().Equals("[rival]"))
+                    {
+                        <td>Cáp kèo nhưng không đến</td>
+                        
+                    }
+                    else
+                    {
+                        <td>Đặt sân nhưng không đến</td>
+                    }
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th style="text-align: center">Ngày</th>
+                <th style="text-align: center">Tài khoản tố cáo</th>
+                <th style="text-align: center">Tài khoản bị tố cáo</th>
+                <th style="text-align: center">Đơn đặt sân liên quan</th>
+                <th style="text-align: center">Lý do</th>
+            </tr>
+        </tfoot>
+    </table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('table').dataTable({
+            "aaSorting": []
+        }).columnFilter({
+            sPlaceHolder: "head:before",
+            "aoColumns": [
+                { type: "date-range" },
+                { type: "text" },
+                { type: "text" },
+                null,
+                { type: "select", values: ['Cáp kèo nhưng không đến', 'Đặt sân nhưng không đến'] }
+            ]
+        });
+    });
+</script>
+

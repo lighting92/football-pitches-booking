@@ -1,3 +1,21 @@
+.navbar.webstaffnav .container {
+    max-width: 705px;
+    height: auto;
+}
+.navbar.webstaffnav .nav > li
+{
+    margin-bottom: 15px;
+}
+.btn-report
+{
+    color: white;
+    background-color: #1d611a;
+    margin-bottom: 5px;
+}
+#reportMessage.span8.alert
+{
+    width: 650px;
+}
 .span4.rival-item
 {
     border: double 1px;
