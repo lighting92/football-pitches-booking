@@ -1,0 +1,243 @@
+﻿@model FootballPitchesBooking.Models.Reservation
+@{
+    ViewBag.Title = "Chỉnh Sửa Thông Tin Cáp Kèo";
+    ViewBag.USER = "active";
+}
+
+<script type="text/ecmascript">
+    function check() {
+        var flag = 0;
+        var fullname = $("input[name=FullName]").val();
+        var phone = $("input[name=PhoneNumber]").val();
+        var email = $("input[name=Email]").val();
+        var reg = /^(\w+[\.])*\w+@@(\w+\.)+[a-zA-Z]+$/;
+        var aln = /^[a-z|A-Z|0-9]*$/;
+
+        if (fullname == "" || fullname.length > 30) {
+            $("#FullName_Error").text("Yêu cầu tên thành viên phải từ 1 đến 30 kí tự");
+            $("#FullName_Error").css("display", "block");
+            flag++;
+
+        }
+        else {
+            $("#FullName_Error").text(" ");
+            $("#FullName_Error").css("display", "none");
+        }
+
+        if (phone == "" || phone.length < 10 || phone.length > 15) {
+            $("#Phone_Error").text("Yêu cầu phải nhập đúng số điện thoại");
+            $("#Phone_Error").css("display", "block");
+            flag++;
+
+        }
+        else {
+            $("#Phone_Error").text(" ");
+            $("#Phone_Error").css("display", "none");
+        }
+
+        if (!reg.test(email) && email.length > 0) {
+            $("#Email_Error").text("Email không đúng");
+            $("#Email_Error").css("display", "block");
+            flag++;
+        }
+        else {
+            $("#Email_Error").text(" ");
+            $("#Email_Error").css("display", "none");
+        }
+
+
+        if (flag > 0) {
+            return false;
+        } else return true;
+    }
+</script>
+
+<div class="row edit-rival">
+    <div class="span12">
+        <div class="row">
+            <div class="span9">
+                <form action="EditRival?Id=@Model.Id" method="post" class="form-horizontal" enctype="multipart/form-data">
+                    <fieldset>
+                        <br />
+                        <br />
+                        <h1>CHỈNH SỬA THÔNG TIN CÁP KÈO</h1>
+                        <br />
+                        <div class="row">
+                            <div class="span8">
+                                <legend><span>THÔNG TIN CHỦ KÈO</span></legend>
+                            </div>
+                            @if (Model.User != null)
+                            {
+                                <div class="span3">
+                                    <label>
+                                        CHỦ KÈO
+                                         <input name="FullName" type="text" disabled="disabled" value="@Model.User.UserName">
+                                    </label>
+                                </div>
+                                <div class="span3" style="visibility: hidden;">
+                                    <label>&nbsp</label>
+                                    <input type="text">
+                                    <div class="alert alert-danger" style="display: none"></div>
+                                </div>
+                                <div class="span3" style="visibility: hidden;">
+                                    <label>&nbsp</label>
+                                    <input type="text">
+                                    <div class="alert alert-danger" style="display: none"></div>
+                                </div>
+                            }
+                            <div class="span3">
+                                <label>
+                                    TÊN ĐẦY ĐỦ
+                                         <input type="text" disabled="disabled" value="@Model.FullName">
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    SỐ ĐIỆN THOẠI
+                                         <input type="text" disabled="disabled" value="@Model.PhoneNumber">
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    EMAIL
+                                             <input type="text" disabled="disabled" value="@Model.Email">
+                                </label>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="span8">
+                                <legend><span>THÔNG TIN SÂN BÓNG</span></legend>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    TÊN SÂN
+                                        <input type="text" value="@Model.Field.Stadium.Name" disabled="disabled" />
+                                </label>
+                            </div>
+                            <div class="span6">
+                                <label>
+                                    ĐỊA CHỈ
+                                        <input class="span6" type="text" value="@Model.Field.Stadium.Street, @Model.Field.Stadium.Ward, @Model.Field.Stadium.District" disabled="disabled" />
+                                </label>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="span8">
+                                <legend><span>THÔNG TIN ĐẶT SÂN</span></legend>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    SỐ SÂN
+                                        <input type="text" value="@Model.Field.Number" disabled="disabled" />
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    KIỂU SÂN
+                                        <input type="text" value="@Model.Field.FieldType người" disabled="disabled" />
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    NGÀY ĐẶT
+                                        <input type="text" value="@Model.CreatedDate.ToString("dd/MM/yyyy")" disabled="disabled" />
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    NGÀY ĐÁ
+                                        <input type="text" value="@Model.Date.ToString("dd/MM/yyyy")" disabled="disabled" />
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    GIỜ BẮT ĐẦU
+                                        <input type="text" value="@((int)Model.StartTime):@(((Model.StartTime - (int)Model.StartTime) * 60).ToString("00"))" disabled="disabled" />
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    THỜI LƯỢNG
+                                        <input type="text" value="@((int)(Model.Duration * 60))" disabled="disabled" />
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    TRẠNG THÁI ĐẶT SÂN
+                                        @if (Model.Status.ToLower().Equals("approved"))
+                                        {
+                                            <input type="text" value="Đã xác nhận" disabled="disabled" />
+                                        }
+                                        else if (Model.Status.ToLower().Equals("canceled"))
+                                        {
+                                            <input type="text" value="Đã bị hủy" disabled="disabled" />
+                                        }
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span8">
+                                <legend><span>THÔNG TIN GIAO HỮU</span></legend>
+                            </div>
+
+                            <div class="span3">
+                                <label>
+                                    TÊN ĐẦY ĐỦ
+                                        <input type="text" value="@Model.RivalName" placeholder="Tên đầy đủ" name="FullName" />
+                                    <div class="alert alert-danger" id="FullName_Error" style="display: none"></div>
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    SỐ ĐIỆN THOẠI
+                                        <input type="text" value="@Model.RivalPhone" placeholder="Số điện thoại" name="PhoneNumber" />
+                                    <div class="alert alert-danger" id="Phone_Error" style="display: none"></div>
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    EMAIL
+                                        <input type="text" value="@Model.RivalEmail" placeholder="Email" name="Email" />
+                                    <div class="alert alert-danger" id="Email_Error" style="display: none"></div>
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    TRẠNG THÁI GIAO HỮU
+                                        @if (Model.RivalStatus.ToLower().Equals("approved"))
+                                        {
+                                            <input type="text" value="Đã xác nhận" disabled="disabled" />
+                                        }
+                                        else if (Model.RivalStatus.ToLower().Equals("pending"))
+                                        {
+                                            <input type="text" value="Đang chờ xét" disabled="disabled" />
+                                        }
+                                </label>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="span9">
+                                <button type="button" onclick="window.location='/Account/RivalHistory'" class="btn btn-primary btn-large book-now pull-right groupbtn">Hủy bỏ</button>
+                                <button type="submit" class="btn btn-primary btn-large book-now pull-right groupbtn">Lưu</button>
+                                @if (Model.Date > DateTime.Now || (Model.Date == DateTime.Now && Model.StartTime > (DateTime.Now.Hour + 1 + DateTime.Now.Minute / 60)))
+                                {
+                                    <button type="button" onclick="window.location='/Account/CancelRival/@Model.Id'" class="btn btn-primary btn-large book-now pull-right groupbtn">Hủy cáp kèo</button>
+                                }
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.each($("select"), function (index, obj) {
+            $(obj).val($(obj).data("cur"));
+        });
+    });
+</script>
