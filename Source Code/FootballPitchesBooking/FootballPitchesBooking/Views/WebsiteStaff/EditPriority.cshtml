@@ -152,6 +152,30 @@
 </div>
 <hr />
 
+<div>
+    <h3>Quy Định Thời Điểm Đặt Sân</h3>
+    <p>
+        <label for="amount">Thời gian tối thiểu trước khi đặt sân (phút)</label>
+        <input type="text" id="minTimeBooking" data-cname="MinTimeBooking" value="@Model.MinTimeBooking.Value" readonly/>
+    </p>
+    <div id="min-time-booking"></div>
+    <br />
+    <button onclick="updatePriority(this)">Cập nhật</button>
+</div>
+<hr />
+
+<div>
+    <h3>Quy Định Thời Hạn Cập Nhật Địa Chỉ Của Người Sử Dụng</h3>
+    <p>
+        <label for="amount">Thời gian cập nhật địa chỉ người dùng và khoảng cách đến sân bóng (ngày)</label>
+        <input type="text" id="periodic" data-cname="Gg_Periodic" value="@Model.GgPeriodic.Value" readonly/>
+    </p>
+    <div id="google-periodic"></div>
+    <br />
+    <button onclick="updatePriority(this)">Cập nhật</button>
+</div>
+<hr />
+
 <script type="text/javascript">
 
     function updatePriority(control){
@@ -172,7 +196,7 @@
             }
         });
     }
-
+    
 </script>
 
 <script>
@@ -289,3 +313,33 @@
         $("#rival-amount3").val(100 - $("#rival").slider("values", 1));
     });
 </script>
+
+<script>
+    $(function() {
+        $( "#min-time-booking" ).slider({
+            range: "max",   
+            min: 1,
+            max: 90,
+            value: @Model.MinTimeBooking.Value,
+            slide: function( event, ui ) {
+                $( "#minTimeBooking" ).val( ui.value );
+            }
+        });
+        $( "#minTimeBooking" ).val( $( "#min-time-booking" ).slider( "value" ) );
+    });
+  </script>
+
+<script>
+    $(function() {
+        $( "#google-periodic" ).slider({
+            range: "max",   
+            min: 1,
+            max: 30,
+            value: @Model.GgPeriodic.Value,
+            slide: function( event, ui ) {
+                $( "#periodic" ).val( ui.value );
+            }
+        });
+        $( "#periodic" ).val( $( "#google-periodic" ).slider( "value" ) );
+    });
+  </script>
