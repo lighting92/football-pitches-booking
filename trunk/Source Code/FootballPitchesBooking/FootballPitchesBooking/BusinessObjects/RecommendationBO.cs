@@ -994,9 +994,7 @@ namespace FootballPitchesBooking.BusinessObjects
         {
             RecommendationDAO recDAO = new RecommendationDAO();
             RecommendationPriorityModel result = new RecommendationPriorityModel();
-            //result.BestStadiums = recDAO.GetPriorityDetailsByPriorityName("BestStadium");
-            //result.NearestStadiums = recDAO.GetPriorityDetailsByPriorityName("MaybeKnownStadium");
-            //result.PromotionStadiums = recDAO.GetPriorityDetailsByPriorityName("PromotedStadium");
+
             result.BestStadiumsMostBooked = recDAO.GetPriorityByConfigName("Bs_MostBooked");
             result.BestStadiumsNearest = recDAO.GetPriorityByConfigName("Bs_Nearest");
             result.BestStadiumsMostDiscount = recDAO.GetPriorityByConfigName("Bs_MostPromoted");
@@ -1016,6 +1014,10 @@ namespace FootballPitchesBooking.BusinessObjects
             result.RivalAtStadiumMostBooked = recDAO.GetPriorityByConfigName("Rv_Mostbooked");
             result.RivalAtStadiumNearest = recDAO.GetPriorityByConfigName("Rv_Nearest");
             result.RivalExpired = recDAO.GetPriorityByConfigName("Rv_Expired");
+
+            result.MinTimeBooking = recDAO.GetPriorityByConfigName("MinTimeBooking");
+
+            result.GgPeriodic = recDAO.GetPriorityByConfigName("Gg_Periodic");
             return result;
         }
 
