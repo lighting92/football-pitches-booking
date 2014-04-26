@@ -222,4 +222,10 @@
   <data name="Resv_RivalAvailable" xml:space="preserve">
     <value>Kèo này đã có đối thủ, xin vui lòng chọn kèo khác</value>
   </data>
+  <data name="Resv_RivalFinding" xml:space="preserve">
+    <value>Để trống thông tin đối thủ nếu bạn muốn tìm đối thủ</value>
+  </data>
+  <data name="Resv_RivalRequire" xml:space="preserve">
+    <value>Vui lòng điền đầy đủ thông tin đối thủ</value>
+  </data>
 </root>

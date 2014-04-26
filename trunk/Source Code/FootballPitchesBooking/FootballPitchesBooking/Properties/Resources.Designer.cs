@@ -304,6 +304,24 @@ namespace FootballPitchesBooking.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Để trống thông tin đối thủ nếu bạn muốn tìm đối thủ.
+        /// </summary>
+        internal static string Resv_RivalFinding {
+            get {
+                return ResourceManager.GetString("Resv_RivalFinding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vui lòng điền đầy đủ thông tin đối thủ.
+        /// </summary>
+        internal static string Resv_RivalRequire {
+            get {
+                return ResourceManager.GetString("Resv_RivalRequire", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Thời gian đặt sân phải muộn hơn thời gian hiện tại ít nhất 1 giờ.
         /// </summary>
         internal static string Resv_TimeOver {
