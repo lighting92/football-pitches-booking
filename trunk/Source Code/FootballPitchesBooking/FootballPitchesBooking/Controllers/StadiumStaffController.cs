@@ -2019,6 +2019,9 @@ namespace FootballPitchesBooking.Controllers
                 {
                     model.ErrorMessages.Add(Resources.Resv_RivalFinding);
                 }
+                model.Resv.RivalName = null;
+                model.Resv.RivalPhone = null;
+                model.Resv.RivalEmail = null;
             }
             else
             {
@@ -2193,6 +2196,9 @@ namespace FootballPitchesBooking.Controllers
                 {
                     model.ErrorMessages.Add(Resources.Resv_RivalFinding);
                 }
+                model.Resv.RivalName = null;
+                model.Resv.RivalPhone = null;
+                model.Resv.RivalEmail = null;
             }
             else
             {
