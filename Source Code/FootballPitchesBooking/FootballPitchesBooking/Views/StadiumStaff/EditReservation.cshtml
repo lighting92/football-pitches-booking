@@ -76,8 +76,8 @@
             $("#PhoneNumber_Error").css("display", "none");
         }
 
-        if (needRival == 'True') {
-            if (rivalStatus == 'Waiting') {
+        if (needRival == "True") {
+            if (rivalStatus == "Waiting") {
                 if (rivalName.length > 0) {
                     $("#RivalName_Error").text("Để trống nếu đang chờ đối thủ");
                     $("#RivalName_Error").css("display", "block");
@@ -155,7 +155,7 @@
     <div class="span12">
         <div class="row">
             <div class="span9">
-                <form action="EditReservation?Id=@Request.QueryString["id"]" method="post" class="form-horizontal" enctype="multipart/form-data">
+                <form action="/StadiumStaff/EditReservation/@Model.Resv.Id" method="post" class="form-horizontal" enctype="multipart/form-data">
                     <fieldset>
                         <br />
                         <h1>CHỈNH SỬA THÔNG TIN ĐƠN ĐẶT SÂN</h1>
@@ -176,7 +176,7 @@
                             <div class="span3">
                                 <label>
                                     SỐ SÂN
-                                    <select id="Fields" name="Fields" data-cur="@Model.FieldId">
+                                    <select id="Fields" name="Fields" data-cur="@Model.Resv.FieldId">
                                         @if (Model.Fields != null && Model.Fields.Count() > 0)
                                         {
                                             foreach (var item in Model.Fields)
@@ -204,7 +204,7 @@
                             <div class="span3">
                                 <label>
                                     NGÀY ĐẶT
-                                    <input name="Date" id="Date" type="text" placeholder="Ngày đặt sân" required="required" value="@Model.Date.ToString("dd/MM/yyyy")">
+                                    <input name="Date" id="Date" type="text" placeholder="Ngày đặt sân" required="required" value="@Model.Resv.Date.ToString("dd/MM/yyyy")">
                                     <script>
                                         $('#Date').datepicker({
                                             format: "dd/mm/yyyy",
@@ -218,7 +218,7 @@
                                 <label>
                                     GIỜ ĐẶT
                                     <div class="input-append bootstrap-timepicker">
-                                        <input name="StartTime" id="startTime" type="text" class="span2 input-time-collapse" value="@((int)Model.StartTime):@(((int)(Model.StartTime - (int)Model.StartTime) * 60).ToString("00"))" />
+                                        <input name="StartTime" id="startTime" type="text" class="span2 input-time-collapse" value="@((int)Model.Resv.StartTime):@(((int)(Model.Resv.StartTime - (int)Model.Resv.StartTime) * 60).ToString("00"))" />
                                         <script type="text/javascript">
                                             $(document).ready(function () {
                                                 $('#startTime').timepicker({
@@ -241,7 +241,7 @@
                             <div class="span3">
                                 <label>
                                     THỜI LƯỢNG
-                                    <select id="duration" name="Duration" data-cur="@Model.Duration">
+                                    <select id="duration" name="Duration" data-cur="@Model.Resv.Duration">
                                         <option value="1">60 phút</option>
                                         <option value="1.5">90 phút</option>
                                         <option value="2">120 phút</option>
@@ -260,12 +260,12 @@
                             <div class="span9">
                                 <h4>THÔNG TIN KHÁCH HÀNG</h4>
                             </div>
-                            @if (!string.IsNullOrEmpty(Model.Customer))
+                            @if (Model.Resv.User != null)
                             {
                                 <div class="span3">
                                     <label>
                                         KHÁCH HÀNG
-                                         <input name="FullName" type="text" disabled="disabled" value="@Model.Customer">
+                                         <input name="FullName" type="text" disabled="disabled" value="@Model.Resv.User.UserName">
                                     </label>
                                 </div>
                                 <div class="span3" style="visibility: hidden;">
@@ -282,14 +282,14 @@
                             <div class="span3">
                                 <label>
                                     TÊN ĐẦY ĐỦ
-                                    <input name="FullName" type="text" placeholder="Tên đầy đủ" required="required" value="@Model.FullName">
+                                    <input name="FullName" type="text" placeholder="Tên đầy đủ" required="required" value="@Model.Resv.FullName">
                                     <div class="alert alert-danger" id="FullName_Error" style="display: none"></div>
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
                                     SỐ ĐIỆN THOẠI
-                                    <input name="PhoneNumber" id="phoneNumber" type="text" placeholder="Số điện thoại" required="required" value="@Model.PhoneNumber">
+                                    <input name="PhoneNumber" id="phoneNumber" type="text" placeholder="Số điện thoại" required="required" value="@Model.Resv.PhoneNumber">
                                     <script type="text/javascript">
                                         $('#phoneNumber').keyup(function (event) {
                                             if (isNaN(String.fromCharCode(event.which))) {
@@ -304,7 +304,7 @@
                             <div class="span3">
                                 <label>
                                     EMAIL
-                                    <input name="Email" type="text" placeholder="Email" value="@Model.Email">
+                                    <input name="Email" type="text" placeholder="Email" value="@Model.Resv.Email">
                                     <div class="alert alert-danger" id="Email_Error" style="display: none"></div>
                                 </label>
                             </div>
@@ -313,7 +313,7 @@
                             <div class="span3">
                                 <label>
                                     CẦN ĐỐI THỦ
-                                    <select id="HasRival" name="NeedRival" data-cur="@Model.NeedRival">
+                                    <select id="HasRival" name="NeedRival" data-cur="@Model.Resv.NeedRival">
                                         <option value="False">Không</option>
                                         <option value="True">Có</option>
                                     </select>
@@ -345,7 +345,7 @@
                             <div class="span3">
                                 <label>
                                     TRẠNG THÁI
-                                    <select id="Status" name="Status" data-cur="@Model.Status">
+                                    <select id="Status" name="Status" data-cur="@Model.Resv.Status">
                                         <option value="Approved">Đã xác nhận</option>
                                         <option value="Denied">Bị từ chối</option>
                                         <option value="Pending">Đang chờ xét</option>
@@ -366,14 +366,14 @@
                             <div class="span3">
                                 <label>
                                     TÊN ĐẦY ĐỦ
-                                    <input name="RivalName" type="text" placeholder="Tên đầy đủ" value="@Model.RivalName">
+                                    <input name="RivalName" type="text" placeholder="Tên đầy đủ" value="@Model.Resv.RivalName">
                                     <div class="alert alert-danger" id="RivalName_Error" style="display: none"></div>
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
                                     SỐ ĐIỆN THOẠI
-                                    <input name="RivalPhone" id="rivalPhone" type="text" placeholder="Số điện thoại" value="@Model.RivalPhone">
+                                    <input name="RivalPhone" id="rivalPhone" type="text" placeholder="Số điện thoại" value="@Model.Resv.RivalPhone">
                                     <script type="text/javascript">
                                         $('#rivalPhone').keyup(function (event) {
                                             if (isNaN(String.fromCharCode(event.which))) {
@@ -388,14 +388,14 @@
                             <div class="span3">
                                 <label>
                                     EMAIL
-                                    <input name="RivalEmail" type="text" placeholder="Email" value="@Model.RivalEmail">
+                                    <input name="RivalEmail" type="text" placeholder="Email" value="@Model.Resv.RivalEmail">
                                     <div class="alert alert-danger" id="RivalEmail_Error" style="display: none"></div>
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
                                     TRẠNG THÁI
-                                    <select id="RivalStatus" name="RivalStatus" data-cur="@Model.RivalStatus">
+                                    <select id="RivalStatus" name="RivalStatus" data-cur="@Model.Resv.RivalStatus">
                                         <option value="Approved">Đã xác nhận</option>
                                         <option value="Pending">Đang chờ xét</option>
                                         <option value="Waiting" selected="selected">Đang chờ</option>
