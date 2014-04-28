@@ -44,7 +44,7 @@
                                             {
                                                 if (item.IsActive)
                                                 {
-                                            <option value="@item.Id">@item.Number</option>
+                                            <option value="@item.Id">@item.Number - Sân @item.FieldType người</option>
                                                 }
                                             }
                                         }
@@ -97,6 +97,18 @@
                                         $("#duration").val($("#duration").data("cur"));
                                     });
                                 </script>
+                            </label>
+                        </div>
+                        <div class="span3">
+                            <label>
+                                GIẢM GIÁ
+                                    <input type="text" required="required" value="@(Model.Resv.Discount == null ? 0 : Model.Resv.Discount)" disabled="disabled">
+                            </label>
+                        </div>
+                        <div class="span3">
+                            <label>
+                                ĐƠN GIÁ
+                                <input type="text" required="required" value="@Model.Resv.Price" disabled="disabled">
                             </label>
                         </div>
                     </div>
