@@ -111,21 +111,17 @@
                         <button class="btn-medium btn-success">Đặt sân</button></a>
                 </p>
             </div>
-            <div class="span7 no-margin">
+            <div class="span7 no-margin" id="menu-tabs">
                 <ul class="details-menu">
-                    <li class="active"><a href="#prices" data-toggle="tab">BẢNG GIÁ</a></li>
+                    <li><a href="#prices" data-toggle="tab">BẢNG GIÁ</a></li>
                     <li><a href="#reviews" data-toggle="tab">NHẬN XÉT</a></li>
                     <li><a href="#images" data-toggle="tab">HÌNH ẢNH</a></li>
                 </ul>
                 <script type="text/javascript">
                     $(function () {
-                        $('a[data-toggle="tab"]').click(function (e) {
-                            var activeTab = $(e.target).attr('href');
-                            if (activeTab) {
-                                $('ul.details-menu').children().removeClass('active');
-                                $('a[href=' + activeTab + ']').parents('li:first').addClass('active');
-                                $('div.stadium-details-info').children().addClass('hide');
-                                $(activeTab).removeClass('hide');
+                        $("#menu-tabs").tabs({
+                            select: function (e, ui) {
+                                window.location.href = ui.tab.href;
                             }
                         });
                     });
@@ -159,7 +155,7 @@
                             <h5>Hệ thống sân này hiện tại chưa có bảng giá nào</h5>
                         }
                     </div>
-                    <div class="details-info stadium-reviews hide" id="reviews">
+                    <div class="details-info stadium-reviews" id="reviews">
                         <div class="user-review">
                             <div class="user_avatar">
                                 <img src="~/Content/images/user_avatar.gif" />
@@ -167,11 +163,15 @@
                             <div class="content">
                                 <form action="~/Stadium/Review?stadium=@Model.Stadium.Id" method="post">
                                     <p>
-                                        <a href="~/Account/Details"><b>@User.Identity.Name</b></a>
+                                        <a href="~/Account/Details" style="color: #B81007"><b>@User.Identity.Name</b></a>
                                     </p>
                                     <p>
                                         <textarea name="UserReviewContent" id="UserReviewContent" style="width: 420px; min-height: 50px;"></textarea>
                                         <div class="alert alert-danger" id="ReviewContent_Error" style="display: none"></div>
+                                        @if(TempData["reviewStatus"] == "Success")
+                                        {
+                                            <div class="alert alert-success">Nhận xét của bạn đã được gửi đi và đang chờ xét duyệt</div>
+                                        }
                                         <button type="submit" class="btn-small btn-success pull-right" onclick="return check()">Gửi đánh giá</button>
                                     </p>
 
@@ -199,7 +199,7 @@
                                         }
                                         else
                                         {
-                                            <a href="~/Account/Details?id=@item.User.Id"><b>@item.User.UserName</b></a>
+                                            <a href="~/Account/Details?id=@item.User.Id" style="color: #B81007"><b>@item.User.UserName</b></a>
                                         }
                                         <label style="display: inline; margin-left: 20px; font-size: 10px; color: #888888;">@item.CreateDate.ToString("dd/MM/yyyy HH:mm")</label>
                                     </p>
@@ -209,7 +209,7 @@
                             }
                         }
                     </div>
-                    <div class="details-info stadium-image-list hide" id="images">
+                    <div class="details-info stadium-image-list" id="images">
                         @if (Model.Images != null && Model.Images.Count > 0)
                         {
                             foreach (var item in Model.Images)
