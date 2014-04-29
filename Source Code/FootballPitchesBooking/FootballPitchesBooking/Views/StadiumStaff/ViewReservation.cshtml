@@ -10,9 +10,7 @@
         <div class="row">
             <div class="span9">
                 <fieldset>
-                    <br />
-                    <h1>CHỈNH SỬA THÔNG TIN ĐƠN ĐẶT SÂN</h1>
-                    <br />
+                    <h2>THÔNG TIN ĐƠN ĐẶT SÂN</h2>
                     @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
                     {
                         <div class="alert alert-danger">
@@ -32,11 +30,11 @@
                     }
                     <div class="row">
                         <div class="span9">
-                            <h4>THÔNG TIN ĐẶT SÂN</h4>
+                            <h4>THÔNG TIN ĐẶT SÂN:</h4>
                         </div>
                         <div class="span3">
                             <label>
-                                SỐ SÂN
+                                Số sân
                                     <select id="Fields" name="Fields" data-cur="@Model.Resv.FieldId" disabled="disabled">
                                         @if (Model.Fields != null && Model.Fields.Count() > 0)
                                         {
@@ -58,13 +56,13 @@
                         </div>
                         <div class="span6">
                             <label>
-                                HỆ THỐNG SÂN <b>@Model.StadiumName.ToUpper()</b>
+                                Hệ thống sân <b>@Model.StadiumName.ToUpper()</b>
                                 <input style="width: 450px;" name="Stadium" id="Stadium" type="text" value="@Model.StadiumAddress" disabled="disabled">
                             </label>
                         </div>
                         <div class="span3">
                             <label>
-                                NGÀY ĐẶT
+                                Ngày đặt
                                     <input name="Date" id="Date" type="text" placeholder="Ngày đặt sân" required="required" value="@Model.Resv.Date.ToString("dd/MM/yyyy")" disabled="disabled">
                                 <script>
                                     $('#Date').datepicker({
@@ -76,7 +74,7 @@
                         </div>
                         <div class="span3">
                             <label>
-                                GIỜ ĐẶT
+                                Giờ đặt
                                     <div class="input-append bootstrap-timepicker">
                                         <input name="StartTime" id="startTime" type="text" class="span2 input-time-collapse" value="@((int)Model.Resv.StartTime):@(((int)(Model.Resv.StartTime - (int)Model.Resv.StartTime) * 60).ToString("00"))" disabled="disabled"/>
                                     </div>
@@ -84,7 +82,7 @@
                         </div>
                         <div class="span3">
                             <label>
-                                THỜI LƯỢNG
+                                Thời lượng
                                     <select id="duration" name="Duration" data-cur="@Model.Resv.Duration" disabled="disabled">
                                         <option value="1">60 phút</option>
                                         <option value="1.5">90 phút</option>
@@ -101,26 +99,27 @@
                         </div>
                         <div class="span3">
                             <label>
-                                GIẢM GIÁ
+                                Giảm giá
                                     <input type="text" required="required" value="@(Model.Resv.Discount == null ? 0 : Model.Resv.Discount)" disabled="disabled">
                             </label>
                         </div>
                         <div class="span3">
                             <label>
-                                ĐƠN GIÁ
+                                Đơn giá
                                 <input type="text" required="required" value="@Model.Resv.Price" disabled="disabled">
                             </label>
                         </div>
                     </div>
+                    <hr />
                     <div class="row">
                         <div class="span9">
-                            <h4>THÔNG TIN KHÁCH HÀNG</h4>
+                            <h4>THÔNG TIN KHÁCH HÀNG:</h4>
                         </div>
                         @if(Model.Resv.User != null)
                         {
                         <div class="span3">
                             <label>
-                                TÊN KHÁCH HÀNG
+                                Tên tài khoản
                                     <input name="Customer" type="text" placeholder="Tên khách hàng" required="required" value="@Model.Resv.User.UserName" disabled="disabled">
                             </label>
                         </div>
@@ -137,19 +136,19 @@
                         }
                         <div class="span3">
                             <label>
-                                TÊN ĐẦY ĐỦ
+                                Tên đầy đủ
                                     <input name="FullName" type="text" placeholder="Tên đầy đủ" required="required" value="@Model.Resv.FullName" disabled="disabled">
                             </label>
                         </div>
                         <div class="span3">
                             <label>
-                                SỐ ĐIỆN THOẠI
+                                Số điện thoại
                                     <input name="PhoneNumber" id="phoneNumber" type="text" placeholder="Số điện thoại" required="required" value="@Model.Resv.PhoneNumber" disabled="disabled">
                             </label>
                         </div>
                         <div class="span3">
                             <label>
-                                EMAIL
+                                Email
                                     <input name="Email" type="text" placeholder="Email" required="required" value="@Model.Resv.Email" disabled="disabled">
                             </label>
                         </div>
@@ -157,7 +156,7 @@
                     <div class="row">
                         <div class="span3">
                             <label>
-                                ĐỐI THỦ
+                                Đối thủ
                                     <select id="HasRival" name="NeedRival" data-cur="@Model.Resv.NeedRival" disabled="disabled">
                                         <option value="False">Không</option>
                                         <option value="True">Có</option>
@@ -178,7 +177,7 @@
                         </div>
                         <div class="span3">
                             <label>
-                                TRẠNG THÁI
+                                Trạng thái
                                     <select id="Status" name="Status" data-cur="@Model.Resv.Status" disabled="disabled">
                                         <option value="Approved">Đã xác nhận</option>
                                         <option value="Denied">Bị từ chối</option>
@@ -193,15 +192,16 @@
                             </script>
                         </div>
                     </div>
+                    <hr />
                     <div id="RivalInfo" class="row">
                         <div class="span9">
-                            <h4>THÔNG TIN ĐỐI THỦ</h4>
+                            <h4>THÔNG TIN ĐỐI THỦ:</h4>
                         </div>
                         @if(Model.Resv.User2 != null)
                         {
                         <div class="span3">
                             <label>
-                                TÊN ĐỐI THỦ
+                                Tên đối thủ
                                     <input name="RivalUser" type="text" placeholder="Khách hàng" required="required" value="@Model.Resv.User2.UserName" disabled="disabled">
                             </label>
                         </div>
@@ -218,25 +218,25 @@
                         }
                         <div class="span3">
                             <label>
-                                TÊN ĐẦY ĐỦ
+                                Tên đầy đủ
                                     <input name="RivalName" type="text" placeholder="Tên đầy đủ" required="required" value="@Model.Resv.RivalName" disabled="disabled">
                             </label>
                         </div>
                         <div class="span3">
                             <label>
-                                SỐ ĐIỆN THOẠI
+                                Số điện thoại
                                     <input name="RivalPhone" id="rivalPhone" type="text" placeholder="Điện thoại" required="required" value="@Model.Resv.RivalPhone" disabled="disabled">
                             </label>
                         </div>
                         <div class="span3">
                             <label>
-                                EMAIL
+                                mail
                                     <input name="RivalEmail" type="text" placeholder="Email" required="required" value="@Model.Resv.RivalEmail" disabled="disabled">
                             </label>
                         </div>
                         <div class="span3">
                             <label>
-                                TRẠNG THÁI
+                                Trạng thái
                                     <select id="RivalStatus" name="RivalStatus" data-cur="@Model.Resv.RivalStatus" disabled="disabled">
                                         <option value="Approved">Đã xác nhận</option>
                                         <option value="Pending">Đang chờ xét</option>
@@ -278,7 +278,6 @@
                                 <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/EditReservation/@Model.Resv.Id'">Chỉnh sửa</button>
                                 <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/Reservations/@Model.Fields.FirstOrDefault().StadiumId'">Quay lại</button>
                             </p>
-                            <br />
                         </div>
                     </div>
                 </fieldset>

@@ -57,11 +57,8 @@
         <div class="row">
             <div class="span9">
                 <form action="EditRival?Id=@Model.Id" method="post" class="form-horizontal" enctype="multipart/form-data">
-                    <fieldset>
-                        <br />
-                        <br />
-                        <h1>CHỈNH SỬA THÔNG TIN CÁP KÈO</h1>
-                        <br />
+                    <fieldset>                        
+                        <h2>CHỈNH SỬA THÔNG TIN CÁP KÈO</h2>
                         <div class="row">
                             <div class="span8">
                                 <legend><span>THÔNG TIN CHỦ KÈO</span></legend>
@@ -70,7 +67,7 @@
                             {
                                 <div class="span3">
                                     <label>
-                                        CHỦ KÈO
+                                        Chủ kèo
                                          <input name="FullName" type="text" disabled="disabled" value="@Model.User.UserName">
                                     </label>
                                 </div>
@@ -87,19 +84,19 @@
                             }
                             <div class="span3">
                                 <label>
-                                    TÊN ĐẦY ĐỦ
+                                    Họ và tên
                                          <input type="text" disabled="disabled" value="@Model.FullName">
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    SỐ ĐIỆN THOẠI
+                                    Số điện thoại
                                          <input type="text" disabled="disabled" value="@Model.PhoneNumber">
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    EMAIL
+                                    Email
                                              <input type="text" disabled="disabled" value="@Model.Email">
                                 </label>
                             </div>
@@ -111,13 +108,13 @@
                             </div>
                             <div class="span3">
                                 <label>
-                                    TÊN SÂN
+                                    Tên sân
                                         <input type="text" value="@Model.Field.Stadium.Name" disabled="disabled" />
                                 </label>
                             </div>
                             <div class="span6">
                                 <label>
-                                    ĐỊA CHỈ
+                                    Địa chỉ
                                         <input class="span6" type="text" value="@Model.Field.Stadium.Street, @Model.Field.Stadium.Ward, @Model.Field.Stadium.District" disabled="disabled" />
                                 </label>
                             </div>
@@ -129,43 +126,43 @@
                             </div>
                             <div class="span3">
                                 <label>
-                                    SỐ SÂN
+                                    Số sân
                                         <input type="text" value="@Model.Field.Number" disabled="disabled" />
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    KIỂU SÂN
+                                    Kiểu sân
                                         <input type="text" value="@Model.Field.FieldType người" disabled="disabled" />
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    NGÀY ĐẶT
+                                    Ngày đặt
                                         <input type="text" value="@Model.CreatedDate.ToString("dd/MM/yyyy")" disabled="disabled" />
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    NGÀY ĐÁ
+                                    Ngày đá
                                         <input type="text" value="@Model.Date.ToString("dd/MM/yyyy")" disabled="disabled" />
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    GIỜ BẮT ĐẦU
+                                    Giờ bắt đầu
                                         <input type="text" value="@((int)Model.StartTime):@(((Model.StartTime - (int)Model.StartTime) * 60).ToString("00"))" disabled="disabled" />
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    THỜI LƯỢNG
+                                    Thời lượng
                                         <input type="text" value="@((int)(Model.Duration * 60))" disabled="disabled" />
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    TRẠNG THÁI ĐẶT SÂN
+                                    Trạng thái đặt sân
                                         @if (Model.Status.ToLower().Equals("approved"))
                                         {
                                             <input type="text" value="Đã xác nhận" disabled="disabled" />
@@ -179,33 +176,33 @@
                         </div>
                         <div class="row">
                             <div class="span8">
-                                <legend><span>THÔNG TIN GIAO HỮU</span></legend>
+                                <legend><span>Thông tin giao hữu:</span></legend>
                             </div>
 
                             <div class="span3">
                                 <label>
-                                    TÊN ĐẦY ĐỦ
+                                    Tên đầy đủ
                                         <input type="text" value="@Model.RivalName" placeholder="Tên đầy đủ" name="FullName" />
                                     <div class="alert alert-danger" id="FullName_Error" style="display: none"></div>
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    SỐ ĐIỆN THOẠI
+                                    Số điện thoại
                                         <input type="text" value="@Model.RivalPhone" placeholder="Số điện thoại" name="PhoneNumber" />
                                     <div class="alert alert-danger" id="Phone_Error" style="display: none"></div>
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    EMAIL
+                                    Email
                                         <input type="text" value="@Model.RivalEmail" placeholder="Email" name="Email" />
                                     <div class="alert alert-danger" id="Email_Error" style="display: none"></div>
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    TRẠNG THÁI GIAO HỮU
+                                    Trạng thái giao hữu
                                         @if (Model.RivalStatus.ToLower().Equals("approved"))
                                         {
                                             <input type="text" value="Đã xác nhận" disabled="disabled" />

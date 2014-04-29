@@ -18,14 +18,11 @@
     <div class="span12">
         <div class="row">
             <div class="span9">
-                <fieldset>
-                    <br />
-                    <br />
+                <fieldset>                    
                     @if (User.Identity.Name.Equals(Model.UserName))
                     {
-                        <h1>THÔNG TIN THÀNH VIÊN</h1>
+                        <h2>THÔNG TIN THÀNH VIÊN</h2>
                     }
-                    <br />
                     @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
                     {
                         <div class="alert alert-danger">
@@ -38,7 +35,7 @@
                     <div class="row">
                         <div class="span3">
                             <label>
-                                TÊN ĐĂNG NHẬP
+                                Tên tài khoản
                                     <input name="UserName" type="text" disabled="disabled" value="@Model.UserName">
                             </label>
                         </div>
@@ -52,43 +49,43 @@
                         </div>
                         <div class="span3">
                             <label>
-                                TÊN THÀNH VIÊN
+                                Họ và tên
                                     <input name="FullName" type="text" disabled="disabled" value="@Model.FullName">
                             </label>
                         </div>
                         <div class="span3">
                             <label>
-                                SỐ ĐIỆN THOẠI
+                                Số điện thoại
                                     <input name="PhoneNumber" type="text" disabled="disabled" value="@Model.PhoneNumber">
                             </label>
                         </div>
                         <div class="span3">
                             <label>
-                                EMAIL
+                                Email
                                     <input name="Email" type="text" placeholder="E-Mail" disabled="disabled" value="@Model.Email">
                             </label>
                         </div>
                         <div class="span3" style="width: 100%;">
                             <label>
-                                ĐỊA CHỈ
+                                Địa chỉ
                                     <input style="width: 685px;" name="Address" type="text" disabled="disabled" value="@Model.Address">
                             </label>
                         </div>
                         <div class="span3">
                             <label>
-                                POINT
+                                Điểm tích lũy
                                     <input name="Point" type="text" placeholder="ĐIỂM" disabled="disabled" value="@Model.Point">
                             </label>
                         </div>
                         <div class="span3">
                             <label>
-                                THỨ HẠNG
+                                Thứ hạng
                                     <input name="RankName" type="text" placeholder="THỨ HẠNG" disabled="disabled" value="@Model.RankName">
                             </label>
                         </div>
                         <div class="span3">
                             <label>
-                                NGÀY THAM GIA
+                                Ngày tham gia
                                     <input name="JoinDate" type="text" placeholder="NGÀY THAM GIA" disabled="disabled" value="@Model.JoinDate.ToString("dd/MM/yyyy")">
                             </label>
                         </div>

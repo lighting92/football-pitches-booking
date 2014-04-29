@@ -11,11 +11,8 @@
             <div class="span9">
                 <form action="EditStadium?Id=@Request.QueryString["Id"]" method="post" class="form-horizontal" enctype="multipart/form-data">
                     <fieldset>
-                        <br />
-                        <br />
-                        <h1>Chỉnh Sửa Thông Tin Sân Bóng
-                        </h1>
-                        <br />
+                        <h2>Chỉnh Sửa Thông Tin<br /> Sân Bóng
+                        </h2>
                         @if (Model.ErrorMessage != null && Model.ErrorMessage.Count() > 0)
                         {
                             <div class="alert alert-danger">
@@ -31,7 +28,7 @@
                         }
                         <div class="row">
                             <div class="span8">
-                                <legend><span>Thông Tin Cơ Bản</span></legend>
+                                <h4><span>Thông Tin Cơ Bản:</span></h4>
                             </div>
                             <div class="span3">
                                 <label>
@@ -78,9 +75,10 @@
                                 </label>
                             </div>
                         </div>
+                        <hr />
                         <div class="row">
                             <div class="span8">
-                                <legend><span>Địa Chỉ Sân</span></legend>
+                                <h4><span>Địa Chỉ Sân:</span></h4>
                             </div>
                             <div class="span3">
                                 <label>
@@ -131,10 +129,10 @@
                                 </label>
                             </div>
                         </div>
-                        <br />
+                        <hr />
                         <div class="row">
                             <div class="span9">
-                                <legend><span>Giờ hoạt động</span></legend>
+                                <h4><span>Giờ hoạt động:</span></h4>
                             </div>
                             <div class="span3">
                                 <label>
@@ -166,10 +164,10 @@
                                 });
                             });
                         </script>
-                        <br />
+                        <hr />
                         <div class="row">
                             <div class="span9">
-                                <legend><span>Người Quản Lý</span></legend>
+                                <h4><span>Người Quản Lý:</span></h4>
                             </div>
                             @{
                                 int count = 0;
@@ -311,10 +309,10 @@
                                 </div>
                             </div>
                         </div>
-                        <br />
+                        <hr />
                         <div class="row">
                             <div class="span9">
-                                <legend><span>Hình Ảnh Sân</span></legend>
+                                <h4><span>Hình Ảnh Sân:</span></h4>
                             </div>
                             <div class="span3">
                                 <label>
@@ -359,9 +357,8 @@
                             <div class="span9">
                                 <br />
                                 <button type="button" onclick="window.location='/StadiumStaff/Stadiums'" class="btn btn-primary btn-large book-now pull-right groupbtn">Huỷ bỏ</button>
-                                <button type="submit" class="btn btn-primary btn-large book-now pull-right groupbtn">Lưu</button>
-                                <br />
-                                <br />
+                                <button type="submit" class="btn btn-primary btn-large book-now pull-right groupbtn">Cập nhật</button>
+                                
                             </div>
                         </div>
                     </fieldset>

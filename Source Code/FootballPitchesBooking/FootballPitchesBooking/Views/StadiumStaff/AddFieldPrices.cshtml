@@ -13,10 +13,8 @@
             <div class="span9">
                 <form action="AddFieldPrices?Stadium=@Request.QueryString["Stadium"]" method="post" class="form-horizontal" enctype="multipart/form-data">
                     <fieldset>
-                        <br />
-                        <br />
-                        <h1>Thêm Bảng Giá
-                        </h1>
+                        <h2>Thêm Bảng Giá
+                        </h2>
                         <h4>HỆ THỐNG SÂN <a href="/StadiumStaff/Fields?Stadium=@Model.StadiumId">@Model.StadiumName</a> : <i>@Model.StadiumAddress</i></h4>
                         <br />
                         @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
@@ -30,11 +28,11 @@
                         }
                         <div class="row">
                             <div class="span9">
-                                <legend><span>THÔNG TIN CƠ BẢN</span></legend>
+                                <h4><span>THÔNG TIN CƠ BẢN:</span></h4>
                             </div>
                             <div class="span3">
                                 <label>
-                                    TÊN BẢNG GIÁ
+                                    Tên bảng giá
                                     <input name="FieldPriceName" type="text" placeholder="TÊN BẢNG GIÁ" value="@Model.FieldPrice.Name">
                                 </label>
                             </div>
@@ -42,7 +40,7 @@
                         <div class="row">
                             <div class="span9">
                                 <label>
-                                    MÔ TẢ
+                                    Mô tả
                                 <textarea name="FieldPriceDescription" class="span9" rows="3">@Model.FieldPrice.Description</textarea>
                                 </label>
                             </div>
@@ -68,15 +66,16 @@
                                 });
                             });
                         </script>
+                        <hr />
                         <div class="row" id="tablepricedefault">
                             <div class="span9">
                                 <label>
-                                    <legend><span>BẢNG GIÁ MẶC ĐỊNH</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('default')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></legend>
+                                    <h4><span>BẢNG GIÁ MẶC ĐỊNH:</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('default')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></h4>
                                 </label>
                             </div>
                             <div class="span2 default-0">
                                 <label>
-                                    TỪ
+                                    Từ
                                     <div class="input-append bootstrap-timepicker">
                                         <input readonly name="defaultstarttime_0" id="defaultstarttime_0" type="text" class="span2 no-timepicker" value="@Model.DefaultPriceTables[0].StartTime" />
                                         <span class="add-on"><i class="icon-time"></i></span>
@@ -89,7 +88,7 @@
                             </div>
                             <div class="span2 default-0">
                                 <label>
-                                    ĐẾN
+                                    Đến
                                     <div class="input-append bootstrap-timepicker">
                                         <input readonly name="defaultendtime_0" id="defaultendtime_0" type="text" class="span2 no-timepicker" value="@Model.DefaultPriceTables[0].EndTime" />
                                         <span class="add-on"><i class="icon-time"></i></span>
@@ -102,7 +101,7 @@
                             </div>
                             <div class="span2 default-0">
                                 <label>
-                                    GIÁ 1 TIẾNG
+                                    Gía 1 tiếng
                                     <input id="defaultprice_0" name="defaultprice_0" type="text" class="format-price span2" placeholder="Ví dụ: 100000" value="@Model.DefaultPriceTables[0].Price">
                                 </label>
                             </div>
@@ -157,11 +156,11 @@
                                 }
                             }
                         </div>
-                        <br />
+                        <hr />
                         <div class="row" id="tablepricemon">
                             <div class="span9">
                                 <label>
-                                    <legend><span>BẢNG GIÁ THỨ 2</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('mon')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></legend>
+                                    <h4><span>BẢNG GIÁ THỨ Hai:</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('mon')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></h4>
                                 </label>
                             </div>
                             @foreach (var item in Model.MondayPriceTables)
@@ -208,11 +207,11 @@
                                 </div>
                             }
                         </div>
-                        <br />
+                        <hr />
                         <div class="row" id="tablepricetue">
                             <div class="span9">
                                 <label>
-                                    <legend><span>BẢNG GIÁ THỨ 3</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('tue')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></legend>
+                                    <h4><span>BẢNG GIÁ THỨ Ba:</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('tue')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></h4>
                                 </label>
                             </div>
                             @foreach (var item in Model.TuesdayPriceTables)
@@ -259,11 +258,11 @@
                                 </div>
                             }
                         </div>
-                        <br />
+                        <hr />
                         <div class="row" id="tablepricewed">
                             <div class="span9">
                                 <label>
-                                    <legend><span>BẢNG GIÁ THỨ 4</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('wed')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></legend>
+                                    <h4><span>BẢNG GIÁ THỨ Tư:</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('wed')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></h4>
                                 </label>
                             </div>
                             @foreach (var item in Model.WednesdayPriceTables)
@@ -310,11 +309,11 @@
                                 </div>
                             }
                         </div>
-                        <br />
+                        <hr />
                         <div class="row" id="tablepricethu">
                             <div class="span9">
                                 <label>
-                                    <legend><span>BẢNG GIÁ THỨ 5</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('thu')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></legend>
+                                    <h4><span>BẢNG GIÁ THỨ Năm:</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('thu')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></h4>
                                 </label>
                             </div>
                             @foreach (var item in Model.ThurdayPriceTables)
@@ -361,11 +360,11 @@
                                 </div>
                             }
                         </div>
-                        <br />
+                        <hr />
                         <div class="row" id="tablepricefri">
                             <div class="span9">
                                 <label>
-                                    <legend><span>BẢNG GIÁ THỨ 6</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('fri')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></legend>
+                                    <h4><span>BẢNG GIÁ THỨ Sáu:</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('fri')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></h4>
                                 </label>
                             </div>
                             @foreach (var item in Model.FridayPriceTables)
@@ -412,11 +411,11 @@
                                 </div>
                             }
                         </div>
-                        <br />
+                        <hr />
                         <div class="row" id="tablepricesat">
                             <div class="span9">
                                 <label>
-                                    <legend><span>BẢNG GIÁ THỨ 7</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('sat')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></legend>
+                                    <h4><span>BẢNG GIÁ THỨ Bảy:</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('sat')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></h4>
                                 </label>
                             </div>
                             @foreach (var item in Model.SaturdayPriceTables)
@@ -463,11 +462,11 @@
                                 </div>
                             }
                         </div>
-                        <br />
+                        <hr />
                         <div class="row" id="tablepricesun">
                             <div class="span9">
                                 <label>
-                                    <legend><span>BẢNG GIÁ CHỦ NHẬT</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('sun')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></legend>
+                                    <h4><span>BẢNG GIÁ CHỦ NHẬT:</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('sun')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></h4>
                                 </label>
                             </div>
                             @foreach (var item in Model.SundayPriceTables)

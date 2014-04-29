@@ -11,11 +11,8 @@
             <div class="span9">
                 <form action="AddStadium" method="post" class="form-horizontal" enctype="multipart/form-data">
                     <fieldset>
-                        <br />
-                        <br />
-                        <h1>Thêm Sân Bóng
-                        </h1>
-                        <br />
+                        <h2>Thêm Sân Bóng
+                        </h2>
                         @if (Model.ErrorMessage != null)
                         {
                             <div class="alert alert-danger">
@@ -27,7 +24,7 @@
                         }                        
                         <div class="row">
                             <div class="span8">
-                                <legend><span>Thông tin cơ bản</span></legend>
+                                <h4>Thông tin cơ bản:</h4>
                             </div>
                             <div class="span3">
                                 <label>
@@ -124,9 +121,10 @@
                                 </label>
                             </div>
                         </div>
+                        <hr />
                         <div class="row">
                             <div class="span8">
-                                <legend><span>Địa chỉ sân bóng</span></legend>
+                                <h4><span>Địa chỉ sân bóng:</span></h4>
                             </div>
                             <div class="span3">
                                 <label>
@@ -177,10 +175,10 @@
                                 </label>
                             </div>
                         </div>
-                        <br />
+                        <hr />
                         <div class="row">
                             <div class="span9">
-                                <legend><span>Giờ hoạt động</span></legend>
+                                <h4>Giờ hoạt động:</h4>
                             </div>
                             <div class="span3">
                                 <label>
@@ -212,10 +210,10 @@
                                 });
                             });
                         </script>
-                        <br />
+                        <hr />
                         <div class="row">
                             <div class="span9">
-                                <legend><span>Hình ảnh sân</span></legend>
+                                <h4>Hình ảnh sân:</h4>
                             </div>
                             <div class="span3">
                                 <label>

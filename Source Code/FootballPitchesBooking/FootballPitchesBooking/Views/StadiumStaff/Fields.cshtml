@@ -6,7 +6,7 @@
 }
 @if (Model.HavePermission)
 {
-    <h1>QUẢN LÝ SÂN CON</h1>
+    <h2>QUẢN LÝ SÂN CON</h2>
     <h4>HỆ THỐNG SÂN <a href="/StadiumStaff/Fields?Stadium=@Model.StadiumId">@Model.StadiumName</a> : <i>@Model.StadiumAddress</i></h4>
     
     <a href="/StadiumStaff/AddField?Stadium=@Model.StadiumId"><button class="btn-success">Thêm sân con</button></a>

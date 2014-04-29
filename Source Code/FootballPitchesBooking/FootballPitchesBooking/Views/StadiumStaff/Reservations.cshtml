@@ -9,9 +9,9 @@
     @if (Model.HavePermission)
     {
         <div class="span12">
-            <h1>QUẢN LÝ ĐƠN ĐẶT SÂN</h1>
+            <h2>QUẢN LÝ ĐƠN ĐẶT SÂN</h2>
             <h4>HỆ THỐNG SÂN <a href="/Stadium/Details?id=@Model.Stadium.Id">@Model.Stadium.Name</a> : <i>@Model.Stadium.Street, @Model.Stadium.Ward, @Model.Stadium.District</i></h4>
-            <br />
+            
             <div class="span3 no-margin">
                 @if (Model.Stadiums.Count() > 0)
                 {

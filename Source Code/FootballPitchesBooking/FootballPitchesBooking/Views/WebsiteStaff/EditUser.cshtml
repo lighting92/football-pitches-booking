@@ -59,11 +59,8 @@
             <div class="span9">
                 <form action="EditUser?Id=@Request.QueryString["id"]" method="post" class="form-horizontal" enctype="multipart/form-data">
                     <fieldset>
-                        <br />
-                        <br />
-                        <h1>CHỈNH SỬA THÔNG TIN THÀNH VIÊN
-                        </h1>
-                        <br />
+                        <h2>CHỈNH SỬA THÔNG TIN<br /> THÀNH VIÊN
+                        </h2>
                         @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
                         {
                             <div class="alert alert-danger">
@@ -75,54 +72,54 @@
                         }
                         <div class="row">
                             <div class="span8">
-                                <legend><span>THÔNG TIN CƠ BẢN</span></legend>
+                                <h4><span>THÔNG TIN CƠ BẢN:</span></h4>
                             </div>
                             <div class="span3">
                                 <label>
-                                    TÊN ĐĂNG NHẬP
+                                    Tên tài khoản
                                     <input name="UserName" type="text" disabled="disabled" value="@Model.UserName">
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    MẬT KHẨU
+                                    Mật khẩu
                                     <input name="Password" type="text" placeholder="MẬT KHẨU" value="">
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    XÁC NHẬN MẬT KHẨU
+                                    Xác nhận lại mật khẩu
                                     <input name="ConfirmPassword" type="text" placeholder="XÁC NHẬN MẬT KHẨU" value="">
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    TÊN THÀNH VIÊN
+                                    Tên thành viên
                                     <input name="FullName" type="text" disabled="disabled" value="@Model.FullName">
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    SỐ ĐIỆN THOẠI
+                                    Số điện thoại
                                     <input name="PhoneNumber" type="text" disabled="disabled" value="@Model.PhoneNumber">
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    EMAIL
+                                    Email
                                     <input id="email" name="Email" type="text" placeholder="E-Mail" required="required" value="@Model.Email">
                                     <div class="alert alert-danger" id="Email_Error" style="display: none"></div>
                                 </label>
                             </div>
                             <div class="span3" style="width: 100%;">
                                 <label>
-                                    ĐỊA CHỈ
+                                    Địa chỉ
                                     <input style="width: 685px;" name="Address" type="text" disabled="disabled" value="@Model.Address">
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    POINT
+                                    Điểm tích lũy
                                     <input name="Point"  type="text" placeholder="ĐIỂM" required="required"   value="@Model.Point">
                                     <script type="text/javascript">
                                         $('input[name=Point]').keyup(function (event) {
@@ -137,7 +134,7 @@
                             </div>
                             <div class="span3">
                                 <label>
-                                    THỨ HẠNG
+                                    Thứ hạng
                                     <input name="RankName" type="text" disabled="disabled" value="@Model.RankName">
                                 </label>
                             </div>
@@ -147,7 +144,7 @@
                             </div>
                             <div class="span3">
                                 <label>
-                                    TRẠNG THÁI HOẠT ĐỘNG
+                                    Trạng thái hoạt động
                                     <select id="isActive" name="IsActive" data-cur="@Model.IsActive">
                                         <option value="True">ĐANG HOẠT ĐỘNG</option>
                                         <option value="False">KHÔNG HOẠT ĐỘNG</option>
@@ -161,7 +158,7 @@
                             </div>
                             <div class="span3">
                                 <label>
-                                    QUYỀN HẠN
+                                    Quyền hạn
                                     <select id="roleId" name="RoleId" data-cur="@Model.RoleId">
                                         @if (Model.Roles != null && Model.Roles.Count() > 0)
                                         {
@@ -183,7 +180,7 @@
                             <div class="span9">
                                 <br />
                                 <button type="button" onclick="window.location='/WebsiteStaff/Users'" class="btn btn-primary btn-large book-now pull-right groupbtn">Huỷ bỏ</button>
-                                <button type="submit" onclick="return check()" class="btn btn-primary btn-large book-now pull-right groupbtn">Lưu</button>
+                                <button type="submit" onclick="return check()" class="btn btn-primary btn-large book-now pull-right groupbtn">Cập nhật</button>
                                 <br />
                                 <br />
                             </div>

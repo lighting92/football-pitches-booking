@@ -59,9 +59,7 @@
             <div class="span9">
                 <form action="JoinRival?Id=@Request.QueryString["id"]" method="post">
                     <fieldset>
-                        <br />
-                        <h1>THÔNG TIN CHI TIẾT KÈO ĐÁ BÓNG</h1>
-                        <br />
+                        <h2>THÔNG TIN CHI TIẾT <br />KÈO ĐÁ BÓNG</h2>
                         @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
                         {
                             <div class="alert alert-danger">
@@ -73,29 +71,29 @@
                         }
                         <div class="row">
                             <div class="span9">
-                                <h4>THÔNG TIN ĐẶT SÂN</h4>
+                                <h4>THÔNG TIN ĐẶT SÂN:</h4>
                             </div>
                             <div class="span3">
                                 <label>
-                                    SỐ SÂN
+                                    Số sân
                                     <input name="Field" id="Field" type="text" value="@Model.Resv.Field.Number" disabled="disabled">
                                 </label>
                             </div>
                             <div class="span6">
                                 <label>
-                                    HỆ THỐNG SÂN <b>@Model.Resv.Field.Stadium.Name</b>
+                                    Hệ thống sân <b>@Model.Resv.Field.Stadium.Name</b>
                                     <input style="width: 450px;" name="Stadium" id="Stadium" type="text" value="@string.Concat(Model.Resv.Field.Stadium.Street, ", ", Model.Resv.Field.Stadium.Ward, ", ", Model.Resv.Field.Stadium.District)" disabled="disabled">
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    NGÀY ĐẶT
+                                    Ngày đặt
                                     <input name="Date" id="Date" type="text" placeholder="Ngày đặt sân" required="required" value="@Model.Resv.Date.ToString("dd/MM/yyyy")" disabled="disabled">
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    GIỜ ĐẶT
+                                    Giờ đặt
                                     <div class="input-append bootstrap-timepicker">
                                         <input name="StartTime" id="startTime" type="text" class="span2 input-time-collapse" value="@((int)Model.Resv.StartTime):@(((int)(Model.Resv.StartTime - (int)Model.Resv.StartTime) * 60).ToString("00"))" disabled="disabled"/>
                                     </div>
@@ -103,20 +101,21 @@
                             </div>
                             <div class="span3">
                                 <label>
-                                    THỜI LƯỢNG
+                                    Thời lượng
                                     <input name="Duration" id="Duration" type="text" value="@(Model.Resv.Duration * 60) phút" disabled="disabled">
                                 </label>
                             </div>
                         </div>
+                        <hr />
                         <div class="row">
                             <div class="span9">
-                                <h4>THÔNG TIN KHÁCH HÀNG</h4>
+                                <h4>THÔNG TIN chủ kèo:</h4>
                             </div>
                             @if (Model.Resv.User != null)
                             {
                                 <div class="span3">
                                     <label>
-                                        TÊN KHÁCH HÀNG
+                                        Tên chủ kèo
                                     <input name="Customer" type="text" placeholder="Tên khách hàng" required="required" value="@Model.Resv.User.UserName" disabled="disabled">
                                     </label>
                                 </div>
@@ -133,19 +132,19 @@
                             }
                             <div class="span3">
                                 <label>
-                                    TÊN ĐẦY ĐỦ
+                                    Tên đầy đủ
                                     <input name="FullName" type="text" placeholder="Tên đầy đủ" required="required" value="@Model.Resv.FullName" disabled="disabled">
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    SỐ ĐIỆN THOẠI
+                                    Số điện thoại
                                     <input name="PhoneNumber" id="phoneNumber" type="text" placeholder="Số điện thoại" required="required" value="@Model.Resv.PhoneNumber" disabled="disabled">
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    EMAIL
+                                    Email
                                     <input name="Email" type="text" placeholder="Email" required="required" value="@Model.Resv.Email" disabled="disabled">
                                 </label>
                             </div>
@@ -153,7 +152,7 @@
                         <div class="row">
                             <div class="span3">
                                 <label>
-                                    BẠN MUỐN CÁP KÈO NÀY?
+                                    Bạn muốn cáp kèo này?
                                     <select id="AcceptRival" name="AcceptRival">
                                         <option value="False">Không</option>
                                         <option value="True">Có</option>
@@ -180,20 +179,22 @@
                                 </script>
                             </div>
                         </div>
+                        <hr />
                         <div id="RivalInfo" class="row">
+                            
                             <div class="span9">
-                                <h4>THÔNG TIN CÁP KÈO</h4>
+                                <h4>THÔNG TIN Người CÁP KÈO:</h4>
                             </div>
                             <div class="span3">
                                 <label>
-                                    TÊN ĐẦY ĐỦ
+                                    Tên đầy đủ
                                     <input name="RivalName" type="text" placeholder="Tên đầy đủ" required="required" value="@Model.UserInfo.FullName">
                                     <div class="alert alert-danger" id="RivalName_Error" style="display: none"></div>
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    SỐ ĐIỆN THOẠI
+                                    Số điện thoại
                                     <input name="RivalPhone" id="rivalPhone" type="text" placeholder="Điện thoại" required="required" value="@Model.UserInfo.PhoneNumber">
                                     <div class="alert alert-danger" id="RivalPhone_Error" style="display: none"></div>
                                 </label>
@@ -208,7 +209,7 @@
                             </div>
                             <div class="span3">
                                 <label>
-                                    EMAIL
+                                    Email
                                     <input name="RivalEmail" type="text" placeholder="Email" required="required" value="@Model.UserInfo.Email">
                                     <div class="alert alert-danger" id="RivalEmail_Error" style="display: none"></div>
                                 </label>

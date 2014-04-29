@@ -14,18 +14,14 @@
                     
                     <form action="/Stadium/Book" method="post" class="form-horizontal">
                         <fieldset>
-                            <br />
-                            <br />
-                            <h1>Đặt Sân
-                            <br />
-                                <small>Chọn và điền đầy đủ vào mẫu bên dưới.</small>
-                            </h1>
-                            <br />
+                            <h2>Đặt Sân                                
+                            </h2>
+                            <h4>Chọn và điền đầy đủ vào mẫu bên dưới</h4>
                                 <div class="alert alert-success">@Model.SuccessMessage</div>
                            
                             <div class="row">
                                 <div class="span8">
-                                    <legend>Thông Tin Sân Bóng</legend>
+                                    <h4>Thông Tin Sân Bóng:</h4>
                                 </div>
                                 <div class="span3">
                                     <label>
@@ -53,10 +49,10 @@
                                     </label>
                                 </div>
                             </div>
-                            <br />
+                            <hr />
                             <div class="row">
                                 <div class="span8">
-                                    <legend>Tùy Chọn Đặt Sân</legend>
+                                    <h4>Tùy Chọn Đặt Sân:</h4>
                                 </div>
                                 <div class="span3">
                                     <label>
@@ -96,7 +92,7 @@
                                 </div>
                                 <div class="span3">
                                     <label>
-                                        Sân Trống
+                                        Sân trống
                                         <select disabled="disabled" id="fieldPrices" data-cur="@Model.Options.ChosenField">
                                             @if (Model.Fields != null)
                                             {
@@ -131,10 +127,10 @@
                                     </script>
                                 </div>
                             </div>
-                            <br />
+                            <hr />
                             <div class="row">
                                 <div class="span8">
-                                    <legend>Thông Tin Của Bạn</legend>
+                                    <h4>Thông Tin Của Bạn: </h4>
                                 </div>
                                 <div class="span3">
                                     <label>
@@ -150,7 +146,7 @@
                                 </div>
                                 <div class="span3">
                                     <label>
-                                        E-Mail
+                                        Email
 									<input type="text" readonly value="@Model.UserInfo.Email">
                                     </label>
                                 </div>
@@ -163,7 +159,7 @@
                                         
                                 </label>
                             </div>
-                            <br />
+                            <hr />
                             <div class="row">
                                 <div class="span9">
                                     <br />

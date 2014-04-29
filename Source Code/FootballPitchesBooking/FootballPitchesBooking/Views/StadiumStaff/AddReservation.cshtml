@@ -157,9 +157,7 @@
             <div class="span9">
                 <form action="AddReservation?stadium=@Request.QueryString["stadium"]" method="post" class="form-horizontal" enctype="multipart/form-data">
                     <fieldset>
-                        <br />
-                        <h1>THÊM ĐƠN ĐẶT SÂN</h1>
-                        <br />
+                        <h2>THÊM ĐƠN ĐẶT SÂN</h2>
                         @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
                         {
                             <div class="alert alert-danger">
@@ -171,11 +169,11 @@
                         }
                         <div class="row">
                             <div class="span9">
-                                <h4>THÔNG TIN ĐẶT SÂN</h4>
+                                <h4>THÔNG TIN ĐẶT SÂN:</h4>
                             </div>
                             <div class="span3">
                                 <label>
-                                    SỐ SÂN
+                                    Số sân
                                     <select id="Fields" name="Fields">
                                         @if (Model.Fields != null && Model.Fields.Count() > 0)
                                         {
@@ -192,13 +190,13 @@
                             </div>
                             <div class="span6">
                                 <label>
-                                    HỆ THỐNG SÂN <b>@Model.StadiumName.ToUpper()</b>
+                                    Hệ thống sân <b>@Model.StadiumName.ToUpper()</b>
                                     <input style="width: 450px;" name="Stadium" id="Stadium" type="text" value="@Model.StadiumAddress" disabled="disabled">
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    NGÀY ĐẶT
+                                    Ngày đặt
                                     <input name="Date" id="Date" type="text" placeholder="Ngày đặt sân" required="required" value="@DateTime.Now.ToString("dd/MM/yyyy")">
                                     <script>
                                         $('#Date').datepicker({
@@ -211,7 +209,7 @@
                             </div>
                             <div class="span3">
                                 <label>
-                                    GIỜ ĐẶT
+                                    Giờ đặt
                                     <div class="input-append bootstrap-timepicker">
                                         <input name="StartTime" id="startTime" type="text" class="span2 input-time-collapse" value="@(DateTime.Now.Hour + 1):00" />
                                         <script type="text/javascript">
@@ -235,7 +233,7 @@
                             </div>
                             <div class="span3">
                                 <label>
-                                    THỜI LƯỢNG
+                                    Thời lượng
                                     <select id="duration" name="Duration">
                                         <option value="1" selected="selected">60 phút</option>
                                         <option value="1.5">90 phút</option>
@@ -246,20 +244,21 @@
                                 </label>
                             </div>
                         </div>
+                        <hr />
                         <div class="row">
                             <div class="span9">
-                                <h4>THÔNG TIN KHÁCH HÀNG</h4>
+                                <h4>THÔNG TIN KHÁCH HÀNG:</h4>
                             </div>
                             <div class="span3">
                                 <label>
-                                    TÊN ĐẦY ĐỦ
+                                    Tên đầy đủ
                                     <input name="FullName" type="text" placeholder="Tên đầy đủ" required="required" value="">
                                     <div class="alert alert-danger" id="FullName_Error" style="display: none"></div>
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    SỐ ĐIỆN THOẠI
+                                    Số điện thoại
                                     <input name="PhoneNumber" id="phoneNumber" type="text" placeholder="Số điện thoại" required="required" value="">
                                     <script type="text/javascript">
                                         $('#phoneNumber').keyup(function (event) {
@@ -274,7 +273,7 @@
                             </div>
                             <div class="span3">
                                 <label>
-                                    EMAIL
+                                    Email
                                     <input name="Email" type="text" placeholder="Email" value="">
                                     <div class="alert alert-danger" id="Email_Error" style="display: none"></div>
                                 </label>
@@ -283,7 +282,7 @@
                         <div class="row">
                             <div class="span3">
                                 <label>
-                                    CẦN ĐỐI THỦ
+                                    Cần đối thủ
                                     <select id="NeedRival" name="NeedRival">
                                         <option selected="selected" value="False">Không</option>
                                         <option value="True">Có</option>
@@ -311,7 +310,7 @@
                             </div>
                             <div class="span3">
                                 <label>
-                                    TRẠNG THÁI
+                                    Trạng thái
                                     <select id="Status" name="Status">
                                         <option selected="selected" value="Approved">Đã xác nhận</option>
                                         <option value="Denied">Bị từ chối</option>
@@ -321,20 +320,21 @@
                                 </label>
                             </div>
                         </div>
+                        <hr />
                         <div id="RivalInfo" class="row">
                             <div class="span9">
-                                <h4>THÔNG TIN ĐỐI THỦ</h4>
+                                <h4>THÔNG TIN ĐỐI THỦ:</h4>
                             </div>
                             <div class="span3">
                                 <label>
-                                    TÊN ĐẦY ĐỦ
+                                    Tên đầy đủ
                                     <input name="RivalName" type="text" placeholder="Tên đầy đủ" value="">
                                     <div class="alert alert-danger" id="RivalName_Error" style="display: none"></div>
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    SỐ ĐIỆN THOẠI
+                                    Số điện thoại
                                     <input name="RivalPhone" id="rivalPhone" type="text" placeholder="Điện thoại" value="">
                                     <script type="text/javascript">
                                         $('#rivalPhone').keyup(function (event) {
@@ -349,14 +349,14 @@
                             </div>
                             <div class="span3">
                                 <label>
-                                    EMAIL
+                                    Email
                                     <input name="RivalEmail" type="text" placeholder="Email" value="">
                                     <div class="alert alert-danger" id="RivalEmail_Error" style="display: none"></div>
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
-                                    TRẠNG THÁI
+                                    Trạng thái
                                     <select id="RivalStatus" name="RivalStatus">
                                         <option value="Approved">Đã xác nhận</option>
                                         <option value="Pending">Đang chờ xét</option>
@@ -368,7 +368,7 @@
                         <div class="row">
                             <div class="span9">
                                 <p>
-                                    <button class="btn btn-primary book-now groupbtn" type="submit" name="Save" onclick="return check()">Lưu</button>
+                                    <button class="btn btn-primary book-now groupbtn" type="submit" name="Save" onclick="return check()">Thêm đơn đặt sân</button>
                                     <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/Reservations/@Request.QueryString["stadium"]'">Hủy bỏ</button>
                                 </p>
                             </div>
