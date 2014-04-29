@@ -186,8 +186,8 @@ namespace FootballPitchesBooking.Controllers
                     StadiumBO stadiumBO = new StadiumBO();
                     bool result = stadiumBO.CreateStadiumReview(review);
                 }
-
-                return RedirectToAction("Details/" + stadium, "Stadium");
+                TempData["reviewStatus"] = "Success";
+                return Redirect("~/Stadium/Details/" + stadium + "#reviews");
             }
             catch (Exception)
             {

@@ -395,58 +395,66 @@ footer a
 
 .stadium-info ul.details-menu
 {
-    margin: 0;
-    padding: 0;
-    height: 31px;
-    width: auto;
-    list-style: none;
-    border-left: 1px solid #E5E5E5;
-    border-bottom: 1px solid #E5E5E5;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 31px !important;
+    width: auto !important;
+    list-style: none !important;
+    border-left: 1px solid #E5E5E5 !important;
+    border-bottom: 1px solid #E5E5E5 !important;
 }
 
 .stadium-info ul.details-menu li
 {
-    background-color: #EEEEEE;
-    float: left;
-    padding: 0 20px;
-    margin: 0;
-    height: 30px;
-    line-height: 30px;
-    border-right: 1px solid #E5E5E5;
-    border-top: 1px solid #E5E5E5;
-    font-weight: bold;
+    background-color: #EEEEEE !important;
+    float: left !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: 30px !important;
+    line-height: 30px !important;
+    border-right: 1px solid #E5E5E5 !important;
+    border-top: 1px solid #E5E5E5 !important;
+    font-weight: bold !important;
 }
 
 .stadium-info ul.details-menu li:hover
 {
-    background-color: #EEEEEE;
-    float: left;
-    padding: 0 20px;
-    margin: 0;
-    height: 30px;
-    line-height: 30px;
-    border-right: 1px solid #E5E5E5;
-    border-top: 1px solid #E5E5E5;
-    font-weight: bold;
+    background-color: #EEEEEE !important;
+    float: left !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: 30px !important;
+    line-height: 30px !important;
+    border-right: 1px solid #E5E5E5 !important;
+    border-top: 1px solid #E5E5E5 !important;
 }
 
 .stadium-info ul.details-menu li.active
 {
-    background-color: #FFFFFF;
-    float: left;
-    padding: 0 20px;
-    margin: 0;
-    height: 30px;
-    line-height: 30px;
-    border-right: 1px solid #E5E5E5;
-    border-top: 1px solid #E5E5E5;
-    border-bottom: 1px solid #FFFFFF;
-    font-weight: bold;
+    background-color: #FFFFFF !important;
+    float: left !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: 30px !important;
+    line-height: 30px !important;
+    border-right: 1px solid #E5E5E5 !important;
+    border-top: 1px solid #E5E5E5 !important;
+    border-bottom: 1px solid #FFFFFF !important;
 }
 
 .stadium-info ul.details-menu li a
 {
-    text-decoration: none;
+    text-decoration: none !important;
+    border-radius: 0 !important;
+    border: 0 !important;
+    padding: 0 20px !important;
+    height: 30px !important;
+    line-height: 30px !important;
+    font-weight: bold !important;
+    margin: 0 !important;
+    font-family: Arial,sans-serif;
+    background: inherit;
+    color: #B81007;
 }
 
 .stadium-details-info
