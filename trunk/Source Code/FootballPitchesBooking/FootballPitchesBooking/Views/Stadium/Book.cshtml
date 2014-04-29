@@ -14,20 +14,16 @@
                     
                     <form action="/Stadium/Book" method="post" class="form-horizontal">
                         <fieldset>
-                            <br />
-                            <br />
-                            <h1>Đặt Sân
-                            <br />
-                                <small>Chọn và điền đầy đủ vào mẫu bên dưới.</small>
-                            </h1>
-                            <br />
+                            <h2>Đặt Sân                                
+                            </h2>
+                            <h4>Chọn và điền đầy đủ vào mẫu bên dưới.</h4>
                             @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
                             {
                                 <div class="alert alert-danger">@Model.ErrorMessage</div>
                             }
                             <div class="row">
                                 <div class="span8">
-                                    <legend>Thông Tin Sân Bóng</legend>
+                                    <h4>Thông Tin Sân Bóng:</h4>
                                 </div>
                                 <div class="span3">
                                     <label>
@@ -38,7 +34,7 @@
                                 </div>
                                 <div class="span3">
                                     <label>
-                                        E-Mail
+                                        Email
                                     <input type="text" value="@Model.Stadium.Email" readonly />
                                     </label>
                                 </div>
@@ -55,10 +51,10 @@
                                     </label>
                                 </div>
                             </div>
-                            <br />
+                            <hr />
                             <div class="row">
                                 <div class="span8">
-                                    <legend>Tùy Chọn Đặt Sân</legend>
+                                    <h4>Tùy Chọn Đặt Sân:</h4>
                                 </div>
                                 <div class="span3">
                                     <label>
@@ -206,10 +202,10 @@
                                     </label>
                                 </div>
                             </div>
-                            <br />
+                            <hr />
                             <div class="row">
                                 <div class="span8">
-                                    <legend>Thông Tin Của Bạn</legend>
+                                    <h4>Thông tin của bạn: <h4>
                                 </div>
                                 <div class="span3">
                                     <label>

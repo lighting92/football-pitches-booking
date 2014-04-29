@@ -10,20 +10,15 @@
             <div class="span9">
                 <form action="JoinUs" method="post" class="form-horizontal">
                     <fieldset>
-                        <br />
-                        <br />
-                        <h1>Đăng Ký Sân Bóng Của Bạn
-                            <br />
-                            <small>Điền đầy đủ thông tin vào mẫu bên dưới để gửi yêu cầu.</small>
-                        </h1>
-                        <br />
+                        <h2>Đăng Ký Sân Bóng Của Bạn</h2>
+                        <h4>Bạn hãy đầy đủ thông tin vào mẫu bên dưới để gửi yêu cầu</h4>                        
                         @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
                         {
                             <div class="alert alert-danger">@Model.ErrorMessage</div>
                         }
                         <div class="row">
                             <div class="span8">
-                                <legend>Tên của bạn</legend>
+                                <label style="font-weight:bold">Tên của bạn:</label>
                             </div>
                             <div class="span3">
                                 <label>
@@ -34,7 +29,7 @@
                         <br />
                         <div class="row">
                             <div class="span8">
-                                <legend>Thông tin liên lạc</legend>
+                                <label style="font-weight:bold">Thông tin liên lạc:</label>
                             </div>
                             <div class="span3">
                                 <label>
@@ -59,7 +54,7 @@
                         <br />
                         <div class="row">
                             <div class="span8">
-                                <legend>Sân bóng của bạn</legend>
+                                <label style="font-weight:bold">Sân bóng của bạn:</label>
                             </div>
                             <div class="span3">
                                 <label>
@@ -124,7 +119,7 @@
                         <br />
                         <div class="row">
                             <div class="span9">
-                                <legend>Yêu cầu đặc biệt</legend>
+                                <label style="font-weight:bold">Yêu cầu đặc biệt:</label>
                                 <textarea name="Note" class="span9" rows="3">@Model.Note</textarea>
                             </div>
 
@@ -145,11 +140,13 @@
 
 
             </div>
-
+            
             <div class="span3">
-                <br />
-                <br />
-                <h3><span>CƠ CHẾ</span> TIẾP NHẬN</h3>
+                
+                <br /><br /><br /><br />
+                
+                
+                <h4>CƠ CHẾ TIẾP NHẬN:</h4>
                 <p>
                     Sau khi bạn gửi yêu cầu gia nhập với chúng tôi, chúng tôi sẽ liên lạc với bạn trong thời gian sớm nhất để xác nhận lại thông tin và thỏa thuận giữa hai bên.
 					<div class="pull-left">Hỗ trợ : <i class="pull-right">mailbox@fpb.com</i> <i class="pull-right">+841662194419</i></div>

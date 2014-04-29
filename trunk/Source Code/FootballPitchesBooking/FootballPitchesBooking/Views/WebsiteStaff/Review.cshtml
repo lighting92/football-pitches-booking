@@ -10,30 +10,28 @@
         <div class="row">
             <div class="span9">
                 <fieldset>
-                    <br />
-                    <h1>CHI TIẾT ĐÁNH GIÁ SÂN BÓNG</h1>
-                    <br />
+                    <h2>CHI TIẾT ĐÁNH GIÁ SÂN BÓNG</h2>                    
                     <div class="span3">
                         <label>
-                            SÂN BÓNG
+                            Sân bóng
                                 <input name="Stadium" id="Stadium" type="text" value="@Model.Stadium.Name" disabled="disabled">
                         </label>
                     </div>
                     <div class="span3">
                         <label>
-                            THÀNH VIÊN
+                            Thành viên
                                 <input name="UserName" id="UserName" type="text" value="@Model.User.UserName" disabled="disabled">
                         </label>
                     </div>
                     <div class="span3">
                         <label>
-                            THỜI GIAN
+                            Thời gian
                                 <input name="CreateDate" id="CreateDate" type="text" value="@Model.CreateDate.ToString("HH:mm:ss - dd/MM/yyyy")" disabled="disabled">
                         </label>
                     </div>
                     <div class="span9">
                         <label>
-                            NỘI DUNG
+                            Nội dung
                                 <textarea name="ReviewContent" id="ReviewContent" style="width: 685px; min-height: 50px;" disabled="disabled">@Model.ReviewContent</textarea>
                             <script type="text/javascript">
                                 $(document).ready(function () {
@@ -43,7 +41,6 @@
                         </label>
                     </div>
                             <div class="span9">
-                                <br />
                                 <button type="submit" onclick="window.location='/WebsiteStaff/Reviews'" class="btn btn-primary btn-large book-now pull-right groupbtn">Quay lại</button>
                                 <button type="button" onclick="window.location='/WebsiteStaff/DeleteReview/@Model.Id?User=@Model.User.Id'" class="btn btn-primary btn-large book-now pull-right groupbtn">Xoá/ban thành viên</button>
                                 <button type="submit" onclick="window.location='/WebsiteStaff/DeleteReview/@Model.Id'" class="btn btn-primary btn-large book-now pull-right groupbtn">Xoá đánh giá</button>
@@ -51,7 +48,6 @@
                                 {
                                     <button type="submit" onclick="window.location='/WebsiteStaff/ApproveReview/@Model.Id'" class="btn btn-primary btn-large book-now pull-right groupbtn">Duyệt đánh giá</button>
                                 }
-                                <br />
                                 <br />
                             </div>
                 </fieldset>

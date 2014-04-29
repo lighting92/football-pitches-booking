@@ -14,11 +14,8 @@
                 <div class="span9">
                     <form action="EditReservation?Id=@Model.Id" method="post" class="form-horizontal" enctype="multipart/form-data">
                         <fieldset>
-                            <br />
-                            <br />
-                            <h1>Chỉnh Sửa Thông Tin Đặt Sân
-                            </h1>
-                            <br />
+                            <h2>Chỉnh sửa thông tin đặt sân
+                            </h2>
                             @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
                             {
                                 <div class="alert alert-danger">
@@ -31,7 +28,7 @@
                             }
                             <div class="row">
                                 <div class="span8">
-                                    <legend><span>Thông Tin Người Đặt</span></legend>
+                                    <label style="font-weight:bold">Thông tin người đặt sân:</label>
                                 </div>
                                 <div class="span3">
                                     <label>
@@ -63,7 +60,7 @@
                                 </div>
                                 <div class="span3">
                                     <label>
-                                        E-Mail
+                                        Email
                                          @if (!canMod)
                                          {
                                              <input name="Email" type="text" placeholder="E-Mail" value="@Model.Email" readonly>
@@ -76,11 +73,11 @@
                                     </label>
                                 </div>
                             </div>
-                            <br />
+                            <hr />
                             <div class="row">
                                 <div class="span8">
-                                    <legend><span>Thông Tin Sân</span></legend>
-                                </div>
+                                    <label style="font-weight:bold">Thông tin sân:</label>
+                                </div>                                
                                 <div class="span3">
                                     <label>
                                         Tên sân
@@ -94,10 +91,10 @@
                                     </label>
                                 </div>
                             </div>
-                            <br />
+                            <hr />
                             <div class="row">
                                 <div class="span8">
-                                    <legend><span>Thông Tin Đặt Sân</span></legend>
+                                    <label style="font-weight:bold">Thông Tin Đặt Sân:</label>
                                 </div>
                                 <div class="span3">
                                     <label>
@@ -176,9 +173,10 @@
                                     </label>
                                 </div>
                             </div>
+                            <hr />
                             <div class="row">
                                 <div class="span8">
-                                    <legend><span>Giao Hữu</span></legend>
+                                    <label style="font-weight:bold">Giao hữu:</label>
                                 </div>
                                 <div class="span8 alert" style="display:none" id="reportMessage">
                                 </div>
@@ -287,7 +285,6 @@
                                     </div>
                                 }
                             </div>
-                            <br />
                             <div class="row">
                                 <div class="span3">
                                     @if (!canMod)
@@ -302,11 +299,11 @@
                                 <div class="span3">
                                     @if (!canMod)
                                     {
-                                        <button disabled="disabled" type="submit" class="btn btn-primary book-now btn-medium btn-auto span3">Lưu</button>
+                                        <button disabled="disabled" type="submit" class="btn btn-primary book-now btn-medium btn-auto span3">Cập nhật</button>
                                     }
                                     else
                                     {
-                                        <button type="submit" class="btn btn-primary book-now btn-medium btn-auto span3">Lưu</button>
+                                        <button type="submit" class="btn btn-primary book-now btn-medium btn-auto span3">Cập nhật</button>
                                     }
                                 </div>
                                 <div class="span3">

@@ -38,7 +38,7 @@
 </script>
 
 <div class="row websitestaff-create-advertisement">
-    <h1>THÊM QUẢNG CÁO</h1>
+    <h2>THÊM QUẢNG CÁO</h2>
     <form action="AddAdvertisement" method="post" class="form-horizontal" enctype="multipart/form-data">
         <p>
             @if (Model != null && Model.ErrorMessages.Count() > 0)
@@ -52,7 +52,7 @@
             }
         </p>
         <p>
-            <label for="Position">VỊ TRÍ</label>
+            <label for="Position">Vị trí</label>
             <select id="Position" name="Position">
                 <option value="Banner1" selected="selected">Biểu ngữ 1</option>
                 <option value="Banner2">Biểu ngữ 2</option>
@@ -60,12 +60,12 @@
             </select>
         </p>
         <p>
-            <label for="AdvertiseDetail">CHI TIẾT QUẢNG CÁO</label>
+            <label for="AdvertiseDetail">Chi tiết quảng cáo</label>
             <textarea name="AdvertiseDetail" id="AdvertiseDetail"></textarea>
             <div class="alert alert-danger" id="AdvertiseDetail_Error" style="display: none"></div>
         </p>
         <p>
-            <label for="ExpiredDate">NGÀY HẾT HẠN</label>
+            <label for="ExpiredDate">Ngày hết hạn</label>
             <input name="ExpiredDate" id="ExpiredDate" type="text" placeholder="Ngày hết hạn" required="required" value="">
             <script>
                 $('#Date').datepicker({
@@ -76,7 +76,7 @@
             <div class="alert alert-danger" id="ExpiredDate_Error" style="display: none"></div>
         </p>
         <p>
-            <label for="Status">TRẠNG THÁI</label>
+            <label for="Status">Trạng thái</label>
             <select id="Status" name="Status">
                 <option value="Active" selected="selected">Đang hoạt động</option>
                 <option value="Deactive">Không hoạt động</option>

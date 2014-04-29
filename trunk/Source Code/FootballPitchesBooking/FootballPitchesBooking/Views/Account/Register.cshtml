@@ -143,38 +143,36 @@
     <form action="Register" method="post">
         <div class="span9 no-margin">
             <div class="span6">
-                <label for="UserName" class="span3" style="height: 30px; line-height: 30px;">TÊN ĐĂNG NHẬP</label>
+                <label for="UserName" class="span3" style="height: 30px; line-height: 30px;">Tên tài khoản</label>
                 <input type="text" id="txtName" name="UserName" placeholder="Tài khoản đăng nhập" required="Required" value="@userName" />
                 <div class="alert alert-danger" id="ErrorName" style="display: none"></div>
             </div>
             <div class="span6">
-                <label for="Password" class="span3" style="height: 30px; line-height: 30px;">MẬT KHẨU</label>
+                <label for="Password" class="span3" style="height: 30px; line-height: 30px;">Mật khẩu</label>
                 <input type="password" id="txtPass" name="Password" placeholder="Nhập mật khẩu" required="required" />
                 <div class="alert alert-danger" id="ErrorPass" style="display: none"></div>
             </div>
             <div class="span6">
-                <label for="ConfirmPassword" class="span3" style="height: 30px; line-height: 30px;">XÁC NHẬN MẬT KHẨU</label>
+                <label for="ConfirmPassword" class="span3" style="height: 30px; line-height: 30px;">Xác nhận lại mật khẩu</label>
                 <input type="password" id="txtConfirmPass" name="ConfirmPassword" placeholder="Nhập lại mật khẩu" required="required" />
                 <div class="alert alert-danger" id="ErrorConfirmPass" style="display: none"></div>
             </div>
             <div class="span6">
-                <label for="Email" class="span3" style="height: 30px; line-height: 30px;">EMAIL</label>
+                <label for="Email" class="span3" style="height: 30px; line-height: 30px;">Email</label>
                 <input type="text" id="txtMail" name="Email" placeholder="Nhập vào Email" required="required" value="@email" />
                 <div class="alert alert-danger" id="Email_Error" style="display: none"></div>
             </div>
             <div class="span6">
-                <label for="FullName" class="span3" style="height: 30px; line-height: 30px;">TÊN ĐẦY ĐỦ</label>
+                <label for="FullName" class="span3" style="height: 30px; line-height: 30px;">Tên đầy đủ</label>
                 <input type="text" id="txtFullN" name="FullName" placeholder="Nhập vào Họ và Tên" required="required" value="@fullName" />
                 <div class="alert alert-danger" id="FullName_Error" style="display: none"></div>
             </div>
             <div class="span6">
-                <label for="Address" class="span5" style="height: 30px; line-height: 30px;">ĐỊA CHỈ</label>
+                <label for="Address" class="span5" style="height: 30px; line-height: 30px;">Địa chỉ</label>
                 <div class="span5 pull-right">
                     <label for="Province" class="span2" style="height: 30px; line-height: 30px;">Tỉnh/Thành phố:</label>
                     <select name="Province">
                         <option>TP.Hồ Chí Minh</option>
-                        <option>Hà Nội</option>
-                        <option>Đà Nẵng</option>
                     </select>
                 </div>
                 <div class="span5 pull-right">
@@ -214,7 +212,7 @@
 
             </div>
             <div class="span6">
-                <label for="PhoneNumber" class="span3" style="height: 30px; line-height: 30px;">SỐ ĐIỆN THOẠI</label>
+                <label for="PhoneNumber" class="span3" style="height: 30px; line-height: 30px;">Số điện thoại</label>
                 <input type="text" id="txtPhone" name="PhoneNumber" placeholder="Nhập số điện thoại" required="required" value="@phoneNumber" />
                 <script type="text/javascript">
                     $('#txtPhone').keyup(function (event) {

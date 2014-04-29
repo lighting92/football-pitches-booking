@@ -41,7 +41,7 @@
 </script>
 
 <div class="row stadiumstaff-create-promotion">
-    <h1>CHỈNH SỬA THÔNG TIN KHUYẾN MÃI</h1>
+    <h2>CHỈNH SỬA THÔNG TIN KHUYẾN MÃI</h2>
     <form action="EditPromotion?id=@Request.QueryString["id"]" method="post" class="form-horizontal" enctype="multipart/form-data">
         <p>
             @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
@@ -55,7 +55,7 @@
             }
         </p>
         <p>
-            <label for="Fields">SỐ SÂN</label>
+            <label for="Fields">Số sân</label>
             <select id="Fields" name="Fields" data-cur="@Model.FieldId">
                 @if (Model.Fields != null && Model.Fields.Count() > 0)
                 {
@@ -75,7 +75,7 @@
             </script>
         </p>
         <p>
-            <label for="PromotionTime">THỜI GIAN KHUYẾN MÃI</label>
+            <label for="PromotionTime">Thời gian khuyến mãi</label>
             <div class="input-daterange input-group" id="promotionTime">
                 <input type="text" class="input-sm form-control" name="PromotionFrom" required="required" value="@Model.PromotionFrom.ToString("dd/MM/yyyy")" />
                 <span class="input-group-addon">đến</span>
@@ -90,7 +90,7 @@
             <div class="alert alert-danger" id="PromotionTime_Error" style="display: none"></div>
         </p>
         <p>
-            <label for="Discount">ƯU ĐÃI GIẢM GIÁ (%)</label>
+            <label for="Discount">Ưu đãi giảm giá (%)</label>
             <input name="Discount" id="txtDiscount" type="text" placeholder="Giảm giá (%)" required="required" value="@Model.Discount">
             <script type="text/javascript">
                 $('#txtDiscount').keyup(function (event) {
@@ -115,7 +115,7 @@
             </script>
         </p>
         <p>
-            <button class="btn btn-primary book-now groupbtn" type="submit" name="Save" onclick="return check()">Lưu</button>
+            <button class="btn btn-primary book-now groupbtn" type="submit" name="Save" onclick="return check()">Cập nhật</button>
             <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/Promotions/@Model.Fields.FirstOrDefault().StadiumId'">Hủy bỏ</button>
         </p>
     </form>
