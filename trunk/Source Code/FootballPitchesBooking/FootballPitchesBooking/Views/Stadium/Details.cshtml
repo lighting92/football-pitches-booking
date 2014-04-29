@@ -168,7 +168,7 @@
                                     <p>
                                         <textarea name="UserReviewContent" id="UserReviewContent" style="width: 420px; min-height: 50px;"></textarea>
                                         <div class="alert alert-danger" id="ReviewContent_Error" style="display: none"></div>
-                                        @if(TempData["reviewStatus"] == "Success")
+                                        @if (TempData["reviewStatus"] == "Success" && !(User.IsInRole("WebsiteMaster") || User.IsInRole("WebsiteStaff")))
                                         {
                                             <div class="alert alert-success">Nhận xét của bạn đã được gửi đi và đang chờ xét duyệt</div>
                                         }

@@ -4,6 +4,9 @@
     ViewBag.Title = "Thêm quảng cáo";
     Layout = "~/Views/Shared/_WebsiteStaffLayout.cshtml";
 }
+<link rel="stylesheet" href="~/Content/bootstrap/css/datepicker.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/Content/bootstrap/css/datepicker3.css" rel="stylesheet" />
+<script type="text/javascript" src="~/Content/bootstrap/js/bootstrap-datepicker.js"></script>
 
 <script type="text/ecmascript">
     function check() {
@@ -22,7 +25,7 @@
         }
 
         if (expired == "") {
-            $("#ExpiredDate_Error").append("Xin vui lòng chọn thời gian khuyến mãi");   
+            $("#ExpiredDate_Error").append("Xin vui lòng chọn thời gian khuyến mãi");
             $("#ExpiredDate_Error").css("display", "block");
             flag++;
         }
@@ -51,39 +54,61 @@
                 </div>
             }
         </p>
-        <p>
-            <label for="Position">Vị trí</label>
-            <select id="Position" name="Position">
-                <option value="Banner1" selected="selected">Biểu ngữ 1</option>
-                <option value="Banner2">Biểu ngữ 2</option>
-                <option value="Banner3">Biểu ngữ 3</option>
-            </select>
-        </p>
-        <p>
-            <label for="AdvertiseDetail">Chi tiết quảng cáo</label>
-            <textarea name="AdvertiseDetail" id="AdvertiseDetail"></textarea>
-            <div class="alert alert-danger" id="AdvertiseDetail_Error" style="display: none"></div>
-        </p>
-        <p>
-            <label for="ExpiredDate">Ngày hết hạn</label>
-            <input name="ExpiredDate" id="ExpiredDate" type="text" placeholder="Ngày hết hạn" required="required" value="">
-            <script>
-                $('#Date').datepicker({
-                    format: "dd/mm/yyyy",
-                    language: "vi"
-                });
-            </script>
-            <div class="alert alert-danger" id="ExpiredDate_Error" style="display: none"></div>
-        </p>
-        <p>
-            <label for="Status">Trạng thái</label>
-            <select id="Status" name="Status">
-                <option value="Active" selected="selected">Đang hoạt động</option>
-                <option value="Deactive">Không hoạt động</option>
-                <option value="Waiting">Đang chờ</option>
-            </select>
-        </p>
-        <button class="btn btn-primary book-now groupbtn" type="submit" name="Save" onclick="return check()">Lưu</button>
-        <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/Promotions'">Hủy bỏ</button>
+        <div class="span7">
+            <div class="span3" style="margin-bottom: 10px;">
+                <label>
+                    VỊ TRÍ
+                <select id="Position" name="Position">
+                    <option value="Banner1" selected="selected">Biểu ngữ 1</option>
+                    <option value="Banner2">Biểu ngữ 2</option>
+                    <option value="Banner3">Biểu ngữ 3</option>
+                </select>
+                </label>
+            </div>
+            <div class="span6" style="margin-bottom: 10px;">
+                <label>
+                    CHI TIẾT QUẢNG CÁO
+                <textarea name="AdvertiseDetail" id="AdvertiseDetail" class="span6"></textarea>
+                    <div class="alert alert-danger" id="AdvertiseDetail_Error" style="display: none"></div>
+                </label>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('#AdvertiseDetail').autosize();
+                    });
+                </script>
+            </div>
+            <div class="span3" style="margin-bottom: 10px;">
+                <label>
+                    NGÀY HẾT HẠN
+                <input name="ExpiredDate" id="ExpiredDate" type="text" placeholder="Ngày hết hạn" required="required" value="">
+                    <script>
+                        $('#ExpiredDate').datepicker({
+                            format: "dd/mm/yyyy",
+                            language: "vi"
+                        });
+                    </script>
+                    <div class="alert alert-danger" id="ExpiredDate_Error" style="display: none"></div>
+                </label>
+            </div>
+            <div class="span3" style="visibility: hidden;">
+                <label>&nbsp</label>
+                <input type="text">
+                <div class="alert alert-danger" style="display: none"></div>
+            </div>
+            <div class="span3" style="margin-bottom: 10px;">
+                <label>
+                    TRẠNG THÁI
+                <select id="Status" name="Status">
+                    <option value="Active" selected="selected">Đang hoạt động</option>
+                    <option value="Deactive">Không hoạt động</option>
+                    <option value="Waiting">Đang chờ</option>
+                </select>
+                </label>
+            </div>
+            <div class="span6">
+                <button class="btn btn-primary book-now groupbtn pull-right" type="button" onclick="window.location = '/StadiumStaff/Promotions'">Hủy bỏ</button>
+                <button class="btn btn-primary book-now groupbtn pull-right" type="submit" name="Save" onclick="return check()">Lưu</button>
+            </div>
+        </div>
     </form>
 </div>
