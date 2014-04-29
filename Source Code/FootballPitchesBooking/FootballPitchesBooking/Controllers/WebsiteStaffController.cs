@@ -840,7 +840,7 @@ namespace FootballPitchesBooking.Controllers
             return View();
         }
 
-
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult AddAdvertisement(FormCollection form)
         {
@@ -940,7 +940,7 @@ namespace FootballPitchesBooking.Controllers
             }
         }
 
-
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult EditAdvertisement(FormCollection form, int id)
         {

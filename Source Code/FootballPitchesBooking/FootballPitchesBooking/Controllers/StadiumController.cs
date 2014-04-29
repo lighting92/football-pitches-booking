@@ -174,12 +174,17 @@ namespace FootballPitchesBooking.Controllers
                 if (!string.IsNullOrWhiteSpace(content))
                 {
                     UserBO userBO = new UserBO();
+                    bool isAdmin = false;
+                    if (User.IsInRole("WebsiteMaster") || User.IsInRole("WebsiteStaff"))
+                    {
+                        isAdmin = true;
+                    }
                     StadiumReview review = new StadiumReview()
                     {
                         UserId = userBO.GetUserByUserName(User.Identity.Name).Id,
                         StadiumId = stadium,
                         ReviewContent = content,
-                        IsApproved = false,
+                        IsApproved = isAdmin,
                         CreateDate = DateTime.Now
                     };
 
