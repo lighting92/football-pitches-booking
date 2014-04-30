@@ -48,11 +48,18 @@ namespace FootballPitchesBooking.BusinessObjects
         public int CreateReservation(Reservation reservation)
         {
             Utils utils = new Utils();
-
-            double curTime = utils.TimeToDouble(DateTime.Now);
+            ConfigurationDAO configDAO = new ConfigurationDAO();
+            double min = 0;
+            try
+            {
+                min = Double.Parse(configDAO.GetConfigByName("MinTimeBooking").Value);
+            }
+            catch (Exception)
+            { }
+            double expTime = utils.TimeToDouble(DateTime.Now.AddMinutes(min));
 
             //Validate ngày đặt sân trước ngày hiện tại, hoặc đặt sân ngày hiện tại nhung giờ đặt đã qua hoặc quá sát với thời gian đặt (khoảng cách 1 tiếng)
-            if (reservation.Date < DateTime.Now.Date || (reservation.Date == DateTime.Now.Date && reservation.StartTime < (curTime + 1)))
+            if (reservation.Date < DateTime.Now.Date || (reservation.Date == DateTime.Now.Date && reservation.StartTime <= (expTime)))
             {
                 return -1;
             }
@@ -111,11 +118,18 @@ namespace FootballPitchesBooking.BusinessObjects
         public int UpdateReservation(Reservation reservation)
         {
             Utils utils = new Utils();
-
-            double curTime = utils.TimeToDouble(DateTime.Now);
+            ConfigurationDAO configDAO = new ConfigurationDAO();
+            double min = 0;
+            try
+            {
+                min = Double.Parse(configDAO.GetConfigByName("MinTimeBooking").Value);
+            }
+            catch (Exception)
+            { }
+            double expTime = utils.TimeToDouble(DateTime.Now.AddMinutes(-min));
 
             //Validate ngày đặt sân trước ngày hiện tại, hoặc đặt sân ngày hiện tại nhung giờ đặt đã qua hoặc quá sát với thời gian đặt (khoảng cách 1 tiếng)
-            if (reservation.Date < DateTime.Now.Date || (reservation.Date == DateTime.Now.Date && reservation.StartTime < (curTime + 1)))
+            if (reservation.Date < DateTime.Now.Date || (reservation.Date == DateTime.Now.Date && reservation.StartTime <= (expTime)))
             {
                 return -1;
             }

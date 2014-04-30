@@ -89,6 +89,11 @@ namespace FootballPitchesBooking.BusinessObjects
             return adsDAO.DeleteAdvertisement(adsId);
         }
 
+        public FootballPitchesBooking.Models.Configuration GetConfigByName(string configName)
+        {
+            ConfigurationDAO configDAO = new ConfigurationDAO();
+            return configDAO.GetConfigByName(configName);
+        }
 
         public int SendEmail(string toEmail, string content, string subject, bool isHTML)
         {
