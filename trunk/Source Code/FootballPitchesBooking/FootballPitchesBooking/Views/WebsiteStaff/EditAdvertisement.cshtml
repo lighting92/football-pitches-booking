@@ -59,18 +59,23 @@
         <div class="span7">
             <div class="span3" style="margin-bottom: 10px;">
                 <label>
-                    VỊ TRÍ
-                <select id="Position" name="Position">
+                    Vị trí
+                <select id="Position" name="Position" data-cur="@Model.Position">
                     <option value="Banner1" selected="selected">Biểu ngữ 1</option>
                     <option value="Banner2">Biểu ngữ 2</option>
                     <option value="Banner3">Biểu ngữ 3</option>
                 </select>
                 </label>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $("#Position").val($("#Position").data("cur"));
+                    });
+                </script>
             </div>
             <div class="span6" style="margin-bottom: 10px;">
                 <label>
-                    CHI TIẾT QUẢNG CÁO
-                <textarea name="AdvertiseDetail" id="AdvertiseDetail" class="span6"></textarea>
+                    Chi tiết quảng cáo
+                <textarea name="AdvertiseDetail" id="AdvertiseDetail" class="span6">@Model.AdvertiseDetail</textarea>
                     <div class="alert alert-danger" id="AdvertiseDetail_Error" style="display: none"></div>
                 </label>
                 <script type="text/javascript">
@@ -81,8 +86,8 @@
             </div>
             <div class="span3" style="margin-bottom: 10px;">
                 <label>
-                    NGÀY HẾT HẠN
-                <input name="ExpiredDate" id="ExpiredDate" type="text" placeholder="Ngày hết hạn" required="required" value="">
+                    Ngày hết hạn
+                <input name="ExpiredDate" id="ExpiredDate" type="text" placeholder="Ngày hết hạn" required="required" value="@Model.ExpiredDate.ToString("dd/MM/yyyy")">
                     <script>
                         $('#ExpiredDate').datepicker({
                             format: "dd/mm/yyyy",
@@ -99,13 +104,18 @@
             </div>
             <div class="span3" style="margin-bottom: 10px;">
                 <label>
-                    TRẠNG THÁI
-                <select id="Status" name="Status">
+                    Trạng thái
+                <select id="Status" name="Status" data-cur="@Model.Status">
                     <option value="Active" selected="selected">Đang hoạt động</option>
                     <option value="Deactive">Không hoạt động</option>
                     <option value="Waiting">Đang chờ</option>
                 </select>
                 </label>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $("#Status").val($("#Status").data("cur"));
+                    });
+                </script>
             </div>
             <div class="span6">
                 <button class="btn btn-primary book-now groupbtn pull-right" type="button" onclick="window.location = '/StadiumStaff/Promotions'">Hủy bỏ</button>
