@@ -206,15 +206,17 @@
 <hr />
 
 <!--Best stadium -->
-<div class="row-fluid">
-    <h4>Sân tốt nhất cho bạn</h4>
+<div class="row-fluid">    
 
-    @if (Model.BestStadiums != null)
+    @if (Model.BestStadiums != null && Model.BestStadiums.Count() != 0)
     {
+        <h4>Sân tốt nhất cho bạn</h4> 
         for (int i = 0; i < Model.BestStadiums.Count(); i++)
         {
+
             var item = Model.BestStadiums[i];
-            var img = Model.BestStadiumsImages[i];             
+            var img = Model.BestStadiumsImages[i]; 
+                       
         <div class="span4" style="margin-left: 5px">
             <div class="stadium-item">
                 <div class="stadium-image">
@@ -237,22 +239,22 @@
         </div>
         }
     }
-
-
 </div>
-<hr />
+
 <!--end Best stadium -->
 
 <!--Mostbooked stadium -->
 <div class="row-fluid">
-    <h4><span>S</span>ân Bạn Hay Đặt</h4>
+    
 
-    @if (Model.MostBookedStadiums != null)
+    @if (Model.MostBookedStadiums != null && Model.MostBookedStadiums.Count() != 0)
     {
+        <hr />
+        <h4><span>S</span>ân Bạn Hay Đặt</h4> 
         for (int i = 0; i < Model.MostBookedStadiums.Count(); i++)
         {
             var item = Model.MostBookedStadiums[i];
-            var img = Model.MostBookedStadiumsImages[i];             
+            var img = Model.MostBookedStadiumsImages[i];                       
         <div class="span4" style="margin-left: 5px">
             <div class="stadium-item">
                 <div class="stadium-image">
@@ -276,19 +278,21 @@
         }
     }
 </div>
-<hr />
+
 <!--end Mostbooked stadium -->
 
 <!--Nearest stadium -->
-<div class="row-fluid">
-    <h4><span>S</span>ân Gần nhà bạn</h4>
+<div class="row-fluid">    
 
-    @if (Model.NearestStadiums != null)
+    @if (Model.NearestStadiums != null && Model.NearestStadiums.Count() != 0)
     {
+        <hr />
+        <h4><span>S</span>ân Gần nhà bạn</h4>  
         for (int i = 0; i < Model.NearestStadiums.Count(); i++)
         {
             var item = Model.NearestStadiums[i];
-            var img = Model.NearestStadiumsImages[i];             
+            var img = Model.NearestStadiumsImages[i];     
+                  
         <div class="span4" style="margin-left: 5px">
             <div class="stadium-item">
                 <div class="stadium-image">
@@ -312,22 +316,27 @@
         }
     }
 </div>
-<hr />
+
 <!--end Nearest stadium -->
 
-<!--Promoted stadium -->
-<div class="row-fluid">
-    <h4><span>S</span>ân Đang Khuyến mãi</h4>
+<!--Promoted stadium -->    
+<div class="row-fluid">    
 
-    @if (Model.PromotionStadiums != null)
+    @if (Model.PromotionStadiums != null && Model.PromotionStadiums.Count() != 0)
     {
+        
+        <hr />
+        <h4><span>S</span>ân Đang Khuyến mãi</h4>
+       
         for (int i = 0; i < Model.PromotionStadiums.Count(); i++)
         {
             var item = Model.PromotionStadiums[i];
-            var img = Model.PromotionStadiumsImages[i];             
+            var img = Model.PromotionStadiumsImages[i]; 
+                      
         <div class="span4" style="margin-left: 5px">
             <div class="stadium-item">
-                <div class="stadium-image">
+                
+                <div class="stadium-image">                    
                     <a href="/Stadium/Details?Id=@item.Stadium.Id">
                         @if (img != null)
                         {
@@ -337,7 +346,8 @@
                         {
                             <img src="/Content/images/stadium.jpg" />
                         }
-                    </a>
+                        
+                    </a>                    
                 </div>
                 <div class="stadium-detail">
                     <p class="stadium-name"><a href="/Stadium/Details?Id=@item.Stadium.Id">@item.Stadium.Name</a></p>
@@ -348,15 +358,16 @@
         }
     }
 </div>
-<hr />
+
 <!--end Promoted stadium -->
 
 <div class="row-fluid">
-    <h4>Tìm đội giao hữu</h4>
-
-    @if (Model.Rivals != null)
-        {
-            for (int i = 0; i < Model.Rivals.Count(); i++)            
+    
+    @if (Model.Rivals != null && Model.Rivals.Count() != 0)
+    {
+        <hr />
+        <h4>Tìm đội giao hữu</h4>
+        for (int i = 0; i < Model.Rivals.Count(); i++)
         {
             var item = Model.Rivals[i];
             var stadium = Model.Rivals[i].Reservation.Field.Stadium;

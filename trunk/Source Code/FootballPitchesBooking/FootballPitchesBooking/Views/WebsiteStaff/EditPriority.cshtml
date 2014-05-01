@@ -165,6 +165,18 @@
 <hr />
 
 <div>
+    <h4>Quy Định Thời Gian Hủy Đặt Sân:</h4>
+    <p>
+        <label for="amount">Thời gian tối thiểu để có thể hủy đặt sân (phút)</label>
+        <input type="text" id="minTimeCancel" data-cname="MinTimeCancel" value="@Model.MinTimeCancel.Value" readonly/>
+    </p>
+    <div id="min-time-cancel"></div>
+    <br />
+    <button onclick="updatePriority(this)">Cập nhật</button>
+</div>
+<hr />
+
+<div>
     <h4>Quy Định Thời Hạn Cập Nhật Địa Chỉ Của Người Sử Dụng:</h4>
     <p>
         <label for="amount">Thời gian cập nhật địa chỉ người dùng và khoảng cách đến sân bóng (ngày)</label>
@@ -175,6 +187,7 @@
     <button onclick="updatePriority(this)">Cập nhật</button>
 </div>
 <hr />
+
 
 <script type="text/javascript">
 
@@ -326,6 +339,21 @@
             }
         });
         $( "#minTimeBooking" ).val( $( "#min-time-booking" ).slider( "value" ) );
+    });
+  </script>
+
+<script>
+    $(function() {
+        $( "#min-time-cancel" ).slider({
+            range: "max",   
+            min: 1,
+            max: 180,
+            value: @Model.MinTimeCancel.Value,
+            slide: function( event, ui ) {
+                $( "#minTimeCancel" ).val( ui.value );
+            }
+        });
+        $( "#minTimeCancel" ).val( $( "#min-time-cancel" ).slider( "value" ) );
     });
   </script>
 

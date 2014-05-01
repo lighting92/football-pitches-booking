@@ -30,6 +30,8 @@ namespace FootballPitchesBooking.Models.RecommendationModels
 
         public Configuration MinTimeBooking { get; set; }
 
+        public Configuration MinTimeCancel { get; set; }
+
         public Configuration GgPeriodic { get; set; }
     }
 }
