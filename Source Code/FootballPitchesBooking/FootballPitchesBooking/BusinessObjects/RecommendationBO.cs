@@ -1017,6 +1017,8 @@ namespace FootballPitchesBooking.BusinessObjects
 
             result.MinTimeBooking = recDAO.GetPriorityByConfigName("MinTimeBooking");
 
+            result.MinTimeCancel = recDAO.GetPriorityByConfigName("MinTimeCancel");
+
             result.GgPeriodic = recDAO.GetPriorityByConfigName("Gg_Periodic");
             return result;
         }
