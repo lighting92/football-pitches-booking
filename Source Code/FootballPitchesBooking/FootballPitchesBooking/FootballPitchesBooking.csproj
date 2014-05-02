@@ -514,6 +514,7 @@
     <Content Include="Views\WebsiteStaff\EditPunishMember.cshtml" />
     <Content Include="Views\Account\RivalHistory.cshtml" />
     <Content Include="Views\Account\EditRival.cshtml" />
+    <Content Include="Views\StadiumStaff\InactiveStadium.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -555,5 +556,4 @@
   </Target>
   <Target Name="AfterBuild">
   </Target> -->
-
 </Project>

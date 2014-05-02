@@ -22,7 +22,7 @@ namespace FootballPitchesBooking.Controllers
         {
             StadiumBO stadiumBO = new StadiumBO();
             StadiumsModel model = new StadiumsModel();
-            model.Stadiums = stadiumBO.GetAllStadiums();
+            model.Stadiums = stadiumBO.GetAllStadiums().Where(s => s.IsActive && s.Fields.Count() > 0).ToList();            
             model.Rate = new List<double>();
             model.Image = new List<string>();
             for (int i = 0; i < model.Stadiums.Count; i++)
@@ -60,7 +60,7 @@ namespace FootballPitchesBooking.Controllers
             string address = form["StadiumAddress"];
             StadiumBO stadiumBO = new StadiumBO();
             StadiumsModel model = new StadiumsModel();
-            model.Stadiums = stadiumBO.GetStadiums(name, address);
+            model.Stadiums = stadiumBO.GetStadiums(name, address).Where(s => s.IsActive && s.Fields.Count() > 0).ToList();
             model.Rate = new List<double>();
             model.Image = new List<string>();
             for (int i = 0; i < model.Stadiums.Count; i++)
@@ -94,6 +94,11 @@ namespace FootballPitchesBooking.Controllers
             {
                 StadiumModel model = new StadiumModel();
                 model.Stadium = stadiumBO.GetStadiumById((int)id);
+
+                if (!model.Stadium.IsActive || !(model.Stadium.Fields.Count() > 0))
+                {
+                    return RedirectToAction("Index");
+                }
 
                 if (model.Stadium != null)
                 {
@@ -217,7 +222,7 @@ namespace FootballPitchesBooking.Controllers
                 model.Stadium = stadiumBO.GetStadiumById(stadiumId);
                 if (model.Stadium != null)
                 {
-                    if (model.Stadium.IsActive)
+                    if (model.Stadium.IsActive && model.Stadium.Fields.Count() > 0)
                     {
                         model.UserInfo = new BookingUserInfo();
                         model.Options = new BookingOptions();
@@ -284,6 +289,7 @@ namespace FootballPitchesBooking.Controllers
                     }
                     else
                     {
+                        model.Stadium.IsActive = false;
                         model.ErrorMessage = "Sân này đang không hoạt động. Xin chọn sân khác.";
                     }
                 }
@@ -296,7 +302,7 @@ namespace FootballPitchesBooking.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            return View();
+            return View(model);
         }
 
         [Authorize]

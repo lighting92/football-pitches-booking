@@ -455,8 +455,26 @@ namespace FootballPitchesBooking.BusinessObjects
                     RoleDAO roleDAO = new RoleDAO();
                     var soRole = roleDAO.GetRoleByRoleName("StadiumOwner");
                     userDAO.UpdateUserRole(stadiumOwner.Id, soRole.Id);
-                    var memberRole = roleDAO.GetRoleByRoleName("Member");
-                    userDAO.UpdateUserRole(oldStadium.MainOwner, memberRole.Id);
+                    var oldOwner = userDAO.GetUserByUserId(oldStadium.MainOwner);
+                    
+                        StadiumStaffDAO ssDAO = new StadiumStaffDAO();
+                        var listS = stadiumDAO.GetStadiumsByMainOwnerId(oldOwner.Id);
+                        if (listS == null || listS.Count == 0)
+                        {
+                            var listss = ssDAO.GetStadiumStaffByUser(oldOwner.Id);
+                            if (listss != null && listss.Count != 0)
+                            {
+                                var sOwnerRole = roleDAO.GetRoleByRoleName("StadiumOwner");
+                                var sStaffRole = roleDAO.GetRoleByRoleName("StadiumStaff");
+                                var isOwner = listss.Any(s => s.IsOwner);
+                                userDAO.UpdateUserRole(oldOwner.Id, isOwner ? sOwnerRole.Id : sStaffRole.Id);
+                            }
+                            else
+                            {
+                                var memberRole = roleDAO.GetRoleByRoleName("Member");
+                                userDAO.UpdateUserRole(oldStadium.MainOwner, memberRole.Id);
+                            }
+                        }
                 }
             }
 
@@ -720,7 +738,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 result.Add(-2);
             }
             var defaultPB = fp.PriceTables.Where(p => p.Day == 0).ToList();
-            if (defaultPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0))
+            if (defaultPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0 && p.TimeTo != 0))
             {
                 result.Add(-3);
             }
@@ -750,7 +768,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 result.Add(-5);
             }
             var mondayPB = fp.PriceTables.Where(p => p.Day == 1).ToList();
-            if (mondayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0))
+            if (mondayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0 && p.TimeTo != 0))
             {
                 result.Add(-6);
             }
@@ -780,7 +798,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 result.Add(-8);
             }
             var tuesdayPB = fp.PriceTables.Where(p => p.Day == 2).ToList();
-            if (tuesdayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0))
+            if (tuesdayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0 && p.TimeTo != 0))
             {
                 result.Add(-9);
             }
@@ -810,7 +828,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 result.Add(-11);
             }
             var wednesdayPB = fp.PriceTables.Where(p => p.Day == 3).ToList();
-            if (wednesdayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0))
+            if (wednesdayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0 && p.TimeTo != 0))
             {
                 result.Add(-12);
             }
@@ -840,7 +858,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 result.Add(-14);
             }
             var thurdayPB = fp.PriceTables.Where(p => p.Day == 4).ToList();
-            if (thurdayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0))
+            if (thurdayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0 && p.TimeTo != 0))
             {
                 result.Add(-15);
             }
@@ -870,7 +888,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 result.Add(-17);
             }
             var fridayPB = fp.PriceTables.Where(p => p.Day == 5).ToList();
-            if (fridayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0))
+            if (fridayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0 && p.TimeTo != 0))
             {
                 result.Add(-18);
             }
@@ -900,7 +918,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 result.Add(-20);
             }
             var saturdayPB = fp.PriceTables.Where(p => p.Day == 6).ToList();
-            if (saturdayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0))
+            if (saturdayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0 && p.TimeTo != 0))
             {
                 result.Add(-21);
             }
@@ -930,7 +948,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 result.Add(-23);
             }
             var sundayPB = fp.PriceTables.Where(p => p.Day == 7).ToList();
-            if (sundayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0))
+            if (sundayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0 && p.TimeTo != 0))
             {
                 result.Add(-24);
             }
@@ -977,7 +995,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 result.Add(-2);
             }
             var defaultPB = fp.PriceTables.Where(p => p.Day == 0).ToList();
-            if (defaultPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0))
+            if (defaultPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0 && p.TimeTo != 0))
             {
                 result.Add(-3);
             }
@@ -1007,7 +1025,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 result.Add(-5);
             }
             var mondayPB = fp.PriceTables.Where(p => p.Day == 1).ToList();
-            if (mondayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0))
+            if (mondayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0 && p.TimeTo != 0))
             {
                 result.Add(-6);
             }
@@ -1037,7 +1055,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 result.Add(-8);
             }
             var tuesdayPB = fp.PriceTables.Where(p => p.Day == 2).ToList();
-            if (tuesdayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0))
+            if (tuesdayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0 && p.TimeTo != 0))
             {
                 result.Add(-9);
             }
@@ -1067,7 +1085,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 result.Add(-11);
             }
             var wednesdayPB = fp.PriceTables.Where(p => p.Day == 3).ToList();
-            if (wednesdayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0))
+            if (wednesdayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0 && p.TimeTo != 0))
             {
                 result.Add(-12);
             }
@@ -1097,7 +1115,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 result.Add(-14);
             }
             var thurdayPB = fp.PriceTables.Where(p => p.Day == 4).ToList();
-            if (thurdayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0))
+            if (thurdayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0 && p.TimeTo != 0))
             {
                 result.Add(-15);
             }
@@ -1127,7 +1145,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 result.Add(-17);
             }
             var fridayPB = fp.PriceTables.Where(p => p.Day == 5).ToList();
-            if (fridayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0))
+            if (fridayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0 && p.TimeTo != 0))
             {
                 result.Add(-18);
             }
@@ -1157,7 +1175,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 result.Add(-20);
             }
             var saturdayPB = fp.PriceTables.Where(p => p.Day == 6).ToList();
-            if (saturdayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0))
+            if (saturdayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0 && p.TimeTo != 0))
             {
                 result.Add(-21);
             }
@@ -1187,7 +1205,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 result.Add(-23);
             }
             var sundayPB = fp.PriceTables.Where(p => p.Day == 7).ToList();
-            if (sundayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0))
+            if (sundayPB.Any(p => p.TimeFrom >= p.TimeTo && p.TimeFrom != 0 && p.TimeTo != 0))
             {
                 result.Add(-24);
             }
@@ -1438,8 +1456,9 @@ namespace FootballPitchesBooking.BusinessObjects
                  (p.TimeTo == 0 && 24 > startTime && 24 <= startTime + duration) ||
                  (p.TimeFrom <= startTime && p.TimeTo >= startTime + duration)))
                  .OrderBy(p => p.TimeFrom).ToList();
-            var finalPrices = new List<PriceTable>();
-            bool complete = false;
+
+            //var finalPrices = new List<PriceTable>();
+            //bool complete = false;
             if (dayPrices == null)
             {
                 dayPrices = new List<PriceTable>();
@@ -1458,122 +1477,146 @@ namespace FootballPitchesBooking.BusinessObjects
                     item.TimeTo = 24;
                 }
             }
-            int count = 0;
-            double goToTime = startTime;
-            while (!complete)
+
+
+            List<PriceTable> relevants = new List<PriceTable>();
+            double g = startTime;
+            for (var i = 0; i < dayPrices.Count(); i++)
             {
-                if (count < dayPrices.Count())
+                var dp = dayPrices[i];
+                var ndp = ((i + 1) < dayPrices.Count()) ? dayPrices[i + 1] : null;
+                bool comp = false;
+                while (!comp)
                 {
-                    if (dayPrices[count].TimeFrom <= goToTime)
+                    if (dp.TimeFrom <= g)
                     {
                         PriceTable temp = new PriceTable();
-                        temp.TimeFrom = goToTime;
-                        if (temp.TimeTo > startTime + duration)
-                        {
-                            temp.TimeTo = dayPrices[count].TimeTo;
-                        }
-                        else
-                        {
-                            temp.TimeTo = startTime + duration;
-                        }
-                        temp.Price = dayPrices[count].Price;
-                        finalPrices.Add(temp);
-                        goToTime = temp.TimeTo;
-                        count++;
+                        temp.TimeFrom = g;
+                        temp.Price = dp.Price;
+                        temp.TimeTo = dp.TimeTo;
+                        relevants.Add(temp);
+                        g = temp.TimeTo;
+                        comp = true;
                     }
                     else
                     {
-                        PriceTable temp = new PriceTable();
-                        temp.TimeFrom = goToTime;
-
                         if (dayDefault != null)
                         {
-                            temp.TimeTo = dayPrices[count].TimeFrom;
+                            PriceTable temp = new PriceTable();
+                            temp.TimeFrom = g;
                             temp.Price = dayDefault.Price;
+                            temp.TimeTo = dp.TimeFrom;
+                            g = temp.TimeTo;
+                            relevants.Add(temp);
                         }
-                        else if (pricesDefault != null && pricesDefault.Count() > 0)
+                        else
                         {
-                            var pd = pricesDefault.Where(p => p.TimeFrom <= goToTime && p.TimeTo > goToTime).FirstOrDefault();
+                            var pd = pricesDefault.Where(p => p.TimeFrom <= g && p.TimeTo > g).OrderByDescending(p => p.TimeFrom).FirstOrDefault();
+                            var late = pricesDefault.Where(p => p.TimeFrom > g).OrderBy(p => p.TimeFrom).FirstOrDefault();
+                            if (late == null || late.TimeFrom >= dp.TimeFrom)
+                            {
+                                late = dp;
+                            }
+
                             if (pd != null)
                             {
-                                if (pd.TimeTo < dayPrices[count].TimeFrom)
+                                if (pd.TimeTo <= dp.TimeFrom)
                                 {
-                                    temp.TimeTo = pd.TimeTo;
+                                    PriceTable temp = new PriceTable();
+                                    temp.TimeFrom = g;
                                     temp.Price = pd.Price;
+                                    temp.TimeTo = pd.TimeTo;
+                                    g = temp.TimeTo;
+                                    relevants.Add(temp);
                                 }
                                 else
                                 {
-                                    temp.TimeTo = dayPrices[count].TimeFrom;
+                                    PriceTable temp = new PriceTable();
+                                    temp.TimeFrom = g;
                                     temp.Price = pd.Price;
+                                    temp.TimeTo = dp.TimeFrom;
+                                    g = temp.TimeTo;
+                                    relevants.Add(temp);
                                 }
                             }
                             else
                             {
+                                PriceTable temp = new PriceTable();
+                                temp.TimeFrom = g;
                                 temp.Price = superDefault.Price;
-                                PriceTable nextPrice = null;
-                                var npd = pricesDefault.Where(p => p.TimeFrom > goToTime).OrderBy(p => p.TimeFrom).FirstOrDefault();
-                                if (npd != null)
-                                {
-                                    if (npd.TimeFrom < dayPrices[count].TimeFrom)
-                                    {
-                                        nextPrice = npd;
-                                    }
-                                    else
-                                    {
-                                        nextPrice = dayPrices[count];
-                                    }
-                                }
-                                else
-                                {
-                                    nextPrice = dayPrices[count];
-                                }
-                                temp.TimeTo = nextPrice.TimeFrom;
+                                temp.TimeTo = late.TimeFrom;
+                                g = temp.TimeTo;
+                                relevants.Add(temp);
                             }
                         }
-                        else
-                        {
-                            temp.TimeTo = dayPrices[count].TimeFrom;
-                            temp.Price = superDefault.Price;
-                        }
-                        goToTime = temp.TimeTo;
-                        finalPrices.Add(temp);
                     }
+                }
+            }
+
+            if (g != startTime + duration && g != 24)
+            {
+                if (dayDefault != null)
+                {
+                    PriceTable temp = new PriceTable();
+                    temp.TimeFrom = g;
+                    temp.Price = dayDefault.Price;
+                    if (startTime + duration > 24)
+                    {
+                        temp.TimeTo = 24;
+                    }
+                    else
+                    {
+                        temp.TimeTo = startTime + duration;
+                    }
+                    g = temp.TimeTo;
+                    relevants.Add(temp);
                 }
                 else
                 {
-                    PriceTable temp = new PriceTable();
-                    temp.TimeFrom = goToTime;
-
-                    if (dayDefault != null)
+                    bool comp = false;
+                    while (!comp)
                     {
-                        if (startTime + duration > 24)
-                        {
-                            temp.TimeTo = 24;
-                        }
-                        else
-                        {
-                            temp.TimeTo = startTime + duration;
-                        }
-                        temp.Price = dayDefault.Price;
-                    }
-                    else if (pricesDefault != null && pricesDefault.Count() > 0)
-                    {
-                        var pd = pricesDefault.Where(p => p.TimeFrom <= goToTime && p.TimeTo > goToTime).FirstOrDefault();
+                        var pd = pricesDefault.Where(p => p.TimeFrom <= g && p.TimeTo > g).OrderByDescending(p => p.TimeFrom).FirstOrDefault();
+                        var late = pricesDefault.Where(p => p.TimeFrom > g).OrderBy(p => p.TimeFrom).FirstOrDefault();
                         if (pd != null)
                         {
-                            temp.TimeTo = pd.TimeTo;
+                            PriceTable temp = new PriceTable();
+                            temp.TimeFrom = g;
                             temp.Price = pd.Price;
-                        }
-                        else
-                        {
-                            temp.Price = superDefault.Price;
-                            var npd = pricesDefault.Where(p => p.TimeFrom > goToTime).OrderBy(p => p.TimeFrom).FirstOrDefault();
-                            if (npd != null)
+                            if (late != null)
                             {
-                                temp.TimeTo = npd.TimeFrom;
+                                temp.TimeTo = pd.TimeTo;
                             }
                             else
                             {
+                                if (pd.TimeTo >= startTime + duration)
+                                {
+                                    temp.TimeTo = startTime + duration;
+                                }
+                                else
+                                {
+                                    temp.TimeTo = pd.TimeTo;
+                                }
+                            }
+                            g = temp.TimeTo;
+                            relevants.Add(temp);
+                        }
+                        else
+                        {
+                            if (late != null)
+                            {
+                                PriceTable temp = new PriceTable();
+                                temp.TimeFrom = g;
+                                temp.Price = superDefault.Price;
+                                temp.TimeTo = late.TimeFrom;
+                                g = temp.TimeTo;
+                                relevants.Add(temp);
+                            }
+                            else
+                            {
+                                PriceTable temp = new PriceTable();
+                                temp.TimeFrom = g;
+                                temp.Price = superDefault.Price;
                                 if (startTime + duration > 24)
                                 {
                                     temp.TimeTo = 24;
@@ -1582,32 +1625,21 @@ namespace FootballPitchesBooking.BusinessObjects
                                 {
                                     temp.TimeTo = startTime + duration;
                                 }
+                                g = temp.TimeTo;
+                                relevants.Add(temp);
                             }
                         }
-                    }
-                    else
-                    {
-                        if (startTime + duration > 24)
+                        if (g == startTime + duration || g == 24)
                         {
-                            temp.TimeTo = 24;
+                            comp = true;
                         }
-                        else
-                        {
-                            temp.TimeTo = startTime + duration;
-                        }
-                        temp.Price = superDefault.Price;
                     }
-                    goToTime = temp.TimeTo;
-                    finalPrices.Add(temp);
-                }
-                if (goToTime == 24 || goToTime == startTime + duration)
-                {
-                    complete = true;
                 }
             }
+            
             var discount = GetPromotionByField(field.Id, startDate);
             double d = 0;
-            foreach (var item in finalPrices)
+            foreach (var item in relevants)
             {
                 price += (item.Price * (item.TimeTo - item.TimeFrom));
             }
@@ -1615,16 +1647,16 @@ namespace FootballPitchesBooking.BusinessObjects
             {
                 d = discount.Discount / 100 * price;
             }
-            if (goToTime < startTime + duration)
+            if (g != startTime + duration)
             {
-                var nextPrice = CalculatePrice(field, startDate.AddDays(1).Date, 0, startTime + duration - goToTime);
+                var nextPrice = CalculatePrice(field, startDate.Date.AddDays(1), 0, startTime + duration - 24);
                 price += nextPrice[0];
                 d += nextPrice[1];
             }
             List<double> result = new List<double>();
             result.Add(price);
             result.Add(d);
-            return result;
+            return result;           
         }
 
 
