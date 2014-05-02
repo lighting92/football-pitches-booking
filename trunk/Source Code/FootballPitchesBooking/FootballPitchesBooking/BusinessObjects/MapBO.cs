@@ -219,6 +219,11 @@ namespace FootballPitchesBooking.BusinessObjects
                     return null;
                 }
 
+                if (distances.Where(d => d == null).Count() == distances.Count())
+                {
+                    return null;
+                }
+
                 List<StadiumDistance> lsd = new List<StadiumDistance>();
 
                 for (int i = 0; i < stadiumAddresses.Count(); i++)
@@ -226,7 +231,7 @@ namespace FootballPitchesBooking.BusinessObjects
                     var temp = new StadiumDistance();
                     temp.StadiumId = stadiumAddresses[i].StadiumId;
                     temp.StadiumAddress = stadiumAddresses[i].Address;
-                    temp.Distance = distances[i].Value;
+                    temp.Distance = distances[i];
                     lsd.Add(temp);
                 }
 
