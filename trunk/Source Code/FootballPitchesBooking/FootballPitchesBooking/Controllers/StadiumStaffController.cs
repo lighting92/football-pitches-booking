@@ -2374,7 +2374,7 @@ namespace FootballPitchesBooking.Controllers
         public ActionResult AddPromotion(FormCollection form, int stadium)
         {
             PromotionModel model = new PromotionModel();
-
+            StadiumBO stadiumBO = new StadiumBO();
             model.ErrorMessages = new List<string>();
 
             try
@@ -2391,7 +2391,6 @@ namespace FootballPitchesBooking.Controllers
 
             if (model.ErrorMessages.Count == 0)
             {
-                StadiumBO stadiumBO = new StadiumBO();
                 UserBO userBO = new UserBO();
 
                 User creator = userBO.GetUserByUserName(User.Identity.Name);
@@ -2425,7 +2424,7 @@ namespace FootballPitchesBooking.Controllers
                     model.ErrorMessages.Add(Resources.Promotion_TimeFromOverTo);
                 }
             }
-
+            model.Fields = stadiumBO.GetFieldsByStadiumId((int)stadium);
             return View(model);
         }
 
@@ -2466,12 +2465,16 @@ namespace FootballPitchesBooking.Controllers
         public ActionResult EditPromotion(FormCollection form, int id)
         {
             PromotionModel model = new PromotionModel();
+            StadiumBO stadiumBO = new StadiumBO();
+            int stadium = 0;
 
             model.ErrorMessages = new List<string>();
 
             try
             {
                 model.FieldId = Int32.Parse(form["Fields"]);
+                stadium = stadiumBO.GetFieldById(model.FieldId).StadiumId;
+                model.Fields = stadiumBO.GetFieldsByStadiumId(stadium);
                 model.PromotionFrom = DateTime.Parse(form["PromotionFrom"], new CultureInfo("vi-VN"));
                 model.PromotionTo = DateTime.Parse(form["PromotionTo"], new CultureInfo("vi-VN"));
                 model.Discount = Double.Parse(form["Discount"]);
@@ -2484,8 +2487,6 @@ namespace FootballPitchesBooking.Controllers
 
             if (model.ErrorMessages.Count == 0)
             {
-                StadiumBO stadiumBO = new StadiumBO();
-                int stadium = stadiumBO.GetFieldById(model.FieldId).StadiumId;
                 Promotion promotion = new Promotion
                 {
                     Id = id,
@@ -2515,7 +2516,6 @@ namespace FootballPitchesBooking.Controllers
                     model.ErrorMessages.Add(Resources.Promotion_TimeFromOverTo);
                 }
             }
-
             return View(model);
         }
 

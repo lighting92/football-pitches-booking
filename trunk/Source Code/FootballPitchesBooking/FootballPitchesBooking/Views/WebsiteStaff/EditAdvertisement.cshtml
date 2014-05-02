@@ -17,7 +17,7 @@
         var expired = $("#ExpiredDate").val();
 
         if (detail == "") {
-            $("#AdvertiseDetail_Error").append("Xin vui lòng nhập vào chi tiết của quảng cáo");
+            $("#AdvertiseDetail_Error").text("Xin vui lòng nhập vào chi tiết của quảng cáo");
             $("#AdvertiseDetail_Error").css("display", "block");
             flag++;
         }
@@ -27,7 +27,7 @@
         }
 
         if (expired == "") {
-            $("#ExpiredDate_Error").append("Xin vui lòng chọn thời gian khuyến mãi");
+            $("#ExpiredDate_Error").text("Xin vui lòng chọn thời gian quảng cáo");
             $("#ExpiredDate_Error").css("display", "block");
             flag++;
         }
