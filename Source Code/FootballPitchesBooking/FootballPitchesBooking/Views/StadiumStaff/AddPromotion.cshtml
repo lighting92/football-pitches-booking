@@ -11,9 +11,10 @@
         var promotionfrom = $("input[name=PromotionFrom]").val();
         var promotionto = $("input[name=PromotionTo]").val();
         var discount = new Number($("input[name=Discount]").val());
+        var discountField = $("input[name=Discount]").val();
 
         if (promotionfrom == "" || promotionto == "") {
-            $("#PromotionTime_Error").append("Xin vui lòng chọn thời gian khuyến mãi");
+            $("#PromotionTime_Error").text("Xin vui lòng chọn thời gian khuyến mãi");
             $("#PromotionTime_Error").css("display", "block");
             flag++;
             //return false;
@@ -23,8 +24,8 @@
             $("#PromotionTime_Error").css("display", "none");
         }
 
-        if (discount < 0 || discount > 100) {
-            $("#Discount_Error").append("Yêu cầu giảm giá nằm trong khoảng từ 0 đến 100");
+        if (discount < 0 || discount > 100 || discountField == "") {
+            $("#Discount_Error").text("Yêu cầu giảm giá nằm trong khoảng từ 0 đến 100");
             $("#Discount_Error").css("display", "block");
             flag++;
             //return false;

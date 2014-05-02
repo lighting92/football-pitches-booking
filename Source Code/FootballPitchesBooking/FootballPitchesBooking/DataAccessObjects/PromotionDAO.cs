@@ -87,6 +87,24 @@ namespace FootballPitchesBooking.DataAccessObjects
         }
 
 
+        public int UpdatePromotionStatus(int promotionId, bool status)
+        {
+            FPBDataContext db = new FPBDataContext();
+            Promotion currentPromotion = db.Promotions.Where(p => p.Id == promotionId).FirstOrDefault();
+            currentPromotion.IsActive = status;
+
+            try
+            {
+                db.SubmitChanges();
+                return promotionId;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+
         public int DeletePromotion(int promotionId)
         {
             FPBDataContext db = new FPBDataContext();
