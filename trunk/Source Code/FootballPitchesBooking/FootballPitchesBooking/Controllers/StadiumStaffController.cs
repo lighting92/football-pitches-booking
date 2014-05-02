@@ -88,10 +88,13 @@ namespace FootballPitchesBooking.Controllers
         {
             StadiumBO stadiumBO = new StadiumBO();
             Stadium stadium = stadiumBO.GetAuthorizeStadium(id, User.Identity.Name);
-
+            
             if (stadium != null)
             {
-
+                if (!stadium.IsActive)
+                {
+                    return View("InactiveStadium");
+                }
                 List<string> listImages = new List<string>();
                 List<string> imageIds = new List<string>();
 
@@ -145,11 +148,15 @@ namespace FootballPitchesBooking.Controllers
         public ActionResult EditStadium(FormCollection form, int id)
         {
             StadiumBO stadiumBO = new StadiumBO();
-
+            Stadium temp = stadiumBO.GetAuthorizeStadium(id, User.Identity.Name);
+            if (temp != null && !temp.IsActive)
+            {
+                return View("InactiveStadium");
+            }
             EditStadiumModel model = new EditStadiumModel();
             model.Name = form["Name"];
             model.MainOwner = form["MainOwner"];
-            model.IsActive = bool.Parse(form["IsActive"]);
+            model.IsActive = true;
             model.Phone = form["Phone"];
             model.Email = form["Email"];
             model.Street = form["Street"];
@@ -339,6 +346,10 @@ namespace FootballPitchesBooking.Controllers
             {
                 model.HavePermission = true;
                 var s = stadiumBO.GetStadiumById(stadium);
+                if (!s.IsActive)
+                {
+                    return View("InactiveStadium");
+                }
                 model.StadiumId = s.Id;
                 model.StadiumName = s.Name;
                 model.StadiumAddress = s.Street + ", " + s.Ward + ", " + s.District;
@@ -358,11 +369,15 @@ namespace FootballPitchesBooking.Controllers
         [Authorize(Roles = "StadiumOwner")]
         public ActionResult AddFieldPrices(int stadium)
         {
-            StadiumBO stadiumBO = new StadiumBO();
+            StadiumBO stadiumBO = new StadiumBO();            
             Stadium s = stadiumBO.GetAuthorizeStadium(stadium, User.Identity.Name);
             AddFieldPricesModel model = new AddFieldPricesModel();
             if (s != null)
             {
+                if (!s.IsActive)
+                {
+                    return View("InactiveStadium");
+                }
                 model.HavePermission = true;
                 model.StadiumId = s.Id;
                 model.StadiumName = s.Name;
@@ -396,6 +411,10 @@ namespace FootballPitchesBooking.Controllers
             AddFieldPricesModel model = new AddFieldPricesModel();
             if (s != null)
             {
+                if (!s.IsActive)
+                {
+                    return View("InactiveStadium");
+                }
                 model.HavePermission = true;
                 model.StadiumId = s.Id;
                 model.StadiumName = s.Name;
@@ -940,6 +959,10 @@ namespace FootballPitchesBooking.Controllers
             if (fieldPrice != null)
             {
                 Stadium s = stadiumBO.GetStadiumById(fieldPrice.StadiumId);
+                if (!s.IsActive)
+                {
+                    return View("InactiveStadium");
+                }
                 model.HavePermission = true;
                 model.StadiumId = s.Id;
                 model.StadiumName = s.Name;
@@ -967,64 +990,64 @@ namespace FootballPitchesBooking.Controllers
                         case 0:
                             model.DefaultPriceTables.Add(new PriceTableModel
                             {
-                                StartTime = (int)item.TimeFrom + ":" + (item.TimeFrom - (int)item.TimeFrom),
-                                EndTime = (int)item.TimeTo + ":" + (item.TimeTo - (int)item.TimeTo),
+                                StartTime = (int)item.TimeFrom + ":" + ((item.TimeFrom - (int)item.TimeFrom) * 60),
+                                EndTime = (int)item.TimeTo + ":" + ((item.TimeTo - (int)item.TimeTo) * 60),
                                 Price = item.Price.ToString()
                             });
                             break;
                         case 1:
                             model.MondayPriceTables.Add(new PriceTableModel
                             {
-                                StartTime = (int)item.TimeFrom + ":" + (item.TimeFrom - (int)item.TimeFrom),
-                                EndTime = (int)item.TimeTo + ":" + (item.TimeTo - (int)item.TimeTo),
+                                StartTime = (int)item.TimeFrom + ":" + ((item.TimeFrom - (int)item.TimeFrom) * 60),
+                                EndTime = (int)item.TimeTo + ":" + ((item.TimeTo - (int)item.TimeTo) * 60),
                                 Price = item.Price.ToString()
                             });
                             break;
                         case 2:
                             model.TuesdayPriceTables.Add(new PriceTableModel
                             {
-                                StartTime = (int)item.TimeFrom + ":" + (item.TimeFrom - (int)item.TimeFrom),
-                                EndTime = (int)item.TimeTo + ":" + (item.TimeTo - (int)item.TimeTo),
+                                StartTime = (int)item.TimeFrom + ":" + ((item.TimeFrom - (int)item.TimeFrom) * 60),
+                                EndTime = (int)item.TimeTo + ":" + ((item.TimeTo - (int)item.TimeTo) * 60),
                                 Price = item.Price.ToString()
                             });
                             break;
                         case 3:
                             model.WednesdayPriceTables.Add(new PriceTableModel
                             {
-                                StartTime = (int)item.TimeFrom + ":" + (item.TimeFrom - (int)item.TimeFrom),
-                                EndTime = (int)item.TimeTo + ":" + (item.TimeTo - (int)item.TimeTo),
+                                StartTime = (int)item.TimeFrom + ":" + ((item.TimeFrom - (int)item.TimeFrom) * 60),
+                                EndTime = (int)item.TimeTo + ":" + ((item.TimeTo - (int)item.TimeTo) * 60),
                                 Price = item.Price.ToString()
                             });
                             break;
                         case 4:
                             model.ThurdayPriceTables.Add(new PriceTableModel
                             {
-                                StartTime = (int)item.TimeFrom + ":" + (item.TimeFrom - (int)item.TimeFrom),
-                                EndTime = (int)item.TimeTo + ":" + (item.TimeTo - (int)item.TimeTo),
+                                StartTime = (int)item.TimeFrom + ":" + ((item.TimeFrom - (int)item.TimeFrom) * 60),
+                                EndTime = (int)item.TimeTo + ":" + ((item.TimeTo - (int)item.TimeTo) * 60),
                                 Price = item.Price.ToString()
                             });
                             break;
                         case 5:
                             model.FridayPriceTables.Add(new PriceTableModel
                             {
-                                StartTime = (int)item.TimeFrom + ":" + (item.TimeFrom - (int)item.TimeFrom),
-                                EndTime = (int)item.TimeTo + ":" + (item.TimeTo - (int)item.TimeTo),
+                                StartTime = (int)item.TimeFrom + ":" + ((item.TimeFrom - (int)item.TimeFrom) * 60),
+                                EndTime = (int)item.TimeTo + ":" + ((item.TimeTo - (int)item.TimeTo) * 60),
                                 Price = item.Price.ToString()
                             });
                             break;
                         case 6:
                             model.SaturdayPriceTables.Add(new PriceTableModel
                             {
-                                StartTime = (int)item.TimeFrom + ":" + (item.TimeFrom - (int)item.TimeFrom),
-                                EndTime = (int)item.TimeTo + ":" + (item.TimeTo - (int)item.TimeTo),
+                                StartTime = (int)item.TimeFrom + ":" + ((item.TimeFrom - (int)item.TimeFrom) * 60),
+                                EndTime = (int)item.TimeTo + ":" + ((item.TimeTo - (int)item.TimeTo) * 60),
                                 Price = item.Price.ToString()
                             });
                             break;
                         case 7:
                             model.SundayPriceTables.Add(new PriceTableModel
                             {
-                                StartTime = (int)item.TimeFrom + ":" + (item.TimeFrom - (int)item.TimeFrom),
-                                EndTime = (int)item.TimeTo + ":" + (item.TimeTo - (int)item.TimeTo),
+                                StartTime = (int)item.TimeFrom + ":" + ((item.TimeFrom - (int)item.TimeFrom) * 60),
+                                EndTime = (int)item.TimeTo + ":" + ((item.TimeTo - (int)item.TimeTo) * 60),
                                 Price = item.Price.ToString()
                             });
                             break;
@@ -1052,6 +1075,10 @@ namespace FootballPitchesBooking.Controllers
             if (fieldPrice != null)
             {
                 Stadium s = stadiumBO.GetAuthorizeStadium(fieldPrice.StadiumId, User.Identity.Name);
+                if (!s.IsActive)
+                {
+                    return View("InactiveStadium");
+                }
                 model.HavePermission = true;
                 model.StadiumId = s.Id;
                 model.StadiumName = s.Name;
@@ -1601,6 +1628,10 @@ namespace FootballPitchesBooking.Controllers
             {
                 model.HavePermission = true;
                 var s = stadiumBO.GetStadiumById(stadium);
+                if (!s.IsActive)
+                {
+                    return View("InactiveStadium");
+                }
                 model.StadiumId = s.Id;
                 model.StadiumName = s.Name;
                 model.StadiumAddress = s.Street + ", " + s.Ward + ", " + s.District;
@@ -1630,6 +1661,10 @@ namespace FootballPitchesBooking.Controllers
             AddFieldModel model = new AddFieldModel();
             if (s != null)
             {
+                if (!s.IsActive)
+                {
+                    return View("InactiveStadium");
+                }
                 model.HavePermission = true;
                 model.StadiumId = s.Id;
                 model.StadiumName = s.Name;
@@ -1660,6 +1695,10 @@ namespace FootballPitchesBooking.Controllers
             AddFieldModel model = new AddFieldModel();
             if (s != null)
             {
+                if (!s.IsActive)
+                {
+                    return View("InactiveStadium");
+                }
                 model.HavePermission = true;
                 model.StadiumId = s.Id;
                 model.StadiumName = s.Name;
@@ -1756,6 +1795,10 @@ namespace FootballPitchesBooking.Controllers
             if (f != null)
             {
                 var s = stadiumBO.GetStadiumById(f.StadiumId);
+                if (!s.IsActive)
+                {
+                    return View("InactiveStadium");
+                }
                 model.HavePermission = true;
                 model.StadiumId = s.Id;
                 model.StadiumName = s.Name;
@@ -1793,6 +1836,10 @@ namespace FootballPitchesBooking.Controllers
             if (f != null)
             {
                 var s = stadiumBO.GetStadiumById(f.StadiumId);
+                if (!s.IsActive)
+                {
+                    return View("InactiveStadium");
+                }
                 model.HavePermission = true;
                 model.StadiumId = s.Id;
                 model.StadiumName = s.Name;

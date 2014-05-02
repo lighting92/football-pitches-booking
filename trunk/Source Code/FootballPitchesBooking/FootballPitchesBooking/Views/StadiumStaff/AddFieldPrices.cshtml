@@ -101,15 +101,14 @@
                             </div>
                             <div class="span2 default-0">
                                 <label>
-                                    Gía 1 tiếng
+                                    Giá 1 tiếng
                                     <input id="defaultprice_0" name="defaultprice_0" type="text" class="format-price span2" placeholder="Ví dụ: 100000" value="@Model.DefaultPriceTables[0].Price">
                                 </label>
                             </div>
                             @foreach (var item in Model.DefaultPriceTables)
                             {
                                 if (count != 0)
-                                {
-                                    count++;
+                                {                                    
                                 <div class="span2 default-@count">
                                     <label>
                                         TỪ
@@ -165,7 +164,6 @@
                             </div>
                             @foreach (var item in Model.MondayPriceTables)
                             {
-                                count++;
                                 <div class="span2 mon-@count">
                                     <label>
                                         TỪ
@@ -205,6 +203,7 @@
 
                                     </a>
                                 </div>
+                                count++;
                             }
                         </div>
                         <hr />
@@ -216,7 +215,6 @@
                             </div>
                             @foreach (var item in Model.TuesdayPriceTables)
                             {
-                                count++;
                                 <div class="span2 tue-@count">
                                     <label>
                                         TỪ
@@ -256,6 +254,7 @@
 
                                     </a>
                                 </div>
+                                count++;
                             }
                         </div>
                         <hr />
@@ -267,7 +266,6 @@
                             </div>
                             @foreach (var item in Model.WednesdayPriceTables)
                             {
-                                count++;
                                 <div class="span2 wed-@count">
                                     <label>
                                         TỪ
@@ -307,6 +305,7 @@
 
                                     </a>
                                 </div>
+                                count++;
                             }
                         </div>
                         <hr />
@@ -318,7 +317,6 @@
                             </div>
                             @foreach (var item in Model.ThurdayPriceTables)
                             {
-                                count++;
                                 <div class="span2 thu-@count">
                                     <label>
                                         TỪ
@@ -358,6 +356,7 @@
 
                                     </a>
                                 </div>
+                                count++;
                             }
                         </div>
                         <hr />
@@ -369,7 +368,6 @@
                             </div>
                             @foreach (var item in Model.FridayPriceTables)
                             {
-                                count++;
                                 <div class="span2 fri-@count">
                                     <label>
                                         TỪ
@@ -409,6 +407,7 @@
 
                                     </a>
                                 </div>
+                                count++;
                             }
                         </div>
                         <hr />
@@ -420,7 +419,6 @@
                             </div>
                             @foreach (var item in Model.SaturdayPriceTables)
                             {
-                                count++;
                                 <div class="span2 sat-@count">
                                     <label>
                                         TỪ
@@ -460,6 +458,7 @@
 
                                     </a>
                                 </div>
+                                count++;
                             }
                         </div>
                         <hr />
@@ -471,7 +470,6 @@
                             </div>
                             @foreach (var item in Model.SundayPriceTables)
                             {
-                                count++;
                                 <div class="span2 sun-@count">
                                     <label>
                                         TỪ
@@ -511,6 +509,7 @@
 
                                     </a>
                                 </div>
+                                count++;
                             }
                         </div>
                         <input type="hidden" id="oldCount" value="@count" />

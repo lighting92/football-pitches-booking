@@ -1011,7 +1011,8 @@ namespace FootballPitchesBooking.Controllers
         public ActionResult EditPriority()
         {
             RecommendationBO recBO = new RecommendationBO();
-            return View(recBO.ViewPriority());
+            var model = recBO.ViewPriority();
+            return View(model);
         }
 
         [Authorize(Roles = "WebsiteMaster")]
