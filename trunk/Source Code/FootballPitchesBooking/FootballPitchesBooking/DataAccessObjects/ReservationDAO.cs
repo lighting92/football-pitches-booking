@@ -228,7 +228,10 @@ namespace FootballPitchesBooking.DataAccessObjects
             FPBDataContext db = new FPBDataContext();
             Reservation curRev = db.Reservations.Where(r => r.Id == reservationId).FirstOrDefault();
             curRev.Status = status;
-            curRev.Approver = approver;
+            if (approver > 0)
+            {
+                curRev.Approver = approver;
+            }
 
             try
             {

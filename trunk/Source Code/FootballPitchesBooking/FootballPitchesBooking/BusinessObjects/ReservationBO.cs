@@ -118,6 +118,7 @@ namespace FootballPitchesBooking.BusinessObjects
         public int UpdateReservation(Reservation reservation)
         {
             Utils utils = new Utils();
+            ReservationDAO resvDAO = new ReservationDAO();
             ConfigurationDAO configDAO = new ConfigurationDAO();
             double min = 0;
             try
@@ -131,7 +132,14 @@ namespace FootballPitchesBooking.BusinessObjects
             //Validate ngày đặt sân trước ngày hiện tại, hoặc đặt sân ngày hiện tại nhung giờ đặt đã qua hoặc quá sát với thời gian đặt (khoảng cách 1 tiếng)
             if (reservation.Date < DateTime.Now.Date || (reservation.Date == DateTime.Now.Date && reservation.StartTime <= (expTime)))
             {
-                return -1;
+                if (reservation.Status.Equals("Canceled"))
+                {
+                    return resvDAO.UpdateReservationStatus(reservation.Id, "Canceled", 0);
+                }
+                else
+                {
+                    return -1;
+                }
             }
 
             //Đặt thời gian đá ít hơn 1 tiếng hoặc nhiều hơn 3 tiếng
@@ -185,8 +193,6 @@ namespace FootballPitchesBooking.BusinessObjects
             {
                 reservation.Approver = resv.Approver;
             }
-
-            ReservationDAO resvDAO = new ReservationDAO();
 
             int result = resvDAO.UpdateReservation(reservation);
 
