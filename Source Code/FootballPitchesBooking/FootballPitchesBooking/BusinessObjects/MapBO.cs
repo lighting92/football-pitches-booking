@@ -42,7 +42,7 @@ namespace FootballPitchesBooking.BusinessObjects
                         addresses.origin = user.Address;
                         addresses.destinations = stadiumAddresses.Select(s => s.Address).ToArray();
 
-                        var distances = SinglePointDistanceMatrix(addresses);
+                        var distances = SinglePointDistanceMatrix(addresses); if (distances == null) { return null; }
 
                         List<StadiumDistance> lsd = new List<StadiumDistance>();
 
@@ -72,7 +72,7 @@ namespace FootballPitchesBooking.BusinessObjects
                         addresses.origin = user.Address;
                         addresses.destinations = stadiumAddresses.Select(s => s.Address).ToArray();
 
-                        var distances = SinglePointDistanceMatrix(addresses);
+                        var distances = SinglePointDistanceMatrix(addresses); if (distances == null) { return null; }
 
                         List<StadiumDistance> lsd = new List<StadiumDistance>();
 
@@ -107,7 +107,7 @@ namespace FootballPitchesBooking.BusinessObjects
                         addresses.origin = user.Address;
                         addresses.destinations = stadiumAddresses.Select(s => s.Address).ToArray();
 
-                        var distances = SinglePointDistanceMatrix(addresses);
+                        var distances = SinglePointDistanceMatrix(addresses); if (distances == null) { return null; }
 
                         List<StadiumDistance> lsd = new List<StadiumDistance>();
 
@@ -144,7 +144,7 @@ namespace FootballPitchesBooking.BusinessObjects
                             addresses.origin = user.Address;
                             addresses.destinations = stadiumAddresses.Select(s => s.Address).ToArray();
 
-                            var distances = SinglePointDistanceMatrix(addresses);
+                            var distances = SinglePointDistanceMatrix(addresses); if (distances == null) { return null; }
 
                             List<StadiumDistance> lsd = new List<StadiumDistance>();
 
@@ -174,7 +174,7 @@ namespace FootballPitchesBooking.BusinessObjects
                             addresses.origin = user.Address;
                             addresses.destinations = stadiumAddresses.Select(s => s.Address).ToArray();
 
-                            var distances = SinglePointDistanceMatrix(addresses);
+                            var distances = SinglePointDistanceMatrix(addresses); if (distances == null) { return null; }
 
                             List<StadiumDistance> lsd = new List<StadiumDistance>();
 
@@ -212,17 +212,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 addresses.origin = user.Address;
                 addresses.destinations = stadiumAddresses.Select(s => s.Address).ToArray();
 
-                var distances = SinglePointDistanceMatrix(addresses);
-
-                if (distances == null)
-                {
-                    return null;
-                }
-
-                if (distances.Where(d => d == null).Count() == distances.Count())
-                {
-                    return null;
-                }
+                var distances = SinglePointDistanceMatrix(addresses); if (distances == null) { return null; }
 
                 List<StadiumDistance> lsd = new List<StadiumDistance>();
 
@@ -372,7 +362,10 @@ namespace FootballPitchesBooking.BusinessObjects
                 }
             }
 
-
+            if (result.Where(r => r == null).Count() == result.Count())
+            {
+                return null;
+            }
 
             return result;
         }
