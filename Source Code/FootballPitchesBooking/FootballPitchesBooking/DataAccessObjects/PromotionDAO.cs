@@ -12,7 +12,8 @@ namespace FootballPitchesBooking.DataAccessObjects
         {
             FPBDataContext db = new FPBDataContext();
             //return db.Fields.Where(s => s.Id == stadiumId).Select(f => f.Promotions).Where(p => p.PromotionTo >= DateTime.Now).ToList();
-            return db.Fields.Where(s => s.StadiumId == stadiumId).Select(f => f.Promotions.Where(p => p.PromotionTo >= DateTime.Now).OrderByDescending(o => o.Discount).FirstOrDefault();
+            var prom = db.Promotions.Where(p => p.Field.StadiumId == stadiumId && p.PromotionTo >= DateTime.Now).OrderByDescending(o => o.Discount).FirstOrDefault();
+            return prom;
         }
         public List<Promotion> GetAllActivePromotions()
         {
