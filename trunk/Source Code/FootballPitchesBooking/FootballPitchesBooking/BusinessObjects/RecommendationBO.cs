@@ -782,6 +782,7 @@ namespace FootballPitchesBooking.BusinessObjects
                     temp.Stadium = stadiumDAO.GetStadiumById(item.Id);
                     //test     
                     var prom = highestPromotion.GetHighestPromotionOfStadium(item.Id);
+                    temp.HighestPromotion = prom;
                     recommendStadiums.Add(temp);
                 }
 

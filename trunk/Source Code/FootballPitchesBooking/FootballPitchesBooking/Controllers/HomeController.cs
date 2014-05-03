@@ -109,16 +109,7 @@ namespace FootballPitchesBooking.Controllers
                         image.Path = "stadium.jpg";
                     }
                     model.PromotionStadiumsImages.Add(image);
-                }
-
-                //discount
-                model.PromotionStadiums = promotionStadiums;
-                model.PromotionStadiumDiscount = new List<Models.Promotion>();
-                foreach (var item in model.PromotionStadiums)
-                {
-                   var promote = item.Stadium.Fields.FirstOrDefault();
-                   // model.PromotionStadiumDiscount.Add(promote);
-                }
+                }        
 
                 model.MostBookedStadiums = mostBookedStadiums;
                 model.MostBookedStadiumsImages = new List<Models.StadiumImage>();
