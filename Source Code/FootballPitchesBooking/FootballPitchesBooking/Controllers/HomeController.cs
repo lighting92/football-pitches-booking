@@ -107,7 +107,8 @@ namespace FootballPitchesBooking.Controllers
                     {
                         image = new StadiumImage();
                         image.Path = "stadium.jpg";
-                    }                    
+                    }
+                    model.PromotionStadiumsImages.Add(image);
                 }
 
                 
@@ -138,8 +139,9 @@ namespace FootballPitchesBooking.Controllers
             model = webBO.GetActiveAds();
             return PartialView(model);
         }
+                
 
-        public ActionResult About()
+        public ActionResult AboutUs()
         {
             return View();
         }

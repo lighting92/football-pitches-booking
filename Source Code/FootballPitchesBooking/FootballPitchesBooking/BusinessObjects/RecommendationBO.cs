@@ -774,11 +774,14 @@ namespace FootballPitchesBooking.BusinessObjects
                 result = result.OrderByDescending(p => p.Priority).ToList();
 
                 var recommendStadiums = new List<RecommendStadium>();
-
+                PromotionDAO highestPromotion = new PromotionDAO();
                 foreach (var item in result)
                 {
                     var temp = new RecommendStadium();
+                    
                     temp.Stadium = stadiumDAO.GetStadiumById(item.Id);
+                    //test     
+                    temp.Stadium = highestPromotion.GetHighestPromotionOfStadium(item.Id);
                     recommendStadiums.Add(temp);
                 }
 
