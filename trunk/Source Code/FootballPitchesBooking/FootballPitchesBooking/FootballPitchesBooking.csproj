@@ -515,7 +515,7 @@
     <Content Include="Views\Account\RivalHistory.cshtml" />
     <Content Include="Views\Account\EditRival.cshtml" />
     <Content Include="Views\StadiumStaff\InactiveStadium.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\AboutUs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
