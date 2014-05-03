@@ -17,7 +17,8 @@ namespace FootballPitchesBooking.Models.RecommendationModels
         public List<StadiumImage> NearestStadiumsImages { get; set; }
         public List<StadiumImage> PromotionStadiumsImages { get; set; }
         public List<StadiumImage> MostBookedStadiumsImages { get; set; }
-
+        
+        public List<Promotion> PromotionStadiumDiscount { get; set; }
         
     }
 }

@@ -97,7 +97,7 @@ namespace FootballPitchesBooking.Controllers
                     }
                     model.NearestStadiumsImages.Add(image);
                 }
-
+                                
                 model.PromotionStadiums = promotionStadiums;
                 model.PromotionStadiumsImages = new List<Models.StadiumImage>();
                 foreach (var item in model.PromotionStadiums)
@@ -107,9 +107,10 @@ namespace FootballPitchesBooking.Controllers
                     {
                         image = new StadiumImage();
                         image.Path = "stadium.jpg";
-                    }
-                    model.PromotionStadiumsImages.Add(image);
+                    }                    
                 }
+
+                
 
                 model.MostBookedStadiums = mostBookedStadiums;
                 model.MostBookedStadiumsImages = new List<Models.StadiumImage>();
@@ -123,6 +124,9 @@ namespace FootballPitchesBooking.Controllers
                     }
                     model.MostBookedStadiumsImages.Add(image);
                 }
+
+               
+                
             }         
             return View(model);
         }
@@ -135,6 +139,10 @@ namespace FootballPitchesBooking.Controllers
             return PartialView(model);
         }
 
+        public ActionResult About()
+        {
+            return View();
+        }
 
         public ActionResult Feedback()
         {
