@@ -8,6 +8,7 @@ namespace FootballPitchesBooking.Models.RecommendationModels
     public class RecommendStadium
     {
         public Stadium Stadium { get; set; }
+        public Promotion HighestPromotion { get; set; }
         public string RecommendationReason { get; set; }
     }
 
