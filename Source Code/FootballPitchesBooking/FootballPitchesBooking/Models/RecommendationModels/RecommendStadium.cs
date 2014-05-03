@@ -10,4 +10,5 @@ namespace FootballPitchesBooking.Models.RecommendationModels
         public Stadium Stadium { get; set; }
         public string RecommendationReason { get; set; }
     }
+
 }
