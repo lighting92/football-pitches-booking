@@ -101,8 +101,8 @@ namespace FootballPitchesBooking.Controllers
                 model.PromotionStadiums = promotionStadiums;
                 model.PromotionStadiumsImages = new List<Models.StadiumImage>();
                 foreach (var item in model.PromotionStadiums)
-                {
-                    var image = item.Stadium.StadiumImages.FirstOrDefault();
+                {                   
+                    var image = item.Stadium.StadiumImages.FirstOrDefault();                    
                     if (image == null)
                     {
                         image = new StadiumImage();
@@ -111,7 +111,14 @@ namespace FootballPitchesBooking.Controllers
                     model.PromotionStadiumsImages.Add(image);
                 }
 
-                
+                //discount
+                model.PromotionStadiums = promotionStadiums;
+                model.PromotionStadiumDiscount = new List<Models.Promotion>();
+                foreach (var item in model.PromotionStadiums)
+                {
+                   var promote = item.Stadium.Fields.FirstOrDefault();
+                   // model.PromotionStadiumDiscount.Add(promote);
+                }
 
                 model.MostBookedStadiums = mostBookedStadiums;
                 model.MostBookedStadiumsImages = new List<Models.StadiumImage>();
