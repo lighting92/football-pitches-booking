@@ -375,11 +375,17 @@ namespace FootballPitchesBooking.BusinessObjects
                 result = result.OrderByDescending(p => p.Priority).ToList();
 
                 var recommendStadiums = new List<RecommendStadium>();
-
+                PromotionDAO highestPromotion = new PromotionDAO();
                 foreach (var item in result)
                 {
+                    //var temp = new RecommendStadium();
+                    //temp.Stadium = stadiumDAO.GetStadiumById(item.Id);
+                    //recommendStadiums.Add(temp);
+                    //
                     var temp = new RecommendStadium();
                     temp.Stadium = stadiumDAO.GetStadiumById(item.Id);
+                    var prom = highestPromotion.GetHighestPromotionOfStadium(item.Id);
+                    temp.HighestPromotion = prom;
                     recommendStadiums.Add(temp);
                 }
 
@@ -575,12 +581,19 @@ namespace FootballPitchesBooking.BusinessObjects
                 result = result.OrderByDescending(p => p.Priority).ToList();
 
                 var recommendStadiums = new List<RecommendStadium>();
+                PromotionDAO highestPromotion = new PromotionDAO(); 
 
                 foreach (var item in result)
                 {
+                    //var temp = new RecommendStadium();
+                    //temp.Stadium = stadiumDAO.GetStadiumById(item.Id);
+                    //recommendStadiums.Add(temp);
                     var temp = new RecommendStadium();
                     temp.Stadium = stadiumDAO.GetStadiumById(item.Id);
+                    var prom = highestPromotion.GetHighestPromotionOfStadium(item.Id);
+                    temp.HighestPromotion = prom;
                     recommendStadiums.Add(temp);
+
                 }
 
                 return recommendStadiums;
@@ -777,10 +790,8 @@ namespace FootballPitchesBooking.BusinessObjects
                 PromotionDAO highestPromotion = new PromotionDAO();
                 foreach (var item in result)
                 {
-                    var temp = new RecommendStadium();
-                    
-                    temp.Stadium = stadiumDAO.GetStadiumById(item.Id);
-                    //test     
+                    var temp = new RecommendStadium();                    
+                    temp.Stadium = stadiumDAO.GetStadiumById(item.Id);   
                     var prom = highestPromotion.GetHighestPromotionOfStadium(item.Id);
                     temp.HighestPromotion = prom;
                     recommendStadiums.Add(temp);
@@ -978,11 +989,16 @@ namespace FootballPitchesBooking.BusinessObjects
                 result = result.OrderByDescending(p => p.Priority).ToList();
 
                 var recommendStadiums = new List<RecommendStadium>();
-
+                PromotionDAO highestPromotion = new PromotionDAO();
                 foreach (var item in result)
                 {
+                    //var temp = new RecommendStadium();
+                    //temp.Stadium = stadiumDAO.GetStadiumById(item.Id);
+                    //recommendStadiums.Add(temp);
                     var temp = new RecommendStadium();
                     temp.Stadium = stadiumDAO.GetStadiumById(item.Id);
+                    var prom = highestPromotion.GetHighestPromotionOfStadium(item.Id);
+                    temp.HighestPromotion = prom;
                     recommendStadiums.Add(temp);
                 }
 
