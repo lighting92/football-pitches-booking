@@ -111,7 +111,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="control-group">
                                             <label class="control-label pull-left" for="district">Quận / Huyện</label>
                                             <div class="controls">
@@ -206,7 +206,7 @@
 <hr />
 
 <!--Best stadium -->
-<div class="row-fluid">    
+<div class="row-fluid">
 
     @if (Model.BestStadiums != null && Model.BestStadiums.Count() != 0)
     {
@@ -229,6 +229,12 @@
                         {
                             <img src="/Content/images/stadium.jpg" />
                         }
+                        @if (item.HighestPromotion != null)
+                        {
+                        <div style="float: left; margin-top: -30px; position: relative; background-color: rgba(255, 0, 0, 0.53); height: 30px; width: 300px; color: white;">
+                            Giảm giá @item.HighestPromotion.Discount% Đến ngày @item.HighestPromotion.PromotionTo.ToShortDateString()
+                        </div>
+                        }
                     </a>
                 </div>
                 <div class="stadium-detail">
@@ -245,7 +251,7 @@
 
 <!--Mostbooked stadium -->
 <div class="row-fluid">
-    
+
 
     @if (Model.MostBookedStadiums != null && Model.MostBookedStadiums.Count() != 0)
     {
@@ -267,6 +273,12 @@
                         {
                             <img src="/Content/images/stadium.jpg" />
                         }
+                        @if (item.HighestPromotion != null)
+                        {
+                        <div style="float: left; margin-top: -30px; position: relative; background-color: rgba(255, 0, 0, 0.53); height: 30px; width: 300px; color: white;">
+                            Giảm giá @item.HighestPromotion.Discount% Đến ngày @item.HighestPromotion.PromotionTo.ToShortDateString()
+                        </div>
+                        }
                     </a>
                 </div>
                 <div class="stadium-detail">
@@ -282,7 +294,7 @@
 <!--end Mostbooked stadium -->
 
 <!--Nearest stadium -->
-<div class="row-fluid">    
+<div class="row-fluid">
 
     @if (Model.NearestStadiums != null && Model.NearestStadiums.Count() != 0)
     {
@@ -305,6 +317,12 @@
                         {
                             <img src="/Content/images/stadium.jpg" />
                         }
+                        @if (item.HighestPromotion != null)
+                        {
+                        <div style="float: left; margin-top: -30px; position: relative; background-color: rgba(255, 0, 0, 0.53); height: 30px; width: 300px; color: white;">
+                            Giảm giá @item.HighestPromotion.Discount% Đến ngày @item.HighestPromotion.PromotionTo.ToShortDateString()
+                        </div>
+                        }
                     </a>
                 </div>
                 <div class="stadium-detail">
@@ -319,8 +337,8 @@
 
 <!--end Nearest stadium -->
 
-<!--Promoted stadium -->    
-<div class="row-fluid">    
+<!--Promoted stadium -->
+<div class="row-fluid">
 
     @if (Model.PromotionStadiums != null && Model.PromotionStadiums.Count() != 0)
     {
@@ -334,12 +352,10 @@
             var img = Model.PromotionStadiumsImages[i];     
         <div class="span4" style="margin-left: 5px">
             <div class="stadium-item">
-                
-                <div class="stadium-image"> 
-                    <div style="float:right">
-                    <a> Giảm giá @item.HighestPromotion.Discount % Đến ngày @item.HighestPromotion.PromotionTo.ToShortDateString()</a>    
-                     </div>                   
+
+                <div class="stadium-image">
                     <a href="/Stadium/Details?Id=@item.Stadium.Id">
+
                         @if (img != null)
                         {
                             <img src="/Content/images/@img.Path" />
@@ -348,8 +364,10 @@
                         {
                             <img src="/Content/images/stadium.jpg" />
                         }
-                        
-                    </a>                    
+                        <div style="float: left; margin-top: -30px; position: relative; background-color: rgba(255, 0, 0, 0.53); height: 30px; width: 300px; color: white;">
+                            Giảm giá @item.HighestPromotion.Discount% Đến ngày @item.HighestPromotion.PromotionTo.ToShortDateString()
+                        </div>
+                    </a>
                 </div>
                 <div class="stadium-detail">
                     <p class="stadium-name"><a href="/Stadium/Details?Id=@item.Stadium.Id">@item.Stadium.Name</a></p>
@@ -365,7 +383,7 @@
 <!--end Promoted stadium -->
 
 <div class="row-fluid">
-    
+
     @if (Model.Rivals != null && Model.Rivals.Count() != 0)
     {
         <hr />
@@ -382,14 +400,14 @@
             var starttime = (int)item.Reservation.StartTime + ":" + minute;
             var duration = (int)item.Reservation.Duration + " tiếng " + ((item.Reservation.Duration - (int)item.Reservation.Duration) * 60) + " phút";
         <div class="span4 rival-item">
-            <p class="r-stype" style="font-weight:bold">Sân @stadium.Name</p>
+            <p class="r-stype" style="font-weight: bold">Sân @stadium.Name</p>
             <p class="r-saddr">@stadium.Street, @stadium.Ward, @stadium.District</p>
             <p class="r-date">Ngày @item.Reservation.Date.ToShortDateString()</p>
             <p class="r-date">Lúc @starttime trong @duration</p>
             <p class="r-sname"><a href="/Stadium/JoinRival?Id=@item.Reservation.Id">Chi tiết >>></a></p>
-            
+
         </div>
         }
-            }
+    }
 </div>
 
