@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "AboutUs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Giới thiệu hệ thống</h2>
+<h3>HỆ THỐNG SÂN BÓNG</h3>
+<p>
+    Hỗ trợ bạn <a href="/Stadium/QuickSearch" target="_blank">tìm kiếm </a>và đặt sân bóng một cách dễ dàng.
+    <br />
+    <a href="/Stadium/JoinUs" target="_blank">Trở thành chủ sân</a>, hệ thống sẽ hỗ trợ bạn quản lý sân bóng của mình: bạn có thể thay đổi thông tin về sân, cập nhật giá cả cho các sân, tạo khuyến mãi cho sân bóng, quản lý các đơn đặt sân.
+</p>
+<hr />
+<h3>Trở thành thành viên</h3>
+Bạn hãy <a href="/Account/Register" target="_blank">đăng ký</a> làm thành viên để nhận được các gợi ý về sân bóng gần nhà, sân bạn thường đặt hay sân đang có khuyến mãi
+<br />
+Bạn có thể tìm thêm người chơi hay tham gia các trận đấu đã được sắp xếp khi có nhu cầu thông qua chức năng <a href="/Stadium/Rivals" target="_blank">Cáp kèo</a>
+<br />
+Là thành viên bạn còn được hưởng các ưu đãi thông qua hệ thống cấp bậc mà chúng tôi cung cấp. Cấp bậc càng cao, ưu đãi càng nhiều!
+<hr />
+<h3>Hướng dẫn sử dụng</h3>
+<div class="panel-heading">
+    <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseone">&#9917; Cách tìm sân 
+                            <span class="glyphicon glyphicon-collapse-down pull-right"></span>
+        </a>
+    </h4>
+</div>
+<div id="collapseone" class="panel-collapse collapse">
+    <b>Cách tìm sân bóng</b><br />
+    - Bước 1: Chọn thẻ sân bóng<br />
+    - Bước 2: Điền thông tin tìm kiếm<br />
+    - Bước 3: Nhấn "Tìm kiếm" để lọc bằng thông tin đã điền/Nhấn "Xem tất cả" để hiển thị toàn bộ sân bóng
+    <img style="height:425px" src="/Content/images/manual_findStadium.png"/><br />
+    <b>Cách tìm sân nhanh</b><br />
+    - Bước 1: Chọn Kiểu sân, Ngày đá, Giờ, Thời lượng và Khu vực<br />
+    - Bước 2: Nhấn "Tìm kiếm"
+    <img style="height:425px" src="/Content/images/manual_findAvailableStadium.png"/>
+</div>
+
+<hr />
+
+<div class="panel-heading">
+    <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">&#9917; Cách đặt sân 
+                            <span class="glyphicon glyphicon-collapse-down pull-right"></span>
+        </a>
+    </h4>
+</div>
+<div id="collapseTwo" class="panel-collapse collapse">
+    <b>Quy trình đặt sân trực tuyến</b><br />
+    - Bước 1: Nhấn "Đặt sân" ở sân bóng bạn đã chọn<br />
+    - Bước 2: Có thể thay đổi Kiểu sân/Ngày đá/Thời lượng. Sau đó nhấn "Tìm sân trống"<br />
+    - Bước 3: Chọn sân ở ô "Sân trống"<br />
+    - Bước 4: Nếu bạn không đủ số lượng người cho 1 trận đấu, bạn muốn tìm đội giao hữu. Chọn "Yêu cầu tìm đội giao hữu"<br />
+    - Bước 5: Nhấn "Đặt sân"<br />
+    <img style="height:425px" src="/Content/images/manual_bookField.png"/><br />
+    <b>Lưu ý:</b><br />
+    - Đơn đặt sân của bạn sẽ trở nên hợp lệ sau khi được sự chấp nhận của chủ sân<br />
+    - Tình trạng đơn đặt sân được cập nhật và sẽ hiện thông báo ngay khi chủ sân đồng ý<br />
+    - Toàn bộ lịch sử đặt sân của bạn đều được lưu lại và có thể theo dõi khi nhân vào "Lịch sử đặt sân" bên dưới tên tài khoản<br />
+    - Bạn có thể gọi điện để đặt sân, chủ sân sẽ hỗ trợ cập nhật thông tin đặt sân vào tài khoản của bạn
+<hr />
+</div>
