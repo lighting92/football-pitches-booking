@@ -11,6 +11,7 @@ using FootballPitchesBooking.Properties;
 using System.Globalization;
 using FootballPitchesBooking.Utilities;
 
+
 namespace FootballPitchesBooking.Controllers
 {
     public class StadiumController : Controller
@@ -84,6 +85,47 @@ namespace FootballPitchesBooking.Controllers
                 }
             }
             return View(model);
+        }
+
+        public ActionResult PriceTable(int id)
+        {
+            StadiumBO stadiumBO = new StadiumBO();
+            var fp = stadiumBO.GetFieldPriceById(id);
+            if (fp != null)
+            {
+                PriceTableModel model = new PriceTableModel();
+                model.FieldPrice = fp;
+                model.Stadium = fp.Stadium;
+                var pts = fp.PriceTables.ToList();
+                model.Monday = stadiumBO.FilterPriceTablesOfDoW(DayOfWeek.Monday, pts);
+                model.MondayElse = model.Monday.Last();
+                model.Monday.RemoveAt(model.Monday.Count() - 1);
+                model.Tuesday = stadiumBO.FilterPriceTablesOfDoW(DayOfWeek.Tuesday, pts);
+                model.TuesdayElse = model.Tuesday.Last();
+                model.Tuesday.RemoveAt(model.Tuesday.Count() - 1);
+                model.Wednesday = stadiumBO.FilterPriceTablesOfDoW(DayOfWeek.Wednesday, pts);
+                model.WednesdayElse = model.Wednesday.Last();
+                model.Wednesday.RemoveAt(model.Wednesday.Count() - 1);
+                model.Thursday = stadiumBO.FilterPriceTablesOfDoW(DayOfWeek.Thursday, pts);
+                model.ThursdayElse = model.Thursday.Last();
+                model.Thursday.RemoveAt(model.Thursday.Count() - 1);
+                model.Friday = stadiumBO.FilterPriceTablesOfDoW(DayOfWeek.Friday, pts);
+                model.FridayElse = model.Friday.Last();
+                model.Friday.RemoveAt(model.Friday.Count() - 1);
+                model.Saturday = stadiumBO.FilterPriceTablesOfDoW(DayOfWeek.Saturday, pts);
+                model.SaturdayElse = model.Saturday.Last();
+                model.Saturday.RemoveAt(model.Saturday.Count() - 1);
+                model.Sunday = stadiumBO.FilterPriceTablesOfDoW(DayOfWeek.Sunday, pts);
+                model.SundayElse = model.Sunday.Last();
+                model.Sunday.RemoveAt(model.Sunday.Count() - 1);
+                model.Fields = fp.Fields.ToList();
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            
         }
 
 
