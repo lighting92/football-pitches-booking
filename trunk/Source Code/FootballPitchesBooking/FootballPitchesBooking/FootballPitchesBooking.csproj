@@ -255,6 +255,9 @@
     <Content Include="Content\images\forward_disabled.png" />
     <Content Include="Content\images\forward_enabled.png" />
     <Content Include="Content\images\forward_enabled_hover.png" />
+    <Content Include="Content\images\manual_bookField.png" />
+    <Content Include="Content\images\manual_findAvailableStadium.png" />
+    <Content Include="Content\images\manual_findStadium.png" />
     <Content Include="Content\images\sort_asc.png" />
     <Content Include="Content\images\sort_asc_disabled.png" />
     <Content Include="Content\images\sort_both.png" />

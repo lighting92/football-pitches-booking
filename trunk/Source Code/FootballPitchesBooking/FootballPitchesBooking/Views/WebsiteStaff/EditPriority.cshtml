@@ -160,7 +160,7 @@
     </p>
     <div id="min-time-booking"></div>
     <br />
-    <button onclick="updatePriority(this)">Cập nhật</button>
+    <button onclick="updateMinTimeBooking(this)">Cập nhật</button>
 </div>
 <hr />
 
@@ -190,7 +190,6 @@
 
 
 <script type="text/javascript">
-
     function updatePriority(control){
         var postData = "{";
         $.each($(control).parent().find("input"), function(index, input) {
@@ -202,6 +201,28 @@
         postData += "}";
         $.ajax({
             url: "/WebsiteStaff/EditPriority",
+            type: 'post',
+            data: postData,
+            success: function(data){
+                alert(data);
+            }
+        });
+    }
+    
+</script>
+
+<script type="text/javascript">
+    function updateMinTimeBooking(control){
+        var postData = "{";
+        $.each($(control).parent().find("input"), function(index, input) {
+            postData+= '"' + $(input).data("cname") +  '":"' + $(input).val() + '"';
+            if ((index + 1) != $(control).parent().find("input").length){
+                postData += ", ";
+            }
+        });
+        postData += "}";
+        $.ajax({
+            url: "/WebsiteStaff/UpdateMinTimeBooking",
             type: 'post',
             data: postData,
             success: function(data){
