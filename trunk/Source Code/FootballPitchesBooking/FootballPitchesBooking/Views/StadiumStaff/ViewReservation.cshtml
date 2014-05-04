@@ -99,14 +99,26 @@
                         </div>
                         <div class="span3">
                             <label>
+                                Đơn giá
+                                <input type="text" required="required" value="@Model.Resv.Price" disabled="disabled">
+                            </label>
+                        </div>
+                        <div class="span3">
+                            <label>
                                 Giảm giá
                                     <input type="text" required="required" value="@(Model.Resv.Discount == null ? 0 : Model.Resv.Discount)" disabled="disabled">
                             </label>
                         </div>
                         <div class="span3">
                             <label>
-                                Đơn giá
-                                <input type="text" required="required" value="@Model.Resv.Price" disabled="disabled">
+                                Thành tiền
+                                <input type="text" required="required" value="@(Model.Resv.Discount == null ? Model.Resv.Price : (int)(Model.Resv.Price * (double)Model.Resv.Discount / 100))" disabled="disabled">
+                            </label>
+                        </div>
+                        <div class="span3">
+                            <label>
+                                Mã xác nhận
+                                <input type="text" required="required" value="@Model.Resv.VerifyCode" disabled="disabled">
                             </label>
                         </div>
                     </div>
@@ -256,7 +268,7 @@
                     <div class="row">
                         <div class="span9">
                             <p>
-                                @if (Convert.ToDateTime(Model.Resv.Date).AddHours(Model.Resv.StartTime) > DateTime.Now)
+                                @if (Convert.ToDateTime(Model.Resv.Date).AddHours(Model.Resv.StartTime) > DateTime.Now && !Model.Resv.Status.Equals("Canceled"))
                                 {
                                     if (!Model.Resv.Status.Equals("Approved"))
                                     {
@@ -272,7 +284,7 @@
                                 {
                                     if (Model.Resv.Status.Equals("Approved"))
                                     {
-                                        <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '?id=@Request.QueryString["id"]'">Báo cáo vi phạm</button> 
+                                        <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '@Model.Resv.Id'">Báo cáo vi phạm</button> 
                                     }
                                 }
                                 <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/EditReservation/@Model.Resv.Id'">Chỉnh sửa</button>
