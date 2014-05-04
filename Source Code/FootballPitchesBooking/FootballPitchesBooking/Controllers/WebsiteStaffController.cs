@@ -1078,32 +1078,24 @@ namespace FootballPitchesBooking.Controllers
             json = json.Replace("}", "");
             json = json.Replace("\"", "");
             string[] list = json.Split(',');
-            var configs = new List<Configuration>();
+            var config = new Configuration();
             foreach (var item in list)
             {
                 string[] kv = item.Split(':');
-                configs.Add(new Configuration
-                {
-                    Name = kv[0].Trim(),
-                    Value = kv[1].Trim()
-                });
+                config.Name = kv[0].Trim();
+                config.Value = kv[1].Trim();
             }
 
             bool valid = true;
-            foreach (var item in configs)
-            {
-                double temp = 0;
-                valid = double.TryParse(item.Value, out temp);
-                if (!valid)
-                {
-                    break;
-                }
-            }
+
+            double temp = 0;
+            valid = double.TryParse(config.Value, out temp);
+
             string message = "";
             if (valid)
             {
-                RecommendationBO recBO = new RecommendationBO();
-                var result = recBO.UpdateMinTimeBooking(configs);
+                WebsiteBO webBO = new WebsiteBO();
+                var result = webBO.UpdateConfigNumberValueWithMinMax(config, 0, 90);
                 switch (result)
                 {
                     case 1:

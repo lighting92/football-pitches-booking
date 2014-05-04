@@ -128,5 +128,19 @@ namespace FootballPitchesBooking.BusinessObjects
             }
             return 1;
         }
+
+        public int UpdateConfigNumberValueWithMinMax(FootballPitchesBooking.Models.Configuration config, double min, double max)
+        {
+            double value = double.Parse(config.Value);
+            if (value < min && value > max)
+            {
+                return -2;
+            }
+            else
+            {
+                ConfigurationDAO conDAO = new ConfigurationDAO();
+                return conDAO.UpdateConfiguration(config);
+            }
+        }
     }
 }
