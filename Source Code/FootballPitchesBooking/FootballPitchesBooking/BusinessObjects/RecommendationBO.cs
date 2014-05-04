@@ -50,7 +50,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 UserDAO userDAO = new UserDAO();
                 StadiumDAO stadiumDAO = new StadiumDAO();
                 var distancePriority = new List<PriorityModel>();
-                
+
                 if (distances != null && distances.Count() != 0)
                 {
                     distances = distances.Where(d => listStadiumIds.Contains(d.StadiumId)).ToList();
@@ -162,7 +162,7 @@ namespace FootballPitchesBooking.BusinessObjects
 
                 foreach (var near in nearExpiredPriority)
                 {
-                    
+
                     var temp = resDAO.GetReservationById(near.Id);
                     var resP = reservationsPriority.Where(r => r.Id == temp.Field.StadiumId).FirstOrDefault();
                     double resPPriority = 0;
@@ -174,7 +174,7 @@ namespace FootballPitchesBooking.BusinessObjects
                     double nearPriority = 0;
                     if (nearP != null)
                     {
-                        nearPriority = nearP.Priority * nearest; 
+                        nearPriority = nearP.Priority * nearest;
                     }
                     result.Add(new PriorityModel
                         {
@@ -581,7 +581,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 result = result.OrderByDescending(p => p.Priority).ToList();
 
                 var recommendStadiums = new List<RecommendStadium>();
-                PromotionDAO highestPromotion = new PromotionDAO(); 
+                PromotionDAO highestPromotion = new PromotionDAO();
 
                 foreach (var item in result)
                 {
@@ -676,7 +676,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 UserDAO userDAO = new UserDAO();
                 StadiumDAO stadiumDAO = new StadiumDAO();
                 var distancePriority = new List<PriorityModel>();
-                
+
                 if (distances != null && distances.Count() != 0)
                 {
                     distances = distances.Where(d => listPSIds.Contains(d.StadiumId)).ToList();
@@ -790,8 +790,8 @@ namespace FootballPitchesBooking.BusinessObjects
                 PromotionDAO highestPromotion = new PromotionDAO();
                 foreach (var item in result)
                 {
-                    var temp = new RecommendStadium();                    
-                    temp.Stadium = stadiumDAO.GetStadiumById(item.Id);   
+                    var temp = new RecommendStadium();
+                    temp.Stadium = stadiumDAO.GetStadiumById(item.Id);
                     var prom = highestPromotion.GetHighestPromotionOfStadium(item.Id);
                     temp.HighestPromotion = prom;
                     recommendStadiums.Add(temp);
@@ -803,7 +803,7 @@ namespace FootballPitchesBooking.BusinessObjects
             {
                 return null;
             }
-        }               
+        }
 
         //find mostbook stadium
         public List<RecommendStadium> FindMostBookedStadiums(string userName, List<StadiumDistance> distances)
@@ -877,7 +877,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 UserDAO userDAO = new UserDAO();
                 StadiumDAO stadiumDAO = new StadiumDAO();
                 var distancePriority = new List<PriorityModel>();
-                
+
                 if (distances != null && distances.Count() != 0)
                 {
                     distances = distances.Where(d => listMostIds.Contains(d.StadiumId)).ToList();
@@ -1068,28 +1068,6 @@ namespace FootballPitchesBooking.BusinessObjects
                 ConfigurationDAO conDAO = new ConfigurationDAO();
                 return conDAO.UpdateConfigurations(configs);
             }
-
-        }
-
-        //
-        public int UpdateMinTimeBooking(List<Configuration> configs)
-        {
-            double total = 0;
-            foreach (var item in configs)
-            {
-                total += double.Parse(item.Value);
-            }
-            if (total != 90)
-            {
-                return -2;
-            }
-            else 
-            {
-                ConfigurationDAO conDAO = new ConfigurationDAO();
-                return conDAO.UpdateConfigurations(configs);
-            }
         }
     }
-
-
 }

@@ -1095,7 +1095,101 @@ namespace FootballPitchesBooking.Controllers
             if (valid)
             {
                 WebsiteBO webBO = new WebsiteBO();
-                var result = webBO.UpdateConfigNumberValueWithMinMax(config, 0, 90);
+                var result = webBO.UpdateConfigNumberValueWithMinMax(config, 0, 120);
+                switch (result)
+                {
+                    case 1:
+                        message = "Cập nhật thành công";
+                        break;
+                    case 0:
+                        message = Resources.DB_Exception;
+                        break;
+                    case -1:
+                        message = "Không tìm thấy tên cấu hình";
+                        break;
+                    case -2:
+                        message = "Cập nhật không thành công";
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return Json(message);
+        }
+        
+        //
+        public JsonResult EditCancelBookingTime(FormCollection form)
+        {
+            string json = form[0];
+            json = json.Replace("{", "");
+            json = json.Replace("}", "");
+            json = json.Replace("\"", "");
+            string[] list = json.Split(',');
+            var config = new Configuration();
+            foreach (var item in list)
+            {
+                string[] kv = item.Split(':');
+                config.Name = kv[0].Trim();
+                config.Value = kv[1].Trim();
+            }
+
+            bool valid = true;
+
+            double temp = 0;
+            valid = double.TryParse(config.Value, out temp);
+
+            string message = "";
+            if (valid)
+            {
+                WebsiteBO webBO = new WebsiteBO();
+                var result = webBO.UpdateConfigNumberValueWithMinMax(config, 0, 180);
+                switch (result)
+                {
+                    case 1:
+                        message = "Cập nhật thành công";
+                        break;
+                    case 0:
+                        message = Resources.DB_Exception;
+                        break;
+                    case -1:
+                        message = "Không tìm thấy tên cấu hình";
+                        break;
+                    case -2:
+                        message = "Cập nhật không thành công";
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return Json(message);
+        }
+
+        //
+        public JsonResult EditDisctancePeriodicTime(FormCollection form)
+        {
+            string json = form[0];
+            json = json.Replace("{", "");
+            json = json.Replace("}", "");
+            json = json.Replace("\"", "");
+            string[] list = json.Split(',');
+            var config = new Configuration();
+            foreach (var item in list)
+            {
+                string[] kv = item.Split(':');
+                config.Name = kv[0].Trim();
+                config.Value = kv[1].Trim();
+            }
+
+            bool valid = true;
+
+            double temp = 0;
+            valid = double.TryParse(config.Value, out temp);
+
+            string message = "";
+            if (valid)
+            {
+                WebsiteBO webBO = new WebsiteBO();
+                var result = webBO.UpdateConfigNumberValueWithMinMax(config, 0, 30);
                 switch (result)
                 {
                     case 1:

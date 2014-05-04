@@ -102,19 +102,19 @@
         <div class="span4">
             <label>
                 Sân đặt nhiều (%)
-            <input type="text" id="mostBooked-stadium-amount1" data-cname="Pr_MostBooked" value="@Model.MostBookedStadiumsMostBooked.Value" readonly/>
+            <input type="text" id="mostBooked-stadium-amount1" data-cname="Mb_MostBooked" value="@Model.MostBookedStadiumsMostBooked.Value" readonly/>
             </label>
         </div>
         <div class="span4">
             <label>
                 Sân gần nhà (%)
-            <input type="text" id="mostBooked-stadium-amount2" data-cname="Pr_Nearest" value="@Model.MostBookedStadiumsNearest.Value" readonly/>
+            <input type="text" id="mostBooked-stadium-amount2" data-cname="Mb_Nearest" value="@Model.MostBookedStadiumsNearest.Value" readonly/>
             </label>
         </div>
         <div class="span4">
             <label>
                 Sân khuyến mãi (%)
-            <input type="text" id="mostBooked-stadium-amount3" data-cname="Pr_MostPromoted" value="@Model.MostBookedStadiumsMostDiscount.Value" readonly/>
+            <input type="text" id="mostBooked-stadium-amount3" data-cname="Mb_MostPromoted" value="@Model.MostBookedStadiumsMostDiscount.Value" readonly/>
             </label>
         </div>
     </div>
@@ -172,7 +172,7 @@
     </p>
     <div id="min-time-cancel"></div>
     <br />
-    <button onclick="updatePriority(this)">Cập nhật</button>
+    <button onclick="updateCancelBookingTime(this)">Cập nhật</button>
 </div>
 <hr />
 
@@ -184,7 +184,7 @@
     </p>
     <div id="google-periodic"></div>
     <br />
-    <button onclick="updatePriority(this)">Cập nhật</button>
+    <button onclick="updateDisctancePeriodicUpdate(this)">Cập nhật</button>
 </div>
 <hr />
 
@@ -207,8 +207,49 @@
                 alert(data);
             }
         });
-    }
-    
+    }    
+</script>
+
+<script type="text/javascript">
+    function updateCancelBookingTime(control){
+        var postData = "{";
+        $.each($(control).parent().find("input"), function(index, input) {
+            postData+= '"' + $(input).data("cname") +  '":"' + $(input).val() + '"';
+            if ((index + 1) != $(control).parent().find("input").length){
+                postData += ", ";
+            }
+        });
+        postData += "}";
+        $.ajax({
+            url: "/WebsiteStaff/EditCancelBookingTime",
+            type: 'post',
+            data: postData,
+            success: function(data){
+                alert(data);
+            }
+        });
+    }    
+</script>
+
+<script type="text/javascript">
+    function updateDisctancePeriodicUpdate(control){
+        var postData = "{";
+        $.each($(control).parent().find("input"), function(index, input) {
+            postData+= '"' + $(input).data("cname") +  '":"' + $(input).val() + '"';
+            if ((index + 1) != $(control).parent().find("input").length){
+                postData += ", ";
+            }
+        });
+        postData += "}";
+        $.ajax({
+            url: "/WebsiteStaff/EditDisctancePeriodicTime",
+            type: 'post',
+            data: postData,
+            success: function(data){
+                alert(data);
+            }
+        });
+    }    
 </script>
 
 <script type="text/javascript">
@@ -353,7 +394,7 @@
         $( "#min-time-booking" ).slider({
             range: "max",   
             min: 1,
-            max: 90,
+            max: 120,
             value: @Model.MinTimeBooking.Value,
             slide: function( event, ui ) {
                 $( "#minTimeBooking" ).val( ui.value );
