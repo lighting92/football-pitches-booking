@@ -144,11 +144,17 @@
                                         <tr>
                                             <td>@item.FieldPriceName</td>
                                             <td>@item.FieldPriceDescription</td>
-                                            <td class="table-cell-action"></td>
+                                            <td class="table-cell-action"><a onclick="openPriceTable(@item.Id)">Xem chi tiết</a></td>
                                         </tr>
                                     }
                                 </tbody>
                             </table>
+                            <script type="text/javascript">
+                                function openPriceTable(id) {
+                                    window.open("/Stadium/PriceTable/" + id,
+                                        "_blank", "toolbar=no, scrollbars=yes, resizable=no, top=30, left=140, width=1024, height=600");
+                                }
+                            </script>
                         }
                         else
                         {

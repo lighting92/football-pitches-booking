@@ -1,0 +1,291 @@
+﻿@model FootballPitchesBooking.Models.StadiumModels.PriceTableModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Bảng Giá</title>
+    <link rel="stylesheet" href="~/Content/bootstrap/css/bootstrap.min.css" type="text/css">
+    <script type="text/javascript" src="~/Scripts/jquery.js"></script>
+    <script type="text/javascript" src="~/Content/bootstrap/js/bootstrap3.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.price_format.2.0.js"></script>
+    <style>
+        body
+        {
+            font-size: 15px;
+        }
+
+        h5
+        {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        table tr td
+        {
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="span12">
+                <h3 style="text-align: center">Hệ thống sân: @Model.Stadium.Name</h3>
+                <p style="text-align: center">Địa chỉ: <i>@Model.Stadium.Street, @Model.Stadium.Ward, @Model.Stadium.District</i></p>
+                <h4>Bảng giá: @Model.FieldPrice.FieldPriceName</h4>
+                <p>@Model.FieldPrice.FieldPriceDescription</p>
+                <div>
+                    <b>Áp dụng cho các sân*:</b>
+                    <br />
+                    <i>*Ký hiệu sân (kiểu sân)</i>
+                    <br />
+                    @for (var i = 0; i < Model.Fields.Count(); i++)
+                    {
+                        var item = Model.Fields[i];
+                        if (i < Model.Fields.Count() - 1)
+                        {
+                        <i><span style="font-size: 15px; font-weight: bold;">@item.Number</span> (@item.FieldType), </i>
+                        }
+                        else
+                        {
+                        <i><span style="font-size: 15px; font-weight: bold;">@item.Number</span> (@item.FieldType)</i>
+                        }
+                    }
+                </div>
+                <br />
+                <p><b>Đơn vị:</b> VNĐ/giờ</p>
+                <h5>Thứ 2</h5>
+                <table class="table-bordered table-condensed table-responsive">
+                    <tbody>
+                        <tr>
+                            @foreach (var item in Model.Monday)
+                            {
+                                var fH = ((int)item.TimeFrom).ToString();
+                                fH = (fH.Length == 2) ? fH : "0" + fH;
+                                var fM = ((item.TimeFrom - (int)item.TimeFrom) * 60).ToString();
+                                fM = (fM.Length == 2) ? fM : "0" + fM;
+                                var tH = ((int)item.TimeTo).ToString();
+                                tH = (tH.Length == 2) ? tH : "0" + tH;
+                                var tM = ((item.TimeTo - (int)item.TimeTo) * 60).ToString();
+                                tM = (tM.Length == 2) ? tM : "0" + tM;
+                                <td>@fH:@fM - @tH:@tM</td>
+                            }
+                            <td>Các giờ khác</td>
+                        </tr>
+                        <tr>
+                            @foreach (var item in Model.Monday)
+                            {
+                                <td>
+                                    <price>@item.Price</price>
+                                    VNĐ</td>
+                            }
+                            <td>
+                                <price>@Model.MondayElse.Price</price>
+                                VNĐ</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Thứ 3</h5>
+                <table class="table-bordered table-condensed table-responsive">
+                    <tbody>
+                        <tr>
+                            @foreach (var item in Model.Tuesday)
+                            {
+                                var fH = ((int)item.TimeFrom).ToString();
+                                fH = (fH.Length == 2) ? fH : "0" + fH;
+                                var fM = ((item.TimeFrom - (int)item.TimeFrom) * 60).ToString();
+                                fM = (fM.Length == 2) ? fM : "0" + fM;
+                                var tH = ((int)item.TimeTo).ToString();
+                                tH = (tH.Length == 2) ? tH : "0" + tH;
+                                var tM = ((item.TimeTo - (int)item.TimeTo) * 60).ToString();
+                                tM = (tM.Length == 2) ? tM : "0" + tM;
+                                <td>@fH:@fM - @tH:@tM</td>
+                            }
+                            <td>Các giờ khác</td>
+                        </tr>
+                        <tr>
+                            @foreach (var item in Model.Tuesday)
+                            {
+                                <td>
+                                    <price>@item.Price</price>
+                                    VNĐ</td>
+                            }
+                            <td>
+                                <price>@Model.TuesdayElse.Price</price>
+                                VNĐ</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Thứ 4</h5>
+                <table class="table-bordered table-condensed table-responsive">
+                    <tbody>
+                        <tr>
+                            @foreach (var item in Model.Wednesday)
+                            {
+                                var fH = ((int)item.TimeFrom).ToString();
+                                fH = (fH.Length == 2) ? fH : "0" + fH;
+                                var fM = ((item.TimeFrom - (int)item.TimeFrom) * 60).ToString();
+                                fM = (fM.Length == 2) ? fM : "0" + fM;
+                                var tH = ((int)item.TimeTo).ToString();
+                                tH = (tH.Length == 2) ? tH : "0" + tH;
+                                var tM = ((item.TimeTo - (int)item.TimeTo) * 60).ToString();
+                                tM = (tM.Length == 2) ? tM : "0" + tM;
+                                <td>@fH:@fM - @tH:@tM</td>
+                            }
+                            <td>Các giờ khác</td>
+                        </tr>
+                        <tr>
+                            @foreach (var item in Model.Wednesday)
+                            {
+                                <td>
+                                    <price>@item.Price</price>
+                                    VNĐ</td>
+                            }
+                            <td>
+                                <price>@Model.WednesdayElse.Price</price>
+                                VNĐ</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Thứ 5</h5>
+                <table class="table-bordered table-condensed table-responsive">
+                    <tbody>
+                        <tr>
+                            @foreach (var item in Model.Thursday)
+                            {
+                                var fH = ((int)item.TimeFrom).ToString();
+                                fH = (fH.Length == 2) ? fH : "0" + fH;
+                                var fM = ((item.TimeFrom - (int)item.TimeFrom) * 60).ToString();
+                                fM = (fM.Length == 2) ? fM : "0" + fM;
+                                var tH = ((int)item.TimeTo).ToString();
+                                tH = (tH.Length == 2) ? tH : "0" + tH;
+                                var tM = ((item.TimeTo - (int)item.TimeTo) * 60).ToString();
+                                tM = (tM.Length == 2) ? tM : "0" + tM;
+                                <td>@fH:@fM - @tH:@tM</td>
+                            }
+                            <td>Các giờ khác</td>
+                        </tr>
+                        <tr>
+                            @foreach (var item in Model.Thursday)
+                            {
+                                <td>
+                                    <price>@item.Price</price>
+                                    VNĐ</td>
+                            }
+                            <td>
+                                <price>@Model.ThursdayElse.Price</price>
+                                VNĐ</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Thứ 6</h5>
+                <table class="table-bordered table-condensed table-responsive">
+                    <tbody>
+                        <tr>
+                            @foreach (var item in Model.Friday)
+                            {
+                                var fH = ((int)item.TimeFrom).ToString();
+                                fH = (fH.Length == 2) ? fH : "0" + fH;
+                                var fM = ((item.TimeFrom - (int)item.TimeFrom) * 60).ToString();
+                                fM = (fM.Length == 2) ? fM : "0" + fM;
+                                var tH = ((int)item.TimeTo).ToString();
+                                tH = (tH.Length == 2) ? tH : "0" + tH;
+                                var tM = ((item.TimeTo - (int)item.TimeTo) * 60).ToString();
+                                tM = (tM.Length == 2) ? tM : "0" + tM;
+                                <td>@fH:@fM - @tH:@tM</td>
+                            }
+                            <td>Các giờ khác</td>
+                        </tr>
+                        <tr>
+                            @foreach (var item in Model.Friday)
+                            {
+                                <td>
+                                    <price>@item.Price</price>
+                                    VNĐ</td>
+                            }
+                            <td>
+                                <price>@Model.FridayElse.Price</price>
+                                VNĐ</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Thứ 7</h5>
+                <table class="table-bordered table-condensed table-responsive">
+                    <tbody>
+                        <tr>
+                            @foreach (var item in Model.Saturday)
+                            {
+                                var fH = ((int)item.TimeFrom).ToString();
+                                fH = (fH.Length == 2) ? fH : "0" + fH;
+                                var fM = ((item.TimeFrom - (int)item.TimeFrom) * 60).ToString();
+                                fM = (fM.Length == 2) ? fM : "0" + fM;
+                                var tH = ((int)item.TimeTo).ToString();
+                                tH = (tH.Length == 2) ? tH : "0" + tH;
+                                var tM = ((item.TimeTo - (int)item.TimeTo) * 60).ToString();
+                                tM = (tM.Length == 2) ? tM : "0" + tM;
+                                <td>@fH:@fM - @tH:@tM</td>
+                            }
+                            <td>Các giờ khác</td>
+                        </tr>
+                        <tr>
+                            @foreach (var item in Model.Saturday)
+                            {
+                                <td>
+                                    <price>@item.Price</price>
+                                    VNĐ</td>
+                            }
+                            <td>
+                                <price>@Model.SaturdayElse.Price</price>
+                                VNĐ</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5>Chủ nhật</h5>
+                <table class="table-bordered table-condensed table-responsive">
+                    <tbody>
+                        <tr>
+                            @foreach (var item in Model.Sunday)
+                            {
+                                var fH = ((int)item.TimeFrom).ToString();
+                                fH = (fH.Length == 2) ? fH : "0" + fH;
+                                var fM = ((item.TimeFrom - (int)item.TimeFrom) * 60).ToString();
+                                fM = (fM.Length == 2) ? fM : "0" + fM;
+                                var tH = ((int)item.TimeTo).ToString();
+                                tH = (tH.Length == 2) ? tH : "0" + tH;
+                                var tM = ((item.TimeTo - (int)item.TimeTo) * 60).ToString();
+                                tM = (tM.Length == 2) ? tM : "0" + tM;
+                                <td>@fH:@fM - @tH:@tM</td>
+                            }
+                            <td>Các giờ khác</td>
+                        </tr>
+                        <tr>
+                            @foreach (var item in Model.Sunday)
+                            {
+                                <td>
+                                    <price>@item.Price</price>
+                                    VNĐ</td>
+                            }
+                            <td>
+                                <price>@Model.SundayElse.Price</price>
+                                VNĐ</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("price").priceFormat({
+                prefix: '',
+                centsLimit: 0
+            });
+        });
+    </script>
+</body>
+</html>

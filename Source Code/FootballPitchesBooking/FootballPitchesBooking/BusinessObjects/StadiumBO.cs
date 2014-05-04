@@ -12,6 +12,183 @@ namespace FootballPitchesBooking.BusinessObjects
 {
     public class StadiumBO
     {
+        public FieldPrice GetFieldPriceById(int id)
+        {
+            FieldPriceDAO fpDAO = new FieldPriceDAO();
+            return fpDAO.GetFieldPriceById(id);
+        }
+
+        public List<PriceTable> FilterPriceTablesOfDoW(DayOfWeek d, List<PriceTable> pts)
+        {
+            int day = 0;
+            switch (d)
+            {
+                case DayOfWeek.Friday:
+                    day = 5;
+                    break;
+                case DayOfWeek.Monday:
+                    day = 1;
+                    break;
+                case DayOfWeek.Saturday:
+                    day = 6;
+                    break;
+                case DayOfWeek.Sunday:
+                    day = 7;
+                    break;
+                case DayOfWeek.Thursday:
+                    day = 4;
+                    break;
+                case DayOfWeek.Tuesday:
+                    day = 2;
+                    break;
+                case DayOfWeek.Wednesday:
+                    day = 3;
+                    break;
+                default:
+                    break;
+            }
+
+            var ptsOfDay = pts.Where(pt => pt.Day == day).OrderBy(pt => pt.TimeFrom).ToList();
+
+            var superDefault = pts.Where(p => p.Day == 0 && p.TimeFrom == 0 && p.TimeTo == 0).FirstOrDefault();
+            var pricesDefault = pts.Where(p => p.Day == 0 && p.TimeFrom != p.TimeTo).OrderBy(pt => pt.TimeFrom).ToList();
+            var dayDefault = ptsOfDay.Where(p => p.TimeFrom == 0 && p.TimeTo == 0).FirstOrDefault();
+            if (dayDefault != null)
+            {
+                ptsOfDay.Remove(dayDefault);
+            }
+
+            List<PriceTable> results = new List<PriceTable>();
+
+            foreach (var item in ptsOfDay)
+            {
+                if (item.TimeTo == 0)
+                {
+                    item.TimeTo = 24;
+                }
+                var temp = new PriceTable();
+                temp.TimeFrom = item.TimeFrom;
+                temp.TimeTo = item.TimeTo;
+                temp.Price = item.Price;
+                results.Add(temp);
+            }
+
+            if (dayDefault != null)
+            {
+                var dayelse = new PriceTable();
+                dayelse.TimeFrom = 0;
+                dayelse.TimeTo = 0;
+                dayelse.Price = dayDefault.Price;
+                results = results.OrderBy(pt => pt.TimeFrom).ToList();
+                results.Add(dayelse);
+            }
+            else
+            {
+                if (pricesDefault.Count() > 0)
+                {
+                    foreach (var item in pricesDefault)
+                    {
+                        if (item.TimeTo == 0)
+                        {
+                            item.TimeTo = 24;
+                        }
+                        var dups = results.Where(pt =>
+                            (pt.TimeFrom >= item.TimeFrom && pt.TimeFrom < item.TimeTo) ||
+                            (pt.TimeTo > item.TimeFrom && pt.TimeTo <= item.TimeTo) ||
+                            (pt.TimeFrom <= item.TimeFrom && pt.TimeTo >= item.TimeTo)
+                            ).OrderBy(pt => pt.TimeFrom).ToList();
+                        if (dups.Count() == 0)
+                        {
+                            var temp = new PriceTable();
+                            temp.TimeFrom = item.TimeFrom;
+                            temp.TimeTo = item.TimeTo;
+                            temp.Price = item.Price;
+                            results.Add(temp);
+                        }
+                        else
+                        {
+                            PriceTable prev = null;
+                            bool forward = true;
+                            foreach (var dup in dups)
+                            {                                
+                                var ftf = item.TimeFrom - dup.TimeFrom;
+                                var ftt = item.TimeFrom - dup.TimeTo;
+                                var ttt = item.TimeTo - dup.TimeTo;
+                                var ttf = item.TimeTo - dup.TimeFrom;
+                                if (ftf < 0 && ttf >= 0 && prev == null)
+                                {
+                                    var pr = new PriceTable();
+                                    pr.TimeFrom = item.TimeFrom;
+                                    pr.TimeTo = dup.TimeFrom;
+                                    pr.Price = item.Price;
+                                    results.Add(pr);
+                                    forward = false;
+                                }
+                                else if (ftf >= 0 && ftt < 0 && ttt > 0 && prev == null)
+                                {
+                                    var next = dups.Where(pt => pt.TimeFrom > dup.TimeFrom).OrderBy(pt => pt.TimeFrom).FirstOrDefault();
+                                    var pr = new PriceTable();
+                                    pr.TimeFrom = dup.TimeTo;
+                                    if (next != null)
+                                    {
+                                        pr.TimeTo = next.TimeFrom;
+                                    }
+                                    else
+                                    {
+                                        pr.TimeTo = item.TimeTo;
+                                    }
+                                    pr.Price = item.Price;
+                                    results.Add(pr);
+                                    forward = true;
+                                }
+                                else if (ftf < 0 && ttf >= 0 && prev != null && !forward)
+                                {
+                                    var pr = new PriceTable();
+                                    pr.TimeFrom = prev.TimeTo;
+                                    pr.TimeTo = dup.TimeFrom;
+                                    pr.Price = item.Price;
+                                    results.Add(pr);
+                                }
+                                else if (ftf < 0 && ttf >= 0 && prev != null && forward)
+                                {
+                                    var next = dups.Where(pt => pt.TimeFrom > dup.TimeFrom).OrderBy(pt => pt.TimeFrom).FirstOrDefault();
+                                    var pr = new PriceTable();
+                                    pr.TimeFrom = dup.TimeTo;
+                                    if (next != null)
+                                    {
+                                        pr.TimeTo = next.TimeFrom;
+                                    }
+                                    else
+                                    {
+                                        pr.TimeTo = item.TimeTo;
+                                    }
+                                    pr.Price = item.Price;
+                                    results.Add(pr);
+                                }
+                                prev = dup;
+                            }
+                            if (!forward && item.TimeTo > prev.TimeTo)
+                            {
+                                var pr = new PriceTable();
+                                pr.TimeFrom = prev.TimeTo;
+                                pr.TimeTo = item.TimeTo;
+                                pr.Price = item.Price;
+                                results.Add(pr);
+                            }
+                        }                        
+                    }
+                }
+                results = results.OrderBy(pt => pt.TimeFrom).ToList();
+                var supelse = new PriceTable();
+                supelse.TimeFrom = 0;
+                supelse.TimeTo = 0;
+                supelse.Price = superDefault.Price;
+                results.Add(supelse);
+            }
+            
+            return results;
+        }
+
         public List<Notification> GetAllNotificationsOfStadiumsForUser(string userName)
         {
             UserDAO userDAO = new UserDAO();
@@ -456,25 +633,25 @@ namespace FootballPitchesBooking.BusinessObjects
                     var soRole = roleDAO.GetRoleByRoleName("StadiumOwner");
                     userDAO.UpdateUserRole(stadiumOwner.Id, soRole.Id);
                     var oldOwner = userDAO.GetUserByUserId(oldStadium.MainOwner);
-                    
-                        StadiumStaffDAO ssDAO = new StadiumStaffDAO();
-                        var listS = stadiumDAO.GetStadiumsByMainOwnerId(oldOwner.Id);
-                        if (listS == null || listS.Count == 0)
+
+                    StadiumStaffDAO ssDAO = new StadiumStaffDAO();
+                    var listS = stadiumDAO.GetStadiumsByMainOwnerId(oldOwner.Id);
+                    if (listS == null || listS.Count == 0)
+                    {
+                        var listss = ssDAO.GetStadiumStaffByUser(oldOwner.Id);
+                        if (listss != null && listss.Count != 0)
                         {
-                            var listss = ssDAO.GetStadiumStaffByUser(oldOwner.Id);
-                            if (listss != null && listss.Count != 0)
-                            {
-                                var sOwnerRole = roleDAO.GetRoleByRoleName("StadiumOwner");
-                                var sStaffRole = roleDAO.GetRoleByRoleName("StadiumStaff");
-                                var isOwner = listss.Any(s => s.IsOwner);
-                                userDAO.UpdateUserRole(oldOwner.Id, isOwner ? sOwnerRole.Id : sStaffRole.Id);
-                            }
-                            else
-                            {
-                                var memberRole = roleDAO.GetRoleByRoleName("Member");
-                                userDAO.UpdateUserRole(oldStadium.MainOwner, memberRole.Id);
-                            }
+                            var sOwnerRole = roleDAO.GetRoleByRoleName("StadiumOwner");
+                            var sStaffRole = roleDAO.GetRoleByRoleName("StadiumStaff");
+                            var isOwner = listss.Any(s => s.IsOwner);
+                            userDAO.UpdateUserRole(oldOwner.Id, isOwner ? sOwnerRole.Id : sStaffRole.Id);
                         }
+                        else
+                        {
+                            var memberRole = roleDAO.GetRoleByRoleName("Member");
+                            userDAO.UpdateUserRole(oldStadium.MainOwner, memberRole.Id);
+                        }
+                    }
                 }
             }
 
@@ -1636,7 +1813,7 @@ namespace FootballPitchesBooking.BusinessObjects
                     }
                 }
             }
-            
+
             var discount = GetPromotionByField(field.Id, startDate);
             double d = 0;
             foreach (var item in relevants)
@@ -1656,7 +1833,7 @@ namespace FootballPitchesBooking.BusinessObjects
             List<double> result = new List<double>();
             result.Add(price);
             result.Add(d);
-            return result;           
+            return result;
         }
 
 
@@ -1710,8 +1887,8 @@ namespace FootballPitchesBooking.BusinessObjects
             if (promotion.PromotionTo <= DateTime.Now)
             {
                 return -1;
-            } 
-            
+            }
+
             if (promotion.PromotionTo < promotion.PromotionFrom)
             {
                 return -2;
