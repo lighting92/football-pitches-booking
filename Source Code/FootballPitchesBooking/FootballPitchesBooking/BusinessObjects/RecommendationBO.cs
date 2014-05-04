@@ -1070,6 +1070,25 @@ namespace FootballPitchesBooking.BusinessObjects
             }
 
         }
+
+        //
+        public int UpdateMinTimeBooking(List<Configuration> configs)
+        {
+            double total = 0;
+            foreach (var item in configs)
+            {
+                total += double.Parse(item.Value);
+            }
+            if (total != 90)
+            {
+                return -2;
+            }
+            else 
+            {
+                ConfigurationDAO conDAO = new ConfigurationDAO();
+                return conDAO.UpdateConfigurations(configs);
+            }
+        }
     }
 
 

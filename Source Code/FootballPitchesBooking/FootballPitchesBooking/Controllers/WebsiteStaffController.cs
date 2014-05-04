@@ -1071,6 +1071,60 @@ namespace FootballPitchesBooking.Controllers
             return Json(message);
         }
 
+        public JsonResult EditMinTimeBooking(FormCollection form)
+        {
+            string json = form[0];
+            json = json.Replace("{", "");
+            json = json.Replace("}", "");
+            json = json.Replace("\"", "");
+            string[] list = json.Split(',');
+            var configs = new List<Configuration>();
+            foreach (var item in list)
+            {
+                string[] kv = item.Split(':');
+                configs.Add(new Configuration
+                {
+                    Name = kv[0].Trim(),
+                    Value = kv[1].Trim()
+                });
+            }
+
+            bool valid = true;
+            foreach (var item in configs)
+            {
+                double temp = 0;
+                valid = double.TryParse(item.Value, out temp);
+                if (!valid)
+                {
+                    break;
+                }
+            }
+            string message = "";
+            if (valid)
+            {
+                RecommendationBO recBO = new RecommendationBO();
+                var result = recBO.UpdateMinTimeBooking(configs);
+                switch (result)
+                {
+                    case 1:
+                        message = "Cập nhật thành công";
+                        break;
+                    case 0:
+                        message = Resources.DB_Exception;
+                        break;
+                    case -1:
+                        message = "Không tìm thấy tên cấu hình";
+                        break;
+                    case -2:
+                        message = "Cập nhật không thành công";
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return Json(message);
+        }
+
         #endregion
 
 
@@ -1203,7 +1257,7 @@ namespace FootballPitchesBooking.Controllers
             {
                 model.ErrorMessages.Add("Chưa nhập lý do cho lệnh phạt này");
                 valid = false;
-            }            
+            }
             if (!string.IsNullOrEmpty(model.ExpiredDate))
             {
                 DateTime temp;
@@ -1265,7 +1319,7 @@ namespace FootballPitchesBooking.Controllers
             }
             var model = new PunishMemberModel();
             model.Date = pm.Date.Value.ToShortDateString();
-            model.ExpiredDate = form["ExpiredDate"];           
+            model.ExpiredDate = form["ExpiredDate"];
             model.IsForever = !string.IsNullOrEmpty(form["IsForever"]);
             model.Reason = form["Reason"];
             model.PunishedUserName = form["PunishedUserName"];
