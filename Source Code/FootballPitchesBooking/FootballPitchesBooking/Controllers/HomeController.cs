@@ -141,7 +141,9 @@ namespace FootballPitchesBooking.Controllers
 
         public ActionResult AboutUs()
         {
-            return View();
+            UserBO userBO = new UserBO();
+            List<MemberRank> ranks = userBO.GetAllRanks();
+            return View(ranks);
         }
 
         public ActionResult Feedback()

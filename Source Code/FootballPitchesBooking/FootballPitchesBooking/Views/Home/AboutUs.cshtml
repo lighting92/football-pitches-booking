@@ -1,22 +1,55 @@
-﻿@{
+﻿@model List<FootballPitchesBooking.Models.MemberRank>
+@{
     ViewBag.Title = "AboutUs";
+    ViewBag.RANK = "active";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Giới thiệu hệ thống</h2>
 <h3>HỆ THỐNG SÂN BÓNG</h3>
 <p>
-    Hỗ trợ bạn <a href="/Stadium/QuickSearch" target="_blank">tìm kiếm </a>và đặt sân bóng một cách dễ dàng.
+    - Hỗ trợ bạn <a href="/Stadium/QuickSearch" target="_blank">tìm kiếm </a>và đặt sân bóng một cách dễ dàng.
     <br />
-    <a href="/Stadium/JoinUs" target="_blank">Trở thành chủ sân</a>, hệ thống sẽ hỗ trợ bạn quản lý sân bóng của mình: bạn có thể thay đổi thông tin về sân, cập nhật giá cả cho các sân, tạo khuyến mãi cho sân bóng, quản lý các đơn đặt sân.
+    - <a href="/Stadium/JoinUs" target="_blank">Trở thành chủ sân</a>, hệ thống sẽ hỗ trợ bạn quản lý sân bóng của mình: bạn có thể thay đổi thông tin về sân, cập nhật giá cả cho các sân, tạo khuyến mãi cho sân bóng, quản lý các đơn đặt sân.
 </p>
 <hr />
 <h3>Trở thành thành viên</h3>
-Bạn hãy <a href="/Account/Register" target="_blank">đăng ký</a> làm thành viên để nhận được các gợi ý về sân bóng gần nhà, sân bạn thường đặt hay sân đang có khuyến mãi
+- Bạn hãy <a href="/Account/Register" target="_blank">đăng ký</a> làm thành viên để nhận được các gợi ý về sân bóng gần nhà, sân bạn thường đặt hay sân đang có khuyến mãi
 <br />
-Bạn có thể tìm thêm người chơi hay tham gia các trận đấu đã được sắp xếp khi có nhu cầu thông qua chức năng <a href="/Stadium/Rivals" target="_blank">Cáp kèo</a>
+- Bạn có thể tìm thêm người chơi hay tham gia các trận đấu đã được sắp xếp khi có nhu cầu thông qua chức năng <a href="/Stadium/Rivals" target="_blank">Cáp kèo</a>
 <br />
-Là thành viên bạn còn được hưởng các ưu đãi thông qua hệ thống cấp bậc mà chúng tôi cung cấp. Cấp bậc càng cao, ưu đãi càng nhiều!
+- Là thành viên bạn còn được hưởng các ưu đãi thông qua hệ thống cấp bậc mà chúng tôi cung cấp. Cấp bậc càng cao, ưu đãi càng nhiều!<br />
+<b>Hệ thống cấp bậc thành viên:</b><br />
+<div>
+    @if (Model != null && Model.Count > 0)
+    {
+        <div class="row no-margin">
+            <table class="table table-condensed table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th style="width: 150px;">CẤP BẬC</th>
+                        <th style="width: 150px;">ĐIỂM TỐI THIỂU</th>
+                        <th>ƯU ĐÃI GIẢM GIÁ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><a href="/WebsiteStaff/EditMemberRank/@item.Id">@item.RankName</a></td>
+                            <td>@item.Point</td>
+                            <td>@item.Promotion</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <p>Hệ thống chưa có cấp bậc nào.</p>
+    }
+</div>
 <hr />
 <h3>Hướng dẫn sử dụng</h3>
 <div class="panel-heading">
@@ -28,14 +61,15 @@ Là thành viên bạn còn được hưởng các ưu đãi thông qua hệ th�
 </div>
 <div id="collapseone" class="panel-collapse collapse">
     <b>Cách tìm sân bóng</b><br />
-    - Bước 1: Chọn thẻ sân bóng<br />
+    - Bước 1: Chọn thẻ <a href="/Stadium" target="_blank">SÂN BÓNG</a><br />
     - Bước 2: Điền thông tin tìm kiếm<br />
     - Bước 3: Nhấn "Tìm kiếm" để lọc bằng thông tin đã điền/Nhấn "Xem tất cả" để hiển thị toàn bộ sân bóng
-    <img style="height:425px" src="/Content/images/manual_findStadium.png"/><br />
+    <img style="height: 425px" src="/Content/images/manual_findStadium.png" /><br />
     <b>Cách tìm sân nhanh</b><br />
-    - Bước 1: Chọn Kiểu sân, Ngày đá, Giờ, Thời lượng và Khu vực<br />
-    - Bước 2: Nhấn "Tìm kiếm"
-    <img style="height:425px" src="/Content/images/manual_findAvailableStadium.png"/>
+    - Bước 1: Mở rộng mẫu "TÌM SÂN NHANH" trên <a href="/Home" target="_blank">TRANG CHỦ</a> hay nhấn vào thẻ <a href="/Stadium/QuickSearch" target="_blank">"TÌM SÂN NHANH"</a><br />
+    - Bước 2: Chọn Kiểu sân, Ngày đá, Giờ, Thời lượng và Khu vực<br />
+    - Bước 3: Nhấn "Tìm kiếm"
+    <img style="height: 425px" src="/Content/images/manual_findAvailableStadium.png" />
 </div>
 
 <hr />
@@ -54,11 +88,11 @@ Là thành viên bạn còn được hưởng các ưu đãi thông qua hệ th�
     - Bước 3: Chọn sân ở ô "Sân trống"<br />
     - Bước 4: Nếu bạn không đủ số lượng người cho 1 trận đấu, bạn muốn tìm đội giao hữu. Chọn "Yêu cầu tìm đội giao hữu"<br />
     - Bước 5: Nhấn "Đặt sân"<br />
-    <img style="height:425px" src="/Content/images/manual_bookField.png"/><br />
+    <img style="height: 425px" src="/Content/images/manual_bookField.png" /><br />
     <b>Lưu ý:</b><br />
     - Đơn đặt sân của bạn sẽ trở nên hợp lệ sau khi được sự chấp nhận của chủ sân<br />
     - Tình trạng đơn đặt sân được cập nhật và sẽ hiện thông báo ngay khi chủ sân đồng ý<br />
-    - Toàn bộ lịch sử đặt sân của bạn đều được lưu lại và có thể theo dõi khi nhân vào "Lịch sử đặt sân" bên dưới tên tài khoản<br />
-    - Bạn có thể gọi điện để đặt sân, chủ sân sẽ hỗ trợ cập nhật thông tin đặt sân vào tài khoản của bạn
-<hr />
+    - Toàn bộ lịch sử đặt sân của bạn đều được lưu lại và có thể theo dõi khi nhấn vào "Lịch sử đặt sân" bên dưới tên tài khoản<br />
+    - Bạn có thể gọi điện thoại để yêu cầu hỗ trợ đặt sân
+    <hr />
 </div>
