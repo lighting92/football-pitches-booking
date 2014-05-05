@@ -195,6 +195,7 @@
                                         <option value="Denied">Bị từ chối</option>
                                         <option value="Pending">Đang chờ xét</option>
                                         <option value="Canceled">Đã bị huỷ</option>
+                                        <option value="Notcome">Không đến</option>
                                     </select>
                             </label>
                             <script type="text/javascript">
@@ -253,6 +254,7 @@
                                         <option value="Approved">Đã xác nhận</option>
                                         <option value="Pending">Đang chờ xét</option>
                                         <option value="Waiting" selected="selected">Đang chờ</option>
+                                        <option value="Notcome">Không đến</option>
                                     </select>
                             </label>
                             <script type="text/javascript">
@@ -277,7 +279,6 @@
                                     if (!Model.Resv.Status.Equals("Denied"))
                                     {
                                         <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/DenyReservation/@Model.Resv.Id'">Từ chối</button>
-                                        
                                     }
                                 }
                                 else
