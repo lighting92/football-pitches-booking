@@ -123,9 +123,6 @@ namespace FootballPitchesBooking.Controllers
                     }
                     model.MostBookedStadiumsImages.Add(image);
                 }
-
-               
-                
             }         
             return View(model);
         }
