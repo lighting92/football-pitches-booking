@@ -170,6 +170,8 @@ namespace FootballPitchesBooking.Controllers
                         model.Reviews = model.Stadium.StadiumReviews.Where(r => r.IsApproved == true).OrderByDescending(sr => sr.CreateDate).ToList();
                     }
 
+                    model.Promotions = stadiumBO.GetAllPromotionsByStadium((int)id).Where(p => p.PromotionTo >= DateTime.Now).OrderBy(p => p.PromotionTo).ToList();
+
                     return View(model);
                 }
                 else

@@ -11,6 +11,7 @@ namespace FootballPitchesBooking.Models.StadiumModels
         public List<StadiumImage> Images { get; set; }
         public List<FieldPrice> Prices { get; set; }
         public List<StadiumReview> Reviews { get; set; }
+        public List<Promotion> Promotions { get; set; }
         public double Rate { get; set; }
         public int RateCount { get; set; }
     }

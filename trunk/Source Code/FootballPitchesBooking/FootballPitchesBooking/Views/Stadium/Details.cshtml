@@ -62,6 +62,25 @@
                     }
                 </div>
             </div>
+            @if (Model.Promotions != null && Model.Promotions.Count > 0)
+            {
+            <div class="stadium-promotion-list">
+                @foreach (var item in Model.Promotions)
+                {
+                <div class="promotion-show">
+                    Sân
+                    <div class="discount-field">
+                        @item.Field.Number
+                    </div>
+                    giảm giá đến
+                    <div class="discount-value">
+                        <b style="font-size: 30px">@item.Discount</b>%
+                    </div>
+                    <div class="discount-label"><b>@item.PromotionFrom.ToString("dd/MM/yyyy")</b><br /><span style="color: #000000;">»</span> <b>@item.PromotionTo.ToString("dd/MM/yyyy")</b></div>
+                </div>
+                }
+            </div>
+            }        
         </div>
         <div class="span7 stadium-info">
             <div class="span7 no-margin stadium-main-info">
