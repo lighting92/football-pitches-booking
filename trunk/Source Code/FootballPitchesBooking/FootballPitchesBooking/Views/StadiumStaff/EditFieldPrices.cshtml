@@ -1,6 +1,6 @@
 ﻿@model FootballPitchesBooking.Models.StadiumStaffModels.AddFieldPricesModel
 @{
-    ViewBag.Title = "Thêm Bảng Giá";
+    ViewBag.Title = "Sửa Bảng Giá";
     ViewBag.STADIUM = "active";
     Layout = "~/Views/Shared/_StadiumStaffLayout.cshtml";
     var count = 0;
@@ -10,576 +10,592 @@
         <div class="row">
             @if (Model.HavePermission)
             {
-            <div class="span9">
-                <form action="EditFieldPrices?Id=@Request.QueryString["Id"]" method="post" class="form-horizontal" enctype="multipart/form-data">
-                    <fieldset>
-                        <h2>Chỉnh Sửa Bảng Giá
-                        </h2>
-                        <h4>HỆ THỐNG SÂN <a href="/StadiumStaff/Fields?Stadium=@Model.StadiumId">@Model.StadiumName</a> : <i>@Model.StadiumAddress</i></h4>
-                        <br />
-                        @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
-                        {
-                            <div class="alert alert-danger">
-                                @foreach (var error in Model.ErrorMessages)
-                                {
-                                    <p>- @error</p>
-                                }
-                            </div>
-                        }
-                        else if (!string.IsNullOrWhiteSpace(Model.SuccessMessage))
-                        {
-                            <div class="alert alert-success">@Model.SuccessMessage</div>
-                        }
+                <div class="span9">
+                    <form action="EditFieldPrices?Id=@Request.QueryString["Id"]" method="post" class="form-horizontal" enctype="multipart/form-data">
+                        <fieldset>
+                            <h2>Chỉnh Sửa Bảng Giá
+                            </h2>
+                            <h4>HỆ THỐNG SÂN <a href="/StadiumStaff/Fields?Stadium=@Model.StadiumId">@Model.StadiumName</a> : <i>@Model.StadiumAddress</i></h4>
+                            <br />
+                            @if (Model.ErrorMessages != null && Model.ErrorMessages.Count() > 0)
+                            {
+                                <div class="alert alert-danger">
+                                    @foreach (var error in Model.ErrorMessages)
+                                    {
+                                        <p>- @error</p>
+                                    }
+                                </div>
+                            }
+                            else if (!string.IsNullOrWhiteSpace(Model.SuccessMessage))
+                            {
+                                <div class="alert alert-success">@Model.SuccessMessage</div>
+                            }
 
-                        <div class="row">
-                            <div class="span9">
-                                <h4><span>Thông tin cơ bản:</span></h4>
-                            </div>
-                            <div class="span3">
-                                <label>
-                                    Tên bảng giá
+                            <div class="row">
+                                <div class="span9">
+                                    <h4><span>Thông tin cơ bản:</span></h4>
+                                    <i style="color:#B81007; margin-bottom:15px; display:block;">Tất cả thông tin bên dưới đều bắt buộc</i>
+                                </div>
+                                <div class="span3">
+                                    <label>
+                                        Tên bảng giá
                                     <input name="FieldPriceName" type="text" placeholder="TÊN BẢNG GIÁ" value="@Model.FieldPrice.Name">
-                                </label>
+                                    </label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="span9">
-                                <label>
-                                    Mô tả
+                            <div class="row">
+                                <div class="span9">
+                                    <label>
+                                        Mô tả
                                 <textarea name="FieldPriceDescription" class="span9" rows="3">@Model.FieldPrice.Description</textarea>
-                                </label>
+                                    </label>
+                                </div>
                             </div>
-                        </div>
-                        <hr />
-                        <script type="text/javascript">
-                            $(document).ready(function () {
-                                $.each($(".timepicker"), function (index, object) {
-                                    $(object).timepicker({
-                                        showMeridian: false,
-                                        defaultTime: object.value,
-                                        minuteStep: 30,
-                                        showInputs: false
+                            <hr />
+                            <script type="text/javascript">
+                                $(document).ready(function () {
+                                    $.each($(".timepicker"), function (index, object) {
+                                        $(object).timepicker({
+                                            showMeridian: false,
+                                            defaultTime: object.value,
+                                            minuteStep: 30,
+                                            showInputs: false
+                                        });
+                                        object.onkeydown = function () {
+                                            return false;
+                                        }
                                     });
-                                    object.onkeydown = function () {
-                                        return false;
-                                    }
+                                    $.each($(".no-timepicker"), function (index, object) {
+                                        object.onkeydown = function () {
+                                            return false;
+                                        }
+                                    });
                                 });
-                                $.each($(".no-timepicker"), function (index, object) {
-                                    object.onkeydown = function () {
-                                        return false;
-                                    }
-                                });
-                            });
-                        </script>
-                        <div class="row" id="tablepricedefault">
-                            <div class="span9">
-                                <label>
-                                    <h4><span>Bảng giá mặc định:</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('default')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></h4>
-                                </label>
+                            </script>
+                            <div class="row">
+                                <div class="span9">
+                                    <h4>Lưu ý</h4>
+                                    <p>- <span style="color:#B81007">Giá mặc định</span> là giá cho tất cả các khung giờ không được thiết lập</p>
+                                    <p>- Giá mặc định giúp bạn đỡ tốn thời gian để thêm khung giá cho các khung giờ có cùng giá</p>
+                                    <p>- <span style="color:#B81007">Khung giờ mặc định</span> có thời điểm <span style="color:#B81007">từ 0 đến 0</span></p>
+                                    <p>- <span style="color:#B81007">Khung giờ hợp lệ</span> là khung giờ được thiết lập đầy đủ thông tin (thời điểm, giá cả), có thời điểm bắt đầu sớm hơn thời điểm kết thúc trừ khung giờ mặc định (0 đến 0)</p>
+                                    <p>- Mỗi ngày chỉ được có 1 khung giờ mặc định</p>
+                                    <p>- Khung giờ được thiết lập cho từng ngày có độ ảnh hưởng cao nhất</p>
+                                    <p>- Nếu có khung giờ mặc định của ngày, các khung giờ không được thiết lập của ngày đó sẽ sử dụng giá của khung giờ mặc định của ngày</p>
+                                    <p>- Nếu không có khung giờ mặc định của ngày, các khung giờ không được thiết lập của ngày đó sẽ sử dụng giá của các khung giờ ở bảng giá mặc định, cuối cùng là khung giờ mặc định</p>
+                                    
+                                </div>
                             </div>
-                            <div class="span2 default-0">
-                                <label>
-                                    Từ
+                            <hr />
+                            <div class="row" id="tablepricedefault">
+                                <div class="span9">
+                                    <label>
+                                        <h4><span>Bảng giá mặc định:</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('default')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></h4>
+                                    </label>
+                                </div>
+                                <div class="span2 default-0">
+                                    <label>
+                                        Từ
                                     <div class="input-append bootstrap-timepicker">
                                         <input readonly name="defaultstarttime_0" id="defaultstarttime_0" type="text" class="span2 no-timepicker" value="@Model.DefaultPriceTables[0].StartTime" />
                                         <span class="add-on"><i class="icon-time"></i></span>
                                     </div>
-                                </label>
-                            </div>
-                            <div class="span1 default-0" style="visibility: hidden;">
-                                <label>&nbsp</label>
-                                <input type="text">
-                            </div>
-                            <div class="span2 default-0">
-                                <label>
-                                    Đến
+                                    </label>
+                                </div>
+                                <div class="span1 default-0" style="visibility: hidden;">
+                                    <label>&nbsp</label>
+                                    <input type="text">
+                                </div>
+                                <div class="span2 default-0">
+                                    <label>
+                                        Đến
                                     <div class="input-append bootstrap-timepicker">
                                         <input readonly name="defaultendtime_0" id="defaultendtime_0" type="text" class="span2 no-timepicker" value="@Model.DefaultPriceTables[0].EndTime" />
                                         <span class="add-on"><i class="icon-time"></i></span>
                                     </div>
-                                </label>
-                            </div>
-                            <div class="span1 default-0" style="visibility: hidden;">
-                                <label>&nbsp</label>
-                                <input type="text">
-                            </div>
-                            <div class="span2 default-0">
-                                <label>
-                                    Giá 1 tiếng
-                                    <input id="defaultprice_0" name="defaultprice_0" type="text" class="format-price span2" placeholder="Ví dụ: 100000" value="@Model.DefaultPriceTables[0].Price">
-                                </label>
-                            </div>
-                            @foreach (var item in Model.DefaultPriceTables)
-                            {
-                                if (count != 0)
-                                {
-                                <div class="span2 default-@count">
+                                    </label>
+                                </div>
+                                <div class="span1 default-0" style="visibility: hidden;">
+                                    <label>&nbsp</label>
+                                    <input type="text">
+                                </div>
+                                <div class="span2 default-0">
                                     <label>
-                                        Từ
+                                        Giá 1 tiếng
+                                    <input id="defaultprice_0" name="defaultprice_0" type="text" class="format-price span2" placeholder="Ví dụ: 100000" value="@Model.DefaultPriceTables[0].Price">
+                                    </label>
+                                </div>
+                                @foreach (var item in Model.DefaultPriceTables)
+                                {
+                                    if (count != 0)
+                                    {
+                                    <div class="span2 default-@count">
+                                        <label>
+                                            Từ
                                     <div class="input-append bootstrap-timepicker">
                                         <input name="defaultstarttime_@count" id="defaultstarttime_@count" type="text" class="span2 timepicker timepickerfrom" value="@item.StartTime" />
                                         <span class="add-on"><i class="icon-time"></i></span>
                                     </div>
-                                    </label>
-                                </div>
-                                <div class="span1 default-@count" style="visibility: hidden;">
-                                    <label>&nbsp</label>
-                                    <input type="text">
-                                </div>
-                                <div class="span2 default-@count">
-                                    <label>
-                                        Đến
+                                        </label>
+                                    </div>
+                                    <div class="span1 default-@count" style="visibility: hidden;">
+                                        <label>&nbsp</label>
+                                        <input type="text">
+                                    </div>
+                                    <div class="span2 default-@count">
+                                        <label>
+                                            Đến
                                     <div class="input-append bootstrap-timepicker">
                                         <input name="defaultendtime_@count" id="defaultendtime_@count" type="text" class="span2 timepicker timepickerto" value="@item.EndTime" />
                                         <span class="add-on"><i class="icon-time"></i></span>
                                     </div>
-                                    </label>
-                                </div>
-                                <div class="span1 default-@count" style="visibility: hidden;">
-                                    <label>&nbsp</label>
-                                    <input type="text">
-                                </div>
-                                <div class="span2 default-@count">
-                                    <label>
-                                        Giá 1 tiếng
+                                        </label>
+                                    </div>
+                                    <div class="span1 default-@count" style="visibility: hidden;">
+                                        <label>&nbsp</label>
+                                        <input type="text">
+                                    </div>
+                                    <div class="span2 default-@count">
+                                        <label>
+                                            Giá 1 tiếng
                                     <input id="defaultprice_@count" name="defaultprice_@count" type="text" class="format-price span2" placeholder="Ví dụ: 100000" value="@item.Price">
+                                        </label>
+                                    </div>
+                                    <div class="span1 default-@count center">
+                                        <label>Gỡ bỏ</label>
+                                        <a onclick="removepricetable('default', @count)" style="cursor:pointer">
+                                            <span class="glyphicon glyphicon-minus"></span>
+
+                                        </a>
+                                    </div>
+                                        count++;
+                                    }
+                                    else
+                                    {
+                                        count++;
+                                    }
+                                }
+                            </div>
+                            <hr />
+                            <div class="row" id="tablepricemon">
+                                <div class="span9">
+                                    <label>
+                                        <h4><span>Bảng giá thứ hai:</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('mon')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></h4>
                                     </label>
                                 </div>
-                                <div class="span1 default-@count center">
-                                    <label>Gỡ bỏ</label>
-                                    <a onclick="removepricetable('default', @count)" style="cursor:pointer">
-                                        <span class="glyphicon glyphicon-minus"></span>
-
-                                    </a>
-                                </div>
-                                    count++;
-                                }
-                                else
-                                {
-                                    count++;
-                                }
-                            }
-                        </div>
-                        <hr />
-                        <div class="row" id="tablepricemon">
-                            <div class="span9">
-                                <label>
-                                    <h4><span>Bảng giá thứ hai:</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('mon')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></h4>
-                                </label>
-                            </div>
-                            @foreach (var item in Model.MondayPriceTables)
-                            {                                
-                                <div class="span2 mon-@count">
-                                    <label>
-                                        Từ
+                                @foreach (var item in Model.MondayPriceTables)
+                                {                                
+                                    <div class="span2 mon-@count">
+                                        <label>
+                                            Từ
                                     <div class="input-append bootstrap-timepicker">
                                         <input name="monstarttime_@count" id="monstarttime_@count" type="text" class="span2 timepicker timepickerfrom" value="@item.StartTime" />
                                         <span class="add-on"><i class="icon-time"></i></span>
                                     </div>
-                                    </label>
-                                </div>
-                                <div class="span1 mon-@count" style="visibility: hidden;">
-                                    <label>&nbsp</label>
-                                    <input type="text">
-                                </div>
-                                <div class="span2 mon-@count">
-                                    <label>
-                                        Đến
+                                        </label>
+                                    </div>
+                                    <div class="span1 mon-@count" style="visibility: hidden;">
+                                        <label>&nbsp</label>
+                                        <input type="text">
+                                    </div>
+                                    <div class="span2 mon-@count">
+                                        <label>
+                                            Đến
                                     <div class="input-append bootstrap-timepicker">
                                         <input name="monendtime_@count" id="monendtime_@count" type="text" class="span2 timepicker timepickerto" value="@item.EndTime" />
                                         <span class="add-on"><i class="icon-time"></i></span>
                                     </div>
-                                    </label>
-                                </div>
-                                <div class="span1 mon-@count" style="visibility: hidden;">
-                                    <label>&nbsp</label>
-                                    <input type="text">
-                                </div>
-                                <div class="span2 mon-@count">
-                                    <label>
-                                        Giá 1 tiếng
+                                        </label>
+                                    </div>
+                                    <div class="span1 mon-@count" style="visibility: hidden;">
+                                        <label>&nbsp</label>
+                                        <input type="text">
+                                    </div>
+                                    <div class="span2 mon-@count">
+                                        <label>
+                                            Giá 1 tiếng
                                     <input id="monprice_@count" name="monprice_@count" type="text" class="format-price span2" placeholder="Ví dụ: 100000" value="@item.Price">
+                                        </label>
+                                    </div>
+                                    <div class="span1 mon-@count center">
+                                        <label>GỠ BỎ</label>
+                                        <a onclick="removepricetable('mon', @count)" style="cursor:pointer">
+                                            <span class="glyphicon glyphicon-minus"></span>
+                                        </a>
+                                    </div>
+                                    count++;
+                                }
+                            </div>
+                            <hr />
+                            <div class="row" id="tablepricetue">
+                                <div class="span9">
+                                    <label>
+                                        <h4><span>Bảng giá thứ ba:</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('tue')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></h4>
                                     </label>
                                 </div>
-                                <div class="span1 mon-@count center">
-                                    <label>GỠ BỎ</label>
-                                    <a onclick="removepricetable('mon', @count)" style="cursor:pointer">
-                                        <span class="glyphicon glyphicon-minus"></span>
-                                    </a>
-                                </div>
-                                count++;
-                            }
-                        </div>
-                        <hr />
-                        <div class="row" id="tablepricetue">
-                            <div class="span9">
-                                <label>
-                                    <h4><span>Bảng giá thứ ba:</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('tue')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></h4>
-                                </label>
-                            </div>
-                            @foreach (var item in Model.TuesdayPriceTables)
-                            {
-                                <div class="span2 tue-@count">
-                                    <label>
-                                        Từ
+                                @foreach (var item in Model.TuesdayPriceTables)
+                                {
+                                    <div class="span2 tue-@count">
+                                        <label>
+                                            Từ
                                     <div class="input-append bootstrap-timepicker">
                                         <input name="tuestarttime_@count" id="tuestarttime_@count" type="text" class="span2 timepicker timepickerfrom" value="@item.StartTime" />
                                         <span class="add-on"><i class="icon-time"></i></span>
                                     </div>
-                                    </label>
-                                </div>
-                                <div class="span1 tue-@count" style="visibility: hidden;">
-                                    <label>&nbsp</label>
-                                    <input type="text">
-                                </div>
-                                <div class="span2 tue-@count">
-                                    <label>
-                                        Đến
+                                        </label>
+                                    </div>
+                                    <div class="span1 tue-@count" style="visibility: hidden;">
+                                        <label>&nbsp</label>
+                                        <input type="text">
+                                    </div>
+                                    <div class="span2 tue-@count">
+                                        <label>
+                                            Đến
                                     <div class="input-append bootstrap-timepicker">
                                         <input name="tueendtime_@count" id="tueendtime_@count" type="text" class="span2 timepicker timepickerto" value="@item.EndTime" />
                                         <span class="add-on"><i class="icon-time"></i></span>
                                     </div>
-                                    </label>
-                                </div>
-                                <div class="span1 tue-@count" style="visibility: hidden;">
-                                    <label>&nbsp</label>
-                                    <input type="text">
-                                </div>
-                                <div class="span2 tue-@count">
-                                    <label>
-                                        Giá 1 tiếng
+                                        </label>
+                                    </div>
+                                    <div class="span1 tue-@count" style="visibility: hidden;">
+                                        <label>&nbsp</label>
+                                        <input type="text">
+                                    </div>
+                                    <div class="span2 tue-@count">
+                                        <label>
+                                            Giá 1 tiếng
                                     <input id="tueprice_@count" name="tueprice_@count" type="text" class="format-price span2" placeholder="Ví dụ: 100000" value="@item.Price">
+                                        </label>
+                                    </div>
+                                    <div class="span1 tue-@count center">
+                                        <label>GỠ BỎ</label>
+                                        <a onclick="removepricetable('tue', @count)" style="cursor:pointer">
+                                            <span class="glyphicon glyphicon-minus"></span>
+
+                                        </a>
+                                    </div>
+                                    count++;
+                                }
+                            </div>
+                            <hr />
+                            <div class="row" id="tablepricewed">
+                                <div class="span9">
+                                    <label>
+                                        <h4><span>Bảng giá thứ tư:</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('wed')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></h4>
                                     </label>
                                 </div>
-                                <div class="span1 tue-@count center">
-                                    <label>GỠ BỎ</label>
-                                    <a onclick="removepricetable('tue', @count)" style="cursor:pointer">
-                                        <span class="glyphicon glyphicon-minus"></span>
-
-                                    </a>
-                                </div>
-                                count++;
-                            }
-                        </div>
-                        <hr />
-                        <div class="row" id="tablepricewed">
-                            <div class="span9">
-                                <label>
-                                    <h4><span>Bảng giá thứ tư:</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('wed')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></h4>
-                                </label>
-                            </div>
-                            @foreach (var item in Model.WednesdayPriceTables)
-                            {
-                                <div class="span2 wed-@count">
-                                    <label>
-                                        Từ
+                                @foreach (var item in Model.WednesdayPriceTables)
+                                {
+                                    <div class="span2 wed-@count">
+                                        <label>
+                                            Từ
                                     <div class="input-append bootstrap-timepicker">
                                         <input name="wedstarttime_@count" id="wedstarttime_@count" type="text" class="span2 timepicker timepickerfrom" value="@item.StartTime" />
                                         <span class="add-on"><i class="icon-time"></i></span>
                                     </div>
-                                    </label>
-                                </div>
-                                <div class="span1 wed-@count" style="visibility: hidden;">
-                                    <label>&nbsp</label>
-                                    <input type="text">
-                                </div>
-                                <div class="span2 wed-@count">
-                                    <label>
-                                        Đến
+                                        </label>
+                                    </div>
+                                    <div class="span1 wed-@count" style="visibility: hidden;">
+                                        <label>&nbsp</label>
+                                        <input type="text">
+                                    </div>
+                                    <div class="span2 wed-@count">
+                                        <label>
+                                            Đến
                                     <div class="input-append bootstrap-timepicker">
                                         <input name="wedendtime_@count" id="wedendtime_@count" type="text" class="span2 timepicker timepickerto" value="@item.EndTime" />
                                         <span class="add-on"><i class="icon-time"></i></span>
                                     </div>
-                                    </label>
-                                </div>
-                                <div class="span1 wed-@count" style="visibility: hidden;">
-                                    <label>&nbsp</label>
-                                    <input type="text">
-                                </div>
-                                <div class="span2 wed-@count">
-                                    <label>
-                                        Giá 1 tiếng
+                                        </label>
+                                    </div>
+                                    <div class="span1 wed-@count" style="visibility: hidden;">
+                                        <label>&nbsp</label>
+                                        <input type="text">
+                                    </div>
+                                    <div class="span2 wed-@count">
+                                        <label>
+                                            Giá 1 tiếng
                                     <input id="wedprice_@count" name="wedprice_@count" type="text" class="format-price span2" placeholder="Ví dụ: 100000" value="@item.Price">
+                                        </label>
+                                    </div>
+                                    <div class="span1 wed-@count center">
+                                        <label>GỠ BỎ</label>
+                                        <a onclick="removepricetable('wed', @count)" style="cursor:pointer">
+                                            <span class="glyphicon glyphicon-minus"></span>
+
+                                        </a>
+                                    </div>
+                                    count++;
+                                }
+                            </div>
+                            <hr />
+                            <div class="row" id="tablepricethu">
+                                <div class="span9">
+                                    <label>
+                                        <h4><span>Bảng giá thứ năm:</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('thu')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></h4>
                                     </label>
                                 </div>
-                                <div class="span1 wed-@count center">
-                                    <label>GỠ BỎ</label>
-                                    <a onclick="removepricetable('wed', @count)" style="cursor:pointer">
-                                        <span class="glyphicon glyphicon-minus"></span>
-
-                                    </a>
-                                </div>
-                                count++;
-                            }
-                        </div>
-                        <hr />
-                        <div class="row" id="tablepricethu">
-                            <div class="span9">
-                                <label>
-                                    <h4><span>Bảng giá thứ năm:</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('thu')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></h4>
-                                </label>
-                            </div>
-                            @foreach (var item in Model.ThurdayPriceTables)
-                            {
-                                <div class="span2 thu-@count">
-                                    <label>
-                                        Từ
+                                @foreach (var item in Model.ThurdayPriceTables)
+                                {
+                                    <div class="span2 thu-@count">
+                                        <label>
+                                            Từ
                                     <div class="input-append bootstrap-timepicker">
                                         <input name="thustarttime_@count" id="thustarttime_@count" type="text" class="span2 timepicker timepickerfrom" value="@item.StartTime" />
                                         <span class="add-on"><i class="icon-time"></i></span>
                                     </div>
-                                    </label>
-                                </div>
-                                <div class="span1 thu-@count" style="visibility: hidden;">
-                                    <label>&nbsp</label>
-                                    <input type="text">
-                                </div>
-                                <div class="span2 thu-@count">
-                                    <label>
-                                        Đến
+                                        </label>
+                                    </div>
+                                    <div class="span1 thu-@count" style="visibility: hidden;">
+                                        <label>&nbsp</label>
+                                        <input type="text">
+                                    </div>
+                                    <div class="span2 thu-@count">
+                                        <label>
+                                            Đến
                                     <div class="input-append bootstrap-timepicker">
                                         <input name="thuendtime_@count" id="thuendtime_@count" type="text" class="span2 timepicker timepickerto" value="@item.EndTime" />
                                         <span class="add-on"><i class="icon-time"></i></span>
                                     </div>
-                                    </label>
-                                </div>
-                                <div class="span1 thu-@count" style="visibility: hidden;">
-                                    <label>&nbsp</label>
-                                    <input type="text">
-                                </div>
-                                <div class="span2 thu-@count">
-                                    <label>
-                                        Giá 1 tiếng
+                                        </label>
+                                    </div>
+                                    <div class="span1 thu-@count" style="visibility: hidden;">
+                                        <label>&nbsp</label>
+                                        <input type="text">
+                                    </div>
+                                    <div class="span2 thu-@count">
+                                        <label>
+                                            Giá 1 tiếng
                                     <input id="thuprice_@count" name="thuprice_@count" type="text" class="format-price span2" placeholder="Ví dụ: 100000" value="@item.Price">
+                                        </label>
+                                    </div>
+                                    <div class="span1 thu-@count center">
+                                        <label>GỠ BỎ</label>
+                                        <a onclick="removepricetable('thu', @count)" style="cursor:pointer">
+                                            <span class="glyphicon glyphicon-minus"></span>
+
+                                        </a>
+                                    </div>
+                                    count++;
+                                }
+                            </div>
+                            <hr />
+                            <div class="row" id="tablepricefri">
+                                <div class="span9">
+                                    <label>
+                                        <h4><span>Bảng giá thứ sáu:</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('fri')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></h4>
                                     </label>
                                 </div>
-                                <div class="span1 thu-@count center">
-                                    <label>GỠ BỎ</label>
-                                    <a onclick="removepricetable('thu', @count)" style="cursor:pointer">
-                                        <span class="glyphicon glyphicon-minus"></span>
-
-                                    </a>
-                                </div>
-                                count++;
-                            }
-                        </div>
-                        <hr />
-                        <div class="row" id="tablepricefri">
-                            <div class="span9">
-                                <label>
-                                    <h4><span>Bảng giá thứ sáu:</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('fri')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></h4>
-                                </label>
-                            </div>
-                            @foreach (var item in Model.FridayPriceTables)
-                            {
-                                <div class="span2 fri-@count">
-                                    <label>
-                                        Từ
+                                @foreach (var item in Model.FridayPriceTables)
+                                {
+                                    <div class="span2 fri-@count">
+                                        <label>
+                                            Từ
                                     <div class="input-append bootstrap-timepicker">
                                         <input name="fristarttime_@count" id="fristarttime_@count" type="text" class="span2 timepicker timepickerfrom" value="@item.StartTime" />
                                         <span class="add-on"><i class="icon-time"></i></span>
                                     </div>
-                                    </label>
-                                </div>
-                                <div class="span1 fri-@count" style="visibility: hidden;">
-                                    <label>&nbsp</label>
-                                    <input type="text">
-                                </div>
-                                <div class="span2 fri-@count">
-                                    <label>
-                                        Đến
+                                        </label>
+                                    </div>
+                                    <div class="span1 fri-@count" style="visibility: hidden;">
+                                        <label>&nbsp</label>
+                                        <input type="text">
+                                    </div>
+                                    <div class="span2 fri-@count">
+                                        <label>
+                                            Đến
                                     <div class="input-append bootstrap-timepicker">
                                         <input name="friendtime_@count" id="friendtime_@count" type="text" class="span2 timepicker timepickerto" value="@item.EndTime" />
                                         <span class="add-on"><i class="icon-time"></i></span>
                                     </div>
-                                    </label>
-                                </div>
-                                <div class="span1 fri-@count" style="visibility: hidden;">
-                                    <label>&nbsp</label>
-                                    <input type="text">
-                                </div>
-                                <div class="span2 fri-@count">
-                                    <label>
-                                        Giá 1 tiếng
+                                        </label>
+                                    </div>
+                                    <div class="span1 fri-@count" style="visibility: hidden;">
+                                        <label>&nbsp</label>
+                                        <input type="text">
+                                    </div>
+                                    <div class="span2 fri-@count">
+                                        <label>
+                                            Giá 1 tiếng
                                     <input id="friprice_@count" name="friprice_@count" type="text" class="format-price span2" placeholder="Ví dụ: 100000" value="@item.Price">
+                                        </label>
+                                    </div>
+                                    <div class="span1 fri-@count center">
+                                        <label>GỠ BỎ</label>
+                                        <a onclick="removepricetable('fri', @count)" style="cursor:pointer">
+                                            <span class="glyphicon glyphicon-minus"></span>
+
+                                        </a>
+                                    </div>
+                                    count++;
+                                }
+                            </div>
+                            <hr />
+                            <div class="row" id="tablepricesat">
+                                <div class="span9">
+                                    <label>
+                                        <h4><span>Bảng giá thứ bảy:</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('sat')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></h4>
                                     </label>
                                 </div>
-                                <div class="span1 fri-@count center">
-                                    <label>GỠ BỎ</label>
-                                    <a onclick="removepricetable('fri', @count)" style="cursor:pointer">
-                                        <span class="glyphicon glyphicon-minus"></span>
-
-                                    </a>
-                                </div>
-                                count++;
-                            }
-                        </div>
-                        <hr />
-                        <div class="row" id="tablepricesat">
-                            <div class="span9">
-                                <label>
-                                    <h4><span>Bảng giá thứ bảy:</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('sat')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></h4>
-                                </label>
-                            </div>
-                            @foreach (var item in Model.SaturdayPriceTables)
-                            {
-                                <div class="span2 sat-@count">
-                                    <label>
-                                        Từ
+                                @foreach (var item in Model.SaturdayPriceTables)
+                                {
+                                    <div class="span2 sat-@count">
+                                        <label>
+                                            Từ
                                     <div class="input-append bootstrap-timepicker">
                                         <input name="satstarttime_@count" id="satstarttime_@count" type="text" class="span2 timepicker timepickerfrom" value="@item.StartTime" />
                                         <span class="add-on"><i class="icon-time"></i></span>
                                     </div>
-                                    </label>
-                                </div>
-                                <div class="span1 sat-@count" style="visibility: hidden;">
-                                    <label>&nbsp</label>
-                                    <input type="text">
-                                </div>
-                                <div class="span2 sat-@count">
-                                    <label>
-                                        Đến
+                                        </label>
+                                    </div>
+                                    <div class="span1 sat-@count" style="visibility: hidden;">
+                                        <label>&nbsp</label>
+                                        <input type="text">
+                                    </div>
+                                    <div class="span2 sat-@count">
+                                        <label>
+                                            Đến
                                     <div class="input-append bootstrap-timepicker">
                                         <input name="satendtime_@count" id="satendtime_@count" type="text" class="span2 timepicker timepickerto" value="@item.EndTime" />
                                         <span class="add-on"><i class="icon-time"></i></span>
                                     </div>
-                                    </label>
-                                </div>
-                                <div class="span1 sat-@count" style="visibility: hidden;">
-                                    <label>&nbsp</label>
-                                    <input type="text">
-                                </div>
-                                <div class="span2 sat-@count">
-                                    <label>
-                                        Giá 1 tiếng
+                                        </label>
+                                    </div>
+                                    <div class="span1 sat-@count" style="visibility: hidden;">
+                                        <label>&nbsp</label>
+                                        <input type="text">
+                                    </div>
+                                    <div class="span2 sat-@count">
+                                        <label>
+                                            Giá 1 tiếng
                                     <input id="satprice_@count" name="satprice_@count" type="text" class="format-price span2" placeholder="Ví dụ: 100000" value="@item.Price">
+                                        </label>
+                                    </div>
+                                    <div class="span1 sat-@count center">
+                                        <label>GỠ BỎ</label>
+                                        <a onclick="removepricetable('sat', @count)" style="cursor:pointer">
+                                            <span class="glyphicon glyphicon-minus"></span>
+
+                                        </a>
+                                    </div>
+                                    count++;
+                                }
+                            </div>
+                            <hr />
+                            <div class="row" id="tablepricesun">
+                                <div class="span9">
+                                    <label>
+                                        <h4><span>BẢNG GIÁ CHỦ NHẬT:</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('sun')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></h4>
                                     </label>
                                 </div>
-                                <div class="span1 sat-@count center">
-                                    <label>GỠ BỎ</label>
-                                    <a onclick="removepricetable('sat', @count)" style="cursor:pointer">
-                                        <span class="glyphicon glyphicon-minus"></span>
-
-                                    </a>
-                                </div>
-                                count++;
-                            }
-                        </div>
-                        <hr />
-                        <div class="row" id="tablepricesun">
-                            <div class="span9">
-                                <label>
-                                    <h4><span>BẢNG GIÁ CHỦ NHẬT:</span> <a style="font-size: 14px" class="pull-right" onclick="addMorePriceTable('sun')">Thêm Khung Giờ <span class="glyphicon glyphicon-plus"></span></a></h4>
-                                </label>
-                            </div>
-                            @foreach (var item in Model.SundayPriceTables)
-                            {
-                                <div class="span2 sun-@count">
-                                    <label>
-                                        Từ
+                                @foreach (var item in Model.SundayPriceTables)
+                                {
+                                    <div class="span2 sun-@count">
+                                        <label>
+                                            Từ
                                     <div class="input-append bootstrap-timepicker">
                                         <input name="sunstarttime_@count" id="sunstarttime_@count" type="text" class="span2 timepicker timepickerfrom" value="@item.StartTime" />
                                         <span class="add-on"><i class="icon-time"></i></span>
                                     </div>
-                                    </label>
-                                </div>
-                                <div class="span1 sun-@count" style="visibility: hidden;">
-                                    <label>&nbsp</label>
-                                    <input type="text">
-                                </div>
-                                <div class="span2 sun-@count">
-                                    <label>
-                                        Đến
+                                        </label>
+                                    </div>
+                                    <div class="span1 sun-@count" style="visibility: hidden;">
+                                        <label>&nbsp</label>
+                                        <input type="text">
+                                    </div>
+                                    <div class="span2 sun-@count">
+                                        <label>
+                                            Đến
                                     <div class="input-append bootstrap-timepicker">
                                         <input name="sunendtime_@count" id="sunendtime_@count" type="text" class="span2 timepicker timepickerto" value="@item.EndTime" />
                                         <span class="add-on"><i class="icon-time"></i></span>
                                     </div>
-                                    </label>
-                                </div>
-                                <div class="span1 sun-@count" style="visibility: hidden;">
-                                    <label>&nbsp</label>
-                                    <input type="text">
-                                </div>
-                                <div class="span2 sun-@count">
-                                    <label>
-                                        Giá 1 tiếng
+                                        </label>
+                                    </div>
+                                    <div class="span1 sun-@count" style="visibility: hidden;">
+                                        <label>&nbsp</label>
+                                        <input type="text">
+                                    </div>
+                                    <div class="span2 sun-@count">
+                                        <label>
+                                            Giá 1 tiếng
                                     <input id="sunprice_@count" name="sunprice_@count" type="text" class="format-price span2" placeholder="Ví dụ: 100000" value="@item.Price">
-                                    </label>
-                                </div>
-                                <div class="span1 sun-@count center">
-                                    <label>GỠ BỎ</label>
-                                    <a onclick="removepricetable('sun', @count)" style="cursor:pointer">
-                                        <span class="glyphicon glyphicon-minus"></span>
+                                        </label>
+                                    </div>
+                                    <div class="span1 sun-@count center">
+                                        <label>GỠ BỎ</label>
+                                        <a onclick="removepricetable('sun', @count)" style="cursor:pointer">
+                                            <span class="glyphicon glyphicon-minus"></span>
 
-                                    </a>
-                                </div>
-                                count++;
-                            }
-                        </div>
-                        <input type="hidden" id="oldCount" value="@count" />
-                        <script type="text/javascript">
-                            var count = parseInt(document.getElementById("oldCount").value);
-                            function addMorePriceTable(day) {
-                                var html = '<div class="span2 ' + day + '-' + count + '"><label>Từ <div class="input-append bootstrap-timepicker">';
-                                html += '<input name="' + day + 'starttime_' + count + '" id="' + day + 'starttime_' + count + '" type="text" class="span2 timepicker timepickerfrom" value="0:00" />';
-                                html += '<span class="add-on"><i class="icon-time"></i></span></div></label></div>';
-                                html += '<div class="span1 ' + day + '-' + count + '" style="visibility: hidden;"><label>&nbsp</label><input type="text"></div>';
-                                html += '<div class="span2 ' + day + '-' + count + '"><label>Đến <div class="input-append bootstrap-timepicker">';
-                                html += '<input name="' + day + 'endtime_' + count + '" id="' + day + 'endtime_' + count + '" type="text" class="span2 timepicker timepickerto" value="0:00" />';
-                                html += '<span class="add-on"><i class="icon-time"></i></span></div></label></div>';
-                                html += '<div class="span1 ' + day + '-' + count + '" style="visibility: hidden;"><label>&nbsp</label><input type="text"></div>';
-                                html += '<div class="span2 ' + day + '-' + count + '"><label>Giá 1 tiếng ';
-                                html += '<input id="' + day + 'price_' + count + '" name="' + day + 'price_' + count + '" type="text" class="format-price span2" placeholder="Ví dụ: 100000" value="">';
-                                html += '</label></div>';
-                                html += '<div class="span1 ' + day + '-' + count + ' center">';
-                                html += '<label>GỠ BỎ</label><a style="cursor:pointer" onclick="removepricetable(\'' + day + '\', ' + count + ')">';
-                                html += '<span class="glyphicon glyphicon-minus"></span></a></div>';
-                                var table = document.getElementById("tableprice" + day);
-                                $(table).append(html);
-                                count++;
-
-                                $(".format-price").priceFormat({
-                                    prefix: '',
-                                    centsLimit: 0
-                                });
-                                $.each($(".timepicker"), function (index, object) {
-                                    $(object).timepicker({
-                                        showMeridian: false,
-                                        defaultTime: object.value,
-                                        minuteStep: 30,
-                                        showInputs: false
-                                    });
-                                    object.onkeydown = function () {
-                                        return false;
-                                    }
-                                });
-                            }
-
-                            function removepricetable(d, c) {
-                                var controls = $("." + d + "-" + c);
-                                $.each(controls, function (index, obj) {
-                                    $(obj).remove();
-                                });
-                            }
-                        </script>
-                        <div class="row">
-                            <div class="span9">
-                                <br />
-                                <button type="button" onclick="window.location='/StadiumStaff/FieldPrices?Stadium=@Model.StadiumId'" class="btn btn-primary btn-large book-now pull-right groupbtn">Huỷ bỏ</button>
-                                <button type="submit" class="btn btn-primary btn-large book-now pull-right groupbtn">Cập nhật</button>
-                                <br />
-                                <br />
+                                        </a>
+                                    </div>
+                                    count++;
+                                }
                             </div>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
+                            <input type="hidden" id="oldCount" value="@count" />
+                            <script type="text/javascript">
+                                var count = parseInt(document.getElementById("oldCount").value);
+                                function addMorePriceTable(day) {
+                                    var html = '<div class="span2 ' + day + '-' + count + '"><label>Từ <div class="input-append bootstrap-timepicker">';
+                                    html += '<input name="' + day + 'starttime_' + count + '" id="' + day + 'starttime_' + count + '" type="text" class="span2 timepicker timepickerfrom" value="0:00" />';
+                                    html += '<span class="add-on"><i class="icon-time"></i></span></div></label></div>';
+                                    html += '<div class="span1 ' + day + '-' + count + '" style="visibility: hidden;"><label>&nbsp</label><input type="text"></div>';
+                                    html += '<div class="span2 ' + day + '-' + count + '"><label>Đến <div class="input-append bootstrap-timepicker">';
+                                    html += '<input name="' + day + 'endtime_' + count + '" id="' + day + 'endtime_' + count + '" type="text" class="span2 timepicker timepickerto" value="0:00" />';
+                                    html += '<span class="add-on"><i class="icon-time"></i></span></div></label></div>';
+                                    html += '<div class="span1 ' + day + '-' + count + '" style="visibility: hidden;"><label>&nbsp</label><input type="text"></div>';
+                                    html += '<div class="span2 ' + day + '-' + count + '"><label>Giá 1 tiếng ';
+                                    html += '<input id="' + day + 'price_' + count + '" name="' + day + 'price_' + count + '" type="text" class="format-price span2" placeholder="Ví dụ: 100000" value="">';
+                                    html += '</label></div>';
+                                    html += '<div class="span1 ' + day + '-' + count + ' center">';
+                                    html += '<label>GỠ BỎ</label><a style="cursor:pointer" onclick="removepricetable(\'' + day + '\', ' + count + ')">';
+                                    html += '<span class="glyphicon glyphicon-minus"></span></a></div>';
+                                    var table = document.getElementById("tableprice" + day);
+                                    $(table).append(html);
+                                    count++;
+
+                                    $(".format-price").priceFormat({
+                                        prefix: '',
+                                        centsLimit: 0
+                                    });
+                                    $.each($(".timepicker"), function (index, object) {
+                                        $(object).timepicker({
+                                            showMeridian: false,
+                                            defaultTime: object.value,
+                                            minuteStep: 30,
+                                            showInputs: false
+                                        });
+                                        object.onkeydown = function () {
+                                            return false;
+                                        }
+                                    });
+                                }
+
+                                function removepricetable(d, c) {
+                                    var controls = $("." + d + "-" + c);
+                                    $.each(controls, function (index, obj) {
+                                        $(obj).remove();
+                                    });
+                                }
+                            </script>
+                            <div class="row">
+                                <div class="span9">
+                                    <br />
+                                    <button type="button" onclick="window.location='/StadiumStaff/FieldPrices?Stadium=@Model.StadiumId'" class="btn btn-primary btn-large book-now pull-right groupbtn">Huỷ bỏ</button>
+                                    <button type="submit" class="btn btn-primary btn-large book-now pull-right groupbtn">Cập nhật</button>
+                                    <br />
+                                    <br />
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
             }
             else
             {
                 foreach (var item in Model.ErrorMessages)
                 {
-                    <h3>@item</h3>
+                <h3>@item</h3>
                 }
             }
         </div>

@@ -88,7 +88,7 @@ namespace FootballPitchesBooking.Controllers
         {
             StadiumBO stadiumBO = new StadiumBO();
             Stadium stadium = stadiumBO.GetAuthorizeStadium(id, User.Identity.Name);
-            
+
             if (stadium != null)
             {
                 if (!stadium.IsActive)
@@ -369,7 +369,7 @@ namespace FootballPitchesBooking.Controllers
         [Authorize(Roles = "StadiumOwner")]
         public ActionResult AddFieldPrices(int stadium)
         {
-            StadiumBO stadiumBO = new StadiumBO();            
+            StadiumBO stadiumBO = new StadiumBO();
             Stadium s = stadiumBO.GetAuthorizeStadium(stadium, User.Identity.Name);
             AddFieldPricesModel model = new AddFieldPricesModel();
             if (s != null)
@@ -836,6 +836,14 @@ namespace FootballPitchesBooking.Controllers
 
                 #endregion first validate data type
 
+                model.MondayPriceTables = model.MondayPriceTables.OrderBy(pt => pt.StartTime).ToList();
+                model.TuesdayPriceTables = model.TuesdayPriceTables.OrderBy(pt => pt.StartTime).ToList();
+                model.WednesdayPriceTables = model.WednesdayPriceTables.OrderBy(pt => pt.StartTime).ToList();
+                model.ThurdayPriceTables = model.ThurdayPriceTables.OrderBy(pt => pt.StartTime).ToList();
+                model.FridayPriceTables = model.FridayPriceTables.OrderBy(pt => pt.StartTime).ToList();
+                model.SaturdayPriceTables = model.SaturdayPriceTables.OrderBy(pt => pt.StartTime).ToList();
+                model.SundayPriceTables = model.SundayPriceTables.OrderBy(pt => pt.StartTime).ToList();
+
                 if (fperror || merror || tuerror || werror || therror || ferror || saerror || suerror)
                 {
                     return View(model);
@@ -1111,7 +1119,6 @@ namespace FootballPitchesBooking.Controllers
                 fp.FieldPriceDescription = model.FieldPrice.Description;
                 fp.StadiumId = s.Id;
                 fp.PriceTables = new System.Data.Linq.EntitySet<PriceTable>();
-
 
                 #region first validate data type
 
@@ -1501,6 +1508,14 @@ namespace FootballPitchesBooking.Controllers
 
                 #endregion first validate data type
 
+                model.MondayPriceTables = model.MondayPriceTables.OrderBy(pt => pt.StartTime).ToList();
+                model.TuesdayPriceTables = model.TuesdayPriceTables.OrderBy(pt => pt.StartTime).ToList();
+                model.WednesdayPriceTables = model.WednesdayPriceTables.OrderBy(pt => pt.StartTime).ToList();
+                model.ThurdayPriceTables = model.ThurdayPriceTables.OrderBy(pt => pt.StartTime).ToList();
+                model.FridayPriceTables = model.FridayPriceTables.OrderBy(pt => pt.StartTime).ToList();
+                model.SaturdayPriceTables = model.SaturdayPriceTables.OrderBy(pt => pt.StartTime).ToList();
+                model.SundayPriceTables = model.SundayPriceTables.OrderBy(pt => pt.StartTime).ToList();
+
                 if (fperror || merror || tuerror || werror || therror || ferror || saerror || suerror)
                 {
                     return View(model);
@@ -1614,6 +1629,43 @@ namespace FootballPitchesBooking.Controllers
         }
 
         [Authorize(Roles = "StadiumOwner")]
+        public ActionResult DeleteFieldPrice(int id)
+        {
+            StadiumBO stadiumBO = new StadiumBO();
+            FieldPrice fieldPrice = stadiumBO.GetAuthorizeFieldPrice(id, User.Identity.Name);
+            AddFieldPricesModel model = new AddFieldPricesModel();
+            if (fieldPrice != null)
+            {
+                Stadium s = stadiumBO.GetAuthorizeStadium(fieldPrice.StadiumId, User.Identity.Name);
+                if (!s.IsActive)
+                {
+                    return View("InactiveStadium");
+                }
+                else
+                {
+                    int result = stadiumBO.DeleteFieldPrice(fieldPrice);
+                    if (result == 0)
+                    {
+                        TempData["Error"] = "Máy chủ đang bận, xin thử lại sau.";
+                    }
+                    else if (result == -1)
+                    {
+                        TempData["Error"] = "Bảng giá bạn yêu cầu xóa đang được sử dụng bởi các sân con. Hãy cập nhật lại bảng giá cho các sân đó trước khi xóa bảng giá.";
+                    }
+                    else
+                    {
+                        TempData["Success"] = "Xóa bảng giá thành công";
+                    }
+                    return RedirectToAction("FieldPrices", new { Stadium = s.Id });
+                }
+            }
+            else
+            {
+                return View("DoNotHavePermission");
+            }
+        }
+
+        [Authorize(Roles = "StadiumOwner")]
         public ActionResult Fields(int stadium)
         {
             StadiumBO stadiumBO = new StadiumBO();
@@ -1647,6 +1699,7 @@ namespace FootballPitchesBooking.Controllers
                         f.Parent = item.Field1.Number;
                     }
                     f.IsActive = item.IsActive;
+                    f.FieldPrice = item.FieldPrice;
                     model.Fields.Add(f);
                 }
             }

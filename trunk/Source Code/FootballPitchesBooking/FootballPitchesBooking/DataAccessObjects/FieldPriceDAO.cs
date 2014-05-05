@@ -48,6 +48,26 @@ namespace FootballPitchesBooking.DataAccessObjects
             }
         }
 
+        public int DeleteFieldPrice(FieldPrice fp)
+        {
+            FPBDataContext db = new FPBDataContext();
+            try
+            {
+                var fieldPrice = db.FieldPrices.Where(f => f.Id == fp.Id).FirstOrDefault();
+                if (fp != null)
+                {
+                    db.PriceTables.DeleteAllOnSubmit(fieldPrice.PriceTables);
+                    db.FieldPrices.DeleteOnSubmit(fieldPrice);
+                    db.SubmitChanges();
+                }
+                return 1;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
         public List<PriceTable> GetAllPriceTableOfFieldPrice(int fieldPriceId)
         {
             FPBDataContext db = new FPBDataContext();

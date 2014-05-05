@@ -14,7 +14,18 @@
             <button class="btn-success">Thêm bảng giá</button>
         </a>
     </p>
-    
+    if (!string.IsNullOrEmpty((string)TempData["Error"]))
+    {
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+    }
+    else if (!string.IsNullOrEmpty((string)TempData["Success"]))
+    {
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+    }
     if (Model.PriceTables != null && Model.PriceTables.Count != 0)
     {
     <table class="table table-condensed table-bordered table-hover">
@@ -30,8 +41,8 @@
             {
                 <tr>
                     <td>@item.Name</td>
-                    <td>@item.Description</td>                    
-                    <td class="table-cell-action"><a href="/StadiumStaff/EditFieldPrices?Id=@item.Id">Chi Tiết</a> | <a href="/StadiumStaff/DeletePriceTables?Id=@item.Id">Xóa</a></td>
+                    <td>@item.Description</td>
+                    <td class="table-cell-action"><a href="/StadiumStaff/EditFieldPrices?Id=@item.Id">Chi Tiết</a> | <a href="/StadiumStaff/DeleteFieldPrice?Id=@item.Id">Xóa</a></td>
                 </tr>
             }
         </tbody>
@@ -39,7 +50,7 @@
     }
     else
     {
-        <h5>Hệ thống sân này hiện tại chưa có bảng giá nào</h5>
+    <h5>Hệ thống sân này hiện tại chưa có bảng giá nào</h5>
     }
 }
 else

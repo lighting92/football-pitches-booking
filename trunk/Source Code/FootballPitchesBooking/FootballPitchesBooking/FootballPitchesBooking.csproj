@@ -521,6 +521,7 @@
     <Content Include="Views\StadiumStaff\InactiveStadium.cshtml" />
     <Content Include="Views\Home\AboutUs.cshtml" />
     <Content Include="Views\Stadium\PriceTable.cshtml" />
+    <Content Include="Views\StadiumStaff\DoNotHavePermission.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

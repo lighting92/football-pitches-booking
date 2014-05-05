@@ -19,6 +19,7 @@
                 <th>TÊN SÂN</th>
                 <th>KIỂU SÂN</th>
                 <th>TÊN SÂN CHA</th>
+                <th>BẢNG GIÁ</th>
                 <th>TRẠNG THÁI HOẠT ĐỘNG</th>
                 <th></th>
             </tr>
@@ -26,7 +27,8 @@
         <tbody>
             @foreach (var item in Model.Fields)
             {
-                <tr>
+                string cssClass = item.IsActive ? "activerow" : "inactiverow";
+                <tr class="@cssClass">
                     <td>@item.Number</td>
                     <td>@item.FieldType</td>
                     @if (!string.IsNullOrWhiteSpace(item.Parent))
@@ -37,6 +39,7 @@
                     {
                         <td>-</td>
                     }
+                    <td><a href="/StadiumStaff/FieldPrices?Id=@item.FieldPrice.Id">@item.FieldPrice.FieldPriceName</a></td>
                     @if (item.IsActive)
                     {
                         <td>Đang Hoạt Động</td>
@@ -45,7 +48,7 @@
                     {
                         <td>Không Hoạt Động</td>
                     }
-                    <td class="table-cell-action"><a href="/StadiumStaff/EditField?Id=@item.Id">Chỉnh Sửa</a> | <a href="/StadiumStaff/FieldPrices?Field=@item.Id">Bảng Giá</a></td>
+                    <td class="table-cell-action"><a href="/StadiumStaff/EditField?Id=@item.Id">Chỉnh Sửa</a></td>
                 </tr>
             }
         </tbody>

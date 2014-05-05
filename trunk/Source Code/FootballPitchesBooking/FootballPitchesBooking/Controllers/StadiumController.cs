@@ -583,7 +583,8 @@ namespace FootballPitchesBooking.Controllers
                                 var result = new
                                 {
                                     Fields = avails.Fields.Select(f => new { Id = f.Id, Number = f.Number }),
-                                    Prices = avails.Prices
+                                    Prices = avails.Prices,
+                                    Discounts = avails.Discounts
                                 };
                                 return Json(result);
                             }
