@@ -11,7 +11,7 @@
         <div class="span12">
             <h2>QUẢN LÝ ĐƠN ĐẶT SÂN</h2>
             <h4>HỆ THỐNG SÂN <a href="/Stadium/Details?id=@Model.Stadium.Id">@Model.Stadium.Name</a> : <i>@Model.Stadium.Street, @Model.Stadium.Ward, @Model.Stadium.District</i></h4>
-            
+
             <div class="span3 no-margin">
                 @if (Model.Stadiums.Count() > 0)
                 {
@@ -31,7 +31,7 @@
                 @if (Model.FieldCount > 0)
                 {
                     <a href="/StadiumStaff/AddReservation?Stadium=@Model.Stadium.Id">
-                    <button class="btn btn-primary btn-large book-now groupbtn no-margin">Thêm đơn đặt sân</button></a>
+                        <button class="btn btn-primary btn-large book-now groupbtn no-margin">Thêm đơn đặt sân</button></a>
                     <br />
                     <br />
                 }
@@ -42,8 +42,17 @@
 
                 @if (Model.Reservations != null && Model.Reservations.Count > 0)
                 {
-                    <table class="table table-condensed table-bordered table-hover">
+                    <table id="restable" class="table table-condensed table-bordered table-hover">
                         <thead>
+                            <tr>
+                                <th>TÊN KHÁCH HÀNG</th>
+                                <th>SỐ ĐIỆN THOẠI</th>
+                                <th>SỐ SÂN</th>
+                                <th>THỜI GIAN ĐẶT SÂN</th>
+                                <th>THỜI LƯỢNG</th>
+                                <th>TRẠNG THÁI</th>
+                                <th></th>
+                            </tr>
                             <tr>
                                 <th>TÊN KHÁCH HÀNG</th>
                                 <th>SỐ ĐIỆN THOẠI</th>
@@ -92,6 +101,33 @@
                             }
                         </tbody>
                     </table>
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $('#restable').dataTable({
+                                aoColumnDefs: [
+                                  {
+                                      bSortable: false,
+                                      aTargets: [-1]
+                                  }
+                                ],
+                                "aaSorting": []
+                            }).columnFilter({
+                                sPlaceHolder: "head:after",
+                                aoColumns: [
+                                    { type: "text" },
+                                    { type: "text" },
+                                    { type: "text" },
+                                    { type: "text" },
+                                    { type: "select", values: ['60 phút', '90 phút', '120 phút', '150 phút', '180 phút'] },
+                                    { type: "select", values: ['Đã xác nhận', 'Bị từ chối', 'Đang chờ xét', 'Đã bị hủy', 'Không đến'] },
+                                    null
+                                ]
+                            });
+                        });
+                    </script>
+                    <br />
+                    <br />
+                    <br />
                 }
                 else
                 {

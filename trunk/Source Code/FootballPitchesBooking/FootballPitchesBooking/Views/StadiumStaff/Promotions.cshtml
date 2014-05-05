@@ -42,11 +42,20 @@
 
                 @if (Model.Promotions != null && Model.Promotions.Count > 0)
                 {
-                    <table class="table table-condensed table-bordered table-hover">
+                    <table id="promtable" class="table table-condensed table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th>SỐ SÂN</th>
-                                <th>THỜI GIAN KHUYẾN MÃI</th>
+                                <th>TỪ</th>
+                                <th>ĐẾN</th>
+                                <th>GIẢM GIÁ</th>
+                                <th>TRẠNG THÁI HOẠT ĐỘNG</th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <th>SỐ SÂN</th>
+                                <th>TỪ</th>
+                                <th>ĐẾN</th>
                                 <th>GIẢM GIÁ</th>
                                 <th>TRẠNG THÁI HOẠT ĐỘNG</th>
                                 <th></th>
@@ -57,7 +66,8 @@
                             {
                                 <tr>
                                     <td>@item.Field.Number</td>
-                                    <td>@item.PromotionFrom.ToString("dd/MM/yyyy") - @item.PromotionTo.ToString("dd/MM/yyyy")</td>
+                                    <td>@item.PromotionFrom.ToString("dd/MM/yyyy")</td>
+                                    <td>@item.PromotionTo.ToString("dd/MM/yyyy")</td>
                                     <td>@item.Discount</td>
                                     @if (item.IsActive)
                                     {
@@ -72,6 +82,32 @@
                             }
                         </tbody>
                     </table>
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $('#promtable').dataTable({
+                                aoColumnDefs: [
+                                  {
+                                      bSortable: false,
+                                      aTargets: [-1]
+                                  }
+                                ],
+                                "aaSorting": []
+                            }).columnFilter({
+                                sPlaceHolder: "head:after",
+                                aoColumns: [
+                                    { type: "text" },
+                                    { type: "date-range" },
+                                    { type: "date-range" },
+                                    { type: "text" },
+                                    { type: "select", values: ['Đang hoạt động', 'Không hoạt động'] },
+                                    null
+                                ]
+                            });
+                        });
+                    </script>
+                    <br />
+                    <br />
+                    <br />
                 }
                 else
                 {
