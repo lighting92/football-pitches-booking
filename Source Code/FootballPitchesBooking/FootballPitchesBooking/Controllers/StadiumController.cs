@@ -273,10 +273,22 @@ namespace FootballPitchesBooking.Controllers
                                 && parseTime && double.TryParse(strDuration, out duration)
                                 && int.TryParse(strType, out fieldType))
                             {
-                                var avails = stadiumBO.GetAvailableFieldsOfStadium(stadiumId, fieldType, startDate, startTime, duration);
-                                model.Fields = avails.Fields;
-                                model.Prices = avails.Prices;
-                                model.Discounts = avails.Discounts;
+                                WebsiteBO websiteBO = new WebsiteBO();
+                                var conf = websiteBO.GetConfigurationByName("MinTimeBooking");
+                                double minBook = 0;
+                                double.TryParse(conf.Value, out minBook);
+                                var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now.AddHours(2), "SE Asia Standard Time");
+                                if (now.CompareTo(startDate.Date.AddHours(startTime).AddMinutes(-minBook)) >= 0)
+                                {
+                                    model.ErrorMessage = "Theo quy định của hệ thống bạn không thể đặt sân trước giờ bắt đầu " + conf.Value + "phút";
+                                }
+                                else
+                                {
+                                    var avails = stadiumBO.GetAvailableFieldsOfStadium(stadiumId, fieldType, startDate, startTime, duration);
+                                    model.Fields = avails.Fields;
+                                    model.Prices = avails.Prices;
+                                    model.Discounts = avails.Discounts;
+                                }                                
                                 model.Options.StartDate = strDate;
                                 model.Options.StartTime = strTime;
                                 model.Options.Duration = strDuration;
@@ -385,84 +397,96 @@ namespace FootballPitchesBooking.Controllers
                                 model.Options.Duration = strDuration;
                                 model.Options.FieldType = strType;
                                 model.Options.ChosenField = field + "";
-                                var avails = stadiumBO.GetAvailableFieldsOfStadium(stadiumId, fieldType, startDate, startTime, duration);
-                                if (avails != null && avails.Fields.Count() != 0)
+                                WebsiteBO websiteBO = new WebsiteBO();
+                                var conf = websiteBO.GetConfigurationByName("MinTimeBooking");
+                                double minBook = 0;
+                                double.TryParse(conf.Value, out minBook);
+                                var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now.AddHours(2), "SE Asia Standard Time");
+                                if (now.CompareTo(startDate.Date.AddHours(startTime).AddMinutes(-minBook)) >= 0)
                                 {
-                                    model.Fields = avails.Fields;
-                                    model.Prices = avails.Prices;
-                                    model.Discounts = avails.Discounts;
-
-                                    double price = 0;
-                                    Field fa = null;
-                                    double discount = 0;
-                                    for (int i = 0; i < avails.Fields.Count(); i++)
+                                    model.ErrorMessage = "Theo quy định của hệ thống bạn không thể đặt sân trước giờ bắt đầu " + conf.Value + "phút";
+                                }
+                                else
+                                {
+                                    var avails = stadiumBO.GetAvailableFieldsOfStadium(stadiumId, fieldType, startDate, startTime, duration);
+                                    if (avails != null && avails.Fields.Count() != 0)
                                     {
-                                        if (avails.Fields[i].Id == field)
-                                        {
-                                            fa = avails.Fields[i];
-                                            price = avails.Prices[i];
-                                            discount = avails.Discounts[i];
-                                        }
-                                    }
-                                    if (fa != null)
-                                    {
-                                        ReservationBO resBO = new ReservationBO();
-                                        Reservation res = new Reservation();
-                                        Guid g = Guid.NewGuid();
-                                        string verCode = Convert.ToBase64String(g.ToByteArray());
-                                        verCode = verCode.Replace("=", "");
-                                        verCode = verCode.Replace("+", "");
-                                        verCode = verCode.ToUpper();
-                                        while (verCode.Length > 6)
-                                        {
-                                            Random r = new Random((int)DateTime.Now.Ticks);
-                                            verCode = verCode.Remove(r.Next(verCode.Length), 1);
-                                        }
+                                        model.Fields = avails.Fields;
+                                        model.Prices = avails.Prices;
+                                        model.Discounts = avails.Discounts;
 
-                                        res.FieldId = field;
-                                        res.UserId = user.Id;
-                                        res.FullName = model.UserInfo.FullName;
-                                        res.PhoneNumber = model.UserInfo.Phone;
-                                        res.Email = model.UserInfo.Email;
-                                        res.Date = startDate.Date;
-                                        res.StartTime = startTime;
-                                        res.Duration = duration;
-                                        res.Price = price;
-                                        res.Discount = discount;
-                                        res.VerifyCode = verCode;
-                                        res.CreatedDate = DateTime.Now;
-                                        res.Status = "Pending";
-                                        res.NeedRival = needRival;
-                                        if (needRival)
+                                        double price = 0;
+                                        Field fa = null;
+                                        double discount = 0;
+                                        for (int i = 0; i < avails.Fields.Count(); i++)
                                         {
-                                            res.RivalStatus = "Waiting";
+                                            if (avails.Fields[i].Id == field)
+                                            {
+                                                fa = avails.Fields[i];
+                                                price = avails.Prices[i];
+                                                discount = avails.Discounts[i];
+                                            }
                                         }
+                                        if (fa != null)
+                                        {
+                                            ReservationBO resBO = new ReservationBO();
+                                            Reservation res = new Reservation();
+                                            Guid g = Guid.NewGuid();
+                                            string verCode = Convert.ToBase64String(g.ToByteArray());
+                                            verCode = verCode.Replace("=", "");
+                                            verCode = verCode.Replace("+", "");
+                                            verCode = verCode.ToUpper();
+                                            while (verCode.Length > 6)
+                                            {
+                                                Random r = new Random((int)DateTime.Now.Ticks);
+                                                verCode = verCode.Remove(r.Next(verCode.Length), 1);
+                                            }
 
-                                        int result = resBO.UserBooking(res);
-                                        if (result == 0)
-                                        {
-                                            model.ErrorMessage = Resources.DB_Exception;
-                                        }
-                                        else if (result == -1)
-                                        {
-                                            model.ErrorMessage = "Không thể đặt sân ở thời điểm sớm hơn thời điểm hiện tại";
-                                        }
-                                        else if (result > 0)
-                                        {
-                                            model.SuccessMessage = "Bạn đã đặt sân thành công. Mã số xác nhận của bạn là: " + res.VerifyCode;
-                                            return View("BookSuccess", model);
-                                        }
+                                            res.FieldId = field;
+                                            res.UserId = user.Id;
+                                            res.FullName = model.UserInfo.FullName;
+                                            res.PhoneNumber = model.UserInfo.Phone;
+                                            res.Email = model.UserInfo.Email;
+                                            res.Date = startDate.Date;
+                                            res.StartTime = startTime;
+                                            res.Duration = duration;
+                                            res.Price = price;
+                                            res.Discount = discount;
+                                            res.VerifyCode = verCode;
+                                            res.CreatedDate = DateTime.Now;
+                                            res.Status = "Pending";
+                                            res.NeedRival = needRival;
+                                            if (needRival)
+                                            {
+                                                res.RivalStatus = "Waiting";
+                                            }
 
+                                            int result = resBO.UserBooking(res);
+                                            if (result == 0)
+                                            {
+                                                model.ErrorMessage = Resources.DB_Exception;
+                                            }
+                                            else if (result == -1)
+                                            {
+                                                model.ErrorMessage = "Không thể đặt sân ở thời điểm sớm hơn thời điểm hiện tại";
+                                            }
+                                            else if (result > 0)
+                                            {
+                                                model.SuccessMessage = "Bạn đã đặt sân thành công. Mã số xác nhận của bạn là: " + res.VerifyCode;
+                                                return View("BookSuccess", model);
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            model.ErrorMessage = "Sân bóng bạn chọn hiện không còn trống. Xin chọn sân khác.";
+                                        }
                                     }
                                     else
                                     {
                                         model.ErrorMessage = "Sân bóng bạn chọn hiện không còn trống. Xin chọn sân khác.";
                                     }
-                                }
-                                else
-                                {
-                                    model.ErrorMessage = "Sân bóng bạn chọn hiện không còn trống. Xin chọn sân khác.";
-                                }
+                                }                                
                             }
                             else
                             {

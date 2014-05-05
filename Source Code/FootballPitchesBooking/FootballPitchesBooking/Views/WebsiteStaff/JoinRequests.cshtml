@@ -9,7 +9,7 @@
 
 @if (TempData["DeleteError"] != null)
 {
-    <p style="color:red">@TempData["DeleteError"]</p>
+    <p style="color: red">@TempData["DeleteError"]</p>
 }
 
 @if (Model != null && Model.Count != 0)
@@ -26,13 +26,23 @@
                 <th>TRẠNG THÁI</th>
                 <th></th>
             </tr>
+            <tr>
+                <th>TÊN TÀI KHOẢN</th>
+                <th>HỌ VÀ TÊN</th>
+                <th>ĐỊA CHỈ</th>
+                <th>SỐ ĐIỆN THOẠI</th>
+                <th>TÊN SÂN BÓNG</th>
+                <th>ĐỊA CHỈ SÂN</th>
+                <th>TRẠNG THÁI</th>
+                <th></th>
+            </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {               
                 <tr>
                     <td>@item.User.UserName</td>
-                    <td>@item.FullName</td>                    
+                    <td>@item.FullName</td>
                     <td>@item.Address</td>
                     <td>@item.Phone</td>
                     <td>@item.StadiumName</td>
@@ -44,6 +54,31 @@
             }
         </tbody>
     </table>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('table').dataTable({
+                aoColumnDefs: [
+                  {
+                      bSortable: false,
+                      aTargets: [-1]
+                  }
+                ],
+                "aaSorting": []
+            }).columnFilter({
+                sPlaceHolder: "head:after",
+                aoColumns: [
+                    { type: "text" },
+                    { type: "text" },
+                    { type: "text" },
+                    { type: "text" },
+                    { type: "text" },
+                    { type: "text" },
+                    { type: "select", values: ['MỚI', 'ĐANG XỬ LÝ', 'KHÔNG CHẤP NHẬN', 'CHẤP NHẬN'] },
+                    null
+                ]
+            });
+        });
+    </script>
 }
 else
 {

@@ -96,7 +96,7 @@ namespace FootballPitchesBooking.Controllers
         [Authorize]
         public ActionResult CancelRival(int? id)
         {
-            ReservationBO resvBO = new ReservationBO();
+            ReservationBO resvBO = new ReservationBO();            
 
             try
             {
@@ -326,8 +326,12 @@ namespace FootballPitchesBooking.Controllers
             {
                 model.HavePermission = true;
                 model.CanModify = true;
+                WebsiteBO websiteBO = new WebsiteBO();
+                var conf = websiteBO.GetConfigurationByName("MinTimeCancel");
+                double minTime = 0;
+                double.TryParse(conf.Value, out minTime);
                 var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "SE Asia Standard Time");
-                bool expired = now.CompareTo(res.Date.Date.AddHours(res.StartTime)) >= 0;
+                bool expired = now.CompareTo(res.Date.Date.AddHours(res.StartTime).AddMinutes(-minTime)) >= 0;
                 if (res.Status.ToLower().Equals("canceled") || expired)
                 {
                     model.CanModify = false;
@@ -347,7 +351,14 @@ namespace FootballPitchesBooking.Controllers
                 }
                 else
                 {
-                    model.ErrorMessage = "Không thể hủy đơn đặt sân này";
+                    if (expired)
+                    {
+                        model.ErrorMessage = "Chỉ có thể hủy đơn đặt sân trước giờ bắt đầu của đơn " + conf.Value + "phút";
+                    }
+                    else
+                    {
+                        model.ErrorMessage = "Không thể hủy đơn đặt sân này";
+                    }                    
                 }
                 model.Id = res.Id;
                 model.FullName = res.FullName;
