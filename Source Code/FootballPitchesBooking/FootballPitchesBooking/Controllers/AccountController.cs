@@ -191,7 +191,7 @@ namespace FootballPitchesBooking.Controllers
                 model.CanModify = true;
                 var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "SE Asia Standard Time");
                 bool expired = now.CompareTo(res.Date.Date.AddHours(res.StartTime)) >= 0;
-                if (res.Status.ToLower().Equals("canceled") || expired)
+                if (res.Status.ToLower().Equals("canceled") || res.Status.ToLower().Equals("denied") || expired)
                 {
                     model.CanModify = false;
                 }
@@ -249,7 +249,7 @@ namespace FootballPitchesBooking.Controllers
                 model.CanModify = true;
                 var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "SE Asia Standard Time");
                 bool expired = now.CompareTo(res.Date.Date.AddHours(res.StartTime)) >= 0;
-                if (res.Status.ToLower().Equals("canceled") || expired)
+                if (res.Status.ToLower().Equals("canceled") || res.Status.ToLower().Equals("denied") || expired)
                 {
                     model.CanModify = false;
                 }
@@ -333,7 +333,7 @@ namespace FootballPitchesBooking.Controllers
                 double.TryParse(conf.Value, out minTime);
                 var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "SE Asia Standard Time");
                 bool expired = now.CompareTo(res.Date.Date.AddHours(res.StartTime).AddMinutes(-minTime)) >= 0;
-                if (res.Status.ToLower().Equals("canceled") || expired)
+                if (res.Status.ToLower().Equals("canceled") || res.Status.ToLower().Equals("denied") || expired)
                 {
                     model.CanModify = false;
                 }
@@ -354,7 +354,7 @@ namespace FootballPitchesBooking.Controllers
                 {
                     if (expired)
                     {
-                        model.ErrorMessage = "Chỉ có thể hủy đơn đặt sân trước giờ bắt đầu của đơn " + conf.Value + "phút";
+                        model.ErrorMessage = "Chỉ có thể hủy đơn đặt sân trước giờ bắt đầu của đơn " + conf.Value + " phút";
                     }
                     else
                     {

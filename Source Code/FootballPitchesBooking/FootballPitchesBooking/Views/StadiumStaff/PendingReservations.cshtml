@@ -1,0 +1,97 @@
+﻿@model List<FootballPitchesBooking.Models.Reservation>
+@{
+    ViewBag.Title = "Đơn chờ xét duyệt";
+    Layout = "~/Views/Shared/_StadiumStaffLayout.cshtml";
+}
+
+<h1>Nhắc nhở đơn đặt sân chờ xét duyệt từ hệ thống</h1>
+<table id="restable" class="table table-condensed table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>TÊN KHÁCH HÀNG</th>
+            <th>SỐ ĐIỆN THOẠI</th>
+            <th>HỆ THỐNG SÂN</th>
+            <th>SỐ SÂN</th>
+            <th>THỜI GIAN ĐẶT SÂN</th>
+            <th>THỜI LƯỢNG</th>
+            <th>TRẠNG THÁI</th>
+            <th></th>
+        </tr>
+        <tr>
+            <th>TÊN KHÁCH HÀNG</th>
+            <th>SỐ ĐIỆN THOẠI</th>
+            <th>HỆ THỐNG SÂN</th>
+            <th>SỐ SÂN</th>
+            <th>THỜI GIAN ĐẶT SÂN</th>
+            <th>THỜI LƯỢNG</th>
+            <th>TRẠNG THÁI</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.FullName</td>
+                <td>@item.PhoneNumber</td>
+                <td>@item.Field.Stadium.Name</td>
+                <td>@item.Field.Number</td>
+                <td>
+                    @((int)item.StartTime):@(((int)(item.StartTime - (int)item.StartTime) * 60).ToString("00")) - @item.Date.ToString("dd/MM/yyyy")
+                </td>
+                <td>
+                    @(item.Duration * 60) phút
+                </td>
+                @if (item.Status == "Approved")
+                {
+                    <td>Đã xác nhận</td>
+                }
+                else if (item.Status == "Denied")
+                {
+                    <td>Bị từ chối</td>
+                }
+                else if (item.Status == "Pending")
+                {
+                    <td>Đang chờ xét</td>
+                }
+                else if (item.Status == "Canceled")
+                {
+                    <td>Đã bị huỷ</td>
+                }
+                else if (item.Status == "Notcome")
+                {
+                    <td>Không đến</td>
+                }
+                <td class="table-cell-action"><a href="/StadiumStaff/ViewReservation?Id=@item.Id">Chi tiết</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#restable').dataTable({
+            aoColumnDefs: [
+              {
+                  bSortable: false,
+                  aTargets: [-1, -2]
+              }
+            ],
+            "aaSorting": []
+        }).columnFilter({
+            sPlaceHolder: "head:after",
+            aoColumns: [
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "select", values: ['60 phút', '90 phút', '120 phút', '150 phút', '180 phút'] },
+                null,
+                null
+            ]
+        });
+    });
+</script>
+<br />
+<br />
+<br />

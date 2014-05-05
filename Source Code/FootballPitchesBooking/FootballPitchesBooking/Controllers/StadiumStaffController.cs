@@ -1,4 +1,5 @@
 ﻿using FootballPitchesBooking.BusinessObjects;
+using FootballPitchesBooking.DataAccessObjects;
 using FootballPitchesBooking.Models;
 using FootballPitchesBooking.Models.StadiumStaffModels;
 using FootballPitchesBooking.Properties;
@@ -2339,7 +2340,7 @@ namespace FootballPitchesBooking.Controllers
                 if (promotion != null)
                 {
                     model.Resv.Discount = promotion.Discount;
-                } 
+                }
                 model.Resv.Approver = staff.Id;
 
                 if (model.Resv.NeedRival)
@@ -2395,10 +2396,22 @@ namespace FootballPitchesBooking.Controllers
             ReservationBO resvBO = new ReservationBO();
             UserBO userBO = new UserBO();
             User staff = userBO.GetUserByUserName(User.Identity.Name);
-            int stadium = resvBO.GetReservationById(id).Field.StadiumId;
+            var res = resvBO.GetReservationById(id);
+            var sta = res.Field.Stadium;
+            int stadium = sta.Id;
             int result = resvBO.UpdateReservationStatus(id, "Approved", staff.Id);
             if (result > 0)
             {
+                if (res.UserId != null)
+                {
+                    NotificationDAO notDAO = new NotificationDAO();
+                    Notification not = new Notification();
+                    not.Message = "Quản lý của sân bóng [" + sta.Name + "] đã chấp nhận yêu cầu đặt sân của bạn. <a href='/Account/EditReservation?Id=" + id + "'>Xem chi tiết</a>";
+                    not.Status = "Unread";
+                    not.CreateDate = DateTime.Now;
+                    not.UserId = res.UserId;
+                    notDAO.CreateMessage(not);
+                }
                 return RedirectToAction("Reservations/" + stadium, "StadiumStaff");
             }
             else if (result == -1)
@@ -2419,10 +2432,22 @@ namespace FootballPitchesBooking.Controllers
             ReservationBO resvBO = new ReservationBO();
             UserBO userBO = new UserBO();
             User staff = userBO.GetUserByUserName(User.Identity.Name);
-            int stadium = resvBO.GetReservationById(id).Field.StadiumId;
+            var res = resvBO.GetReservationById(id);
+            var sta = res.Field.Stadium;
+            int stadium = sta.Id;
             int result = resvBO.UpdateReservationStatus(id, "Denied", staff.Id);
             if (result > 0)
             {
+                if (res.UserId != null)
+                {
+                    NotificationDAO notDAO = new NotificationDAO();
+                    Notification not = new Notification();
+                    not.Message = "Quản lý của sân bóng [" + sta.Name + "] đã từ chối yêu cầu đặt sân của bạn. <a href='/Account/EditReservation?Id=" + id + "'>Xem chi tiết</a>";
+                    not.Status = "Unread";
+                    not.CreateDate = DateTime.Now;
+                    not.UserId = res.UserId;
+                    notDAO.CreateMessage(not);
+                }
                 return RedirectToAction("Reservations/" + stadium, "StadiumStaff");
             }
             else
@@ -2430,6 +2455,21 @@ namespace FootballPitchesBooking.Controllers
                 TempData["dbExcp"] = "true";
                 return RedirectToAction("ViewReservation/" + id, "StadiumStaff");
             }
+        }
+        
+        [HttpPost]
+        public JsonResult PendingNotification()
+        {
+            ReservationBO resBO = new ReservationBO();
+            var ress = resBO.GetAllPendingReservation(User.Identity.Name);
+            return Json(ress.Count());
+        }
+
+        public ActionResult PendingReservations()
+        {
+            ReservationBO resBO = new ReservationBO();
+            var ress = resBO.GetAllPendingReservation(User.Identity.Name);
+            return View(ress);
         }
 
 

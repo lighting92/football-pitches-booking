@@ -71,26 +71,38 @@
                         <div class="links">
                             XIN CHÀO <a href="/Account">@User.Identity.Name.ToUpper()</a>
                             <div class="links">
-                                <notify id="notmsg"></notify>
+                                <div>
+                                    <notify id="notmsg"></notify>
+                                </div>
+                                <div>
+                                    <notify id="notpending"></notify>
+                                </div>
                             </div>
                             <p><a href="/Home">TỚI TRANG CHỦ</a> | <a href="/Account/Logout">ĐĂNG XUẤT</a></p>
                         </div>
                         
                         <script type="text/javascript">
-                                    $(document).ready(function () {
-                                        function GetNotify() {
-                                            $.ajax({
-                                                url: "/StadiumStaff/GetCountOfUnreadNotifications",
-                                                type: "POST",
-                                                success: function (data) {
-                                                    $("#notmsg").html("<a href='/StadiumStaff/Notifications'>Bạn có <b>" + data + "</b> tin nhắn chưa đọc</a>");
-                                                }
-                                            });
-                                            setTimeout(GetNotify, 20000);
+                            $(document).ready(function () {
+                                function GetNotify() {
+                                    $.ajax({
+                                        url: "/StadiumStaff/GetCountOfUnreadNotifications",
+                                        type: "POST",
+                                        success: function (data) {
+                                            $("#notmsg").html("<a href='/StadiumStaff/Notifications'>Bạn có <b>" + data + "</b> tin nhắn chưa đọc</a>");
                                         }
-                                        GetNotify();
                                     });
-                                </script>
+                                    $.ajax({
+                                        url: "/StadiumStaff/PendingNotification",
+                                        type: "POST",
+                                        success: function (data) {
+                                            $("#notpending").html("<a href='/StadiumStaff/PendingReservations'>Hiện có <b>" + data + "</b> đơn đặt sân chờ xét duyệt</a>");
+                                        }
+                                    });
+                                    setTimeout(GetNotify, 20000);
+                                }
+                                GetNotify();
+                            });
+                        </script>
                     }
                 </div>
                 <!-- /account -->

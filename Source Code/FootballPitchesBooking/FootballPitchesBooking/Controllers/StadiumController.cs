@@ -277,10 +277,10 @@ namespace FootballPitchesBooking.Controllers
                                 var conf = websiteBO.GetConfigurationByName("MinTimeBooking");
                                 double minBook = 0;
                                 double.TryParse(conf.Value, out minBook);
-                                var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now.AddHours(2), "SE Asia Standard Time");
+                                var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "SE Asia Standard Time");
                                 if (now.CompareTo(startDate.Date.AddHours(startTime).AddMinutes(-minBook)) >= 0)
                                 {
-                                    model.ErrorMessage = "Theo quy định của hệ thống bạn không thể đặt sân trước giờ bắt đầu " + conf.Value + "phút";
+                                    model.ErrorMessage = "Theo quy định của hệ thống bạn chỉ có thể đặt sân trước giờ bắt đầu " + conf.Value + "phút";
                                 }
                                 else
                                 {
@@ -401,7 +401,7 @@ namespace FootballPitchesBooking.Controllers
                                 var conf = websiteBO.GetConfigurationByName("MinTimeBooking");
                                 double minBook = 0;
                                 double.TryParse(conf.Value, out minBook);
-                                var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now.AddHours(2), "SE Asia Standard Time");
+                                var now = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "SE Asia Standard Time");
                                 if (now.CompareTo(startDate.Date.AddHours(startTime).AddMinutes(-minBook)) >= 0)
                                 {
                                     model.ErrorMessage = "Theo quy định của hệ thống bạn không thể đặt sân trước giờ bắt đầu " + conf.Value + "phút";

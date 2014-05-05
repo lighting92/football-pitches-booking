@@ -10,6 +10,20 @@ namespace FootballPitchesBooking.BusinessObjects
 {
     public class ReservationBO
     {
+        public int GetCountOfPendingReservation(string userName)
+        {
+            ReservationDAO resDAO = new ReservationDAO();
+            var ress = resDAO.GetAllPendingReservationOfStadiumsForUser(userName);
+            return ress.Count();
+        }
+
+        public List<Reservation> GetAllPendingReservation(string userName)
+        {
+            ReservationDAO resDAO = new ReservationDAO();
+            var ress = resDAO.GetAllPendingReservationOfStadiumsForUser(userName);
+            return ress;
+        }
+
         public Reservation GetReservationById(int resvId)
         {
             ReservationDAO resvDAO = new ReservationDAO();
@@ -238,11 +252,22 @@ namespace FootballPitchesBooking.BusinessObjects
                 msg.Status = "Unread";
                 msg.Message = "[" + res.User.UserName + "] đã hủy đặt sân do bạn quản lý <a href='/StadiumStaff/ViewReservation?Id=" + res.Id + "'>Chi tiết</a>";
                 msg.CreateDate = msg.CreateDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "SE Asia Standard Time");
+                bool substract = false;
+                if (res.Status.ToLower().Equals("approved"))
+                {
+                    substract = true;
+                }
                 var result = resDAO.UserCancelReservation(resId);
                 if (result > 0)
                 {
+
                     NotificationDAO notDAO = new NotificationDAO();
                     notDAO.CreateMessage(msg);
+                    if (substract)
+                    {
+                        UserDAO userDAO = new UserDAO();
+                        result = userDAO.PlusUserPoint(res.User.Id, -1);
+                    }
                 }
                 return result;
             }
@@ -343,7 +368,7 @@ namespace FootballPitchesBooking.BusinessObjects
                 return -1;
             }
             int result = resvDAO.UpdateReservationStatus(reservationId, status, approver);
-            if (reservation.User != null && reservation.Status != status && result > 0)
+            if (reservation.User != null && !reservation.Status.ToLower().Equals(status.ToLower()) && result > 0)
             {
                 UserDAO userDAO = new UserDAO();
                 if (status == "Approved")

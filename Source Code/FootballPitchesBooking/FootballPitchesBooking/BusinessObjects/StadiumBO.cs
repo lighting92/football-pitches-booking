@@ -11,7 +11,8 @@ using System.Web;
 namespace FootballPitchesBooking.BusinessObjects
 {
     public class StadiumBO
-    {
+    {        
+
         public FieldPrice GetFieldPriceById(int id)
         {
             FieldPriceDAO fpDAO = new FieldPriceDAO();
