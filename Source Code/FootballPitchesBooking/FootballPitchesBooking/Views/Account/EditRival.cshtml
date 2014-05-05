@@ -180,9 +180,21 @@
                                         {
                                             <input type="text" value="Đã xác nhận" disabled="disabled" />
                                         }
+                                        else if (Model.Status.ToLower().Equals("denied"))
+                                        {
+                                            <input type="text" value="Bị từ chối" disabled="disabled" />
+                                        }
+                                        else if (Model.Status.ToLower().Equals("pending"))
+                                        {
+                                            <input type="text" value="Đang chờ" disabled="disabled" />
+                                        }
                                         else if (Model.Status.ToLower().Equals("canceled"))
                                         {
                                             <input type="text" value="Đã bị hủy" disabled="disabled" />
+                                        }
+                                        else if (Model.RivalStatus.ToLower().Equals("notcome"))
+                                        {
+                                            <input type="text" value="Không đến" disabled="disabled" />
                                         }
                                 </label>
                             </div>
@@ -224,13 +236,17 @@
                                         {
                                             <input type="text" value="Đang chờ xét" disabled="disabled" />
                                         }
+                                        else if (Model.RivalStatus.ToLower().Equals("notcome"))
+                                        {
+                                            <input type="text" value="Không đến" disabled="disabled" />
+                                        }
                                 </label>
                             </div>
                         </div>
                         <br />
                         <div class="row">
                             <div class="span9">
-                                @if(canMod)
+                                @if (canMod)
                                 {
                                     <button type="button" onclick="window.location='/Account/RivalHistory'" class="btn btn-primary btn-large book-now pull-right groupbtn">Hủy bỏ</button>
                                     <button type="button" onclick="window.location='/Account/CancelRival/@Model.Id'" class="btn btn-primary btn-large book-now pull-right groupbtn">Hủy cáp kèo</button>
