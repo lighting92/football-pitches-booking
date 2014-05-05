@@ -33,72 +33,82 @@
             </div>
             if (Model.Stadiums.Count > 0)
             {
-                <div class="row no-margin">
-                    <table class="table table-condensed table-bordered table-hover">
-                        <thead>
+            <div class="row no-margin">
+                <table class="table table-condensed table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th style="width: 150px;"></th>
+                            <th style="width: 150px;">TÊN SÂN BÓNG</th>
+                            <th>ĐỊA CHỈ</th>
+                            <th style="width: 110px;">SỐ ĐIỆN THOẠI</th>
+                            <th style="width: 90px;"></th>
+                            <th style="width: 70px;"></th>
+                        </tr>
+                        <tr>
+                            <th style="width: 150px;"></th>
+                            <th style="width: 150px;">TÊN SÂN BÓNG</th>
+                            <th>ĐỊA CHỈ</th>
+                            <th style="width: 110px;">SỐ ĐIỆN THOẠI</th>
+                            <th style="width: 90px;"></th>
+                            <th style="width: 70px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Stadiums.Count; i++)
+                        {
                             <tr>
-                                <th style="width: 150px;"></th>
-                                <th style="width: 150px;">TÊN SÂN BÓNG</th>
-                                <th>ĐỊA CHỈ</th>
-                                <th style="width: 110px;">SỐ ĐIỆN THOẠI</th>
-                                <th style="width: 90px;">ĐÁNH GIÁ</th>
-                                <th style="width: 70px;"></th>
+                                <td>
+                                    @if (Model.Image[i] == null)
+                                    {
+                                        <img src="~/Content/images/no-image.jpg" style="width: 150px; height: auto;" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Content/images/@Model.Image[i]" style="width: 150px; height: auto;" />
+                                    }
+                                </td>
+                                <td><a href="/Stadium/Details/@Model.Stadiums[i].Id">@Model.Stadiums[i].Name</a></td>
+                                <td>@Model.Stadiums[i].Street, @Model.Stadiums[i].Ward, @Model.Stadiums[i].District</td>
+                                <td>@Model.Stadiums[i].Phone</td>
+                                <td class="rating-point">
+                                    @for (int p = 0; p < (int)Model.Rate[i]; p++)
+                                    {
+                                        <img src="~/Content/images/rating-star/100.png" />
+                                    }
+                                    @if (Model.Rate[i] - (int)Model.Rate[i] >= 0.75)
+                                    {
+                                        <img src="~/Content/images/rating-star/75.png" />
+                                    }
+                                    else if (Model.Rate[i] - (int)Model.Rate[i] >= 0.50)
+                                    {
+                                        <img src="~/Content/images/rating-star/50.png" />
+                                    }
+                                    else if (Model.Rate[i] - (int)Model.Rate[i] >= 0.25)
+                                    {
+                                        <img src="~/Content/images/rating-star/25.png" />
+                                    }
+                                    else if (Model.Rate[i] - (int)Model.Rate[i] > 0.00)
+                                    {
+                                        <img src="~/Content/images/rating-star/00.png" />
+                                    }
+                                    @for (int p = 1; p <= (5 - Model.Rate[i]); p++)
+                                    {
+                                        <img src="~/Content/images/rating-star/00.png" />
+                                    }
+                                </td>
+                                <td><a href="~/Stadium/Book?Stadium=@Model.Stadiums[i].Id">
+                                    <button class="btn-small btn-success">Đặt sân</button></a></td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @for (int i = 0; i < Model.Stadiums.Count; i++)
-                            {
-                                <tr>
-                                    <td>
-                                        @if (Model.Image[i] == null)
-                                        {
-                                            <img src="~/Content/images/no-image.jpg" style="width: 150px; height: auto;" />
-                                        }
-                                        else
-                                        {
-                                            <img src="~/Content/images/@Model.Image[i]" style="width: 150px; height: auto;" />
-                                        }
-                                    </td>
-                                    <td><a href="/Stadium/Details/@Model.Stadiums[i].Id">@Model.Stadiums[i].Name</a></td>
-                                    <td>@Model.Stadiums[i].Street, @Model.Stadiums[i].Ward, @Model.Stadiums[i].District</td>
-                                    <td>@Model.Stadiums[i].Phone</td>
-                                    <td class="rating-point">
-                                        @for (int p = 0; p < (int)Model.Rate[i]; p++)
-                                        {
-                                            <img src="~/Content/images/rating-star/100.png" />
-                                        }
-                                        @if (Model.Rate[i] - (int)Model.Rate[i] >= 0.75)
-                                        {
-                                            <img src="~/Content/images/rating-star/75.png" />
-                                        }
-                                        else if (Model.Rate[i] - (int)Model.Rate[i] >= 0.50)
-                                        {
-                                            <img src="~/Content/images/rating-star/50.png" />
-                                        }
-                                        else if (Model.Rate[i] - (int)Model.Rate[i] >= 0.25)
-                                        {
-                                            <img src="~/Content/images/rating-star/25.png" />
-                                        }
-                                        else if (Model.Rate[i] - (int)Model.Rate[i] > 0.00)
-                                        {
-                                            <img src="~/Content/images/rating-star/00.png" />
-                                        }
-                                        @for (int p = 1; p <= (5 - Model.Rate[i]); p++)
-                                        {
-                                            <img src="~/Content/images/rating-star/00.png" />
-                                        }
-                                    </td>
-                                    <td><a href="~/Stadium/Book?Stadium=@Model.Stadiums[i].Id">
-                                        <button class="btn-small btn-success">Đặt sân</button></a></td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                        }
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+            </div>
             }
             else
             {
-                <p>Không có sân bóng nào được tìm thấy.</p>
+            <p>Không có sân bóng nào được tìm thấy.</p>
             }
         }
         else if (Model == null)
@@ -107,3 +117,26 @@
         }
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('table').dataTable({
+            aoColumnDefs: [
+              {
+                  bSortable: false,
+                  aTargets: [-1, -2, -6]
+              }
+            ],
+            "aaSorting": []
+        }).columnFilter({
+            sPlaceHolder: "head:after",
+            aoColumns: [
+                null,
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                null,
+                null
+            ]
+        });
+    });
+</script>
