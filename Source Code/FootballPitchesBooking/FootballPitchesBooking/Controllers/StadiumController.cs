@@ -54,39 +54,6 @@ namespace FootballPitchesBooking.Controllers
         }
 
 
-        [HttpPost]
-        public ActionResult Index(FormCollection form)
-        {
-            string name = form["StadiumName"];
-            string address = form["StadiumAddress"];
-            StadiumBO stadiumBO = new StadiumBO();
-            StadiumsModel model = new StadiumsModel();
-            model.Stadiums = stadiumBO.GetStadiums(name, address).Where(s => s.IsActive && s.Fields.Count() > 0).ToList();
-            model.Rate = new List<double>();
-            model.Image = new List<string>();
-            for (int i = 0; i < model.Stadiums.Count; i++)
-            {
-                if (model.Stadiums[i].StadiumRatings.Count > 0)
-                {
-                    model.Rate.Add(model.Stadiums[i].StadiumRatings.Select(sr => sr.Rate).Average());
-                }
-                else
-                {
-                    model.Rate.Add(0);
-                }
-
-                if (model.Stadiums[i].StadiumImages.Count > 0)
-                {
-                    model.Image.Add(model.Stadiums[i].StadiumImages.Select(si => si.Path).FirstOrDefault());
-                }
-                else
-                {
-                    model.Image.Add(null);
-                }
-            }
-            return View(model);
-        }
-
         public ActionResult PriceTable(int id)
         {
             StadiumBO stadiumBO = new StadiumBO();
