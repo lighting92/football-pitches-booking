@@ -25,6 +25,14 @@
                 <th>TRẠNG THÁI</th>
                 <th></th>
             </tr>
+            <tr>
+                <th>TÊN SÂN BÓNG</th>
+                <th>ĐỊA CHỈ</th>
+                <th>SỐ ĐIỆN THOẠI</th>
+                <th>NGÀY HẾT HẠN</th>
+                <th>TRẠNG THÁI</th>
+                <th></th>
+            </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
@@ -47,6 +55,32 @@
             }
         </tbody>
     </table>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('table').dataTable({
+                aoColumnDefs: [
+                  {
+                      bSortable: false,
+                      aTargets: [-1, -5]
+                  }
+                ],
+                "aaSorting": []
+            }).columnFilter({
+                sPlaceHolder: "head:after",
+                aoColumns: [
+                    { type: "text" },
+                    { type: "text" },
+                    { type: "text" },
+                    { type: "date-range" },
+                    { type: "select", values: ['Đang hoạt động', 'Không hoạt động'] },
+                    null
+                ]
+            });
+        });
+    </script>
+    <br />
+    <br />
+    <br />
 }
 else
 {

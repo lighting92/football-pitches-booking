@@ -149,5 +149,11 @@ namespace FootballPitchesBooking.BusinessObjects
                 return conDAO.UpdateConfiguration(config);
             }
         }
+
+        public FootballPitchesBooking.Models.Configuration GetConfigurationByName(string confName)
+        {
+            ConfigurationDAO conDAO = new ConfigurationDAO();
+            return conDAO.GetConfigByName(confName);
+        }
     }
 }
