@@ -270,7 +270,7 @@
                     <div class="row">
                         <div class="span9">
                             <p>
-                                @if (Convert.ToDateTime(Model.Resv.Date).AddHours(Model.Resv.StartTime) > DateTime.Now && !Model.Resv.Status.Equals("Canceled"))
+                                @if (Convert.ToDateTime(Model.Resv.Date).AddHours(Model.Resv.StartTime) > DateTime.Now && !Model.Resv.Status.Equals("Canceled") && !Model.Resv.Status.Equals("Notcome"))
                                 {
                                     if (!Model.Resv.Status.Equals("Approved"))
                                     {
