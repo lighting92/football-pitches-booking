@@ -616,7 +616,7 @@ namespace FootballPitchesBooking.Controllers
             QuickSearchModel model = new QuickSearchModel();
             model.FieldType = "5";
             model.StartTime = DateTime.Now.AddHours(2).Hour + ":" + "00";
-            model.Date = DateTime.Now.ToShortDateString();
+            model.Date = DateTime.Now.ToString("dd/MM/yyyy");
             return View(model);
         }
 
