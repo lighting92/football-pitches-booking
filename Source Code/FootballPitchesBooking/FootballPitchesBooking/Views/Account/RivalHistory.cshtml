@@ -40,6 +40,14 @@
                     {
                         <td style="width: 100px;">Đang chờ xét</td>
                     }
+                    else if (item.RivalStatus.ToLower().Equals("notcome"))
+                    {
+                        <td style="width: 100px;">Không đến</td>
+                    }
+                    else
+                    {
+                        <td style="width: 100px;"></td>
+                    }
                     <td style="width: 100px;" class="table-cell-action"><a href="/Account/EditRival?Id=@item.Id">Chi tiết</a></td>
                 </tr>
             }
