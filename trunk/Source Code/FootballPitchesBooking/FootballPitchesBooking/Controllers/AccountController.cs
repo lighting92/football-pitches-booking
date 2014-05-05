@@ -100,8 +100,9 @@ namespace FootballPitchesBooking.Controllers
 
             try
             {
+                WebsiteBO webBO = new WebsiteBO();
                 Reservation resv = resvBO.GetReservationById((int)id);
-                if (resv.Date > DateTime.Now || (resv.Date == DateTime.Now && resv.StartTime > (DateTime.Now.Hour + 1 + DateTime.Now.Minute / 60)))
+                if (Convert.ToDateTime(resv.Date).AddHours(resv.StartTime).AddMinutes(0 - Convert.ToInt32(webBO.GetConfigByName("MinTimeCancel").Value)) >= DateTime.Now)
                 {
                     int result = resvBO.UpdateReservationRival((int)id, null);
                 }

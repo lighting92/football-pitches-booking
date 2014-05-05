@@ -104,7 +104,7 @@ namespace FootballPitchesBooking.DataAccessObjects
         {
             FPBDataContext db = new FPBDataContext();
             Field field = db.Fields.Where(f => f.Id == fieldId).FirstOrDefault();
-            if (field.Reservations.Where(r => !r.Status.Equals("Canceled") && !r.Status.Equals("Notcome") && !r.Status.Equals("Denied")
+            if (field.Reservations.Where(r => r.Id != reservationId && !r.Status.Equals("Canceled") && !r.Status.Equals("Notcome") && !r.Status.Equals("Denied")
                 && (r.Date.Date.CompareTo(date.Date) == 0) && ((r.StartTime == startTime)
                 || (r.StartTime < startTime && (r.StartTime + r.Duration) > startTime)
                 || (startTime < r.StartTime) && (startTime + duration) > r.StartTime)).Count() == 0)
