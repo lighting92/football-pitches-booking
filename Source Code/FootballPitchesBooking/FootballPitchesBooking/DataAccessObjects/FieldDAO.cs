@@ -103,7 +103,8 @@ namespace FootballPitchesBooking.DataAccessObjects
         public bool CheckAvailableField(int fieldId, DateTime date, double startTime, double duration, int reservationId)
         {
             FPBDataContext db = new FPBDataContext();
-            Field field = db.Reservations.Where(r => r.FieldId == fieldId && r.Id != reservationId && r.Date.Date == date.Date && 
+            Field field = db.Reservations.Where(r => r.FieldId == fieldId && r.Id != reservationId && r.Date.Date == date.Date &&
+                !r.Status.Equals("Canceled") && !r.Status.Equals("Notcome") && !r.Status.Equals("Denied") &&
                 ((r.StartTime <= startTime && (r.StartTime + duration) >= startTime) || //start time của order nằm giữa start time của reservation và end time (starttime + duration)
                 r.StartTime >= startTime && r.StartTime <= startTime + duration)).Select(r => r.Field).FirstOrDefault();
             if (field == null)

@@ -75,11 +75,11 @@ namespace FootballPitchesBooking.BusinessObjects
             Stadium std = fieldDAO.GetFieldById(reservation.FieldId).Stadium;
             //Đặt thời gian đá sớm hơn hoặc kéo dài quá thời gian phục vụ
             if (!((std.OpenTime < std.CloseTime
-                    && (reservation.StartTime < std.OpenTime || reservation.StartTime + reservation.Duration > std.CloseTime)) ||
+                    && (reservation.StartTime <= std.OpenTime || reservation.StartTime + reservation.Duration >= std.CloseTime)) ||
                 (std.OpenTime > std.CloseTime
-                    && (reservation.StartTime > std.OpenTime && reservation.StartTime + reservation.Duration < std.CloseTime + 24)) ||
+                    && (reservation.StartTime >= std.OpenTime && reservation.StartTime + reservation.Duration <= std.CloseTime + 24)) ||
                 (std.OpenTime > std.CloseTime
-                    && (reservation.StartTime < std.OpenTime && (reservation.StartTime + reservation.Duration < std.CloseTime)))))
+                    && (reservation.StartTime <= std.OpenTime && (reservation.StartTime + reservation.Duration <= std.CloseTime)))))
             {
                 return -3;
             }
@@ -153,11 +153,11 @@ namespace FootballPitchesBooking.BusinessObjects
             Stadium std = fieldDAO.GetFieldById(reservation.FieldId).Stadium;
             //Đặt thời gian đá sớm hơn hoặc kéo dài quá thời gian phục vụ
             if (!((std.OpenTime < std.CloseTime
-                    && (reservation.StartTime < std.OpenTime || reservation.StartTime + reservation.Duration > std.CloseTime)) ||
+                    && (reservation.StartTime <= std.OpenTime || reservation.StartTime + reservation.Duration >= std.CloseTime)) ||
                 (std.OpenTime > std.CloseTime
-                    && (reservation.StartTime > std.OpenTime && reservation.StartTime + reservation.Duration < std.CloseTime + 24)) ||
+                    && (reservation.StartTime >= std.OpenTime && reservation.StartTime + reservation.Duration <= std.CloseTime + 24)) ||
                 (std.OpenTime > std.CloseTime
-                    && (reservation.StartTime < std.OpenTime && (reservation.StartTime + reservation.Duration < std.CloseTime)))))
+                    && (reservation.StartTime <= std.OpenTime && (reservation.StartTime + reservation.Duration <= std.CloseTime)))))
             {
                 return -3;
             }
@@ -325,7 +325,7 @@ namespace FootballPitchesBooking.BusinessObjects
             ReservationDAO resvDAO = new ReservationDAO();
             FieldDAO fieldDAO = new FieldDAO();
             Reservation reservation = resvDAO.GetReservationById(reservationId);
-            if (!fieldDAO.CheckAvailableField(reservation.FieldId, reservation.Date, reservation.StartTime, reservation.Duration, reservation.Id))
+            if (status.Equals("Approved") && !fieldDAO.CheckAvailableField(reservation.FieldId, reservation.Date, reservation.StartTime, reservation.Duration, reservation.Id))
             {
                 return -1;
             }

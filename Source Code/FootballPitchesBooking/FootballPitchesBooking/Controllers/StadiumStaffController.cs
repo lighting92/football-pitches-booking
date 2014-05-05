@@ -2400,12 +2400,12 @@ namespace FootballPitchesBooking.Controllers
             }
             else if (result == -1)
             {
-                ViewData["fieldNA"] = "true";
+                TempData["fieldNA"] = "true";
                 return RedirectToAction("ViewReservation/" + id, "StadiumStaff");
             }
             else
             {
-                ViewData["dbExcp"] = "true";
+                TempData["dbExcp"] = "true";
                 return RedirectToAction("ViewReservation/" + id, "StadiumStaff");
             }
         }
@@ -2418,7 +2418,15 @@ namespace FootballPitchesBooking.Controllers
             User staff = userBO.GetUserByUserName(User.Identity.Name);
             int stadium = resvBO.GetReservationById(id).Field.StadiumId;
             int result = resvBO.UpdateReservationStatus(id, "Denied", staff.Id);
-            return RedirectToAction("Reservations/" + stadium, "StadiumStaff");
+            if (result > 0)
+            {
+                return RedirectToAction("Reservations/" + stadium, "StadiumStaff");
+            }
+            else
+            {
+                TempData["dbExcp"] = "true";
+                return RedirectToAction("ViewReservation/" + id, "StadiumStaff");
+            }
         }
 
 

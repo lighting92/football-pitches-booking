@@ -322,7 +322,7 @@ namespace FootballPitchesBooking.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Thời gian đặt sân không được sớm hơn thời gian hiện tại.
+        ///   Looks up a localized string similar to Thời gian đặt sân quá sát với thời gian hiện tại.
         /// </summary>
         internal static string Resv_TimeOver {
             get {
