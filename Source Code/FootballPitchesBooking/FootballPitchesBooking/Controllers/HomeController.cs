@@ -130,6 +130,134 @@ namespace FootballPitchesBooking.Controllers
             return View(model);
         }
 
+        public ActionResult ListBestStadium()
+        { 
+        
+            var model = new RecommendationModel();
+            if (User.Identity.IsAuthenticated)
+            {
+                string xmlFolderPath = Server.MapPath("/XMLUserDistance/");
+                var distanceList = MapBO.GetStadiumDistanceFromUser(User.Identity.Name, xmlFolderPath);
+
+                RecommendationBO recBO = new RecommendationBO();
+                var bestStadiums = recBO.FindBestStadiums(User.Identity.Name, distanceList);
+                if (bestStadiums.Count() != 0)
+                {
+                    bestStadiums = bestStadiums.ToList();
+                }
+                model.BestStadiums = bestStadiums;
+                model.BestStadiumsImages = new List<Models.StadiumImage>();
+                foreach (var item in model.BestStadiums)
+                {
+                    var image = item.Stadium.StadiumImages.FirstOrDefault();
+                    if (image == null)
+                    {
+                        image = new StadiumImage();
+                        image.Path = "stadium.jpg";
+                    }
+                    model.BestStadiumsImages.Add(image);
+                }
+
+            }
+            return View(model);
+        }
+
+        public ActionResult ListNearestStadiums()
+        {
+
+            var model = new RecommendationModel();
+            if (User.Identity.IsAuthenticated)
+            {
+                string xmlFolderPath = Server.MapPath("/XMLUserDistance/");
+                var distanceList = MapBO.GetStadiumDistanceFromUser(User.Identity.Name, xmlFolderPath);
+
+                RecommendationBO recBO = new RecommendationBO();
+                var nearestStadiums = recBO.FindNearestStadiums(User.Identity.Name, distanceList);
+                if (nearestStadiums.Count() != 0)
+                {
+                    nearestStadiums = nearestStadiums.ToList();
+                }
+                model.NearestStadiums = nearestStadiums;
+                model.NearestStadiumsImages = new List<Models.StadiumImage>();
+                foreach (var item in model.NearestStadiums)
+                {
+                    var image = item.Stadium.StadiumImages.FirstOrDefault();
+                    if (image == null)
+                    {
+                        image = new StadiumImage();
+                        image.Path = "stadium.jpg";
+                    }
+                    model.NearestStadiumsImages.Add(image);
+                }
+
+            }
+            return View(model);
+        }
+
+        public ActionResult ListMostBookedStadiums()
+        {
+
+            var model = new RecommendationModel();
+            if (User.Identity.IsAuthenticated)
+            {
+                string xmlFolderPath = Server.MapPath("/XMLUserDistance/");
+                var distanceList = MapBO.GetStadiumDistanceFromUser(User.Identity.Name, xmlFolderPath);
+
+                RecommendationBO recBO = new RecommendationBO();
+                var mostBookedStadiums = recBO.FindMostBookedStadiums(User.Identity.Name, distanceList);
+                if (mostBookedStadiums.Count() != 0)
+                {
+                    mostBookedStadiums = mostBookedStadiums.ToList();
+                }
+                model.MostBookedStadiums = mostBookedStadiums;
+                model.MostBookedStadiumsImages = new List<Models.StadiumImage>();
+                foreach (var item in model.MostBookedStadiums)
+                {
+                    var image = item.Stadium.StadiumImages.FirstOrDefault();
+                    if (image == null)
+                    {
+                        image = new StadiumImage();
+                        image.Path = "stadium.jpg";
+                    }
+                    model.MostBookedStadiumsImages.Add(image);
+                }
+
+            }
+            return View(model);
+        }
+
+        public ActionResult ListPromotedStadiums()
+        {
+
+            var model = new RecommendationModel();
+            if (User.Identity.IsAuthenticated)
+            {
+                string xmlFolderPath = Server.MapPath("/XMLUserDistance/");
+                var distanceList = MapBO.GetStadiumDistanceFromUser(User.Identity.Name, xmlFolderPath);
+
+                RecommendationBO recBO = new RecommendationBO();
+                var mostPromotedStadiums = recBO.FindPromotedStadiums(User.Identity.Name, distanceList);
+                if (mostPromotedStadiums.Count() != 0)
+                {
+                    mostPromotedStadiums = mostPromotedStadiums.ToList();
+                }
+                model.PromotionStadiums = mostPromotedStadiums;
+                model.PromotionStadiumsImages = new List<Models.StadiumImage>();
+                foreach (var item in model.PromotionStadiums)
+                {
+                    var image = item.Stadium.StadiumImages.FirstOrDefault();
+                    if (image == null)
+                    {
+                        image = new StadiumImage();
+                        image.Path = "stadium.jpg";
+                    }
+                    model.PromotionStadiumsImages.Add(image);
+                }
+
+            }
+            return View(model);
+        }
+
         public ActionResult Advertise()
         {
             List<Advertisement> model = new List<Advertisement>();
