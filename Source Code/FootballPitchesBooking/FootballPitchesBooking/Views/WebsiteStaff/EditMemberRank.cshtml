@@ -20,38 +20,65 @@
     }
 </div>
 
-<form action="EditMemberRank/@Model.Id" method="post">
-    <table>
+<script type="text/ecmascript">
+    function check() {
+        var flag = 0;
+        var rankname = $("#txtRankName").val();
+        var point = $("#txtPoint").val();
+
+        if (rankname.length < 4 || rankname.length > 30) {
+            $("#RankName_Error").text("Tên cấp bậc phải từ 4 đến 30 kí tự");
+            $("#RankName_Error").css("display", "block");
+            flag++;
+        }
+        else {
+            $("#RankName_Error").text(" ");
+            $("#RankName_Error").css("display", "none");
+        }
+
+        if (point == "") {
+            $("#RankPoint_Error").text("Xin nhập điểm tối thiểu");
+            $("#RankPoint_Error").css("display", "block");
+            flag++;
+        }
+        else {
+            $("#RankPoint_Error").text(" ");
+            $("#RankPoint_Error").css("display", "none");
+        }
+
+        if (flag > 0) {
+            return false;
+        } else return true;
+    }
+</script>
+
+<form action="~/WebsiteStaff/EditMemberRank/@Model.Id" method="post">
+    <table> 
         <tr>
-            <td>Cấp bậc:</td>
-            <td>
-                <input type="text" name="RankName" value="@Model.RankName" /></td>
+            <td style="height: 60px;">Cấp bậc:</td>
+            <td style="height: 60px;"><input type="text" id="txtRankName" name="RankName" required ="required" value="@Model.RankName" /></td>
+            <td style="height: 60px;"><div class="alert alert-danger" id="RankName_Error" style="display: none" /></td>
         </tr>
         <tr>
-            <td>Điểm tối thiểu:</td>
-            @if (Model.Point > 0)
-            {
-                <td>
-                    <input type="text" name="Point" value="@Model.Point" /></td>
-            }
-            else
-            {
-                <td>
-                    <input type="text" name="Point" readonly="" value="@Model.Point" /></td>
-            }
+            <td style="height: 60px;">Điểm tối thiểu:</td>
+            <td style="height: 60px;"><input type="text" name="Point" id="txtPoint" required ="required" value="@Model.Point" /></td>
+            <script type="text/javascript">
+                $('#txtPoint').keyup(function (event) {
+                    if (isNaN(String.fromCharCode(event.which))) {
+                        var value = $(this).val();
+                        $(this).val(value.substr(0, value.length - 1));
+                    }
+                });
+            </script>
+            <td style="height: 60px;"><div class="alert alert-danger" id="RankPoint_Error" style="display: none" /></td>
         </tr>
-
-
         <tr>
-            <td>Ưu đãi giảm giá:</td>
-            <td>
-                <input placeholder="Nhập vào ưu đãi" type="text" name="Promotion" value="@Model.Promotion" />
-            </td>
-        </tr>
-
-
+            <td style="height: 60px;">Phần thưởng:</td>
+            <td style="height: 60px;"><input type="text" name="Promotion" value="@Model.Promotion" /></td>
+        </tr> 
+        
         <tr>
-            <td colspan="2">
+            <td style="height: 60px;" colspan="2">
                 <button type="button" onclick="window.location = '/WebsiteStaff/MemberRanks'" class="btn btn-primary btn-large book-now pull-right groupbtn">Huỷ bỏ</button>
                 @if (Model.Point > 0)
                 {

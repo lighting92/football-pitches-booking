@@ -682,12 +682,21 @@ namespace FootballPitchesBooking.Controllers
         public ActionResult AddMemberRank(FormCollection form)
         {
             RankModel rank = new RankModel();
-            rank.RankName = form["RankName"];
-            rank.Point = Int32.Parse(form["Point"]);
-            rank.Promotion = form["Promotion"];
+            bool checkParseError = false;
+            try
+            {
+                rank.RankName = form["RankName"];
+                rank.Point = Int32.Parse(form["Point"]);
+                rank.Promotion = form["Promotion"];
+            }
+            catch (Exception)
+            {
+                checkParseError = true;
+            }
+            
             rank.ErrorMessages = new List<string>();
 
-            if (string.IsNullOrWhiteSpace(rank.RankName) || string.IsNullOrWhiteSpace(rank.Promotion))
+            if (string.IsNullOrWhiteSpace(rank.RankName) || checkParseError)
             {
                 rank.ErrorMessages.Add(Resources.Form_EmptyFields);
             }
@@ -756,12 +765,21 @@ namespace FootballPitchesBooking.Controllers
         {
             RankModel rank = new RankModel();
             rank.Id = id;
-            rank.RankName = form["RankName"];
-            rank.Point = Int32.Parse(form["Point"]);
-            rank.Promotion = form["Promotion"];
+            bool checkParseError = false;
+            try
+            {
+                rank.RankName = form["RankName"];
+                rank.Point = Int32.Parse(form["Point"]);
+                rank.Promotion = form["Promotion"];
+            }
+            catch (Exception)
+            {
+                checkParseError = true;
+            }
+
             rank.ErrorMessages = new List<string>();
 
-            if (string.IsNullOrWhiteSpace(rank.RankName) || string.IsNullOrWhiteSpace(rank.Promotion)) //check null
+            if (string.IsNullOrWhiteSpace(rank.RankName) || checkParseError)
             {
                 rank.ErrorMessages.Add(Resources.Form_EmptyFields);
             }

@@ -280,7 +280,7 @@
                             }
                             <div class="span3">
                                 <label>
-                                    Tên đày đủ
+                                    Tên đầy đủ
                                     <input name="FullName" type="text" placeholder="Tên đầy đủ" required="required" value="@Model.Resv.FullName">
                                     <div class="alert alert-danger" id="FullName_Error" style="display: none"></div>
                                 </label>
@@ -312,7 +312,7 @@
                             <div class="span3">
                                 <label>
                                     Cần đối thủ
-                                    <select id="HasRival" name="NeedRival" data-cur="@Model.Resv.NeedRival">
+                                    <select id="NeedRival" name="NeedRival" data-cur="@Model.Resv.NeedRival">
                                         <option value="False">Không</option>
                                         <option value="True">Có</option>
                                     </select>
@@ -320,17 +320,17 @@
                                 </label>
                                 <script type="text/javascript">
                                     $(document).ready(function () {
-                                        $("#HasRival").val($("#HasRival").data("cur"));
+                                        $("#NeedRival").val($("#NeedRival").data("cur"));
                                     });
 
                                     $(document).ready(function () {
-                                        if ($('#HasRival').val() == 'True') {
+                                        if ($('#NeedRival').val() == 'True') {
                                             $('#RivalInfo').show();
                                         }
                                         else {
                                             $('#RivalInfo').hide();
                                         }
-                                        $('#HasRival').change(function () {
+                                        $('#NeedRival').change(function () {
                                             if ($(this).val() == 'True') {
                                                 $('#RivalInfo').show();
                                             }
