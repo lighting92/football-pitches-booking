@@ -180,5 +180,30 @@ namespace FootballPitchesBooking.DataAccessObjects
                 return 0;
             }
         }
+
+
+        public int PlusUserPoint(int id, int point)
+        {
+            try
+            {
+                User user = db.Users.Where(u => u.Id == id).FirstOrDefault();
+                if ((user.Point + point) >= 0)
+                {
+                    user.Point += point;
+                    MemberRankDAO rankDAO = new MemberRankDAO();
+                    user.RankId = rankDAO.GetMemberRankByUserPoint(user.Point).Id;
+                    db.SubmitChanges();
+                    return 1;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
     }
 }

@@ -196,6 +196,19 @@ namespace FootballPitchesBooking.BusinessObjects
 
             int result = resvDAO.UpdateReservation(reservation);
 
+            if (resv.User != null && resv.Status != reservation.Status && result > 0)
+            {
+                UserDAO userDAO = new UserDAO();
+                if (reservation.Status == "Approved")
+                {
+                    result = userDAO.PlusUserPoint(resv.User.Id, 1);
+                }
+                else if (resv.Status == "Approved")
+                {
+                    result = userDAO.PlusUserPoint(resv.User.Id, -1);
+                }
+            }
+
             return result;
         }
 
@@ -329,7 +342,20 @@ namespace FootballPitchesBooking.BusinessObjects
             {
                 return -1;
             }
-            return resvDAO.UpdateReservationStatus(reservationId, status, approver);
+            int result = resvDAO.UpdateReservationStatus(reservationId, status, approver);
+            if (reservation.User != null && reservation.Status != status && result > 0)
+            {
+                UserDAO userDAO = new UserDAO();
+                if (status == "Approved")
+                {
+                    result = userDAO.PlusUserPoint(reservation.User.Id, 1);
+                }
+                else if (reservation.Status == "Approved")
+                {
+                    result = userDAO.PlusUserPoint(reservation.User.Id, -1);
+                }
+            }
+            return result;
         }
 
 

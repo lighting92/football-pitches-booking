@@ -151,7 +151,7 @@
                                 </label>
                             </div>
                         </div>
-                        @if (!(Model.Resv.User != null && Model.Resv.User.UserName.Equals(User.Identity.Name)) && User.Identity.IsAuthenticated)
+                        @if (!(Model.Resv.User != null && Model.Resv.User.UserName.Equals(User.Identity.Name)))
                         {
                                         
                             <div class="row">
