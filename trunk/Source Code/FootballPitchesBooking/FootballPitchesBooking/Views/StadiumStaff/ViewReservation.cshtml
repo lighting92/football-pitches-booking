@@ -18,16 +18,20 @@
                             {
                                 <p>- @error</p>
                             }
-                            @if (ViewData["fieldNA"] == "true")
-                            {
-                                <p>- Sân đã được đặt</p>
-                            }
-                            @if (ViewData["dbExcp"] == "true")
-                            {
-                                <p>- Sân đã được đặt</p>
-                            }
                         </div>
                     }
+                        @if (TempData["fieldNA"] == "true")
+                            {
+                            <div class="alert alert-danger">
+                                <p>- Sân đã được đặt</p>
+                    </div>
+                            }
+                            @if (TempData["dbExcp"] == "true")
+                            {
+                                <div class="alert alert-danger">
+                                <p>- Máy chủ đang bận. Xin vui lòng thử lại sau</p>
+                    </div>
+                            }
                     <div class="row">
                         <div class="span9">
                             <h4>THÔNG TIN ĐẶT SÂN:</h4>
@@ -270,27 +274,36 @@
                     <div class="row">
                         <div class="span9">
                             <p>
+                                <button class="btn btn-primary book-now groupbtn pull-right" type="button" onclick="window.location = '/StadiumStaff/Reservations/@Model.Fields.FirstOrDefault().StadiumId'">Quay lại</button>
+                                <button class="btn btn-primary book-now groupbtn pull-right" type="button" onclick="window.location = '/StadiumStaff/EditReservation/@Model.Resv.Id'">Chỉnh sửa</button>
                                 @if (Convert.ToDateTime(Model.Resv.Date).AddHours(Model.Resv.StartTime) > DateTime.Now && !Model.Resv.Status.Equals("Canceled") && !Model.Resv.Status.Equals("Notcome"))
                                 {
-                                    if (!Model.Resv.Status.Equals("Approved"))
-                                    {
-                                        <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/ApproveReservation/@Model.Resv.Id'">Xác nhận</button>
-                                    }
                                     if (!Model.Resv.Status.Equals("Denied"))
                                     {
-                                        <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/DenyReservation/@Model.Resv.Id'">Từ chối</button>
+                                        <button class="btn btn-primary book-now groupbtn pull-right" type="button" onclick="window.location = '/StadiumStaff/DenyReservation/@Model.Resv.Id'">Từ chối</button>
+                                    }
+                                    else
+                                    {
+                                        <button disabled="disabled" class="btn btn-primary book-now groupbtn pull-right" type="button" onclick="window.location = '/StadiumStaff/DenyReservation/@Model.Resv.Id'">Từ chối</button>
+                                    }
+                                    if (!Model.Resv.Status.Equals("Approved"))
+                                    {
+                                        <button class="btn btn-primary book-now groupbtn pull-right" type="button" onclick="window.location = '/StadiumStaff/ApproveReservation/@Model.Resv.Id'">Xác nhận</button>
+                                    }
+                                    else
+                                    {
+                                        <button disabled="disabled" class="btn btn-primary book-now groupbtn pull-right" type="button" onclick="window.location = '/StadiumStaff/ApproveReservation/@Model.Resv.Id'">Xác nhận</button>
                                     }
                                 }
                                 else
                                 {
                                     if (Model.Resv.Status.Equals("Approved"))
                                     {
-                                        <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '@Model.Resv.Id'">Báo cáo vi phạm</button> 
+                                        <button class="btn btn-primary book-now groupbtn pull-right" type="button" onclick="window.location = '@Model.Resv.Id'">Báo cáo vi phạm</button> 
                                     }
                                 }
-                                <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/EditReservation/@Model.Resv.Id'">Chỉnh sửa</button>
-                                <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/Reservations/@Model.Fields.FirstOrDefault().StadiumId'">Quay lại</button>
                             </p>
+                            <br /><br />
                         </div>
                     </div>
                 </fieldset>

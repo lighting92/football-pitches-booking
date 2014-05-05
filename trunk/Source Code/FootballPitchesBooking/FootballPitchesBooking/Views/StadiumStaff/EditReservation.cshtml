@@ -214,7 +214,7 @@
                             </div>
                             <div class="span3">
                                 <label>
-                                    Giờ đặt
+                                    Giờ đặt<br />
                                     <div class="input-append bootstrap-timepicker">
                                         <input name="StartTime" id="startTime" type="text" class="span2 input-time-collapse" value="@((int)Model.Resv.StartTime):@(((int)(Model.Resv.StartTime - (int)Model.Resv.StartTime) * 60).ToString("00"))" />
                                         <script type="text/javascript">
@@ -416,9 +416,10 @@
                         <div class="row">
                             <div class="span9">
                                 <p>
-                                    <button class="btn btn-primary book-now groupbtn" type="submit" name="Save" onclick="return check()">Cập nhật</button>
-                                    <button class="btn btn-primary book-now groupbtn" type="button" onclick="window.location = '/StadiumStaff/Reservations/@Model.Fields.FirstOrDefault().StadiumId'">Hủy bỏ</button>
+                                    <button class="btn btn-primary book-now groupbtn pull-right" type="button" onclick="window.location = '/StadiumStaff/Reservations/@Model.Fields.FirstOrDefault().StadiumId'">Hủy bỏ</button>
+                                    <button class="btn btn-primary book-now groupbtn pull-right" type="submit" name="Save" onclick="return check()">Cập nhật</button>
                                 </p>
+                                <br /><br />
                             </div>
                         </div>
                     </fieldset>
