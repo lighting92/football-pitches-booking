@@ -21,7 +21,7 @@ namespace FootballPitchesBooking.DataAccessObjects
             return db.Reservations.Where(r => r.User2.UserName.ToLower().Equals(userName.ToLower()))
                                   .OrderByDescending(r => r.Date).ThenByDescending(r => r.StartTime).ToList();
         }
-        
+
 
         public List<Reservation> GetAllReservations()
         {
@@ -29,7 +29,28 @@ namespace FootballPitchesBooking.DataAccessObjects
             return db.Reservations.ToList();
         }
 
-		
+        public List<Reservation> GetAllPendingReservationOfStadiumsForUser(string userName)
+        {
+            FPBDataContext db = new FPBDataContext();
+            var user = db.Users.Where(u => u.UserName.ToLower().Equals(userName.ToLower())).FirstOrDefault();
+
+            var staIds = user.Stadiums.Select(s => s.Id).ToList();
+            var stastaff = user.StadiumStaffs.Select(ss => ss.StadiumId).ToList();
+            foreach (var item in stastaff)
+            {
+                staIds.Add(item);
+            }
+            staIds = staIds.Distinct().ToList();
+
+            double nowT = DateTime.Now.Hour + (DateTime.Now.Minute / 60.0);
+            var result = db.Reservations.Where(r => staIds.Contains(r.Field.StadiumId) &&
+                r.Status.ToLower().Equals("pending") &&
+                (r.Date > DateTime.Now.Date ||
+                (r.Date == DateTime.Now.Date && r.StartTime > nowT))
+                ).ToList();
+            return result;
+        }
+
         public List<Reservation> GetReservationsNeedRival()
         {
             FPBDataContext db = new FPBDataContext();
@@ -56,7 +77,7 @@ namespace FootballPitchesBooking.DataAccessObjects
         {
             FPBDataContext db = new FPBDataContext();
             double time = DateTime.Now.Hour + (DateTime.Now.Minute / 60.0);
-            List<Reservation> allRivals = db.Reservations.Where(r => r.NeedRival == true && r.RivalId == null && r.RivalName.Equals(null) && 
+            List<Reservation> allRivals = db.Reservations.Where(r => r.NeedRival == true && r.RivalId == null && r.RivalName.Equals(null) &&
                 ((r.Date.Date.CompareTo(DateTime.Now.Date) > 0) || (r.Date.Date.CompareTo(DateTime.Now.Date) == 0
                  && r.StartTime > time)) && r.RivalStatus.Equals("Waiting")
                    ).OrderBy(r => r.Date).ThenBy(r => r.StartTime).ToList();
@@ -244,7 +265,7 @@ namespace FootballPitchesBooking.DataAccessObjects
             }
         }
 
-        
+
 
         public int UserCancelReservation(int resId)
         {
@@ -261,7 +282,7 @@ namespace FootballPitchesBooking.DataAccessObjects
                 else
                 {
                     return -1;
-                }                
+                }
             }
             catch (Exception)
             {
@@ -278,7 +299,7 @@ namespace FootballPitchesBooking.DataAccessObjects
                 if (cur != null)
                 {
                     int result = 1;
-                    if (!string.IsNullOrEmpty(cur.RivalStatus) && !string.IsNullOrEmpty(res.RivalStatus) && 
+                    if (!string.IsNullOrEmpty(cur.RivalStatus) && !string.IsNullOrEmpty(res.RivalStatus) &&
                         !cur.RivalStatus.ToLower().Equals(res.RivalStatus.ToLower()) && res.RivalStatus.ToLower().Equals("approve"))
                     {
                         result = 2;
