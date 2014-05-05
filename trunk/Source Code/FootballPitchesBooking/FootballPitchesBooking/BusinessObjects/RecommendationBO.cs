@@ -30,10 +30,10 @@ namespace FootballPitchesBooking.BusinessObjects
                 {
                     // list<int stadiumId, count>
                     var dif = mostReservationStadiums.First().Count - mostReservationStadiums.Last().Count;
-                    var e = 0;
+                    double e = 0;
                     if (dif != 0)
                     {
-                        e = 10 / dif;
+                        e = 10.0 / dif;
                     }
                     var max = mostReservationStadiums.First().Count;
 
@@ -216,11 +216,11 @@ namespace FootballPitchesBooking.BusinessObjects
                 if (mostReservationStadiums != null && mostReservationStadiums.Count() != 0)
                 {
                     // list<int stadiumId, count>
-                    var dif = mostReservationStadiums.First().Count - mostReservationStadiums.Last().Count;
-                    var e = 0;
+                    var dif = mostReservationStadiums.First().Count;
+                    double e = 0;
                     if (dif != 0)
                     {
-                        e = 10 / dif;
+                        e = 10.0 / dif;
                     }
                     var max = mostReservationStadiums.First().Count;
 
@@ -242,11 +242,11 @@ namespace FootballPitchesBooking.BusinessObjects
                 {
                     promotions = promotions.OrderByDescending(p => p.Discount).ToList();
 
-                    double difPro = promotions.First().Discount - promotions.Last().Discount;
+                    double difPro = promotions.First().Discount;
                     double e = 0;
                     if (difPro != 0)
                     {
-                        e = 10 / difPro;
+                        e = 10.0 / difPro;
                     }
                     var maxPro = promotions.First().Discount;
 
@@ -386,6 +386,25 @@ namespace FootballPitchesBooking.BusinessObjects
                     temp.Stadium = stadiumDAO.GetStadiumById(item.Id);
                     var prom = highestPromotion.GetHighestPromotionOfStadium(item.Id);
                     temp.HighestPromotion = prom;
+                    if (distances != null)
+                    {
+                        var dt = distances.Where(d => d.StadiumId == item.Id).FirstOrDefault();
+                        temp.Distance = dt.Distance;
+                    }
+                    else
+                    {
+                        temp.Distance = null;
+                    }
+                    var books = mostReservationStadiums.Where(m => m.StadiumId == item.Id).FirstOrDefault();
+                    if (books != null)
+                    {
+                        temp.BookedCount = books.Count;
+                    }
+                    else
+                    {
+                        temp.BookedCount = 0;
+                    }
+                    temp.CorrespondingRate = item.Priority;
                     recommendStadiums.Add(temp);
                 }
 
@@ -416,11 +435,11 @@ namespace FootballPitchesBooking.BusinessObjects
                 if (mostReservationStadiums != null && mostReservationStadiums.Count() != 0)
                 {
                     // list<int stadiumId, count>
-                    var dif = mostReservationStadiums.First().Count - mostReservationStadiums.Last().Count;
-                    var e = 0;
+                    var dif = mostReservationStadiums.First().Count;
+                    double e = 0;
                     if (dif != 0)
                     {
-                        e = 10 / dif;
+                        e = 10.0 / dif;
                     }
 
                     var max = mostReservationStadiums.First().Count;
@@ -445,11 +464,11 @@ namespace FootballPitchesBooking.BusinessObjects
                 {
                     promotions = promotions.OrderByDescending(p => p.Discount).ToList();
 
-                    double difPro = promotions.First().Discount - promotions.Last().Discount;
+                    double difPro = promotions.First().Discount;
                     double e = 0;
                     if (difPro != 0)
                     {
-                        e = 10 / difPro;
+                        e = 10.0 / difPro;
                     }
                     var maxPro = promotions.First().Discount;
 
@@ -592,8 +611,26 @@ namespace FootballPitchesBooking.BusinessObjects
                     temp.Stadium = stadiumDAO.GetStadiumById(item.Id);
                     var prom = highestPromotion.GetHighestPromotionOfStadium(item.Id);
                     temp.HighestPromotion = prom;
+                    if (distances != null)
+                    {
+                        var dt = distances.Where(d => d.StadiumId == item.Id).FirstOrDefault();
+                        temp.Distance = dt.Distance;
+                    }
+                    else
+                    {
+                        temp.Distance = null;
+                    }
+                    var books = mostReservationStadiums.Where(m => m.StadiumId == item.Id).FirstOrDefault();
+                    if (books != null)
+                    {
+                        temp.BookedCount = books.Count;
+                    }
+                    else
+                    {
+                        temp.BookedCount = 0;
+                    }
+                    temp.CorrespondingRate = item.Priority;
                     recommendStadiums.Add(temp);
-
                 }
 
                 return recommendStadiums;
@@ -618,11 +655,11 @@ namespace FootballPitchesBooking.BusinessObjects
                 {
                     promotions = promotions.OrderByDescending(p => p.Discount).ToList();
 
-                    double difPro = promotions.First().Discount - promotions.Last().Discount;
+                    double difPro = promotions.First().Discount;
                     double e = 0;
                     if (difPro != 0)
                     {
-                        e = 10 / difPro;
+                        e = 10.0 / difPro;
                     }
                     var maxPro = promotions.First().Discount;
 
@@ -652,11 +689,11 @@ namespace FootballPitchesBooking.BusinessObjects
                 if (mostReservationStadiums != null && mostReservationStadiums.Count() != 0)
                 {
                     // list<int stadiumId, count>
-                    var dif = mostReservationStadiums.First().Count - mostReservationStadiums.Last().Count;
-                    var e = 0;
+                    var dif = mostReservationStadiums.First().Count;
+                    double e = 0;
                     if (dif != 0)
                     {
-                        e = 10 / dif;
+                        e = 10.0 / dif;
                     }
 
                     var max = mostReservationStadiums.First().Count;
@@ -794,6 +831,25 @@ namespace FootballPitchesBooking.BusinessObjects
                     temp.Stadium = stadiumDAO.GetStadiumById(item.Id);
                     var prom = highestPromotion.GetHighestPromotionOfStadium(item.Id);
                     temp.HighestPromotion = prom;
+                    if (distances != null)
+                    {
+                        var dt = distances.Where(d => d.StadiumId == item.Id).FirstOrDefault();
+                        temp.Distance = dt.Distance;
+                    }
+                    else
+                    {
+                        temp.Distance = null;
+                    }
+                    var books = mostReservationStadiums.Where(m => m.StadiumId == item.Id).FirstOrDefault();
+                    if (books != null)
+                    {
+                        temp.BookedCount = books.Count;
+                    }
+                    else
+                    {
+                        temp.BookedCount = 0;
+                    }
+                    temp.CorrespondingRate = item.Priority;
                     recommendStadiums.Add(temp);
                 }
 
@@ -820,11 +876,11 @@ namespace FootballPitchesBooking.BusinessObjects
                 if (mostReservationStadiums != null && mostReservationStadiums.Count() != 0)
                 {
                     // list<int stadiumId, count>
-                    var dif = mostReservationStadiums.First().Count - mostReservationStadiums.Last().Count;
-                    var e = 0;
+                    var dif = mostReservationStadiums.First().Count;
+                    double e = 0;
                     if (dif != 0)
                     {
-                        e = 10 / dif;
+                        e = 10.0 / dif;
                     }
 
                     var max = mostReservationStadiums.First().Count;
@@ -851,11 +907,11 @@ namespace FootballPitchesBooking.BusinessObjects
                 {
                     promotions = promotions.OrderByDescending(p => p.Discount).ToList();
 
-                    double difPro = promotions.First().Discount - promotions.Last().Discount;
+                    double difPro = promotions.First().Discount;
                     double e = 0;
                     if (difPro != 0)
                     {
-                        e = 10 / difPro;
+                        e = 10.0 / difPro;
                     }
                     var maxPro = promotions.First().Discount;
 
@@ -999,6 +1055,25 @@ namespace FootballPitchesBooking.BusinessObjects
                     temp.Stadium = stadiumDAO.GetStadiumById(item.Id);
                     var prom = highestPromotion.GetHighestPromotionOfStadium(item.Id);
                     temp.HighestPromotion = prom;
+                    if (distances != null)
+                    {
+                        var dt = distances.Where(d => d.StadiumId == item.Id).FirstOrDefault();
+                        temp.Distance = dt.Distance;
+                    }
+                    else
+                    {
+                        temp.Distance = null;
+                    }
+                    var books = mostReservationStadiums.Where(m => m.StadiumId == item.Id).FirstOrDefault();
+                    if (books != null)
+                    {
+                        temp.BookedCount = books.Count;
+                    }
+                    else
+                    {
+                        temp.BookedCount = 0;
+                    }
+                    temp.CorrespondingRate = item.Priority;
                     recommendStadiums.Add(temp);
                 }
 
