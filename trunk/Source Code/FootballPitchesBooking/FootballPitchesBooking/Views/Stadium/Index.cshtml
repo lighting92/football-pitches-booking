@@ -6,44 +6,11 @@
 <h2>HỆ THỐNG SÂN BÓNG</h2>
 <div class="row">
     <div class="span12">
-        @if (Model.Stadiums != null)
-        {
-            <div class="row" style="margin: 0 0 30px 0;">
-                <form action="~/Stadium/Index" method="post" class="form-horizontal" enctype="multipart/form-data">
-                    <div class="span3 no-margin">
-                        <label>
-                            Tên sân bóng:
-                            <input name="StadiumName" id="StadiumName" type="text" placeholder="Tên sân bóng" value="">
-                        </label>
-                    </div>
-                    <div class="span3">
-                        <label>
-                            Địa chỉ:
-                            <input name="StadiumAddress" id="StadiumAddress" type="text" placeholder="Địa chỉ sân bóng" value="">
-                        </label>
-                    </div>
-                    <div class="span3">
-                        <label>
-                            <br />
-                            <button type="submit" name="Search" class="btn book-now btn-normal groupbtn">Tìm kiếm</button>
-                            <button type="button" onclick="window.location = '/Stadium/Index'" class="btn book-now btn-normal groupbtn">Xem tất cả</button>
-                        </label>
-                    </div>
-                </form>
-            </div>
-            if (Model.Stadiums.Count > 0)
+        @if (Model.Stadiums != null && Model.Stadiums.Count > 0)
             {
             <div class="row no-margin">
                 <table class="table table-condensed table-bordered table-hover">
                     <thead>
-                        <tr>
-                            <th style="width: 150px;"></th>
-                            <th style="width: 150px;">TÊN SÂN BÓNG</th>
-                            <th>ĐỊA CHỈ</th>
-                            <th style="width: 110px;">SỐ ĐIỆN THOẠI</th>
-                            <th style="width: 90px;"></th>
-                            <th style="width: 70px;"></th>
-                        </tr>
                         <tr>
                             <th style="width: 150px;"></th>
                             <th style="width: 150px;">TÊN SÂN BÓNG</th>
@@ -105,11 +72,6 @@
                     </tfoot>
                 </table>
             </div>
-            }
-            else
-            {
-            <p>Không có sân bóng nào được tìm thấy.</p>
-            }
         }
         else if (Model == null)
         {

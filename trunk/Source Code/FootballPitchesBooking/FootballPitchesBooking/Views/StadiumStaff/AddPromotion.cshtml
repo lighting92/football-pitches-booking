@@ -24,8 +24,8 @@
             $("#PromotionTime_Error").css("display", "none");
         }
 
-        if (discount < 0 || discount > 100 || discountField == "") {
-            $("#Discount_Error").text("Yêu cầu giảm giá nằm trong khoảng từ 0 đến 100");
+        if (discount <= 0 || discount > 100 || discountField == "") {
+            $("#Discount_Error").text("Yêu cầu giảm giá lớn hơn 0 và không quá 100");
             $("#Discount_Error").css("display", "block");
             flag++;
             //return false;
