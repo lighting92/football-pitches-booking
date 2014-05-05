@@ -151,6 +151,14 @@
     }
 </script>
 
+@{
+    bool expired = false;
+    if (Convert.ToDateTime(Model.Resv.Date).AddHours(Model.Resv.StartTime) < DateTime.Now)
+    {
+        expired = true;
+    }
+}
+
 <div class="row stadiumstaff-edit-reservation">
     <div class="span12">
         <div class="row">
@@ -349,7 +357,10 @@
                                         <option value="Denied">Bị từ chối</option>
                                         <option value="Pending">Đang chờ xét</option>
                                         <option value="Canceled">Đã bị huỷ</option>
-                                        <option value="Notcome">Không đến</option>
+                                        @if (expired)
+                                        {
+                                            <option value="Notcome">Không đến</option>
+                                        }
                                     </select>
                                 </label>
                                 <script type="text/javascript">
@@ -400,7 +411,10 @@
                                         <option value="Approved">Đã xác nhận</option>
                                         <option value="Pending">Đang chờ xét</option>
                                         <option value="Waiting" selected="selected">Đang chờ</option>
-                                        <option value="Notcome">Không đến</option>
+                                        @if (expired)
+                                        {
+                                            <option value="Notcome">Không đến</option>
+                                        }
                                     </select>
                                 </label>
                                 <script type="text/javascript">

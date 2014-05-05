@@ -132,7 +132,7 @@ namespace FootballPitchesBooking.BusinessObjects
             //Validate ngày đặt sân trước ngày hiện tại, hoặc đặt sân ngày hiện tại nhung giờ đặt đã qua hoặc quá sát với thời gian đặt (khoảng cách 1 tiếng)
             if (reservation.Date < DateTime.Now.Date || (reservation.Date == DateTime.Now.Date && reservation.StartTime <= (expTime)))
             {
-                if (reservation.Status.Equals("Canceled"))
+                if (reservation.Status.Equals("Canceled") || reservation.Status.Equals("Notcome"))
                 {
                     return resvDAO.UpdateReservationStatus(reservation.Id, "Canceled", 0);
                 }

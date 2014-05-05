@@ -2309,21 +2309,24 @@ namespace FootballPitchesBooking.Controllers
                 model.ErrorMessages.Add(Resources.Form_EmptyFields);
             }
 
-            if (model.Resv.RivalStatus.Equals("Waiting"))
+            if (model.Resv.NeedRival && !string.IsNullOrEmpty(model.Resv.RivalStatus))
             {
-                if (!string.IsNullOrWhiteSpace(model.Resv.RivalName) || !string.IsNullOrWhiteSpace(model.Resv.RivalPhone) || !string.IsNullOrWhiteSpace(model.Resv.RivalEmail))
+                if (model.Resv.RivalStatus.Equals("Waiting"))
                 {
-                    model.ErrorMessages.Add(Resources.Resv_RivalFinding);
+                    if (!string.IsNullOrWhiteSpace(model.Resv.RivalName) || !string.IsNullOrWhiteSpace(model.Resv.RivalPhone) || !string.IsNullOrWhiteSpace(model.Resv.RivalEmail))
+                    {
+                        model.ErrorMessages.Add(Resources.Resv_RivalFinding);
+                    }
+                    model.Resv.RivalName = null;
+                    model.Resv.RivalPhone = null;
+                    model.Resv.RivalEmail = null;
                 }
-                model.Resv.RivalName = null;
-                model.Resv.RivalPhone = null;
-                model.Resv.RivalEmail = null;
-            }
-            else
-            {
-                if ((string.IsNullOrWhiteSpace(model.Resv.RivalName) || string.IsNullOrWhiteSpace(model.Resv.RivalPhone)))
+                else
                 {
-                    model.ErrorMessages.Add(Resources.Resv_RivalRequire);
+                    if ((string.IsNullOrWhiteSpace(model.Resv.RivalName) || string.IsNullOrWhiteSpace(model.Resv.RivalPhone)))
+                    {
+                        model.ErrorMessages.Add(Resources.Resv_RivalRequire);
+                    }
                 }
             }
 
