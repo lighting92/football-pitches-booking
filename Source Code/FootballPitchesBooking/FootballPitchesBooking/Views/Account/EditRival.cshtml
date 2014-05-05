@@ -52,6 +52,14 @@
     }
 </script>
 
+@{
+    bool canMod = true;
+    if (Model.Date < DateTime.Now.Date || Model.StartTime < (DateTime.Now.Hour + ((double)DateTime.Now.Minute) / 60))
+    {
+        canMod = false;
+    }
+}
+
 <div class="row edit-rival">
     <div class="span12">
         <div class="row">
@@ -176,27 +184,27 @@
                         </div>
                         <div class="row">
                             <div class="span8">
-                                <legend><span>Thông tin giao hữu:</span></legend>
+                                <legend><span>THÔNG TIN GIAO HỮU</span></legend>
                             </div>
 
                             <div class="span3">
                                 <label>
                                     Tên đầy đủ
-                                        <input type="text" value="@Model.RivalName" placeholder="Tên đầy đủ" name="FullName" />
+                                        <input type="text" value="@Model.RivalName" placeholder="Tên đầy đủ" name="FullName" @((Model.Date < DateTime.Now.Date || Model.StartTime < (DateTime.Now.Hour + ((double)DateTime.Now.Minute) / 60)) ? "disabled='disabled'" : "") />
                                     <div class="alert alert-danger" id="FullName_Error" style="display: none"></div>
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
                                     Số điện thoại
-                                        <input type="text" value="@Model.RivalPhone" placeholder="Số điện thoại" name="PhoneNumber" />
+                                        <input type="text" value="@Model.RivalPhone" placeholder="Số điện thoại" name="PhoneNumber" @((Model.Date < DateTime.Now.Date || Model.StartTime < (DateTime.Now.Hour + ((double)DateTime.Now.Minute) / 60)) ? "disabled='disabled'" : "")/>
                                     <div class="alert alert-danger" id="Phone_Error" style="display: none"></div>
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
                                     Email
-                                        <input type="text" value="@Model.RivalEmail" placeholder="Email" name="Email" />
+                                        <input type="text" value="@Model.RivalEmail" placeholder="Email" name="Email" @((Model.Date < DateTime.Now.Date || Model.StartTime < (DateTime.Now.Hour + ((double)DateTime.Now.Minute) / 60)) ? "disabled='disabled'" : "")/>
                                     <div class="alert alert-danger" id="Email_Error" style="display: none"></div>
                                 </label>
                             </div>
@@ -217,8 +225,16 @@
                         <br />
                         <div class="row">
                             <div class="span9">
-                                <button type="button" onclick="window.location='/Account/RivalHistory'" class="btn btn-primary btn-large book-now pull-right groupbtn">Hủy bỏ</button>
-                                <button type="submit" class="btn btn-primary btn-large book-now pull-right groupbtn">Lưu</button>
+                                @if(canMod)
+                                {
+                                    <button type="button" onclick="window.location='/Account/RivalHistory'" class="btn btn-primary btn-large book-now pull-right groupbtn">Hủy bỏ</button>
+                                    <button type="submit" class="btn btn-primary btn-large book-now pull-right groupbtn">Lưu</button>    
+                                }
+                                else
+                                {
+                                    <button type="button" onclick="window.location='/Account/RivalHistory'" class="btn btn-primary btn-large book-now pull-right groupbtn">Quay lại</button>
+                                    <button type="submit" class="btn btn-primary btn-large book-now pull-right groupbtn">Báo cáo vi phạm</button>
+                                }
                                 @if (Model.Date > DateTime.Now || (Model.Date == DateTime.Now && Model.StartTime > (DateTime.Now.Hour + 1 + DateTime.Now.Minute / 60)))
                                 {
                                     <button type="button" onclick="window.location='/Account/CancelRival/@Model.Id'" class="btn btn-primary btn-large book-now pull-right groupbtn">Hủy cáp kèo</button>

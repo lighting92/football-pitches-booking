@@ -385,6 +385,60 @@ footer a
     height: 50px;
 }
 
+.stadium-promotion-list .promotion-show
+{
+    margin: 0 9px;
+    padding: 5px 0;
+    width: 360px;
+    height: 60px;
+    vertical-align: middle;
+    line-height: 55px;
+    border-top: 1px solid #E5E5E5;
+}
+
+.stadium-promotion-list .promotion-show .discount-field
+{
+    display: inline-block;
+    margin: 0;
+    padding: 0 5px;
+    width: 40px;
+    height: 60px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 55px;
+    color: #B81007;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.stadium-promotion-list .promotion-show .discount-label
+{
+    display: inline-block;
+    margin: 0;
+    padding: 14px 0;
+    width: auto;
+    height: 32px;
+    vertical-align: middle;
+    line-height: 16px;
+    color: #B81007;
+    font-size: 14px;
+}
+
+.stadium-promotion-list .promotion-show .discount-value
+{
+    background: url(../images/discount-bg.png) center center;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    width: 90px;
+    height: 60px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 55px;
+    color: #ffffff;
+    font-size: 14px;
+}
+
 .rating-point label
 {
     float: left;

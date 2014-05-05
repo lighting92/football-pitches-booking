@@ -124,7 +124,7 @@ namespace FootballPitchesBooking.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mật khẩu không chính xác, vui lòng đăng nhập email và kích hoạt tài khoản.
+        ///   Looks up a localized string similar to Mật khẩu không chính xác.
         /// </summary>
         internal static string Login_IncorrectPassword {
             get {
