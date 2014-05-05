@@ -118,7 +118,8 @@ namespace FootballPitchesBooking.Controllers
         public ActionResult EditRival(int? id)
         {
             ReservationBO resvBO = new ReservationBO();
-
+            WebsiteBO webBO = new WebsiteBO();
+            ViewData["minTimeCancel"] = webBO.GetConfigByName("MinTimeCancel").Value;
             try
             {
                 Reservation resv = resvBO.GetReservationById((int)id);
@@ -142,6 +143,8 @@ namespace FootballPitchesBooking.Controllers
         public ActionResult EditRival(FormCollection form, int id)
         {
             ReservationBO resvBO = new ReservationBO();
+            WebsiteBO webBO = new WebsiteBO();
+            ViewData["minTimeCancel"] = webBO.GetConfigByName("MinTimeCancel").Value;
             string fullName = form["FullName"];
             string phone = form["PhoneNumber"];
             string email = form["Email"];

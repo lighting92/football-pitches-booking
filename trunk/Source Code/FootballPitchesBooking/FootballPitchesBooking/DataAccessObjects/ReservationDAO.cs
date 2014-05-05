@@ -36,7 +36,7 @@ namespace FootballPitchesBooking.DataAccessObjects
             double time = DateTime.Now.Hour + (DateTime.Now.Minute / 60.0);
             return db.Reservations.Where(r => r.NeedRival == true && r.RivalId == null && r.RivalName.Equals(null) &&
                 ((r.Date.Date.CompareTo(DateTime.Now.Date) > 0) || (r.Date.Date.CompareTo(DateTime.Now.Date) == 0
-                 && r.StartTime > time)) && r.RivalStatus.Equals("Waiting")
+                 && r.StartTime > time)) && r.RivalStatus.Equals("Waiting") && r.Status.Equals("Approved")
                    ).OrderBy(r => r.Date).ThenBy(r => r.StartTime).ToList();
         }
 
