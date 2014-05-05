@@ -39,7 +39,8 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr id="row_@item.Id">
+                string cssClass = item.Status.ToLower().Equals("unread") ? "unread" : "read";
+                <tr class="@cssClass" id="row_@item.Id">
                     <td>
                         @item.CreateDate.Date.ToShortDateString()
                     </td>
@@ -52,15 +53,17 @@
 
                     @if (item.Status.ToLower().Equals("unread"))
                     {
-                        <td><label>Chưa đọc</label></td>
+                        <td>
+                            <label>Chưa đọc</label></td>
                         
                     }
                     else
                     {
-                        <td><label>Đã đọc</label></td>
+                        <td>
+                            <label>Đã đọc</label></td>
                     }
                     <td style="text-align: center">
-                        <label style="display:none">Không</label>
+                        <label style="display: none">Không</label>
                         <input type="checkbox" data-nid="@item.Id" onchange="checkbox(this)" value="@item.Id"/>
                     </td>
                 </tr>
@@ -84,7 +87,7 @@
         jQuery.each(checks, function (index, obj) {
             jQuery(obj).attr("checked", "checked");
             jQuery(obj).attr("name", "ids[]");
-            jQuery(obj).parent().find("label").html("Chọn");      
+            jQuery(obj).parent().find("label").html("Chọn");
             table.fnUpdate($(obj).parent().html(), $("tr#row_" + obj.value)[0], 4, false, false);
         });
     }

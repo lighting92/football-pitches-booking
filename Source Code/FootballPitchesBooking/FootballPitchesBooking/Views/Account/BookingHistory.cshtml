@@ -18,6 +18,16 @@
             <th style="text-align:center">TRẠNG THÁI</th>
             <th style="text-align:center"></th>
         </tr>
+         <tr>
+            <th style="text-align:center">NGÀY ĐÁ</th>
+            <th style="text-align:center">GIỜ BẮT ĐẦU</th>
+            <th style="text-align:center">THỜI LƯỢNG</th>
+            <th style="text-align:center; min-width:70px;">SÂN BÓNG</th>
+            <th style="text-align:center">ĐỊA CHỈ</th>
+            <th style="text-align:center">GIAO HỮU</th>
+            <th style="text-align:center">TRẠNG THÁI</th>
+            <th style="text-align:center"></th>
+        </tr>
     </thead>
     <tbody>
         @if (Model != null && Model.Count > 0)
@@ -68,3 +78,28 @@
         }
     </tbody>
 </table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('table').dataTable({
+            aoColumnDefs: [
+              {
+                  bSortable: false,
+                  aTargets: [-1]
+              }
+            ],
+            "aaSorting": []
+        }).columnFilter({
+            sPlaceHolder: "head:after",
+            aoColumns: [
+                { type: "date-range" },
+                { type: "text" },
+                { type: "select", values: ['60 phút', '90 phút', '120 phút', '150 phút', '180 phút'] },
+                { type: "text" },
+                { type: "text" },
+                { type: "select", values: ['Không tìm', 'Đang tìm', 'Đã có đội', 'Có đội yêu cầu'] },
+                { type: "select", values: ['Đã xác nhận', 'Bị từ chối', 'Đang chờ xét', 'Đã bị hủy'] },
+                null
+            ]
+        });
+    });
+</script>

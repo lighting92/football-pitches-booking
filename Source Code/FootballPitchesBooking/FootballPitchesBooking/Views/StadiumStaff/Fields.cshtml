@@ -23,6 +23,14 @@
                 <th>TRẠNG THÁI HOẠT ĐỘNG</th>
                 <th></th>
             </tr>
+            <tr>
+                <th>TÊN SÂN</th>
+                <th>KIỂU SÂN</th>
+                <th>TÊN SÂN CHA</th>
+                <th>BẢNG GIÁ</th>
+                <th>TRẠNG THÁI HOẠT ĐỘNG</th>
+                <th></th>
+            </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.Fields)
@@ -53,6 +61,30 @@
             }
         </tbody>
     </table>
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $('table').dataTable({
+            aoColumnDefs: [
+              {
+                  bSortable: false,
+                  aTargets: [-1]
+              }
+            ],
+            "aaSorting": []
+        }).columnFilter({
+            sPlaceHolder: "head:after",
+            aoColumns: [
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "select", values: ['Đang hoạt động', 'Không hoạt động'] },
+                null
+            ]
+        });
+    });
+</script>
+
     }
     else
     {
@@ -63,3 +95,6 @@ else
 {
     <h3>@Model.ErrorMessage</h3>
 }
+<br />
+<br />
+<br />

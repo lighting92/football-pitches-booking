@@ -35,6 +35,11 @@
                 <th>MÔ TẢ</th>
                 <th></th>
             </tr>
+            <tr>
+                <th>TÊN BẢNG GIÁ</th>
+                <th>MÔ TẢ</th>
+                <th></th>
+            </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.PriceTables)
@@ -47,6 +52,26 @@
             }
         </tbody>
     </table>
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $('table').dataTable({
+            aoColumnDefs: [
+              {
+                  bSortable: false,
+                  aTargets: [-1]
+              }
+            ],
+            "aaSorting": []
+        }).columnFilter({
+            sPlaceHolder: "head:after",
+            aoColumns: [
+                { type: "text" },
+                { type: "text" },
+                null
+            ]
+        });
+    });
+</script>
     }
     else
     {
@@ -57,3 +82,6 @@ else
 {
     <h3>@Model.ErrorMessage</h3>
 }
+<br />
+<br />
+<br />

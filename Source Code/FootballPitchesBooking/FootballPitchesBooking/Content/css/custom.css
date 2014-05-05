@@ -1,3 +1,14 @@
+tr.read
+{
+}
+tr.unread
+{
+    font-weight: bold;
+}
+    tr.unread label
+    {
+        font-weight: bold;
+    }
 .navbar.webstaffnav .container {
     max-width: 705px;
     height: auto;

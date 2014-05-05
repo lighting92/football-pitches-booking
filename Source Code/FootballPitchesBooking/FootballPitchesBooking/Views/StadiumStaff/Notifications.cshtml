@@ -43,7 +43,8 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr id="row_@item.Id">
+                string cssClass = item.Status.ToLower().Equals("unread")?"unread":"read";
+                <tr class="@cssClass" id="row_@item.Id">
                     <td>
                         @item.CreateDate.Date.ToShortDateString()
                     </td>
