@@ -152,19 +152,36 @@
 </script>
 
 @{
-    int field = 0;
-    string date = "";
-    string time = "";
-    string duration = "";
+    int field = Model.Fields.FirstOrDefault().Id;
+    string date = DateTime.Now.ToString("dd/MM/yyyy");
+    string time = (DateTime.Now.Hour + 1).ToString() + ":00";
+    double duration = 1;
     string fullname = "";
     string phone = "";
     string email = "";
     string status = "";
-    string needRival = "";
+    bool needRival = false;
     string rivalname = "";
     string rivalphone = "";
     string rivalemail = "";
     string rivalstatus = "";
+
+    if (Model.Resv != null)
+    {
+        field = Model.Resv.FieldId;
+        date = Model.Resv.Date.ToString("dd/MM/yyyy");
+        time = string.Concat((int)Model.Resv.StartTime, ":", ((Model.Resv.StartTime - (int)Model.Resv.StartTime) * 60).ToString("00"));
+        duration = Model.Resv.Duration;
+        fullname = Model.Resv.FullName;
+        phone = Model.Resv.PhoneNumber;
+        email = Model.Resv.Email == null ? "" : Model.Resv.Email;
+        status = Model.Resv.Status;
+        needRival = Model.Resv.NeedRival;
+        rivalname = Model.Resv.RivalName == null ? "" : Model.Resv.RivalName;
+        rivalphone = Model.Resv.RivalPhone == null ? "" : Model.Resv.RivalPhone;
+        rivalemail = Model.Resv.RivalEmail == null ? "" : Model.Resv.RivalEmail;
+        rivalstatus = Model.Resv.RivalStatus == null ? "" : Model.Resv.RivalStatus;
+    }
 }
 
 <div class="row stadiumstaff-create-reservation">
@@ -190,7 +207,7 @@
                             <div class="span3">
                                 <label>
                                     Số sân
-                                    <select id="Fields" name="Fields">
+                                    <select id="Fields" name="Fields" data-cur="@field">
                                         @if (Model.Fields != null && Model.Fields.Count() > 0)
                                         {
                                             foreach (var item in Model.Fields)
@@ -202,6 +219,11 @@
                                             }
                                         }
                                     </select>
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $("#Fields").val($("#Fields").data("cur"));
+                                        });
+                                    </script>
                                 </label>
                             </div>
                             <div class="span6">
@@ -213,7 +235,7 @@
                             <div class="span3">
                                 <label>
                                     Ngày đặt
-                                    <input name="Date" id="Date" type="text" placeholder="Ngày đặt sân" required="required" value="@DateTime.Now.ToString("dd/MM/yyyy")">
+                                    <input name="Date" id="Date" type="text" placeholder="Ngày đặt sân" required="required" value="@date">
                                     <script>
                                         $('#Date').datepicker({
                                             format: "dd/mm/yyyy",
@@ -227,7 +249,7 @@
                                 <label>
                                     Giờ đặt<br />
                                     <div class="input-append bootstrap-timepicker">
-                                        <input name="StartTime" id="startTime" type="text" class="span2 input-time-collapse" value="@(DateTime.Now.Hour + 1):00" />
+                                        <input name="StartTime" id="startTime" type="text" class="span2 input-time-collapse" value="@time" />
                                         <script type="text/javascript">
                                             $(document).ready(function () {
                                                 $('#startTime').timepicker({
@@ -250,13 +272,18 @@
                             <div class="span3">
                                 <label>
                                     Thời lượng
-                                    <select id="duration" name="Duration">
+                                    <select id="duration" name="Duration" data-cur="@duration">
                                         <option value="1" selected="selected">60 phút</option>
                                         <option value="1.5">90 phút</option>
                                         <option value="2">120 phút</option>
                                         <option value="2.5">150 phút</option>
                                         <option value="3">180 phút</option>
                                     </select>
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $("#duration").val($("#duration").data("cur"));
+                                        });
+                                    </script>
                                 </label>
                             </div>
                         </div>
@@ -268,14 +295,14 @@
                             <div class="span3">
                                 <label>
                                     Tên đầy đủ
-                                    <input name="FullName" type="text" placeholder="Tên đầy đủ" required="required" value="">
+                                    <input name="FullName" type="text" placeholder="Tên đầy đủ" required="required" value="@fullname">
                                     <div class="alert alert-danger" id="FullName_Error" style="display: none"></div>
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
                                     Số điện thoại
-                                    <input name="PhoneNumber" id="phoneNumber" type="text" placeholder="Số điện thoại" required="required" value="">
+                                    <input name="PhoneNumber" id="phoneNumber" type="text" placeholder="Số điện thoại" required="required" value="@phone">
                                     <script type="text/javascript">
                                         $('#phoneNumber').keyup(function (event) {
                                             if (isNaN(String.fromCharCode(event.which))) {
@@ -290,7 +317,7 @@
                             <div class="span3">
                                 <label>
                                     Email
-                                    <input name="Email" type="text" placeholder="Email" value="">
+                                    <input name="Email" type="text" placeholder="Email" value="@email">
                                     <div class="alert alert-danger" id="Email_Error" style="display: none"></div>
                                 </label>
                             </div>
@@ -299,13 +326,17 @@
                             <div class="span3">
                                 <label>
                                     Cần đối thủ
-                                    <select id="NeedRival" name="NeedRival">
+                                    <select id="NeedRival" name="NeedRival" data-cur="@needRival">
                                         <option selected="selected" value="False">Không</option>
                                         <option value="True">Có</option>
                                     </select>
 
                                 </label>
                                 <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        $("#NeedRival").val($("#NeedRival").data("cur"));
+                                    });
+
                                     $(document).ready(function () {
                                         if ($('#NeedRival').val() == 'True') {
                                             $('#RivalInfo').show();
@@ -327,11 +358,16 @@
                             <div class="span3">
                                 <label>
                                     Trạng thái
-                                    <select id="Status" name="Status">
+                                    <select id="Status" name="Status" data-cur="@status">
                                         <option selected="selected" value="Approved">Đã xác nhận</option>
                                         <option value="Denied">Bị từ chối</option>
                                         <option value="Pending">Đang chờ xét</option>
                                     </select>
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $("#Status").val($("#Status").data("cur"));
+                                        });
+                                    </script>
                                 </label>
                             </div>
                         </div>
@@ -343,14 +379,14 @@
                             <div class="span3">
                                 <label>
                                     Tên đầy đủ
-                                    <input name="RivalName" type="text" placeholder="Tên đầy đủ" value="">
+                                    <input name="RivalName" type="text" placeholder="Tên đầy đủ" value="@rivalname">
                                     <div class="alert alert-danger" id="RivalName_Error" style="display: none"></div>
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
                                     Số điện thoại
-                                    <input name="RivalPhone" id="rivalPhone" type="text" placeholder="Điện thoại" value="">
+                                    <input name="RivalPhone" id="rivalPhone" type="text" placeholder="Điện thoại" value="@rivalphone">
                                     <script type="text/javascript">
                                         $('#rivalPhone').keyup(function (event) {
                                             if (isNaN(String.fromCharCode(event.which))) {
@@ -365,18 +401,26 @@
                             <div class="span3">
                                 <label>
                                     Email
-                                    <input name="RivalEmail" type="text" placeholder="Email" value="">
+                                    <input name="RivalEmail" type="text" placeholder="Email" value="@rivalemail">
                                     <div class="alert alert-danger" id="RivalEmail_Error" style="display: none"></div>
                                 </label>
                             </div>
                             <div class="span3">
                                 <label>
                                     Trạng thái
-                                    <select id="RivalStatus" name="RivalStatus">
+                                    <select id="RivalStatus" name="RivalStatus" data-cur="@rivalstatus">
                                         <option value="Approved">Đã xác nhận</option>
                                         <option value="Pending">Đang chờ xét</option>
                                         <option value="Waiting" selected="selected">Đang chờ</option>
                                     </select>
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            var rivalStatus = $("#RivalStatus").data("cur");
+                                            if (rivalStatus) {
+                                                $("#RivalStatus").val(rivalStatus);
+                                            }
+                                        });
+                                    </script>
                                 </label>
                             </div>
                         </div>

@@ -2476,6 +2476,7 @@ namespace FootballPitchesBooking.Controllers
             {
                 PromotionModel model = new PromotionModel();
                 model.Fields = stadiumBO.GetFieldsByStadiumId((int)stadium);
+                model.Discount = 0;
                 if (model.Fields != null && model.Fields.Count > 0)
                 {
                     return View(model);

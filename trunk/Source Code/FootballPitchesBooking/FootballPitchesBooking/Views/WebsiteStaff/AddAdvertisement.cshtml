@@ -40,6 +40,20 @@
     }
 </script>
 
+@{
+    string position = "Banner1";
+    string detail = "";
+    string expired = DateTime.Now.ToString("dd/MM/yyyy");
+    string status = "Active";
+    if(Model != null)
+    {
+        position = Model.Position;
+        detail = Model.AdvertiseDetail;
+        expired = Model.ExpiredDate.ToString("dd/MM/yyyy");
+        status = Model.Status;
+    }
+}
+
 <div class="row websitestaff-create-advertisement">
     <h2>THÊM QUẢNG CÁO</h2>
     <form action="AddAdvertisement" method="post" class="form-horizontal" enctype="multipart/form-data">
@@ -58,17 +72,22 @@
             <div class="span3" style="margin-bottom: 10px;">
                 <label>
                     Vị trí
-                <select id="Position" name="Position">
+                <select id="Position" name="Position" data-cur="@position">
                     <option value="Banner1" selected="selected">Biểu ngữ 1</option>
                     <option value="Banner2">Biểu ngữ 2</option>
                     <option value="Banner3">Biểu ngữ 3</option>
                 </select>
                 </label>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $("#Position").val($("#Position").data("cur"));
+                    });
+                </script>
             </div>
             <div class="span6" style="margin-bottom: 10px;">
                 <label>
                     Chi tiết quảng cáo
-                <textarea name="AdvertiseDetail" id="AdvertiseDetail" class="span6"></textarea>
+                <textarea name="AdvertiseDetail" id="AdvertiseDetail" class="span6">@detail</textarea>
                     <div class="alert alert-danger" id="AdvertiseDetail_Error" style="display: none"></div>
                 </label>
                 <script type="text/javascript">
@@ -92,7 +111,7 @@
                 <div class="span3" style="margin-bottom: 10px;">
                     <label>
                         Ngày hết hạn
-                <input name="ExpiredDate" id="ExpiredDate" type="text" placeholder="Ngày hết hạn" required="required" value="">
+                <input name="ExpiredDate" id="ExpiredDate" type="text" placeholder="Ngày hết hạn" required="required" value="@expired">
                         <script>
                             $('#ExpiredDate').datepicker({
                                 format: "dd/mm/yyyy",
@@ -107,11 +126,16 @@
                 <div class="span3" style="margin-bottom: 10px;">
                     <label>
                         Trạng thái
-                <select id="Status" name="Status">
-                    <option value="Active" selected="selected">Đang hoạt động</option>
-                    <option value="Deactive">Không hoạt động</option>
-                </select>
+                        <select id="Status" name="Status" data-cur="@status">
+                            <option value="Active" selected="selected">Đang hoạt động</option>
+                            <option value="Deactive">Không hoạt động</option>
+                        </select>
                     </label>
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $("#Status").val($("#Status").data("cur"));
+                        });
+                    </script>
                 </div>
             </div>
             <div class="span6">
