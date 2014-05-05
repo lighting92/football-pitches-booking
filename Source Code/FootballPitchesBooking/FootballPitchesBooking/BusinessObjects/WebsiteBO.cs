@@ -62,12 +62,19 @@ namespace FootballPitchesBooking.BusinessObjects
 
         public int UpdateAdvertisement(Advertisement ads)
         {
+            AdvertisementDAO adsDAO = new AdvertisementDAO();
+
             if (ads.ExpiredDate < DateTime.Now)
             {
-                return -1;
+                if (ads.Status == "Deactive")
+                {
+                    return adsDAO.UpdateAdvertisementStatus(ads.Id, "Deactive");
+                }
+                else
+                {
+                    return -1;
+                }
             }
-
-            AdvertisementDAO adsDAO = new AdvertisementDAO();
 
             if (ads.Status == "Active")
             {

@@ -66,6 +66,24 @@ namespace FootballPitchesBooking.DataAccessObjects
         }
 
 
+        public int UpdateAdvertisementStatus(int adsId, string status)
+        {
+            FPBDataContext db = new FPBDataContext();
+            Advertisement currentAdvertisement = db.Advertisements.Where(a => a.Id == adsId).FirstOrDefault();
+            currentAdvertisement.Status = status;
+
+            try
+            {
+                db.SubmitChanges();
+                return adsId;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+
         public int DeleteAdvertisement(int adsId)
         {
             FPBDataContext db = new FPBDataContext();

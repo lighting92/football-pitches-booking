@@ -892,6 +892,7 @@ namespace FootballPitchesBooking.Controllers
 
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult JoinRival(FormCollection form, int id)
         {

@@ -151,7 +151,7 @@
                                 </label>
                             </div>
                         </div>
-                        @if (!(Model.Resv.User != null && Model.Resv.User.UserName.Equals(User.Identity.Name)))
+                        @if (!(Model.Resv.User != null && Model.Resv.User.UserName.Equals(User.Identity.Name)) && User.Identity.IsAuthenticated)
                         {
                                         
                             <div class="row">
@@ -223,7 +223,7 @@
                             <div class="row">
                                 <div class="span9 pull-right">
                                     <p>
-                                        <button class="btn btn-primary book-now pull-right groupbtn" type="button" onclick="window.location = '/StadiumStaff/Reservations'">Huỷ bỏ</button>
+                                        <button class="btn btn-primary book-now pull-right groupbtn" type="button" onclick="window.location = '/Stadium/Rivals'">Huỷ bỏ</button>
                                         <button class="btn btn-primary book-now pull-right groupbtn" type="submit" id="joinRival" name="JoinRival">Cáp kèo</button>
                                     </p>
                                 </div>
@@ -231,7 +231,7 @@
                         }
                         else
                         {
-                        <button class="btn btn-primary book-now pull-right groupbtn" id="BackBtn" type="button" onclick="window.location = '/StadiumStaff/Reservations'">Quay lại</button>
+                        <button class="btn btn-primary book-now pull-right groupbtn" id="BackBtn" type="button" onclick="window.location = '/Stadium/Rivals'">Quay lại</button>
                         }
                     </fieldset>
                 </form>

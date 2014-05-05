@@ -1879,7 +1879,7 @@ namespace FootballPitchesBooking.BusinessObjects
         public int UpdatePromotion(Promotion promotion)
         {
             PromotionDAO promotionDAO = new PromotionDAO();
-            if (!promotion.IsActive && (promotion.PromotionTo <= DateTime.Now || promotion.PromotionTo < promotion.PromotionFrom))
+            if (!promotion.IsActive && (promotion.PromotionTo <= DateTime.Now))
             {
                 return promotionDAO.UpdatePromotionStatus(promotion.Id, false);
             }

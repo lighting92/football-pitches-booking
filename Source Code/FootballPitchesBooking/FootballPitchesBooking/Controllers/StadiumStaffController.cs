@@ -2060,21 +2060,24 @@ namespace FootballPitchesBooking.Controllers
                 model.ErrorMessages.Add(Resources.Form_EmptyFields);
             }
 
-            if (model.Resv.RivalStatus.Equals("Waiting"))
+            if (model.Resv.NeedRival && !string.IsNullOrEmpty(model.Resv.RivalStatus))
             {
-                if (!string.IsNullOrWhiteSpace(model.Resv.RivalName) || !string.IsNullOrWhiteSpace(model.Resv.RivalPhone) || !string.IsNullOrWhiteSpace(model.Resv.RivalEmail))
+                if (model.Resv.RivalStatus.Equals("Waiting"))
                 {
-                    model.ErrorMessages.Add(Resources.Resv_RivalFinding);
+                    if (!string.IsNullOrWhiteSpace(model.Resv.RivalName) || !string.IsNullOrWhiteSpace(model.Resv.RivalPhone) || !string.IsNullOrWhiteSpace(model.Resv.RivalEmail))
+                    {
+                        model.ErrorMessages.Add(Resources.Resv_RivalFinding);
+                    }
+                    model.Resv.RivalName = null;
+                    model.Resv.RivalPhone = null;
+                    model.Resv.RivalEmail = null;
                 }
-                model.Resv.RivalName = null;
-                model.Resv.RivalPhone = null;
-                model.Resv.RivalEmail = null;
-            }
-            else
-            {
-                if ((string.IsNullOrWhiteSpace(model.Resv.RivalName) || string.IsNullOrWhiteSpace(model.Resv.RivalPhone)))
+                else
                 {
-                    model.ErrorMessages.Add(Resources.Resv_RivalRequire);
+                    if ((string.IsNullOrWhiteSpace(model.Resv.RivalName) || string.IsNullOrWhiteSpace(model.Resv.RivalPhone)))
+                    {
+                        model.ErrorMessages.Add(Resources.Resv_RivalRequire);
+                    }
                 }
             }
 
@@ -2082,9 +2085,25 @@ namespace FootballPitchesBooking.Controllers
             {
                 UserBO userBO = new UserBO();
                 User staff = userBO.GetUserByUserName(User.Identity.Name);
-
+                Promotion promotion = stadiumBO.GetPromotionByField(model.Resv.FieldId, model.Resv.Date);
                 model.Resv.Price = stadiumBO.CalculatePrice(stadiumBO.GetFieldById(model.Resv.FieldId), model.Resv.Date, model.Resv.StartTime, model.Resv.Duration)[0];
+                if (promotion != null)
+                {
+                    model.Resv.Discount = promotion.Discount;
+                }
                 model.Resv.Approver = staff.Id;
+                Guid g = Guid.NewGuid();
+                string verCode = Convert.ToBase64String(g.ToByteArray());
+                verCode = verCode.Replace("=", "");
+                verCode = verCode.Replace("+", "");
+                verCode = verCode.ToUpper();
+                while (verCode.Length > 6)
+                {
+                    Random r = new Random((int)DateTime.Now.Ticks);
+                    verCode = verCode.Remove(r.Next(verCode.Length), 1);
+                }
+                model.Resv.VerifyCode = verCode;
+                model.Resv.CreatedDate = DateTime.Now;
 
                 if (model.Resv.NeedRival)
                 {
@@ -2259,8 +2278,12 @@ namespace FootballPitchesBooking.Controllers
             {
                 UserBO userBO = new UserBO();
                 User staff = userBO.GetUserByUserName(User.Identity.Name);
-
+                Promotion promotion = stadiumBO.GetPromotionByField(model.Resv.FieldId, model.Resv.Date);
                 model.Resv.Price = stadiumBO.CalculatePrice(stadiumBO.GetFieldById(model.Resv.FieldId), model.Resv.Date, model.Resv.StartTime, model.Resv.Duration)[0];
+                if (promotion != null)
+                {
+                    model.Resv.Discount = promotion.Discount;
+                } 
                 model.Resv.Approver = staff.Id;
 
                 if (model.Resv.NeedRival)
@@ -2270,7 +2293,6 @@ namespace FootballPitchesBooking.Controllers
                         model.Resv.RivalFinder = staff.Id;
                     }
                 }
-
 
                 int result = resvBO.UpdateReservation(model.Resv);
 
