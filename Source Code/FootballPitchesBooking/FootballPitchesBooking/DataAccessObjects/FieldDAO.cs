@@ -39,7 +39,7 @@ namespace FootballPitchesBooking.DataAccessObjects
             catch (Exception)
             {
                 return 0;
-            }            
+            }
         }
 
         public int UpdateField(Field field)
@@ -73,8 +73,8 @@ namespace FootballPitchesBooking.DataAccessObjects
                   || (f.Stadium.OpenTime > f.Stadium.CloseTime && f.Stadium.OpenTime > startTime && f.Stadium.CloseTime >= startTime + duration)
                   )).ToList();
 
-            var availableFields = fields.Where(f => f.Reservations.Where(r => !r.Status.Equals("Canceled") && (r.Date.Date.CompareTo(startDate.Date) == 0)
-                && ((r.StartTime == startTime)
+            var availableFields = fields.Where(f => f.Reservations.Where(r => !r.Status.Equals("Canceled") && !r.Status.Equals("Notcome") && !r.Status.Equals("Denied")
+                && (r.Date.Date.CompareTo(startDate.Date) == 0) && ((r.StartTime == startTime)
                 || (r.StartTime < startTime && (r.StartTime + r.Duration) > startTime)
                 || (startTime < r.StartTime) && (startTime + duration) > r.StartTime)).Count() == 0).ToList();
 
@@ -85,15 +85,15 @@ namespace FootballPitchesBooking.DataAccessObjects
         {
             FPBDataContext db = new FPBDataContext();
             var fields = db.Fields.Where(f => f.StadiumId == stadiumId && f.Stadium.IsActive
-                && f.FieldType == fieldType && f.IsActive 
+                && f.FieldType == fieldType && f.IsActive
                 && ((f.Stadium.OpenTime == f.Stadium.CloseTime)
                   || (f.Stadium.OpenTime < f.Stadium.CloseTime && f.Stadium.OpenTime <= startTime && f.Stadium.CloseTime >= startTime + duration)
                   || (f.Stadium.OpenTime > f.Stadium.CloseTime && f.Stadium.OpenTime <= startTime && f.Stadium.CloseTime + 24 >= startTime + duration)
                   || (f.Stadium.OpenTime > f.Stadium.CloseTime && f.Stadium.OpenTime > startTime && f.Stadium.CloseTime >= startTime + duration)
                   )).ToList();
 
-            var availableFields = fields.Where(f => f.Reservations.Where(r => !r.Status.Equals("Canceled") && (r.Date.Date.CompareTo(startDate.Date) == 0)
-                && ((r.StartTime == startTime)
+            var availableFields = fields.Where(f => f.Reservations.Where(r => !r.Status.Equals("Canceled") && !r.Status.Equals("Notcome") && !r.Status.Equals("Denied")
+                && (r.Date.Date.CompareTo(startDate.Date) == 0) && ((r.StartTime == startTime)
                 || (r.StartTime < startTime && (r.StartTime + r.Duration) > startTime)
                 || (startTime < r.StartTime) && (startTime + duration) > r.StartTime)).Count() == 0).ToList();
 
@@ -103,14 +103,15 @@ namespace FootballPitchesBooking.DataAccessObjects
         public bool CheckAvailableField(int fieldId, DateTime date, double startTime, double duration, int reservationId)
         {
             FPBDataContext db = new FPBDataContext();
-            Field field = db.Reservations.Where(r => r.FieldId == fieldId && r.Id != reservationId && r.Date.Date == date.Date &&
-                !r.Status.Equals("Canceled") && !r.Status.Equals("Notcome") && !r.Status.Equals("Denied") &&
-                ((r.StartTime <= startTime && (r.StartTime + duration) >= startTime) || //start time của order nằm giữa start time của reservation và end time (starttime + duration)
-                r.StartTime >= startTime && r.StartTime <= startTime + duration)).Select(r => r.Field).FirstOrDefault();
-            if (field == null)
+            Field field = db.Fields.Where(f => f.Id == fieldId).FirstOrDefault();
+            if (field.Reservations.Where(r => !r.Status.Equals("Canceled") && !r.Status.Equals("Notcome") && !r.Status.Equals("Denied")
+                && (r.Date.Date.CompareTo(date.Date) == 0) && ((r.StartTime == startTime)
+                || (r.StartTime < startTime && (r.StartTime + r.Duration) > startTime)
+                || (startTime < r.StartTime) && (startTime + duration) > r.StartTime)).Count() == 0)
             {
                 return true;
             }
+
             return false;
         }
     }
