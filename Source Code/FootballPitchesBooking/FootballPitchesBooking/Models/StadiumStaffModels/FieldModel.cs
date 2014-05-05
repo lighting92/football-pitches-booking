@@ -12,5 +12,6 @@ namespace FootballPitchesBooking.Models.StadiumStaffModels
         public int FieldType { get; set; }
         public string Parent { get; set; }
         public bool IsActive { get; set; }
+        public FieldPrice FieldPrice { get; set; }
     }
 }

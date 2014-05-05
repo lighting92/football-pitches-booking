@@ -6,6 +6,10 @@
 {
     margin-bottom: 15px;
 }
+.inactiverow
+{
+    opacity: 0.7;
+}
 .btn-report
 {
     color: white;
@@ -24,7 +28,7 @@
 }
 .table-hover tbody tr:hover td,
 .table-hover tbody tr:hover th {
-  background-color: #9fff9f;
+  background-color: #f1ffa3;
 }
 .date_range_filter.form-control.hasDatepicker
 {

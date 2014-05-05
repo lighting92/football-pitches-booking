@@ -18,7 +18,8 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            string cssClass = item.IsActive ? "activerow" : "inactiverow";
+            <tr class="@cssClass">
                 <td>@item.Name</td>
                 <td>@item.Street, @item.Ward, @item.District</td>
                 <td>@item.ExpiredDate.ToShortDateString()</td>

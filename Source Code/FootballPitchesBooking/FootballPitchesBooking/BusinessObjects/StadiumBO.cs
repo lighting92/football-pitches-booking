@@ -1413,6 +1413,19 @@ namespace FootballPitchesBooking.BusinessObjects
             return result;
         }
 
+        public int DeleteFieldPrice(FieldPrice fp)
+        {
+            if (fp.Fields.Count() > 0)
+            {
+                return -1;
+            }
+            else
+            {
+                FieldPriceDAO fpDAO = new FieldPriceDAO();
+                return fpDAO.DeleteFieldPrice(fp);
+            }
+        }
+
         public int CreateField(Field field)
         {
             FieldDAO fieldDAO = new FieldDAO();
@@ -1670,7 +1683,14 @@ namespace FootballPitchesBooking.BusinessObjects
                         PriceTable temp = new PriceTable();
                         temp.TimeFrom = g;
                         temp.Price = dp.Price;
-                        temp.TimeTo = dp.TimeTo;
+                        if (dp.TimeTo > startTime + duration)
+                        {
+                            temp.TimeTo = startTime + duration;
+                        }
+                        else
+                        {
+                            temp.TimeTo = dp.TimeTo;
+                        }                        
                         relevants.Add(temp);
                         g = temp.TimeTo;
                         comp = true;
