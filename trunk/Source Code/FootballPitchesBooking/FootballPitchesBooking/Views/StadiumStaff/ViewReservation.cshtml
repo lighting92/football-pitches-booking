@@ -112,7 +112,7 @@
                         <div class="span3">
                             <label>
                                 Thành tiền
-                                <input type="text" required="required" value="@(Model.Resv.Discount == null ? Model.Resv.Price : (int)(Model.Resv.Price * (double)Model.Resv.Discount / 100))" disabled="disabled">
+                                <input type="text" required="required" value="@(Model.Resv.Discount == null ? Model.Resv.Price : (int)(Model.Resv.Price - (Model.Resv.Price * (double)Model.Resv.Discount / 100)))" disabled="disabled">
                             </label>
                         </div>
                         <div class="span3">

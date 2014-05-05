@@ -18,7 +18,7 @@ namespace FootballPitchesBooking.Utilities
         public double TimeToDouble(DateTime time)
         {
             double dt = 0;
-            dt = time.Hour + (time.Minute / 60);
+            dt = time.Hour + (Convert.ToDouble(time.Minute) / 60);
             return dt;
         }
 
@@ -36,7 +36,7 @@ namespace FootballPitchesBooking.Utilities
             {
                 if (time[i] == ':')
                 {
-                    dt = Int32.Parse(time.Substring(0, i)) + (Int32.Parse(time.Substring(i + 1, time.Length - (i + 1))) / 60); ;
+                    dt = Int32.Parse(time.Substring(0, i)) + (Double.Parse(time.Substring(i + 1, time.Length - (i + 1))) / 60); ;
                 }
             }
             return dt;

@@ -25,7 +25,7 @@
 
 
         if (date == "") {
-            $("#Date_Error").append("Xin vui lòng chọn ngày đặt sân");
+            $("#Date_Error").text("Xin vui lòng chọn ngày đặt sân");
             $("#Date_Error").css("display", "block");
             flag++;
         }
@@ -35,7 +35,7 @@
         }
 
         if (startTime == "") {
-            $("#StartTime_Error").append("Xin vui lòng chọn giờ đặt sân");
+            $("#StartTime_Error").text("Xin vui lòng chọn giờ đặt sân");
             $("#StartTime_Error").css("display", "block");
             flag++;
         }
@@ -209,7 +209,7 @@
                             </div>
                             <div class="span3">
                                 <label>
-                                    Giờ đặt
+                                    Giờ đặt<br />
                                     <div class="input-append bootstrap-timepicker">
                                         <input name="StartTime" id="startTime" type="text" class="span2 input-time-collapse" value="@(DateTime.Now.Hour + 1):00" />
                                         <script type="text/javascript">

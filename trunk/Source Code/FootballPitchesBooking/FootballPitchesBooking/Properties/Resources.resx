@@ -205,7 +205,7 @@
     <value>Sân không phục vụ giờ này</value>
   </data>
   <data name="Resv_TimeOver" xml:space="preserve">
-    <value>Thời gian đặt sân phải muộn hơn thời gian hiện tại ít nhất 1 giờ</value>
+    <value>Thời gian đặt sân không được sớm hơn thời gian hiện tại</value>
   </data>
   <data name="Ads_ExpiredTimeOver" xml:space="preserve">
     <value>Thời gian quảng cáo đã kết thúc, xin vui lòng chọn thời gian quảng cáo khác</value>
