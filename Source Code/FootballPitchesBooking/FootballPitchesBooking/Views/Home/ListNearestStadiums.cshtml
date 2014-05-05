@@ -27,7 +27,7 @@
                             <th style="width: 150px;">TÊN SÂN BÓNG</th>
                             <th>ĐỊA CHỈ</th>
                             <th style="width: 110px;">SỐ ĐIỆN THOẠI</th>
-                            <th style="width: 90px;">KHUYẾN MÃI</th>
+                            <th style="width: 90px;">KHOẢNG CÁCH (Km)</th>
                             <th style="width: 70px;"></th>
                         </tr>
                     </thead>
@@ -49,10 +49,7 @@
                                 <td>@Model.NearestStadiums[i].Stadium.Street, @Model.NearestStadiums[i].Stadium.Ward, @Model.NearestStadiums[i].Stadium.District</td>
                                 <td>@Model.NearestStadiums[i].Stadium.Phone</td>
                                 <td>    
-                                    @if (Model.NearestStadiums[i].HighestPromotion != null)
-                        {                        
-                            <p>Giảm giá @Model.NearestStadiums[i].HighestPromotion.Discount%</p>                        
-                        }                                
+                                    @Model.NearestStadiums[i].Distance                         
                                 </td>
                                 <td><a href="~/Stadium/Book?Stadium=@Model.NearestStadiums[i].Stadium.Id">
                                     <button class="btn-small btn-success">Đặt sân</button></a></td>

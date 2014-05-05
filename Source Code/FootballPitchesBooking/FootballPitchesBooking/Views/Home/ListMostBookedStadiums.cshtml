@@ -27,7 +27,7 @@
                             <th style="width: 150px;">TÊN SÂN BÓNG</th>
                             <th>ĐỊA CHỈ</th>
                             <th style="width: 110px;">SỐ ĐIỆN THOẠI</th>
-                            <th style="width: 90px;">KHUYẾN MÃI</th>
+                            <th style="width: 90px;">SỐ LẦN ĐẶT SÂN (Lần)</th>
                             <th style="width: 70px;"></th>
                         </tr>
                     </thead>
@@ -49,30 +49,7 @@
                                 <td>@Model.MostBookedStadiums[i].Stadium.Street, @Model.MostBookedStadiums[i].Stadium.Ward, @Model.MostBookedStadiums[i].Stadium.District</td>
                                 <td>@Model.MostBookedStadiums[i].Stadium.Phone</td>
                                 <td class="rating-point">
-                                    @for (int p = 0; p < (int)Model.MostBookedStadiums[i].CorrespondingRate / 100; p++)
-                                    {
-                                        <img src="~/Content/images/rating-star/100.png" />
-                                    }
-                                    @if (Model.MostBookedStadiums[i].CorrespondingRate / 100 - (int)Model.MostBookedStadiums[i].CorrespondingRate / 100 >= 0.75)
-                                    {
-                                        <img src="~/Content/images/rating-star/75.png" />
-                                    }
-                                    else if (Model.MostBookedStadiums[i].CorrespondingRate / 100 - (int)Model.MostBookedStadiums[i].CorrespondingRate / 100 >= 0.50)
-                                    {
-                                        <img src="~/Content/images/rating-star/50.png" />
-                                    }
-                                    else if (Model.MostBookedStadiums[i].CorrespondingRate / 100 - (int)Model.MostBookedStadiums[i].CorrespondingRate / 100 >= 0.25)
-                                    {
-                                        <img src="~/Content/images/rating-star/25.png" />
-                                    }
-                                    else if (Model.MostBookedStadiums[i].CorrespondingRate / 100 - (int)Model.MostBookedStadiums[i].CorrespondingRate / 100 > 0.00)
-                                    {
-                                        <img src="~/Content/images/rating-star/00.png" />
-                                    }
-                                    @for (int p = 1; p <= (5 - Model.MostBookedStadiums[i].CorrespondingRate / 100); p++)
-                                    {
-                                        <img src="~/Content/images/rating-star/00.png" />
-                                    }
+                                    @Model.MostBookedStadiums[i].BookedCount
                                 </td>
                                 <td><a href="~/Stadium/Book?Stadium=@Model.MostBookedStadiums[i].Stadium.Id">
                                     <button class="btn-small btn-success">Đặt sân</button></a></td>
