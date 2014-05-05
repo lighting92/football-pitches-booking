@@ -210,7 +210,7 @@
 
     @if (Model.BestStadiums != null && Model.BestStadiums.Count() != 0)
     {
-        <h4>Sân tốt nhất cho bạn</h4> 
+        <h4><a href="/Home/ListBestStadium">Sân tốt nhất cho bạn</a></h4> 
         for (int i = 0; i < Model.BestStadiums.Count(); i++)
         {
 
@@ -256,7 +256,7 @@
     @if (Model.MostBookedStadiums != null && Model.MostBookedStadiums.Count() != 0)
     {
         <hr />
-        <h4><span>S</span>ân Bạn Hay Đặt</h4> 
+        <h4><a href="/Home/ListMostBookedStadiums">Sân Bạn Hay Đặt</a></h4> 
         for (int i = 0; i < Model.MostBookedStadiums.Count(); i++)
         {
             var item = Model.MostBookedStadiums[i];
@@ -299,7 +299,7 @@
     @if (Model.NearestStadiums != null && Model.NearestStadiums.Count() != 0)
     {
         <hr />
-        <h4><span>S</span>ân Gần nhà bạn</h4>  
+        <h4><a href="/Home/ListNearestStadiums">Sân Gần nhà bạn</h4>  
         for (int i = 0; i < Model.NearestStadiums.Count(); i++)
         {
             var item = Model.NearestStadiums[i];
@@ -344,7 +344,7 @@
     {
         
         <hr />
-        <h4><span>S</span>ân Đang Khuyến mãi</h4>
+        <h4><a href="/Home/ListPromotedStadiums">Sân Đang Khuyến mãi</a></h4>
        
         for (int i = 0; i < Model.PromotionStadiums.Count(); i++)
         {
