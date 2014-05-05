@@ -1,0 +1,100 @@
+﻿@model FootballPitchesBooking.Models.RecommendationModels.RecommendationModel
+@{
+    ViewBag.Title = "ListMostBookedStadiums";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Sân bóng bạn hay đặt</h2>
+<div class="row">
+    <div class="span12">
+        @if (Model.MostBookedStadiums != null)
+        {
+            if (Model.MostBookedStadiums.Count > 0)
+            {
+            <div class="row no-margin">
+                <table class="table table-condensed table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th style="width: 150px;"></th>
+                            <th style="width: 150px;">TÊN SÂN BÓNG</th>
+                            <th>ĐỊA CHỈ</th>
+                            <th style="width: 110px;">SỐ ĐIỆN THOẠI</th>
+                            <th style="width: 90px;"></th>
+                            <th style="width: 70px;"></th>
+                        </tr>
+                        <tr>
+                            <th style="width: 150px;">HÌNH ẢNH</th>
+                            <th style="width: 150px;">TÊN SÂN BÓNG</th>
+                            <th>ĐỊA CHỈ</th>
+                            <th style="width: 110px;">SỐ ĐIỆN THOẠI</th>
+                            <th style="width: 90px;">KHUYẾN MÃI</th>
+                            <th style="width: 70px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.MostBookedStadiums.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    @if (Model.MostBookedStadiumsImages[i] != null)
+                                    {
+                                        <img src="/Content/images/@Model.MostBookedStadiumsImages[i].Path" style="width: 150px; height: 70px;"/>
+                                    }
+                                    else
+                                    {
+                                        <img src="/Content/images/stadium.jpg" />
+                                    }
+                                </td>
+                                <td><a href="/Stadium/Details/@Model.MostBookedStadiums[i].Stadium.Id">@Model.MostBookedStadiums[i].Stadium.Name</a></td>
+                                <td>@Model.MostBookedStadiums[i].Stadium.Street, @Model.MostBookedStadiums[i].Stadium.Ward, @Model.MostBookedStadiums[i].Stadium.District</td>
+                                <td>@Model.MostBookedStadiums[i].Stadium.Phone</td>
+                                <td>    
+                                    @if (Model.MostBookedStadiums[i].HighestPromotion != null)
+                        {                        
+                            <p>Giảm giá @Model.MostBookedStadiums[i].HighestPromotion.Discount%</p>                        
+                        }                                
+                                </td>
+                                <td><a href="~/Stadium/Book?Stadium=@Model.MostBookedStadiums[i].Stadium.Id">
+                                    <button class="btn-small btn-success">Đặt sân</button></a></td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+            </div>
+            }
+            else
+            {
+            <p>Không có sân bóng nào được tìm thấy.</p>
+            }
+        }
+        else if (Model == null)
+        {
+            <p>Hiện tại không có sân bóng nào trên hệ thống.</p>
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('table').dataTable({
+            aoColumnDefs: [
+              {
+                  bSortable: false,
+                  aTargets: [-1, -2, -6]
+              }
+            ],
+            "aaSorting": []
+        }).columnFilter({
+            sPlaceHolder: "head:after",
+            aoColumns: [
+                null,
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                null,
+                null
+            ]
+        });
+    });
+</script>

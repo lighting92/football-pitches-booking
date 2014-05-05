@@ -1,0 +1,100 @@
+﻿@model FootballPitchesBooking.Models.RecommendationModels.RecommendationModel
+@{
+    ViewBag.Title = "ListBestStadium";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Sân tốt nhất cho bạn</h2>
+<div class="row">
+    <div class="span12">
+        @if (Model.BestStadiums != null)
+        {            
+            if (Model.BestStadiums.Count > 0)
+            {
+            <div class="row no-margin">
+                <table class="table table-condensed table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th style="width: 150px;"></th>
+                            <th style="width: 150px;">TÊN SÂN BÓNG</th>
+                            <th>ĐỊA CHỈ</th>
+                            <th style="width: 110px;">SỐ ĐIỆN THOẠI</th>
+                            <th style="width: 90px;"></th>
+                            <th style="width: 70px;"></th>
+                        </tr>
+                        <tr>
+                            <th style="width: 150px;">HÌNH ẢNH</th>
+                            <th style="width: 150px;">TÊN SÂN BÓNG</th>
+                            <th>ĐỊA CHỈ</th>
+                            <th style="width: 110px;">SỐ ĐIỆN THOẠI</th>
+                            <th style="width: 90px;">KHUYẾN MÃI</th>
+                            <th style="width: 70px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.BestStadiums.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    @if (Model.BestStadiumsImages[i] != null)
+                                    {
+                                        <img src="/Content/images/@Model.BestStadiumsImages[i].Path" style="width: 150px; height: 70px;"/>
+                                    }
+                                    else
+                                    {
+                                        <img src="/Content/images/stadium.jpg" />
+                                    }
+                                </td>
+                                <td><a href="/Stadium/Details/@Model.BestStadiums[i].Stadium.Id">@Model.BestStadiums[i].Stadium.Name</a></td>
+                                <td>@Model.BestStadiums[i].Stadium.Street, @Model.BestStadiums[i].Stadium.Ward, @Model.BestStadiums[i].Stadium.District</td>
+                                <td>@Model.BestStadiums[i].Stadium.Phone</td>
+                                <td>    
+                                    @if (Model.BestStadiums[i].HighestPromotion != null)
+                        {                        
+                            <p>Giảm giá @Model.BestStadiums[i].HighestPromotion.Discount%</p>                        
+                        }                                
+                                </td>
+                                <td><a href="~/Stadium/Book?Stadium=@Model.BestStadiums[i].Stadium.Id">
+                                    <button class="btn-small btn-success">Đặt sân</button></a></td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+            </div>
+            }
+            else
+            {
+            <p>Không có sân bóng nào được tìm thấy.</p>
+            }
+        }
+        else if (Model == null)
+        {
+            <p>Hiện tại không có sân bóng nào trên hệ thống.</p>
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('table').dataTable({
+            aoColumnDefs: [
+              {
+                  bSortable: false,
+                  aTargets: [-1, -2, -6]
+              }
+            ],
+            "aaSorting": []
+        }).columnFilter({
+            sPlaceHolder: "head:after",
+            aoColumns: [
+                null,
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                null,
+                null
+            ]
+        });
+    });
+</script>
