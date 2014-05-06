@@ -527,6 +527,7 @@
     <Content Include="Views\Home\ListNearestStadiums.cshtml" />
     <Content Include="Views\Home\ListPromotedStadiums.cshtml" />
     <Content Include="Views\StadiumStaff\PendingReservations.cshtml" />
+    <Content Include="Views\Home\ListRivals.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

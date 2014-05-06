@@ -127,6 +127,28 @@ namespace FootballPitchesBooking.Controllers
             return View(model);
         }
 
+        public ActionResult ListRivals()
+        {
+             var model = new RecommendationModel();
+             if (User.Identity.IsAuthenticated)
+             {
+                 string xmlFolderPath = Server.MapPath("/XMLUserDistance/");
+                 var distanceList = MapBO.GetStadiumDistanceFromUser(User.Identity.Name, xmlFolderPath);
+                 RecommendationBO recBO = new RecommendationBO();
+                 var rivals = recBO.FindRivals(User.Identity.Name, distanceList);
+                 if (rivals == null)
+                 {
+                     rivals = new List<RecommendRivalModel>();
+                 }
+                 if (rivals.Count() > 3)
+                 {
+                     rivals = rivals.ToList();
+                 }
+                 model.Rivals = rivals;
+             }
+             return View(model);
+        }
+
         public ActionResult ListBestStadium()
         { 
         
