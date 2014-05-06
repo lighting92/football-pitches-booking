@@ -10,6 +10,7 @@ using System.Web.Security;
 using FootballPitchesBooking.Properties;
 using System.Globalization;
 using FootballPitchesBooking.Utilities;
+using System.Text.RegularExpressions;
 
 
 namespace FootballPitchesBooking.Controllers
@@ -220,6 +221,13 @@ namespace FootballPitchesBooking.Controllers
         [Authorize]
         public ActionResult Book()
         {
+            UserBO userBO = new UserBO();
+            var punishment = userBO.GetActivePunishOfUser(User.Identity.Name);
+            if (punishment != null)
+            {
+                return View("PunishedBook", punishment);
+            }
+
             string strStadium = Request.QueryString["Stadium"];
             string strDate = Request.QueryString["StartDate"];
             string strTime = Request.QueryString["StartTime"];
@@ -238,7 +246,7 @@ namespace FootballPitchesBooking.Controllers
                         model.UserInfo = new BookingUserInfo();
                         model.Options = new BookingOptions();
 
-                        UserBO userBO = new UserBO();
+                        
                         var user = userBO.GetUserByUserName(User.Identity.Name);
 
                         model.UserInfo.FullName = user.FullName;
@@ -364,8 +372,27 @@ namespace FootballPitchesBooking.Controllers
                         model.UserInfo.Phone = form["PhoneNumber"];
                         model.UserInfo.Email = form["Email"];
 
+                        bool validEmail = false;
+
+                        if (!string.IsNullOrEmpty(model.UserInfo.Email))
+                        {
+                            Regex emailFormat = new Regex(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
+                            if (emailFormat.IsMatch(model.UserInfo.Email))
+                            {
+                                validEmail = true;
+                            }
+                            else
+                            {
+                                model.ErrorMessage = "Email sai định dạng";
+                            }
+                        }
+                        else
+                        {
+                            validEmail = true;
+                        }
+
                         if (!string.IsNullOrWhiteSpace(strDate) && !string.IsNullOrWhiteSpace(strTime) && !string.IsNullOrWhiteSpace(strDuration)
-                            && !string.IsNullOrWhiteSpace(strType))
+                            && !string.IsNullOrWhiteSpace(strType) && validEmail)
                         {
                             CultureInfo ci = new CultureInfo("vi-VN");
                             DateTime startDate;
@@ -508,6 +535,10 @@ namespace FootballPitchesBooking.Controllers
                             model.Options.FieldType = "5";
                             model.Options.ChosenField = "0";
                             model.ErrorMessage = "Bạn phải dùng mẫu bên dưới để đặt sân.";
+                            if (!validEmail)
+                            {
+                                model.ErrorMessage = model.ErrorMessage + " Email sai định dạng.";
+                            }
                         }
                         return View(model);
                     }

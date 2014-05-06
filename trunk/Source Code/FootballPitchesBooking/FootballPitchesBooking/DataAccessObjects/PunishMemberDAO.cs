@@ -35,6 +35,12 @@ namespace FootballPitchesBooking.DataAccessObjects
             return db.PunishMembers.Where(p => p.UserId == userId).OrderByDescending(p => p.IsForever).ThenByDescending(p => p.ExpiredDate).FirstOrDefault();
         }
 
+        public PunishMember GetActivePunishOfMember(string userName)
+        {
+            FPBDataContext db = new FPBDataContext();
+            return db.PunishMembers.Where(p => p.User.UserName.ToLower().Equals(userName.ToLower()) && (p.ExpiredDate > DateTime.Now || p.IsForever != null && p.IsForever.Value)).FirstOrDefault();
+        }
+
 
         public PunishMember GetPunishMemberByUserName(string userName)
         {

@@ -1,6 +1,5 @@
 ﻿using FootballPitchesBooking.BusinessObjects;
 using FootballPitchesBooking.Models;
-using FootballPitchesBooking.Models.StadiumStaffModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,34 +40,6 @@ namespace FootballPitchesBooking.Controllers
                 message = "ERROR::Bạn đã báo đối thủ này không đến sân rồi.";
             }
             return Json(message);
-        }
-
-
-        public ActionResult ViewReservation(int? id)
-        {
-            ReservationBO resvBO = new ReservationBO();
-
-            try
-            {
-                ReservationModel model = new ReservationModel();
-                model.Resv = resvBO.GetReservationById((int)id);
-
-                if (model.Resv == null)
-                {
-                    return RedirectToAction("Reservations", "StadiumStaff");
-                }
-
-                model.Fields = model.Resv.Field.Stadium.Fields.ToList();
-                Stadium std = model.Resv.Field.Stadium;
-                model.StadiumName = std.Name;
-                model.StadiumAddress = string.Concat(std.Street, ", ", std.Ward, ", ", std.District);
-                return View(model);
-            }
-            catch (Exception)
-            {
-                return RedirectToAction("Reservations", "StadiumStaff");
-            }
-
         }
     }
 }

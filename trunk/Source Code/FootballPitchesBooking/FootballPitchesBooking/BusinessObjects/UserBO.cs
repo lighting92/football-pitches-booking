@@ -17,7 +17,6 @@ namespace FootballPitchesBooking.BusinessObjects
             return userDAO.GetAllUsers();
         }
 
-
         public List<User> GetUsers(string keyword)
         {
             return userDAO.GetUsers(keyword);
@@ -313,6 +312,12 @@ namespace FootballPitchesBooking.BusinessObjects
         {
             PunishMemberDAO punishDAO = new PunishMemberDAO();
             return punishDAO.GetPunishMemberByUserName(userName);
+        }
+
+        public PunishMember GetActivePunishOfUser(string userName)
+        {
+            PunishMemberDAO pmDAO = new PunishMemberDAO();
+            return pmDAO.GetActivePunishOfMember(userName);
         }
 
         public int PunishMember(string staffusername, string punishedUserName, DateTime? expiredDate, bool? isForever, string reason)

@@ -1,8 +1,8 @@
-﻿@model FootballPitchesBooking.Models.StadiumStaffModels.ReservationModel
+﻿@model FootballPitchesBooking.Models.WebsiteStaffModels.ReservationModel
 @{
     ViewBag.RESERVATION = "active";
     ViewBag.Title = "Chi Tiết Thông Tin Đơn Đặt Sân";
-    Layout = "~/Views/Shared/_StadiumStaffLayout.cshtml";
+    Layout = "~/Views/Shared/_WebsiteStaffLayout.cshtml";
 }
 
 <div class="row stadiumstaff-view-reservation">
@@ -238,7 +238,7 @@
                     <div class="row">
                         <div class="span9">
                             <p>
-                                <button class="btn btn-primary book-now groupbtn pull-right" type="button" onclick="window.location = '/StadiumStaff/Reservations/@Model.Fields.FirstOrDefault().StadiumId'">Quay lại</button>
+                                <button class="btn btn-primary book-now groupbtn pull-right" type="button" onclick="window.location = '/WebsiteStaff/Reports/'">Quay lại</button>
                             </p>
                             <br /><br />
                         </div>

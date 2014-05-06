@@ -270,14 +270,31 @@ namespace FootballPitchesBooking.Controllers
                     res.NeedRival = model.NeedRival;
                     res.RivalStatus = model.RivalStatus;
 
-                    if (resBO.UserUpdateReservation(res) > 0)
+                    bool valid = false;
+
+                    if (!string.IsNullOrEmpty(model.Email))
                     {
-                        model.SuccessMessage = Resources.Update_Success;
+                        Regex emailFormat = new Regex(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
+                        if (emailFormat.IsMatch(model.Email))
+                        {
+                            valid = true;
+                        }
+                        else
+                        {
+                            model.ErrorMessage = "Email sai định dạng";
+                        }
                     }
-                    else
+                    if (valid)
                     {
-                        model.ErrorMessage = "Cập nhật không thành công";
-                    }
+                        if (resBO.UserUpdateReservation(res) > 0)
+                        {
+                            model.SuccessMessage = Resources.Update_Success;
+                        }
+                        else
+                        {
+                            model.ErrorMessage = "Cập nhật không thành công";
+                        }
+                    }                   
                 }
                 else
                 {
