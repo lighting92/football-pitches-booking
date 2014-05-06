@@ -173,6 +173,7 @@
     <Compile Include="Models\WebsiteStaffModels\AdvertisementModel.cs" />
     <Compile Include="Models\WebsiteStaffModels\PunishMemberModel.cs" />
     <Compile Include="Models\WebsiteStaffModels\RankModel.cs" />
+    <Compile Include="Models\WebsiteStaffModels\ReservationModel.cs" />
     <Compile Include="Models\WebsiteStaffModels\UserModel.cs" />
     <Compile Include="Utilities\Utils.cs" />
     <Compile Include="BusinessObjects\WebsiteBO.cs" />
@@ -444,6 +445,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Report\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -528,6 +530,8 @@
     <Content Include="Views\Home\ListPromotedStadiums.cshtml" />
     <Content Include="Views\StadiumStaff\PendingReservations.cshtml" />
     <Content Include="Views\Home\ListRivals.cshtml" />
+    <Content Include="Views\Stadium\PunishedBook.cshtml" />
+    <Content Include="Views\WebsiteStaff\ViewReservation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

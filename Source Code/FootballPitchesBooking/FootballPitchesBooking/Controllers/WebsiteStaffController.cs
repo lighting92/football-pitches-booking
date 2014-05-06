@@ -693,7 +693,7 @@ namespace FootballPitchesBooking.Controllers
             {
                 checkParseError = true;
             }
-            
+
             rank.ErrorMessages = new List<string>();
 
             if (string.IsNullOrWhiteSpace(rank.RankName) || checkParseError)
@@ -1134,7 +1134,7 @@ namespace FootballPitchesBooking.Controllers
             }
             return Json(message);
         }
-        
+
         //
         public JsonResult EditCancelBookingTime(FormCollection form)
         {
@@ -1307,6 +1307,31 @@ namespace FootballPitchesBooking.Controllers
         #endregion STADIUM REVIEW
 
         #region REPORT/PUNISH MANAGEMENT
+        public ActionResult ViewReservation(int? id)
+        {
+            ReservationBO resvBO = new ReservationBO();
+
+            try
+            {
+                ReservationModel model = new ReservationModel();
+                model.Resv = resvBO.GetReservationById((int)id);
+
+                if (model.Resv == null)
+                {
+                    return RedirectToAction("Reservations", "StadiumStaff");
+                }
+
+                model.Fields = model.Resv.Field.Stadium.Fields.ToList();
+                Stadium std = model.Resv.Field.Stadium;
+                model.StadiumName = std.Name;
+                model.StadiumAddress = string.Concat(std.Street, ", ", std.Ward, ", ", std.District);
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Reports", "WebsiteStaff");
+            }
+        }
         public ActionResult Reports()
         {
             UserBO userBO = new UserBO();
@@ -1369,6 +1394,11 @@ namespace FootballPitchesBooking.Controllers
                 if (validExp)
                 {
                     exp = temp;
+                    if (exp.Value.CompareTo(DateTime.Now.Date) <= 0)
+                    {
+                        valid = false;
+                        model.ErrorMessages.Add("Không thể phạt thành viên tới ngày sớm hơn hoặc bằng ngày hôm nay");
+                    }
                 }
                 else
                 {
@@ -1429,6 +1459,7 @@ namespace FootballPitchesBooking.Controllers
             model.PunishedUserName = form["PunishedUserName"];
             model.PunishedUserName = pm.User.UserName;
             model.StaffUserName = pm.User1.UserName;
+            model.ErrorMessages = new List<string>();
 
             DateTime? exp = null;
             bool valid = true;
@@ -1449,6 +1480,11 @@ namespace FootballPitchesBooking.Controllers
                 if (validExp)
                 {
                     exp = temp;
+                    if (exp.Value.CompareTo(DateTime.Now.Date) <= 0)
+                    {
+                        valid = false;
+                        model.ErrorMessages.Add("Không thể phạt thành viên tới ngày sớm hơn hoặc bằng ngày hôm nay");
+                    }
                 }
                 else
                 {

@@ -17,22 +17,39 @@
                         <tr>
                             <th style="width: 150px;">TÊN SÂN BÓNG</th>
                             <th>ĐỊA CHỈ</th>
-                            <th>GIỜ ĐÁ</th>
+                            <th>NGÀY ĐÁ</th>
+                            <th>GIỜ BẮT ĐẦU</th>
+                            <th>THỜI LƯỢNG</th>
                             <th style="width: 150px;">TÊN CHỦ KÈO</th>
                             <th style="width: 110px;">SĐT CHỦ KÈO</th>
                             <th style="width: 70px;"></th>
                         </tr>
-
+                        <tr>
+                            <th style="width: 150px;">TÊN SÂN BÓNG</th>
+                            <th>ĐỊA CHỈ</th>
+                            <th>NGÀY ĐÁ</th>
+                            <th>GIỜ BẮT ĐẦU</th>
+                            <th>THỜI LƯỢNG</th>
+                            <th style="width: 150px;">TÊN CHỦ KÈO</th>
+                            <th style="width: 110px;">SĐT CHỦ KÈO</th>
+                            <th style="width: 70px;"></th>
+                        </tr>
                     </thead>
                     <tbody>
                         @for (int i = 0; i < Model.Rivals.Count; i++)
                         {
+                            string startH = ((int)Model.Rivals[i].Reservation.StartTime).ToString();
+                            startH = (startH.Length == 2) ? startH : "0" + startH;
+                            string startM = ((Model.Rivals[i].Reservation.StartTime - (int)Model.Rivals[i].Reservation.StartTime) * 60).ToString();
+                            startM = (startM.Length == 2) ? startM : "0" + startM;
                             <tr>
                                 <td>
                                     <a href="/Stadium/Details/@Model.Rivals[i].Reservation.Field.StadiumId">@Model.Rivals[i].Reservation.Field.Stadium.Name</a>
                                 </td>
                                 <td>@Model.Rivals[i].Reservation.Field.Stadium.Street, @Model.Rivals[i].Reservation.Field.Stadium.Ward, @Model.Rivals[i].Reservation.Field.Stadium.District</td>
-                                <td>@Model.Rivals[i].Reservation.StartTime Giờ<br /> Ngày @Model.Rivals[i].Reservation.Date.ToShortDateString()</td>
+                                <td>@Model.Rivals[i].Reservation.Date.ToShortDateString()</td>
+                                <td>@startH:@startM</td>
+                                <td>@(Model.Rivals[i].Reservation.Duration * 60)</td>                                
                                 <td>    
                                     @Model.Rivals[i].Reservation.User.FullName                         
                                 </td>
@@ -71,12 +88,13 @@
         }).columnFilter({
             sPlaceHolder: "head:after",
             aoColumns: [
-                null,
+                { type: "text" },
+                { type: "text" },
+                { type: "date-range" },
                 { type: "text" },
                 { type: "text" },
                 { type: "text" },
-                null,
-                null
+                { type: "text" }
             ]
         });
     });

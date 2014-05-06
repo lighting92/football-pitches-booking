@@ -1,0 +1,21 @@
+﻿@model FootballPitchesBooking.Models.PunishMember
+@{
+    ViewBag.Title = "PunishedBook";
+}
+
+<div class="alert alert-danger">
+    Bạn đang bị cấm đặt sân bởi quản trị viên. Mọi thắc mắc xin liên hệ quản trị viên website.
+</div>
+<div>
+    <p>Tên tài khoản: @Model.User.UserName</p>
+    @if (Model.IsForever != null && Model.IsForever.Value)
+    {
+        <p>Hiệu lực đến: Vĩnh viễn</p>
+    }
+    else
+    {
+        <p>Hiệu lực đến: @Model.ExpiredDate.Value.ToShortDateString()</p>
+    }
+    <p>Lý do: @Model.Reason</p>
+    <p>Quản trị viên: @Model.User1.UserName</p>
+</div>
