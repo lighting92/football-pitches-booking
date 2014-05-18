@@ -281,7 +281,14 @@ namespace FootballPitchesBooking.Controllers
         {
             List<Advertisement> model = new List<Advertisement>();
             WebsiteBO webBO = new WebsiteBO();
-            model = webBO.GetActiveAds();
+            if (webBO.GetConfigByName("ShowAds").Value.Equals("True"))
+            {
+                model = webBO.GetActiveAds();
+            }
+            else
+            {
+                model = null;
+            }
             return PartialView(model);
         }
                 
