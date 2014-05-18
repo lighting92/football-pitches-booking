@@ -662,7 +662,7 @@ namespace FootballPitchesBooking.Controllers
             model.District = form["District"];
 
             if (string.IsNullOrWhiteSpace(model.FieldType) || string.IsNullOrWhiteSpace(model.StartTime) || string.IsNullOrWhiteSpace(model.Date)
-                || string.IsNullOrWhiteSpace(model.Duration) || string.IsNullOrWhiteSpace(model.District))
+                || string.IsNullOrWhiteSpace(model.Duration))
             {
                 model.ErrorMessage = "Bạn hãy sử dụng mẫu bên dưới để tìm kiếm nhanh sân còn trống";
             }
@@ -678,8 +678,16 @@ namespace FootballPitchesBooking.Controllers
                     }
                 }
 
-                DateTime startDate;
-                bool trueDate = DateTime.TryParse(model.Date, out startDate);
+                DateTime startDate = new DateTime();
+                bool trueDate = true;
+                try
+                {
+                    startDate = DateTime.Parse(model.Date, new CultureInfo("vi-VN"));
+                }
+                catch (Exception)
+                {
+                    trueDate = false;
+                }
                 if (trueDate)
                 {
                     if (startDate.CompareTo(DateTime.Now.Date) < 0)

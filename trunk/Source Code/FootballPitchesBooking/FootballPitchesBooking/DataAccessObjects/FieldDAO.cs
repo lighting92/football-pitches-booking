@@ -66,12 +66,15 @@ namespace FootballPitchesBooking.DataAccessObjects
         {
             FPBDataContext db = new FPBDataContext();
             var fields = db.Fields.Where(f => f.FieldType == fieldType && f.IsActive && f.Stadium.IsActive
-                && f.Stadium.District.ToLower().Equals(district.ToLower().Trim())
                 && ((f.Stadium.OpenTime == f.Stadium.CloseTime)
                   || (f.Stadium.OpenTime < f.Stadium.CloseTime && f.Stadium.OpenTime <= startTime && f.Stadium.CloseTime >= startTime + duration)
                   || (f.Stadium.OpenTime > f.Stadium.CloseTime && f.Stadium.OpenTime <= startTime && f.Stadium.CloseTime + 24 >= startTime + duration)
                   || (f.Stadium.OpenTime > f.Stadium.CloseTime && f.Stadium.OpenTime > startTime && f.Stadium.CloseTime >= startTime + duration)
                   )).ToList();
+            if (!string.IsNullOrEmpty(district))
+            {
+                fields = fields.Where(f => (f.Stadium.District.ToLower().Equals(district.ToLower().Trim()))).ToList();
+            }
 
             var availableFields = fields.Where(f => f.Reservations.Where(r => !r.Status.Equals("Canceled") && !r.Status.Equals("Notcome") && !r.Status.Equals("Denied")
                 && (r.Date.Date.CompareTo(startDate.Date) == 0) && ((r.StartTime == startTime)
